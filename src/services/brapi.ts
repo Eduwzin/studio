@@ -11,7 +11,7 @@ const BRAPI_API_TOKEN = process.env.BRAPI_API_TOKEN;
 /**
  * Representa a estrutura de dados esperada da resposta da API da Brapi para uma única ação.
  */
-interface StockInfo {
+export interface StockInfo {
   symbol: string;
   shortName: string;
   longName: string;
@@ -45,8 +45,13 @@ export async function getStockInfo(ticker: string): Promise<StockInfo> {
   const url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}`;
 
   try {
-    const response = await fetch(url);
+    // Adicionando revalidação para Next.js (a cada 15 minutos)
+    const response = await fetch(url, { next: { revalidate: 900 } });
+    
     if (!response.ok) {
+      // Log do erro para depuração no servidor
+      const errorBody = await response.text();
+      console.error(`Erro na API da Brapi para o ticker ${ticker}: ${response.statusText}`, errorBody);
       throw new Error(`Erro na API da Brapi: ${response.statusText}`);
     }
     const data = await response.json();

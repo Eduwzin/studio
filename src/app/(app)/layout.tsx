@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import {
-  LayoutDashboard,
+  TrendingUp,
   BookOpen,
   Newspaper,
   User,
@@ -39,6 +39,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const navItems = [
   { href: "/onboarding", icon: User, label: "Meu Perfil" },
+  { href: "/oportunidades", icon: TrendingUp, label: "Oportunidades" },
   { href: "/learn", icon: BookOpen, label: "Aprender" },
   { href: "/blog", icon: Newspaper, label: "Blog" },
 ];
