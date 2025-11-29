@@ -1,0 +1,199 @@
+/**
+ * This ruleset enforces a strict user-ownership model for the SafeStart Invest platform.
+ * It ensures that all sensitive user data, such as profiles and investment portfolios,
+ * is completely private and accessible only to the authenticated owner.
+ *
+ * Core Philosophy:
+ * The security model is built on a "user data sandbox" principle. All data belonging
+ * to a user is nested within a `/users/{userId}` document tree. Access is controlled
+ * primarily by matching the authenticated user's ID (`request.auth.uid`) with the
+ * `{userId}` wildcard in the path, which is a highly secure and performant pattern.
+ * Publicly accessible content, like educational materials and blog articles, is
+ * stored in separate top-level collections, ensuring a clear segregation between
+ * private and public data.
+ *
+ * Data Structure:
+ * - /users/{userId}/userProfiles/{profileId} -> Private user profile data.
+ * - /users/{userId}/investmentPortfolios/{portfolioId} -> Private user investment portfolios.
+ * - /users/{userId}/investmentPortfolios/{portfolioId}/nextStepRecommendations/{recommendationId} -> Private, AI-generated recommendations for a specific portfolio.
+ * - /educationalTrails/{trailId} -> Public, read-only educational content.
+ * - /blogArticles/{articleId} -> Public, read-only blog content.
+ *
+ * Key Security Decisions:
+ * - User Isolation: A user can ONLY read or write data within their own `/users/{userId}` path.
+ * - No User Listing: It is impossible for any client to list all users in the system.
+ * - Public Read-Only Content: Educational trails and blog articles are publicly readable by anyone but cannot be modified by any client. This assumes content is managed via a trusted server-side Admin SDK.
+ * - Relational Integrity: On creation, documents within a user's path (e.g., a portfolio) MUST contain a field that correctly references the parent (e.g., a `userId` field). This field is then made immutable on update to prevent re-association.
+ * - Flexible Schema: While authorization is strict, the rules do not validate the specific shape or data types of most fields, allowing for rapid front-end development and prototyping.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --------------------------------------------------------------------
+    // Helper Functions
+    // --------------------------------------------------------------------
+
+    /**
+     * Checks if a user is authenticated.
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /**
+     * Checks if the currently signed-in user is the owner of the resource
+     * identified by the given userId.
+     */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /**
+     * Checks if the signed-in user is the owner of an EXISTING document.
+     * Crucial for secure update and delete operations.
+     */
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
+    }
+
+    /**
+     * Validates that the UserProfile being created has an 'id' field
+     * that matches the user's auth UID in the path.
+     */
+    function hasValidUserProfileDataOnCreate(userId) {
+      return request.resource.data.id == userId;
+    }
+
+    /**
+     * Enforces immutability of the UserProfile's 'id' field on update.
+     */
+    function hasValidUserProfileDataOnUpdate() {
+      return request.resource.data.id == resource.data.id;
+    }
+
+    /**
+     * Validates that the InvestmentPortfolio being created has a 'userId'
+     * field that matches the user's auth UID in the path.
+     */
+    function hasValidPortfolioDataOnCreate(userId) {
+      return request.resource.data.userId == userId;
+    }
+
+    /**
+     * Enforces immutability of the InvestmentPortfolio's 'userId' field on update.
+     */
+    function hasValidPortfolioDataOnUpdate() {
+      return request.resource.data.userId == resource.data.userId;
+    }
+
+    /**
+     * Validates that the Recommendation being created has a 'portfolioId'
+     * field that matches the portfolioId in the path.
+     */
+    function hasValidRecommendationDataOnCreate(portfolioId) {
+      return request.resource.data.portfolioId == portfolioId;
+    }
+    
+    /**
+     * Enforces immutability of the Recommendation's 'portfolioId' field on update.
+     */
+    function hasValidRecommendationDataOnUpdate() {
+      return request.resource.data.portfolioId == resource.data.portfolioId;
+    }
+
+    // --------------------------------------------------------------------
+    // User Data Rules
+    // --------------------------------------------------------------------
+
+    /**
+     * @description Denies any client from listing all users.
+     * @path /users
+     * @allow N/A
+     * @deny A logged-in user attempts to list documents in the `/users` collection.
+     * @principle Prevents data leakage by disallowing enumeration of all platform users.
+     */
+    match /users/{userId} {
+      allow read, write: if false;
+    }
+    
+    /**
+     * @description Secures a user's private profile. Only the owner can manage their profile.
+     * @path /users/{userId}/userProfiles/{profileId}
+     * @allow (create) A new user (auth.uid=`user_abc`) creates their own profile at `/users/user_abc/userProfiles/profile_123`.
+     * @deny (get) A user (auth.uid=`user_xyz`) tries to read a profile at `/users/user_abc/userProfiles/profile_123`.
+     * @principle Restricts access to a user's own data tree.
+     */
+    match /users/{userId}/userProfiles/{profileId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && hasValidUserProfileDataOnCreate(userId);
+      allow update: if isExistingOwner(userId) && hasValidUserProfileDataOnUpdate();
+      allow delete: if isExistingOwner(userId);
+    }
+    
+    /**
+     * @description Secures a user's investment portfolios. Only the owner can view or modify them.
+     * @path /users/{userId}/investmentPortfolios/{portfolioId}
+     * @allow (list) A logged-in user (auth.uid=`user_abc`) lists their own portfolios at `/users/user_abc/investmentPortfolios`.
+     * @deny (update) A user (auth.uid=`user_xyz`) tries to modify a portfolio at `/users/user_abc/investmentPortfolios/port_456`.
+     * @principle Enforces document ownership and validates relational integrity between a portfolio and its owner.
+     */
+    match /users/{userId}/investmentPortfolios/{portfolioId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && hasValidPortfolioDataOnCreate(userId);
+      allow update: if isExistingOwner(userId) && hasValidPortfolioDataOnUpdate();
+      allow delete: if isExistingOwner(userId);
+
+      /**
+       * @description Secures AI-generated recommendations for a portfolio. Access is inherited from the parent portfolio owner.
+       * @path /users/{userId}/investmentPortfolios/{portfolioId}/nextStepRecommendations/{recommendationId}
+       * @allow (get) The portfolio owner (auth.uid=`user_abc`) reads a recommendation at `/users/user_abc/investmentPortfolios/port_456/nextStepRecommendations/rec_789`.
+       * @deny (create) A different user (auth.uid=`user_xyz`) tries to create a recommendation under another user's portfolio.
+       * @principle Inherits ownership from the parent document path, ensuring data privacy in nested subcollections.
+       */
+      match /nextStepRecommendations/{recommendationId} {
+        allow get: if isOwner(userId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && hasValidRecommendationDataOnCreate(portfolioId);
+        allow update: if isExistingOwner(userId) && hasValidRecommendationDataOnUpdate();
+        allow delete: if isExistingOwner(userId);
+      }
+    }
+
+    // --------------------------------------------------------------------
+    // Public Content Rules
+    // --------------------------------------------------------------------
+
+    /**
+     * @description Allows public, read-only access to all educational trails.
+     * @path /educationalTrails/{educationalTrailId}
+     * @allow (get) Any user, including unauthenticated ones, can read an educational trail.
+     * @deny (create, update, delete) No client, authenticated or not, can modify the educational content.
+     * @principle Segregates public data into a read-only collection, assuming content is managed by a trusted backend.
+     */
+    match /educationalTrails/{educationalTrailId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Allows public, read-only access to all blog articles.
+     * @path /blogArticles/{blogArticleId}
+     * @allow (list) Any user, including unauthenticated ones, can list all blog articles.
+     * @deny (create, update, delete) No client, authenticated or not, can write or delete blog articles.
+     * @principle Provides public read access to global content while preventing all client-side modifications for security.
+     */
+    match /blogArticles/{blogArticleId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+  }
+}
