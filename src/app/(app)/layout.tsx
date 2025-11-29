@@ -38,10 +38,9 @@ import { signOut } from "firebase/auth";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const navItems = [
-  { href: "/dashboard", icon: LayoutDashboard, label: "Painel" },
+  { href: "/onboarding", icon: User, label: "Meu Perfil" },
   { href: "/learn", icon: BookOpen, label: "Aprender" },
   { href: "/blog", icon: Newspaper, label: "Blog" },
-  { href: "/onboarding", icon: User, label: "Meu Perfil" },
 ];
 
 function AppLayoutClient({ children }: { children: React.ReactNode }) {
