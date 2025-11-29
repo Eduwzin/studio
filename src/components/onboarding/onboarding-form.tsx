@@ -176,7 +176,9 @@ export default function OnboardingForm() {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {},
+    defaultValues: {
+      age: '' as any, // Initialize with an empty string
+    },
   });
 
   const handleNext = async () => {
@@ -204,6 +206,7 @@ export default function OnboardingForm() {
     const { age, ...questionnaireAnswers } = values;
 
     const fullUserProfile = `
+      - Idade: ${values.age}
       - Objetivo: ${values.objective}
       - Prazo: ${values.timeframe}
       - Tolerância a perdas: ${values.loss_tolerance}
