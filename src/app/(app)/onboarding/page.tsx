@@ -4,43 +4,55 @@ import OnboardingForm from "@/components/onboarding/onboarding-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
 import { doc } from "firebase/firestore";
-import { Loader2 } from "lucide-react";
+import { Loader2, Shield, BarChart, TrendingUp, CheckCircle2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 function UserProfileDisplay({ profile }: { profile: any }) {
+
+  const getProfileIcon = (profile: string) => {
+    switch (profile.toLowerCase()) {
+      case 'conservador':
+        return <Shield className="h-8 w-8 text-primary" />;
+      case 'moderado':
+        return <BarChart className="h-8 w-8 text-primary" />;
+      case 'arrojado':
+        return <TrendingUp className="h-8 w-8 text-primary" />;
+      default:
+        return <CheckCircle2 className="h-8 w-8 text-primary" />;
+    }
+  };
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Seu Perfil de Investidor</CardTitle>
-        <CardDescription>Estes são os detalhes e a estratégia personalizada que a IA criou para você.</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <InfoItem label="Idade" value={profile.age} />
-          <InfoItem label="Renda Anual" value={`R$ ${profile.income.toLocaleString()}`} />
-          <InfoItem label="Tolerância ao Risco" value={profile.riskTolerance} />
-          <InfoItem label="Experiência" value={profile.investmentExperience} />
-        </div>
-        <InfoItem label="Metas Financeiras" value={profile.financialGoals} />
-        <div className="space-y-4 pt-4 border-t">
-            <h4 className="font-semibold text-foreground">Sua Estratégia Personalizada</h4>
-            <InfoItem label="Estratégia de Investimento" value={profile.investmentStrategy} />
-            <InfoItem label="Alocação de Ativos Recomendada" value={profile.assetAllocation} />
-            <InfoItem label="Avaliação de Risco" value={profile.riskAssessment} />
-        </div>
-      </CardContent>
-    </Card>
+    <div className="space-y-6">
+        <Card className="text-center">
+            <CardHeader>
+                <div className="mx-auto bg-primary/10 rounded-full p-3 w-fit mb-2">
+                    {getProfileIcon(profile.riskAssessment)}
+                </div>
+                <CardDescription>Seu perfil de investidor é</CardDescription>
+                <CardTitle className="text-4xl">{profile.riskAssessment}</CardTitle>
+            </CardHeader>
+        </Card>
+
+        <Card>
+            <CardHeader>
+                <CardTitle>Carteira Recomendada</CardTitle>
+                <CardDescription>{profile.investmentStrategy}</CardDescription>
+            </CardHeader>
+            <CardContent>
+                 <ul className="space-y-2 text-sm text-muted-foreground">
+                    {profile.assetAllocation.split(',').map((item: string, index: number) => (
+                        <li key={index} className="flex items-center">
+                            <CheckCircle2 className="h-4 w-4 mr-2 text-green-500" />
+                            {item.trim()}
+                        </li>
+                    ))}
+                </ul>
+            </CardContent>
+        </Card>
+    </div>
   )
 }
-
-function InfoItem({ label, value }: { label: string, value: string | number }) {
-    return (
-        <div className="text-sm">
-            <p className="font-medium text-foreground">{label}</p>
-            <p className="text-muted-foreground">{value}</p>
-        </div>
-    )
-}
-
 
 export default function OnboardingPage() {
   const { user } = useUser();

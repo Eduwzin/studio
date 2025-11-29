@@ -17,13 +17,14 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
 import { analyzeUserProfile } from "@/lib/actions";
 import { useState } from "react";
-import { BrainCircuit, Loader2, ArrowLeft, ArrowRight } from "lucide-react";
+import { BrainCircuit, Loader2, ArrowLeft, ArrowRight, Shield, BarChart, TrendingUp, CheckCircle2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { useUser } from "@/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc } from "firebase/firestore";
 import { useFirestore } from "@/firebase";
 import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { Progress } from "@/components/ui/progress";
+import { Badge } from "../ui/badge";
 
 const questions = [
   {
@@ -197,16 +198,15 @@ export default function OnboardingForm() {
             email: user.email,
             firstName: user.displayName?.split(' ')[0] ?? '',
             lastName: user.displayName?.split(' ')[1] ?? '',
-            ...values,
-            riskAssessment: result.riskAssessment,
-            investmentStrategy: result.investmentStrategy,
-            assetAllocation: result.assetAllocation,
             age: 0,
             income: 0,
             investmentAmount: 0,
             riskTolerance: '',
             investmentExperience: values.experience,
             financialGoals: values.objective,
+            riskAssessment: result.riskAssessment,
+            investmentStrategy: result.investmentStrategy,
+            assetAllocation: result.assetAllocation,
           };
           setDocumentNonBlocking(userProfileRef, profileData, { merge: true });
         }
@@ -227,6 +227,19 @@ export default function OnboardingForm() {
   }
 
   const currentQuestion = questions[currentStep];
+
+  const getProfileIcon = (profile: string) => {
+    switch (profile.toLowerCase()) {
+      case 'conservador':
+        return <Shield className="h-8 w-8 text-primary" />;
+      case 'moderado':
+        return <BarChart className="h-8 w-8 text-primary" />;
+      case 'arrojado':
+        return <TrendingUp className="h-8 w-8 text-primary" />;
+      default:
+        return <CheckCircle2 className="h-8 w-8 text-primary" />;
+    }
+  };
 
   return (
     <div>
@@ -294,29 +307,35 @@ export default function OnboardingForm() {
             </form>
         </Form>
         ) : (
-            <Card className="bg-secondary animate-in fade-in-50">
-                <CardHeader>
-                    <CardTitle>Sua Estratégia Personalizada</CardTitle>
-                    <CardDescription>Com base no seu perfil, aqui está a recomendação da nossa IA. Seu perfil foi salvo.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                     <div>
-                        <h4 className="font-semibold text-foreground">Estratégia de Investimento</h4>
-                        <p className="text-muted-foreground">{analysisResult.investmentStrategy}</p>
-                    </div>
-                     <div>
-                        <h4 className="font-semibold text-foreground">Alocação de Ativos Recomendada</h4>
-                        <p className="text-muted-foreground">{analysisResult.assetAllocation}</p>
-                    </div>
-                     <div>
-                        <h4 className="font-semibold text-foreground">Avaliação de Risco</h4>
-                        <p className="text-muted-foreground">{analysisResult.riskAssessment}</p>
-                    </div>
-                </CardContent>
-            </Card>
+            <div className="space-y-6 animate-in fade-in-50">
+                <Card className="text-center">
+                    <CardHeader>
+                        <div className="mx-auto bg-primary/10 rounded-full p-3 w-fit mb-2">
+                            {getProfileIcon(analysisResult.riskAssessment)}
+                        </div>
+                        <CardDescription>Seu perfil de investidor é</CardDescription>
+                        <CardTitle className="text-4xl">{analysisResult.riskAssessment}</CardTitle>
+                    </CardHeader>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Carteira Recomendada</CardTitle>
+                        <CardDescription>{analysisResult.investmentStrategy}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                            {analysisResult.assetAllocation.split(',').map((item, index) => (
+                                <li key={index} className="flex items-center">
+                                    <CheckCircle2 className="h-4 w-4 mr-2 text-green-500" />
+                                    {item.trim()}
+                                </li>
+                            ))}
+                        </ul>
+                    </CardContent>
+                </Card>
+            </div>
         )}
     </div>
   );
 }
-
-    
