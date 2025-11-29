@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Logo } from "@/components/logo";
+import { PublicHeader } from "@/components/public-header";
 import { BookOpen, Bot, LineChart, Target } from "lucide-react";
 import Link from "next/link";
 import Image from 'next/image';
@@ -11,9 +11,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <Logo />
-      </header>
+      <PublicHeader />
       <main className="flex-grow">
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center">
           <div className="max-w-3xl mx-auto">

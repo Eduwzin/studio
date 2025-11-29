@@ -23,6 +23,8 @@ import { FirebaseError } from 'firebase/app';
 import { updateProfile } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 import { initiateEmailSignUp } from '@/firebase/non-blocking-login';
+import { Logo } from '@/components/logo';
+
 
 const formSchema = z.object({
   fullName: z.string().min(3, { message: 'O nome completo deve ter pelo menos 3 caracteres.' }),
@@ -100,9 +102,12 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
+    <div className="flex min-h-screen items-center justify-center bg-secondary p-4">
+      <Card className="w-full max-w-md shadow-2xl">
+        <CardHeader className="text-center">
+            <div className="mx-auto mb-4">
+                <Logo className="text-primary" />
+            </div>
           <CardTitle>Crie sua Conta</CardTitle>
           <CardDescription>Comece sua jornada de investimentos hoje mesmo.</CardDescription>
         </CardHeader>
@@ -156,7 +161,7 @@ export default function SignupPage() {
           </Form>
           <div className="mt-4 text-center text-sm">
             Já tem uma conta?{' '}
-            <Link href="/login" className="underline">
+            <Link href="/login" className="underline text-primary">
               Faça login
             </Link>
           </div>

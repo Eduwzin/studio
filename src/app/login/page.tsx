@@ -22,6 +22,7 @@ import { useEffect, useState } from 'react';
 import { FirebaseError } from 'firebase/app';
 import { useToast } from '@/hooks/use-toast';
 import { initiateEmailSignIn } from '@/firebase/non-blocking-login';
+import { Logo } from '@/components/logo';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Por favor, insira um e-mail válido.' }),
@@ -93,9 +94,12 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
+    <div className="flex min-h-screen items-center justify-center bg-secondary p-4">
+      <Card className="w-full max-w-md shadow-2xl">
+        <CardHeader className="text-center">
+            <div className="mx-auto mb-4">
+                <Logo className="text-primary"/>
+            </div>
           <CardTitle>Bem-vindo de Volta!</CardTitle>
           <CardDescription>Faça login para acessar seu painel de investimentos.</CardDescription>
         </CardHeader>
@@ -136,7 +140,7 @@ export default function LoginPage() {
           </Form>
           <div className="mt-4 text-center text-sm">
             Não tem uma conta?{' '}
-            <Link href="/signup" className="underline">
+            <Link href="/signup" className="underline text-primary">
               Cadastre-se
             </Link>
           </div>

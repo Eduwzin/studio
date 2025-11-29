@@ -57,9 +57,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   if (isUserLoading || !user) {
     return (
-       <div className="flex h-screen w-screen items-center justify-center">
+       <div className="flex h-screen w-screen items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
-            <Logo />
+            <Logo className="text-primary"/>
             <p className="text-muted-foreground">Carregando sua experiência de investimento...</p>
         </div>
       </div>
@@ -68,7 +68,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <SidebarProvider>
-      <Sidebar>
+      <Sidebar variant="inset" side="left" collapsible="icon">
         <SidebarHeader>
           <Logo />
         </SidebarHeader>
