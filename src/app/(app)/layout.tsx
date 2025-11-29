@@ -44,7 +44,7 @@ const navItems = [
   { href: "/onboarding", icon: User, label: "Meu Perfil" },
 ];
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
+function AppLayoutClient({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { user, isUserLoading } = useUser();
   const router = useRouter();
@@ -65,9 +65,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </div>
     );
   }
-
   return (
-    <SidebarProvider>
+    <>
       <Sidebar variant="inset" side="left" collapsible="icon">
         <SidebarHeader>
           <Logo />
@@ -100,6 +99,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             {children}
         </main>
       </SidebarInset>
+    </>
+  );
+}
+
+
+export default function AppLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <SidebarProvider>
+      <AppLayoutClient>{children}</AppLayoutClient>
     </SidebarProvider>
   );
 }
