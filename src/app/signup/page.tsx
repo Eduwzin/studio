@@ -56,41 +56,40 @@ export default function SignupPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
-    try {
-      await initiateEmailSignUp(auth, values.email, values.password);
-      // After the user is created via the listener, we can try to update the profile.
-      // A more robust solution might listen for the user object to become available.
-       if (auth.currentUser) {
-          await updateProfile(auth.currentUser, {
-            displayName: values.fullName,
-          });
-        }
-        // The onAuthStateChanged listener in the provider will handle redirection
-    } catch (e) {
-      setLoading(false);
-      let errorMessage = "Ocorreu um erro desconhecido.";
-      if (e instanceof FirebaseError) {
-        switch (e.code) {
-          case 'auth/email-already-in-use':
-            errorMessage = 'Este e-mail já está em uso por outra conta.';
-            break;
-          case 'auth/invalid-email':
-            errorMessage = 'O formato do e-mail é inválido.';
-            break;
-          case 'auth/weak-password':
-            errorMessage = 'A senha é muito fraca. Tente uma mais forte.';
-            break;
-          default:
-            errorMessage = 'Falha no cadastro. Por favor, tente novamente mais tarde.';
-            break;
-        }
-      }
-      toast({
-        variant: "destructive",
-        title: "Erro de Cadastro",
-        description: errorMessage,
-      });
-    }
+    initiateEmailSignUp(auth, values.email, values.password)
+        .then(async (userCredential) => {
+            if (auth.currentUser) {
+                await updateProfile(auth.currentUser, {
+                    displayName: values.fullName,
+                });
+            }
+            // The onAuthStateChanged listener will handle redirection
+        })
+        .catch((e) => {
+            setLoading(false);
+            let errorMessage = "Ocorreu um erro desconhecido.";
+            if (e instanceof FirebaseError) {
+                switch (e.code) {
+                case 'auth/email-already-in-use':
+                    errorMessage = 'Este e-mail já está em uso por outra conta.';
+                    break;
+                case 'auth/invalid-email':
+                    errorMessage = 'O formato do e-mail é inválido.';
+                    break;
+                case 'auth/weak-password':
+                    errorMessage = 'A senha é muito fraca. Tente uma mais forte.';
+                    break;
+                default:
+                    errorMessage = 'Falha no cadastro. Por favor, tente novamente mais tarde.';
+                    break;
+                }
+            }
+            toast({
+                variant: "destructive",
+                title: "Erro de Cadastro",
+                description: errorMessage,
+            });
+        });
   }
   
   if (isUserLoading || user) {

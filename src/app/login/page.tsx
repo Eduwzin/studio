@@ -35,7 +35,6 @@ export default function LoginPage() {
   const { user, isUserLoading } = useUser();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -55,35 +54,32 @@ export default function LoginPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
-    setError(null);
-    try {
-        await initiateEmailSignIn(auth, values.email, values.password);
-        // The onAuthStateChanged listener in the provider will handle redirection
-    } catch (e) {
-      setLoading(false);
-      let errorMessage = "Ocorreu um erro desconhecido.";
-      if (e instanceof FirebaseError) {
-        switch (e.code) {
-          case 'auth/user-not-found':
-            errorMessage = 'Nenhum usuário encontrado com este e-mail.';
-            break;
-          case 'auth/wrong-password':
-            errorMessage = 'Senha incorreta. Por favor, tente novamente.';
-            break;
-          case 'auth/invalid-credential':
-            errorMessage = 'Credenciais inválidas. Verifique seu e-mail e senha.';
-            break;
-          default:
-            errorMessage = 'Falha no login. Por favor, tente novamente mais tarde.';
-            break;
-        }
-      }
-       toast({
-        variant: "destructive",
-        title: "Erro de Login",
-        description: errorMessage,
-      });
-    }
+    initiateEmailSignIn(auth, values.email, values.password)
+        .catch((e) => {
+            setLoading(false);
+            let errorMessage = "Ocorreu um erro desconhecido.";
+            if (e instanceof FirebaseError) {
+                switch (e.code) {
+                case 'auth/user-not-found':
+                    errorMessage = 'Nenhum usuário encontrado com este e-mail.';
+                    break;
+                case 'auth/wrong-password':
+                    errorMessage = 'Senha incorreta. Por favor, tente novamente.';
+                    break;
+                case 'auth/invalid-credential':
+                    errorMessage = 'Credenciais inválidas. Verifique seu e-mail e senha.';
+                    break;
+                default:
+                    errorMessage = 'Falha no login. Por favor, tente novamente mais tarde.';
+                    break;
+                }
+            }
+            toast({
+                variant: "destructive",
+                title: "Erro de Login",
+                description: errorMessage,
+            });
+        });
   }
 
   if (isUserLoading || user) {
