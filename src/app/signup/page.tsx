@@ -16,14 +16,14 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { useAuth, useUser } from '@/firebase';
-import { Loader2, UserPlus } from 'lucide-react';
+import { Briefcase, Loader2, UserPlus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FirebaseError } from 'firebase/app';
 import { updateProfile } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 import { initiateEmailSignUp } from '@/firebase/non-blocking-login';
-import { Logo } from '@/components/logo';
+import { cn } from '@/lib/utils';
 
 
 const formSchema = z.object({
@@ -102,11 +102,16 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-secondary p-4">
+    <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md shadow-2xl">
         <CardHeader className="text-center">
             <div className="mx-auto mb-4">
-                <Logo className="text-primary" />
+                 <Link href="/" className={cn("flex items-center gap-2 text-foreground hover:opacity-80 transition-opacity")}>
+                    <Briefcase className="h-8 w-8 text-primary" />
+                    <h1 className={cn(
+                        "text-2xl font-bold font-headline text-foreground"
+                        )}>SafeStart Invest</h1>
+                </Link>
             </div>
           <CardTitle>Crie sua Conta</CardTitle>
           <CardDescription>Comece sua jornada de investimentos hoje mesmo.</CardDescription>
