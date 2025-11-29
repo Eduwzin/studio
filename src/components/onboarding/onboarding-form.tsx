@@ -161,9 +161,9 @@ const formSchema = z.object({
 });
 
 type AnalysisResult = {
-  investmentStrategy: string;
-  assetAllocation: string;
-  riskAssessment: string;
+  estrategiaDeInvestimento: string;
+  alocacaoDeAtivos: string;
+  avaliacaoDeRisco: string;
 };
 
 export default function OnboardingForm() {
@@ -177,7 +177,7 @@ export default function OnboardingForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      age: '' as any, // Initialize with an empty string
+      age: '' as any, 
     },
   });
 
@@ -203,7 +203,7 @@ export default function OnboardingForm() {
     setLoading(true);
     setAnalysisResult(null);
 
-    const { age, ...questionnaireAnswers } = values;
+    const { age, ...respostasQuestionario } = values;
 
     const fullUserProfile = `
       - Idade: ${values.age}
@@ -232,22 +232,22 @@ export default function OnboardingForm() {
         const userProfileRef = doc(firestore, `users/${user.uid}/userProfiles/${user.uid}`);
         const profileData = {
           id: user.uid,
-          personalInfo: {
+          informacoesPessoais: {
             email: user.email,
-            firstName: user.displayName?.split(' ')[0] ?? '',
-            lastName: user.displayName?.split(' ')[1] ?? '',
-            age: values.age,
-            income: 0,
+            nome: user.displayName?.split(' ')[0] ?? '',
+            sobrenome: user.displayName?.split(' ')[1] ?? '',
+            idade: values.age,
+            renda: 0,
           },
-          investmentProfile: {
-            investmentAmount: 0,
-            riskAssessment: result.riskAssessment,
-            investmentStrategy: result.investmentStrategy,
-            assetAllocation: result.assetAllocation,
-            investmentHorizon: values.timeframe,
-            financialGoals: values.objective,
-            investmentExperience: values.experience,
-            questionnaireAnswers: questionnaireAnswers,
+          perfilDeInvestimento: {
+            valorInvestimento: 0,
+            avaliacaoDeRisco: result.avaliacaoDeRisco,
+            estrategiaDeInvestimento: result.estrategiaDeInvestimento,
+            alocacaoDeAtivos: result.alocacaoDeAtivos,
+            horizonteDeInvestimento: values.timeframe,
+            metasFinanceiras: values.objective,
+            experienciaDeInvestimento: values.experience,
+            respostasQuestionario: respostasQuestionario,
           }
         };
         setDocumentNonBlocking(userProfileRef, profileData, { merge: true });
@@ -283,7 +283,7 @@ export default function OnboardingForm() {
     }
   };
 
-  const allocationData = (analysisResult?.assetAllocation || '')
+  const allocationData = (analysisResult?.alocacaoDeAtivos || '')
     .split(',')
     .map((item: string) => {
       const parts = item.trim().split(':');
@@ -381,17 +381,17 @@ export default function OnboardingForm() {
           <Card className="text-center">
             <CardHeader>
               <div className="mx-auto bg-primary/10 rounded-full p-3 w-fit mb-2">
-                {getProfileIcon(analysisResult.riskAssessment)}
+                {getProfileIcon(analysisResult.avaliacaoDeRisco)}
               </div>
               <CardDescription>Seu perfil de investidor é</CardDescription>
-              <CardTitle className="text-4xl">{analysisResult.riskAssessment}</CardTitle>
+              <CardTitle className="text-4xl">{analysisResult.avaliacaoDeRisco}</CardTitle>
             </CardHeader>
           </Card>
 
           <Card>
             <CardHeader>
               <CardTitle>Carteira Recomendada</CardTitle>
-              <CardDescription>{analysisResult.investmentStrategy}</CardDescription>
+              <CardDescription>{analysisResult.estrategiaDeInvestimento}</CardDescription>
             </CardHeader>
             <CardContent>
               <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">

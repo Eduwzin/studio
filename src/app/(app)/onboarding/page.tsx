@@ -31,7 +31,7 @@ function UserProfileDisplay({ profile }: { profile: any }) {
     }
   };
 
-  const allocationData = (profile.investmentProfile?.assetAllocation || '')
+  const allocationData = (profile.perfilDeInvestimento?.alocacaoDeAtivos || '')
     .split(',')
     .map((item: string) => {
       const parts = item.trim().split(':');
@@ -49,25 +49,25 @@ function UserProfileDisplay({ profile }: { profile: any }) {
     return acc;
   }, {});
 
-  const riskAssessment = profile.investmentProfile?.riskAssessment ?? 'N/A';
-  const investmentStrategy = profile.investmentProfile?.investmentStrategy ?? 'Nenhuma estratégia definida.';
+  const avaliacaoDeRisco = profile.perfilDeInvestimento?.avaliacaoDeRisco ?? 'N/A';
+  const estrategiaDeInvestimento = profile.perfilDeInvestimento?.estrategiaDeInvestimento ?? 'Nenhuma estratégia definida.';
 
   return (
     <div className="space-y-6">
       <Card className="text-center">
         <CardHeader>
           <div className="mx-auto bg-primary/10 rounded-full p-3 w-fit mb-2">
-            {getProfileIcon(riskAssessment)}
+            {getProfileIcon(avaliacaoDeRisco)}
           </div>
           <CardDescription>Seu perfil de investidor é</CardDescription>
-          <CardTitle className="text-4xl">{riskAssessment}</CardTitle>
+          <CardTitle className="text-4xl">{avaliacaoDeRisco}</CardTitle>
         </CardHeader>
       </Card>
 
       <Card>
         <CardHeader>
           <CardTitle>Carteira Recomendada</CardTitle>
-          <CardDescription>{investmentStrategy}</CardDescription>
+          <CardDescription>{estrategiaDeInvestimento}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="w-full aspect-square max-h-[250px]">
@@ -129,7 +129,7 @@ export default function OnboardingPage() {
     );
   }
 
-  if (userProfile && userProfile.investmentProfile) {
+  if (userProfile && userProfile.perfilDeInvestimento) {
     return (
       <div className="max-w-3xl mx-auto">
         <UserProfileDisplay profile={userProfile} />

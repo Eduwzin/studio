@@ -33,15 +33,15 @@ const AnalyzeUserProfileInputSchema = z.object({
 export type AnalyzeUserProfileInput = z.infer<typeof AnalyzeUserProfileInputSchema>;
 
 const AnalyzeUserProfileOutputSchema = z.object({
-  investmentStrategy: z
+  estrategiaDeInvestimento: z
     .string()
     .describe('Uma estratégia de investimento personalizada e adaptada ao usuário em uma única frase ou sentença curta.'),
-  assetAllocation: z
+  alocacaoDeAtivos: z
     .string()
     .describe(
       "A alocação de ativos recomendada em uma string simples, separada por vírgulas, com pares de nome e porcentagem. Exemplo: 'Ações: 60%, Títulos: 30%, Imóveis: 10%'"
     ),
-  riskAssessment: z
+  avaliacaoDeRisco: z
     .string()
     .describe('Uma avaliação do perfil de risco do usuário com base nos dados fornecidos, resultando em uma única palavra: Conservador, Moderado ou Arrojado.'),
 });

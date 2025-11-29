@@ -4,88 +4,88 @@
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "UserProfile",
       "type": "object",
-      "description": "Represents a user profile within the SafeStart Invest platform.",
+      "description": "Representa o perfil de um usuário na plataforma SafeStart Invest.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the user profile, matching the Firebase Auth UID."
+          "description": "Identificador único para o perfil do usuário, correspondente ao UID do Firebase Auth."
         },
-        "personalInfo": {
+        "informacoesPessoais": {
           "type": "object",
-          "description": "User's personal information.",
+          "description": "Informações pessoais do usuário.",
           "properties": {
             "email": {
               "type": "string",
-              "description": "User's email address.",
+              "description": "Endereço de e-mail do usuário.",
               "format": "email"
             },
-            "firstName": {
+            "nome": {
               "type": "string",
-              "description": "User's first name."
+              "description": "Primeiro nome do usuário."
             },
-            "lastName": {
+            "sobrenome": {
               "type": "string",
-              "description": "User's last name."
+              "description": "Sobrenome do usuário."
             },
-            "age": {
+            "idade": {
               "type": "number",
-              "description": "User's age."
+              "description": "Idade do usuário."
             },
-            "income": {
+            "renda": {
               "type": "number",
-              "description": "User's annual income."
+              "description": "Renda anual do usuário."
             }
           },
           "required": ["email"]
         },
-        "investmentProfile": {
+        "perfilDeInvestimento": {
           "type": "object",
-          "description": "User's investment-related information.",
+          "description": "Informações do usuário relacionadas a investimentos.",
           "properties": {
-            "investmentAmount": {
+            "valorInvestimento": {
               "type": "number",
-              "description": "The initial amount the user wants to invest."
+              "description": "O valor inicial que o usuário deseja investir."
             },
-            "riskAssessment": {
+            "avaliacaoDeRisco": {
               "type": "string",
-              "description": "AI-generated assessment of the user's risk profile (e.g., Conservador, Moderado, Arrojado)."
+              "description": "Avaliação gerada por IA do perfil de risco do usuário (ex: Conservador, Moderado, Arrojado)."
             },
-            "investmentStrategy": {
+            "estrategiaDeInvestimento": {
               "type": "string",
-              "description": "AI-generated investment strategy tailored to the user."
+              "description": "Estratégia de investimento gerada por IA e adaptada ao usuário."
             },
-            "assetAllocation": {
+            "alocacaoDeAtivos": {
               "type": "string",
-              "description": "AI-generated recommended asset allocation as a comma-separated string."
+              "description": "Alocação de ativos recomendada gerada por IA como uma string separada por vírgulas."
             },
-            "investmentHorizon": {
+            "horizonteDeInvestimento": {
               "type": "string",
-              "description": "The user's investment time horizon, from the questionnaire."
+              "description": "O horizonte de tempo de investimento do usuário, a partir do questionário."
             },
-            "financialGoals": {
+            "metasFinanceiras": {
               "type": "string",
-              "description": "User's stated financial goals, from the questionnaire."
+              "description": "Metas financeiras declaradas pelo usuário, a partir do questionário."
             },
-            "investmentExperience": {
+            "experienciaDeInvestimento": {
               "type": "string",
-              "description": "User's investment experience level, from the questionnaire."
+              "description": "Nível de experiência de investimento do usuário, a partir do questionário."
             },
-            "questionnaireAnswers": {
+            "respostasQuestionario": {
               "type": "object",
-              "description": "A summary of the user's answers to the onboarding questionnaire."
+              "description": "Um resumo das respostas do usuário ao questionário de onboarding."
             }
           },
           "required": [
-            "riskAssessment",
-            "investmentStrategy",
-            "assetAllocation"
+            "avaliacaoDeRisco",
+            "estrategiaDeInvestimento",
+            "alocacaoDeAtivos"
           ]
         }
       },
       "required": [
         "id",
-        "personalInfo",
-        "investmentProfile"
+        "informacoesPessoais",
+        "perfilDeInvestimento"
       ]
     },
     "InvestmentPortfolio": {
