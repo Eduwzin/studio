@@ -24,7 +24,16 @@ import { doc } from "firebase/firestore";
 import { useFirestore } from "@/firebase";
 import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { Progress } from "@/components/ui/progress";
-import { Badge } from "../ui/badge";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+
+const CHART_COLORS = [
+  "hsl(var(--chart-1))",
+  "hsl(var(--chart-2))",
+  "hsl(var(--chart-3))",
+  "hsl(var(--chart-4))",
+  "hsl(var(--chart-5))",
+];
 
 const questions = [
   {
@@ -201,12 +210,12 @@ export default function OnboardingForm() {
             age: 0,
             income: 0,
             investmentAmount: 0,
-            riskTolerance: '',
-            investmentExperience: values.experience,
-            financialGoals: values.objective,
             riskAssessment: result.riskAssessment,
             investmentStrategy: result.investmentStrategy,
             assetAllocation: result.assetAllocation,
+            riskTolerance: '',
+            financialGoals: values.objective,
+            investmentExperience: values.experience
           };
           setDocumentNonBlocking(userProfileRef, profileData, { merge: true });
         }
@@ -240,6 +249,12 @@ export default function OnboardingForm() {
         return <CheckCircle2 className="h-8 w-8 text-primary" />;
     }
   };
+
+  const allocationData = analysisResult ? analysisResult.assetAllocation.split(',').map(item => {
+    const [name, value] = item.trim().split(':');
+    return { name, value: parseInt(value.replace('%', '')) };
+  }) : [];
+
 
   return (
     <div>
@@ -324,14 +339,30 @@ export default function OnboardingForm() {
                         <CardDescription>{analysisResult.investmentStrategy}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                            {analysisResult.assetAllocation.split(',').map((item, index) => (
-                                <li key={index} className="flex items-center">
-                                    <CheckCircle2 className="h-4 w-4 mr-2 text-green-500" />
-                                    {item.trim()}
-                                </li>
+                        <div className="w-full aspect-square max-h-[250px]">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                    <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+                                    <Pie data={allocationData} dataKey="value" nameKey="name" innerRadius="60%" strokeWidth={5}>
+                                        {allocationData.map((_, index) => (
+                                            <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </div>
+                        <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 mt-4">
+                            {allocationData.map((item, index) => (
+                                <div key={item.name} className="flex items-center gap-2 text-sm">
+                                    <span
+                                        className="h-3 w-3 rounded-full"
+                                        style={{ backgroundColor: CHART_COLORS[index % CHART_COLORS.length] }}
+                                    />
+                                    <span className="font-medium">{item.name}:</span>
+                                    <span className="text-muted-foreground">{item.value}%</span>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </CardContent>
                 </Card>
             </div>

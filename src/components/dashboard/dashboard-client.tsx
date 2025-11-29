@@ -79,8 +79,8 @@ export default function DashboardClient() {
       const allocation = result.portfolioAllocation
         .split(", ")
         .map((item) => {
-          const [name, value] = item.split(": ");
-          return { name, value: parseInt(value) };
+          const [name, value] = item.split(":");
+          return { name: name.trim(), value: parseInt(value.replace('%', '').trim()) };
         });
 
       setPortfolio({ allocation, summary: result.recommendationSummary });
@@ -236,7 +236,7 @@ export default function DashboardClient() {
           <CardDescription>{portfolio.summary}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="w-full aspect-[2/1]">
+          <div className="w-full aspect-square max-h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <ChartTooltip
@@ -261,18 +261,17 @@ export default function DashboardClient() {
               </PieChart>
             </ResponsiveContainer>
           </div>
-          <div className="flex flex-wrap justify-center gap-4 mt-4">
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 mt-4">
             {portfolio.allocation.map((item, index) => (
-              <div key={item.name} className="flex items-center gap-2">
+              <div key={item.name} className="flex items-center gap-2 text-sm">
                 <span
                   className="h-3 w-3 rounded-full"
                   style={{
                     backgroundColor: CHART_COLORS[index % CHART_COLORS.length],
                   }}
                 />
-                <span className="text-sm text-muted-foreground">
-                  {item.name}: {item.value}%
-                </span>
+                <span className="font-medium">{item.name}:</span>
+                <span className="text-muted-foreground">{item.value}%</span>
               </div>
             ))}
           </div>
