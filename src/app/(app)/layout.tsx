@@ -30,9 +30,12 @@ import {
   ChevronDown
 } from "lucide-react";
 import { Logo } from "@/components/logo";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
+import { useAuth, useUser } from "@/firebase";
+import { signOut } from "firebase/auth";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Painel" },
@@ -43,6 +46,25 @@ const navItems = [
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { user, isUserLoading } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isUserLoading && !user) {
+      router.push('/login');
+    }
+  }, [isUserLoading, user, router]);
+
+  if (isUserLoading || !user) {
+    return (
+       <div className="flex h-screen w-screen items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+            <Logo />
+            <p className="text-muted-foreground">Carregando sua experiência de investimento...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <SidebarProvider>
@@ -83,16 +105,29 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 }
 
 function UserNav() {
+  const { user, isUserLoading } = useUser();
+  const auth = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    router.push('/login');
+  };
+
+  if (isUserLoading) {
+    return <Skeleton className="h-10 w-40" />;
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-auto justify-start gap-2">
           <Avatar className="h-8 w-8">
-            <AvatarImage src="https://picsum.photos/seed/user/100/100" alt="Usuário" data-ai-hint="person avatar" />
-            <AvatarFallback>U</AvatarFallback>
+            <AvatarImage src={user?.photoURL ?? "https://picsum.photos/seed/user/100/100"} alt={user?.displayName ?? 'Usuário'} data-ai-hint="person avatar" />
+            <AvatarFallback>{user?.email?.[0]?.toUpperCase() ?? 'U'}</AvatarFallback>
           </Avatar>
           <div className="hidden sm:flex flex-col items-start">
-            <span className="font-medium text-sm">Usuário</span>
+            <span className="font-medium text-sm">{user?.displayName ?? 'Usuário'}</span>
             <span className="text-xs text-muted-foreground">Investidor Iniciante</span>
           </div>
           <ChevronDown className="h-4 w-4 text-muted-foreground ml-2 hidden sm:block" />
@@ -101,14 +136,14 @@ function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">Usuário</p>
+            <p className="text-sm font-medium leading-none">{user?.displayName ?? 'Usuário'}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              usuario@exemplo.com
+              {user?.email}
             </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
           <LogOut className="mr-2 h-4 w-4" />
           <span>Sair</span>
         </DropdownMenuItem>

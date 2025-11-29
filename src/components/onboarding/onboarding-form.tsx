@@ -26,6 +26,10 @@ import { analyzeUserProfile } from "@/lib/actions";
 import { useState } from "react";
 import { BrainCircuit, Loader2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { useAuth, useUser } from "@/firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { useFirestore } from "@/firebase";
+import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 
 const formSchema = z.object({
   age: z.coerce.number().min(18, { message: "Você deve ter pelo menos 18 anos." }).max(100),
@@ -46,6 +50,8 @@ export default function OnboardingForm() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
+  const { user } = useUser();
+  const firestore = useFirestore();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -54,6 +60,8 @@ export default function OnboardingForm() {
       income: 50000,
       investmentAmount: 1000,
       financialGoals: "Crescimento a longo prazo para aposentadoria.",
+      riskTolerance: "medium",
+      investmentExperience: "beginner",
     },
   });
 
@@ -63,9 +71,25 @@ export default function OnboardingForm() {
     try {
         const result = await analyzeUserProfile(values);
         setAnalysisResult(result);
+        
+        if (user) {
+          const userProfileRef = doc(firestore, `users/${user.uid}/userProfiles/${user.uid}`);
+          const profileData = {
+            id: user.uid,
+            email: user.email,
+            firstName: user.displayName?.split(' ')[0] ?? '',
+            lastName: user.displayName?.split(' ')[1] ?? '',
+            ...values,
+            riskAssessment: result.riskAssessment,
+            investmentStrategy: result.investmentStrategy,
+            assetAllocation: result.assetAllocation
+          };
+          setDocumentNonBlocking(userProfileRef, profileData, { merge: true });
+        }
+        
         toast({
             title: "Análise Concluída!",
-            description: "Criamos uma estratégia personalizada para você.",
+            description: "Criamos uma estratégia personalizada para você e salvamos no seu perfil.",
         });
     } catch (error) {
         toast({
@@ -193,7 +217,7 @@ export default function OnboardingForm() {
                     )}
                 />
 
-                <Button type="submit" disabled={loading} className="w-full">
+                <Button type="submit" disabled={loading || !user} className="w-full">
                     {loading ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -202,7 +226,7 @@ export default function OnboardingForm() {
                     ) : (
                          <>
                             <BrainCircuit className="mr-2 h-4 w-4" />
-                            Analisar Meu Perfil
+                            Analisar e Salvar Perfil
                         </>
                     )}
                 </Button>
