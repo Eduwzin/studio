@@ -49,9 +49,6 @@ export async function getStockInfo(ticker: string): Promise<StockInfo> {
     const response = await fetch(url, { next: { revalidate: 900 } });
     
     if (!response.ok) {
-      // Log do erro para depuração no servidor
-      const errorBody = await response.text();
-      console.error(`Erro na API da Brapi para o ticker ${ticker}: ${response.statusText}`, errorBody);
       throw new Error(`Erro na API da Brapi: ${response.statusText}`);
     }
     const data = await response.json();
@@ -63,7 +60,8 @@ export async function getStockInfo(ticker: string): Promise<StockInfo> {
     // A API retorna um array, mesmo para uma única consulta de ticker.
     return data.results[0] as StockInfo;
   } catch (error) {
-    console.error(`Falha ao buscar informações da ação para ${ticker}:`, error);
+    // Não loga o erro no console para evitar poluição com tickers não encontrados.
+    // O erro será tratado pelo chamador (que o ignora com .catch(e => null)).
     throw error; // Re-lança o erro para ser tratado pelo chamador
   }
 }
