@@ -166,7 +166,11 @@ type AnalysisResult = {
   avaliacaoDeRisco: string;
 };
 
-export default function OnboardingForm() {
+type OnboardingFormProps = {
+  onProfileSaved: () => void;
+};
+
+export default function OnboardingForm({ onProfileSaved }: OnboardingFormProps) {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
@@ -257,6 +261,7 @@ export default function OnboardingForm() {
         title: 'Análise Concluída!',
         description: 'Criamos uma estratégia personalizada para você e salvamos no seu perfil.',
       });
+      onProfileSaved();
     } catch (error) {
       toast({
         variant: 'destructive',
@@ -271,6 +276,7 @@ export default function OnboardingForm() {
   const currentQuestion = questions[currentStep];
 
   const getProfileIcon = (profile: string) => {
+    if (!profile) return <CheckCircle2 className="h-8 w-8 text-primary" />;
     switch (profile.toLowerCase()) {
       case 'conservador':
         return <Shield className="h-8 w-8 text-primary" />;
@@ -289,7 +295,7 @@ export default function OnboardingForm() {
       const parts = item.trim().split(':');
       if (parts.length !== 2) return null;
       const name = parts[0];
-      const valueString = parts[1].replace('%', '').trim();
+      const valueString = parts[1]?.replace('%', '').trim();
       const value = parseInt(valueString);
       if (isNaN(value)) return null;
       return { name, value };
@@ -300,6 +306,16 @@ export default function OnboardingForm() {
     acc[item.name] = { label: item.name };
     return acc;
   }, {});
+
+  if (loading && !analysisResult) {
+    return (
+        <div className="flex flex-col items-center justify-center text-center p-8 gap-4">
+            <Loader2 className="h-12 w-12 animate-spin text-primary" />
+            <h3 className="text-xl font-semibold">Analisando seu perfil...</h3>
+            <p className="text-muted-foreground">Nossa IA está criando a melhor estratégia para você. Isso pode levar alguns segundos.</p>
+        </div>
+    );
+  }
 
   return (
     <div>
