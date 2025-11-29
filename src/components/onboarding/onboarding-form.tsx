@@ -257,6 +257,11 @@ export default function OnboardingForm() {
     const value = parseInt(parts[1].replace('%', '').trim());
     return { name, value: isNaN(value) ? 0 : value };
   }).filter((item: any) => item.value > 0);
+  
+  const chartConfig = allocationData.reduce((acc: any, item: any) => {
+    acc[item.name] = { label: item.name };
+    return acc;
+  }, {});
 
 
   return (
@@ -342,7 +347,7 @@ export default function OnboardingForm() {
                         <CardDescription>{analysisResult.investmentStrategy}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <div className="w-full aspect-square max-h-[250px]">
+                        <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
                                     <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
@@ -353,7 +358,7 @@ export default function OnboardingForm() {
                                     </Pie>
                                 </PieChart>
                             </ResponsiveContainer>
-                        </div>
+                        </ChartContainer>
                         <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 mt-4">
                             {allocationData.map((item, index) => (
                                 <div key={item.name} className="flex items-center gap-2 text-sm">

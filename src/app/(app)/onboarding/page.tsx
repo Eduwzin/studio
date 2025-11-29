@@ -40,6 +40,11 @@ function UserProfileDisplay({ profile }: { profile: any }) {
     return { name, value: isNaN(value) ? 0 : value };
   }).filter((item: any) => item.value > 0);
 
+  const chartConfig = allocationData.reduce((acc: any, item: any) => {
+    acc[item.name] = { label: item.name };
+    return acc;
+  }, {});
+
   return (
     <div className="space-y-6">
         <Card className="text-center">
@@ -59,16 +64,18 @@ function UserProfileDisplay({ profile }: { profile: any }) {
             </CardHeader>
             <CardContent>
                  <div className="w-full aspect-square max-h-[250px]">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
-                            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-                            <Pie data={allocationData} dataKey="value" nameKey="name" innerRadius="60%" strokeWidth={5}>
-                                {allocationData.map((_:any, index:number) => (
-                                    <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
-                                ))}
-                            </Pie>
-                        </PieChart>
-                    </ResponsiveContainer>
+                    <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                              <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+                              <Pie data={allocationData} dataKey="value" nameKey="name" innerRadius="60%" strokeWidth={5}>
+                                  {allocationData.map((_:any, index:number) => (
+                                      <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
+                                  ))}
+                              </Pie>
+                          </PieChart>
+                      </ResponsiveContainer>
+                    </ChartContainer>
                 </div>
                 <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 mt-4">
                     {allocationData.map((item:any, index:number) => (

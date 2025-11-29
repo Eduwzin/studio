@@ -205,7 +205,6 @@ export default function DashboardClient() {
     }
   };
 
-
   if (!portfolio) {
     return (
       <Card className="text-center">
@@ -229,6 +228,11 @@ export default function DashboardClient() {
     );
   }
 
+  const chartConfig = portfolio.allocation.reduce((acc: any, item: any) => {
+    acc[item.name] = { label: item.name };
+    return acc;
+  }, {});
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <Card className="lg:col-span-2">
@@ -237,7 +241,7 @@ export default function DashboardClient() {
           <CardDescription>{portfolio.summary}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="w-full aspect-square max-h-[250px]">
+          <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <ChartTooltip
@@ -261,7 +265,7 @@ export default function DashboardClient() {
                 </Pie>
               </PieChart>
             </ResponsiveContainer>
-          </div>
+          </ChartContainer>
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 mt-4">
             {portfolio.allocation.map((item, index) => (
               <div key={item.name} className="flex items-center gap-2 text-sm">
