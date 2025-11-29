@@ -32,10 +32,13 @@ function UserProfileDisplay({ profile }: { profile: any }) {
     }
   };
 
-  const allocationData = profile.assetAllocation.split(',').map((item: string) => {
-    const [name, value] = item.trim().split(':');
-    return { name, value: parseInt(value.replace('%', '')) };
-  });
+  const allocationData = (profile.assetAllocation || '').split(',').map((item: string) => {
+    const parts = item.trim().split(':');
+    if (parts.length !== 2) return { name: 'Inválido', value: 0 };
+    const name = parts[0];
+    const value = parseInt(parts[1].replace('%', '').trim());
+    return { name, value: isNaN(value) ? 0 : value };
+  }).filter((item: any) => item.value > 0);
 
   return (
     <div className="space-y-6">
