@@ -9,10 +9,10 @@ export function Logo({ className }: { className?: string }) {
   const { state } = useSidebar();
   
   return (
-    <Link href="/" className={cn("flex items-center gap-2 text-sidebar-primary hover:opacity-80 transition-opacity", className)}>
-      <Briefcase className="h-6 w-6" />
+    <Link href="/" className={cn("flex items-center gap-2 text-foreground hover:opacity-80 transition-opacity", className)}>
+      <Briefcase className="h-6 w-6 text-primary" />
       <h1 className={cn(
-          "text-xl font-bold font-headline text-sidebar-primary-foreground transition-opacity duration-200",
+          "text-xl font-bold font-headline text-foreground transition-opacity duration-200",
            state === "collapsed" && "opacity-0 hidden"
         )}>SafeStart Invest</h1>
     </Link>
