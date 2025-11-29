@@ -55,8 +55,9 @@ const analyzeUserProfilePrompt = ai.definePrompt({
   name: 'analyzeUserProfilePrompt',
   input: {schema: AnalyzeUserProfileInputSchema},
   output: {schema: AnalyzeUserProfileOutputSchema},
-  prompt: `Você é um consultor de investimentos especialista. Analise as respostas do usuário ao questionário de perfil de investidor e forneça uma estratégia de investimento, uma alocação de ativos e uma avaliação de risco.
+  prompt: `Você é um consultor de investimentos especialista. Analise o perfil do usuário, incluindo idade e respostas ao questionário, para fornecer uma estratégia de investimento, alocação de ativos e avaliação de risco.
 
+Idade do Usuário: {{age}}
 Respostas do Questionário do Usuário:
 {{{investmentExperience}}}
 

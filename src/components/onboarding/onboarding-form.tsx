@@ -35,6 +35,7 @@ import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { Progress } from '@/components/ui/progress';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Input } from '../ui/input';
 
 const CHART_COLORS = [
   'hsl(var(--chart-1))',
@@ -45,6 +46,12 @@ const CHART_COLORS = [
 ];
 
 const questions = [
+  {
+    id: 'age',
+    title: 'Qual a sua idade?',
+    description: 'Sua idade nos ajuda a entender seu horizonte de investimento.',
+    type: 'number'
+  },
   {
     id: 'objective',
     title: 'O que você espera dos seus investimentos?',
@@ -142,6 +149,7 @@ const questions = [
 ];
 
 const formSchema = z.object({
+  age: z.coerce.number().min(18, { message: 'Você deve ter pelo menos 18 anos.' }).max(120, { message: 'Por favor, insira uma idade válida.' }),
   objective: z.string({ required_error: 'Por favor, selecione uma opção.' }),
   timeframe: z.string({ required_error: 'Por favor, selecione uma opção.' }),
   loss_tolerance: z.string({ required_error: 'Por favor, selecione uma opção.' }),
@@ -193,6 +201,8 @@ export default function OnboardingForm() {
     setLoading(true);
     setAnalysisResult(null);
 
+    const { age, ...questionnaireAnswers } = values;
+
     const fullUserProfile = `
       - Objetivo: ${values.objective}
       - Prazo: ${values.timeframe}
@@ -206,7 +216,7 @@ export default function OnboardingForm() {
 
     try {
       const result = await analyzeUserProfile({
-        age: 0,
+        age: values.age,
         investmentAmount: 0,
         income: 0,
         riskTolerance: '',
@@ -223,7 +233,7 @@ export default function OnboardingForm() {
             email: user.email,
             firstName: user.displayName?.split(' ')[0] ?? '',
             lastName: user.displayName?.split(' ')[1] ?? '',
-            age: 0,
+            age: values.age,
             income: 0,
           },
           investmentProfile: {
@@ -234,7 +244,7 @@ export default function OnboardingForm() {
             investmentHorizon: values.timeframe,
             financialGoals: values.objective,
             investmentExperience: values.experience,
-            questionnaireAnswers: values,
+            questionnaireAnswers: questionnaireAnswers,
           }
         };
         setDocumentNonBlocking(userProfileRef, profileData, { merge: true });
@@ -274,12 +284,14 @@ export default function OnboardingForm() {
     .split(',')
     .map((item: string) => {
       const parts = item.trim().split(':');
-      if (parts.length !== 2) return { name: 'Inválido', value: 0 };
+      if (parts.length !== 2) return null;
       const name = parts[0];
-      const value = parseInt(parts[1].replace('%', '').trim());
-      return { name, value: isNaN(value) ? 0 : value };
+      const valueString = parts[1].replace('%', '').trim();
+      const value = parseInt(valueString);
+      if (isNaN(value)) return null;
+      return { name, value };
     })
-    .filter((item: any) => item.value > 0);
+    .filter((item: any): item is { name: string; value: number } => item !== null && item.value > 0);
 
   const chartConfig = allocationData.reduce((acc: any, item: any) => {
     acc[item.name] = { label: item.name };
@@ -300,23 +312,27 @@ export default function OnboardingForm() {
                   <FormLabel className="text-xl font-bold">{currentQuestion.title}</FormLabel>
                   <FormDescription>{currentQuestion.description}</FormDescription>
                   <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-2"
-                    >
-                      {currentQuestion.options.map(option => (
-                        <FormItem
-                          className="flex items-center space-x-3 space-y-0"
-                          key={option.value}
+                    {currentQuestion.type === 'number' ? (
+                        <Input type="number" {...field} onChange={e => field.onChange(e.target.value === '' ? '' : Number(e.target.value))} placeholder="Sua idade"/>
+                    ) : (
+                        <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-col space-y-2"
                         >
-                          <FormControl>
-                            <RadioGroupItem value={option.value} />
-                          </FormControl>
-                          <FormLabel className="font-normal">{option.label}</FormLabel>
-                        </FormItem>
-                      ))}
-                    </RadioGroup>
+                        {currentQuestion.options?.map(option => (
+                            <FormItem
+                            className="flex items-center space-x-3 space-y-0"
+                            key={option.value}
+                            >
+                            <FormControl>
+                                <RadioGroupItem value={option.value} />
+                            </FormControl>
+                            <FormLabel className="font-normal">{option.label}</FormLabel>
+                            </FormItem>
+                        ))}
+                        </RadioGroup>
+                    )}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
