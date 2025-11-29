@@ -8,72 +8,84 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the user profile."
+          "description": "Unique identifier for the user profile, matching the Firebase Auth UID."
         },
-        "email": {
-          "type": "string",
-          "description": "User's email address for login and communication.",
-          "format": "email"
+        "personalInfo": {
+          "type": "object",
+          "description": "User's personal information.",
+          "properties": {
+            "email": {
+              "type": "string",
+              "description": "User's email address.",
+              "format": "email"
+            },
+            "firstName": {
+              "type": "string",
+              "description": "User's first name."
+            },
+            "lastName": {
+              "type": "string",
+              "description": "User's last name."
+            },
+            "age": {
+              "type": "number",
+              "description": "User's age."
+            },
+            "income": {
+              "type": "number",
+              "description": "User's annual income."
+            }
+          },
+          "required": ["email"]
         },
-        "firstName": {
-          "type": "string",
-          "description": "User's first name."
-        },
-        "lastName": {
-          "type": "string",
-          "description": "User's last name."
-        },
-        "age": {
-          "type": "number",
-          "description": "User's age."
-        },
-        "income": {
-          "type": "number",
-          "description": "User's annual income."
-        },
-        "investmentAmount": {
-          "type": "number",
-          "description": "The initial amount the user wants to invest."
-        },
-        "riskTolerance": {
-          "type": "string",
-          "description": "User's self-reported risk tolerance (e.g., low, medium, high)."
-        },
-        "investmentExperience": {
-          "type": "string",
-          "description": "User's investment experience level."
-        },
-        "financialGoals": {
-          "type": "string",
-          "description": "User's stated financial goals."
-        },
-        "riskAssessment": {
-          "type": "string",
-          "description": "AI-generated assessment of the user's risk profile."
-        },
-        "investmentStrategy": {
-          "type": "string",
-          "description": "AI-generated investment strategy tailored to the user."
-        },
-        "assetAllocation": {
-          "type": "string",
-          "description": "AI-generated recommended asset allocation."
+        "investmentProfile": {
+          "type": "object",
+          "description": "User's investment-related information.",
+          "properties": {
+            "investmentAmount": {
+              "type": "number",
+              "description": "The initial amount the user wants to invest."
+            },
+            "riskAssessment": {
+              "type": "string",
+              "description": "AI-generated assessment of the user's risk profile (e.g., Conservador, Moderado, Arrojado)."
+            },
+            "investmentStrategy": {
+              "type": "string",
+              "description": "AI-generated investment strategy tailored to the user."
+            },
+            "assetAllocation": {
+              "type": "string",
+              "description": "AI-generated recommended asset allocation as a comma-separated string."
+            },
+            "investmentHorizon": {
+              "type": "string",
+              "description": "The user's investment time horizon, from the questionnaire."
+            },
+            "financialGoals": {
+              "type": "string",
+              "description": "User's stated financial goals, from the questionnaire."
+            },
+            "investmentExperience": {
+              "type": "string",
+              "description": "User's investment experience level, from the questionnaire."
+            },
+            "questionnaireAnswers": {
+              "type": "object",
+              "description": "A summary of the user's answers to the onboarding questionnaire."
+            }
+          },
+          "required": [
+            "riskAssessment",
+            "investmentStrategy",
+            "assetAllocation"
+          ]
         }
       },
       "required": [
         "id",
-        "email",
-        "firstName",
-        "lastName",
-        "age",
-        "income",
-        "investmentAmount",
-        "riskTolerance",
-        "investmentExperience",
-        "financialGoals",
-        "riskAssessment",
-        "investmentStrategy",
-        "assetAllocation"
+        "personalInfo",
+        "investmentProfile"
       ]
     },
     "InvestmentPortfolio": {
@@ -321,5 +333,3 @@
     "reasoning": "The Firestore data structure is designed to support the SafeStart Invest platform, focusing on user profiles, investment portfolios, educational content, and AI-driven recommendations. It prioritizes authorization independence, clear access patterns, and scalability.\n\n**Authorization Independence & QAPs:**\n\n*   User-owned data (UserProfile, InvestmentPortfolio, NextStepRecommendation) is stored under `/users/{userId}` collections. This leverages path-based authorization, eliminating the need for `get()` calls in security rules and enabling atomic operations. This structure inherently supports QAPs by allowing secure listing of user-specific data without complex filtering.\n*   EducationalTrail and BlogArticle collections are top-level, implying public read access. Segregation ensures different security postures are not mixed, simplifying security rules.\n\n**Structure Overview:**\n\n*   `/users/{userId}/userProfiles/{profileId}`: Stores user profile information. The `userId` in the path ensures that only the authenticated user can access their profile. Since the userId is available in the path there is no need to store it in the document itself.\n*   `/users/{userId}/investmentPortfolios/{portfolioId}`: Stores investment portfolios owned by a specific user. The `userId` in the path guarantees ownership, enabling secure listing. The `portfolioId` is used to uniquely identify each portfolio.\n*   `/users/{userId}/investmentPortfolios/{portfolioId}/nextStepRecommendations/{recommendationId}`: Stores AI-generated next-step recommendations for a specific portfolio. The nested structure under `/users/{userId}/investmentPortfolios/{portfolioId}` ensures that only the owner of the portfolio can access these recommendations. This maintains the hierarchical ownership and simplifies security rules.\n*   `/educationalTrails/{educationalTrailId}`: Stores educational trails available to all users. This is a top-level collection for globally accessible data.\n*   `/blogArticles/{blogArticleId}`: Stores blog articles accessible to all users. This is a top-level collection for globally accessible data."
   }
 }
-
-    
