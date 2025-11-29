@@ -11,24 +11,24 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const AnalyzeUserProfileInputSchema = z.object({
-  age: z.number().describe('A idade do usuário.'),
+  age: z.number().describe('A idade do usuário. Se não fornecido, pode ser ignorado.'),
   riskTolerance: z
     .string()
     .describe(
-      'A tolerância ao risco do usuário (por exemplo, baixa, média, alta). Deve ser uma das seguintes strings: baixa, média, alta.'
+      'A tolerância ao risco do usuário (por exemplo, baixa, média, alta). Se não fornecido, pode ser ignorado.'
     ),
   financialGoals: z
     .string()
     .describe(
-      'As metas financeiras do usuário (por exemplo, aposentadoria, comprar uma casa, economizar para educação).'
+      'As metas financeiras do usuário (por exemplo, aposentadoria, comprar uma casa, economizar para educação). Se não fornecido, pode ser ignorado.'
     ),
   investmentExperience: z
     .string()
     .describe(
-      'A experiência de investimento do usuário (por exemplo, nenhuma, iniciante, intermediária, especialista). Deve ser uma das seguintes strings: nenhuma, iniciante, intermediária, especialista.'
+      'Este é o input mais importante. Contém as respostas do usuário a um questionário detalhado sobre seu perfil. Analise-o cuidadosamente.'
     ),
-  income: z.number().describe('A renda anual do usuário.'),
-  investmentAmount: z.number().describe('O valor total que o usuário deseja investir.'),
+  income: z.number().describe('A renda anual do usuário. Se não fornecido, pode ser ignorado.'),
+  investmentAmount: z.number().describe('O valor total que o usuário deseja investir. Se não fornecido, pode ser ignorado.'),
 });
 export type AnalyzeUserProfileInput = z.infer<typeof AnalyzeUserProfileInputSchema>;
 
@@ -43,7 +43,7 @@ const AnalyzeUserProfileOutputSchema = z.object({
     ),
   riskAssessment: z
     .string()
-    .describe('Uma avaliação do perfil de risco do usuário com base nos dados fornecidos.'),
+    .describe('Uma avaliação do perfil de risco do usuário com base nos dados fornecidos (por exemplo, Conservador, Moderado, Arrojado).'),
 });
 export type AnalyzeUserProfileOutput = z.infer<typeof AnalyzeUserProfileOutputSchema>;
 
@@ -55,23 +55,18 @@ const analyzeUserProfilePrompt = ai.definePrompt({
   name: 'analyzeUserProfilePrompt',
   input: {schema: AnalyzeUserProfileInputSchema},
   output: {schema: AnalyzeUserProfileOutputSchema},
-  prompt: `Você é um consultor de investimentos especialista. Analise o perfil do usuário e forneça uma estratégia de investimento personalizada, alocação de ativos recomendada e uma avaliação de risco.
+  prompt: `Você é um consultor de investimentos especialista. Analise as respostas do usuário ao questionário de perfil de investidor e forneça uma estratégia de investimento personalizada, uma alocação de ativos recomendada e uma avaliação de risco.
 
-Perfil do Usuário:
-- Idade: {{{age}}}
-- Tolerância ao Risco: {{{riskTolerance}}}
-- Metas Financeiras: {{{financialGoals}}}
-- Experiência de Investimento: {{{investmentExperience}}}
-- Renda: {{{income}}}
-- Valor do Investimento: {{{investmentAmount}}}
+Respostas do Questionário do Usuário:
+{{{investmentExperience}}}
 
 Com base nessas informações, forneça o seguinte:
 
-Estratégia de Investimento: Uma estratégia de investimento detalhada, adaptada às necessidades и metas do usuário.
-Alocação de Ativos: Uma alocação de ativos recomendada em porcentagem entre diferentes classes de ativos.
-Avaliação de Risco: Uma avaliação de risco do perfil do usuário com base nos dados fornecidos.
+Estratégia de Investimento: Uma estratégia de investimento detalhada e acionável, adequada para o perfil identificado.
+Alocação de Ativos: Uma alocação de ativos recomendada em porcentagens (ex: 60% Ações, 30% Títulos, 10% Imóveis).
+Avaliação de Risco: Classifique o perfil de risco do usuário em uma de três categorias: Conservador, Moderado ou Arrojado.
 
-Faça a estratégia de investimento e a alocação de ativos apropriadas para um investidor iniciante.`,
+Faça a estratégia de investimento e a alocação de ativos apropriadas para um investidor iniciante, explicando o porquê da sua recomendação.`,
 });
 
 const analyzeUserProfileFlow = ai.defineFlow(
@@ -85,3 +80,5 @@ const analyzeUserProfileFlow = ai.defineFlow(
     return output!;
   }
 );
+
+    
