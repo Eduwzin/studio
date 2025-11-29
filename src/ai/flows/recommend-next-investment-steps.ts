@@ -1,29 +1,27 @@
-// RecommendNextInvestmentSteps Story: As a user with an existing portfolio, I want the application to suggest upcoming steps I can take in my investment portfolio using AI, so that I can proactively manage and evolve my investments over time.
-
 'use server';
 
 /**
- * @fileOverview This file defines a Genkit flow to recommend the next investment steps for a user's portfolio.
+ * @fileOverview Este arquivo define um fluxo Genkit para recomendar os próximos passos de investimento para o portfólio de um usuário.
  *
- * - `recommendNextInvestmentSteps`:  Function to orchestrate the recommendation of next investment steps.
- * - `RecommendNextInvestmentStepsInput`:  Input type definition for the function.
- * - `RecommendNextInvestmentStepsOutput`:  Output type definition for the function.
+ * - `recommendNextInvestmentSteps`: Função para orquestrar a recomendação dos próximos passos de investimento.
+ * - `RecommendNextInvestmentStepsInput`: Definição do tipo de entrada para a função.
+ * - `RecommendNextInvestmentStepsOutput`: Definição do tipo de saída para a função.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const RecommendNextInvestmentStepsInputSchema = z.object({
-  userProfile: z.string().describe('The user profile including risk tolerance, financial goals, and investment knowledge.'),
-  currentPortfolio: z.string().describe('The current investment portfolio of the user, including asset allocation and performance.'),
-  marketConditions: z.string().describe('Current market conditions and trends.'),
+  userProfile: z.string().describe('O perfil do usuário, incluindo tolerância ao risco, metas financeiras e conhecimento de investimento.'),
+  currentPortfolio: z.string().describe('O portfólio de investimentos atual do usuário, incluindo alocação de ativos e desempenho.'),
+  marketConditions: z.string().describe('Condições e tendências atuais do mercado.'),
 });
 
 export type RecommendNextInvestmentStepsInput = z.infer<typeof RecommendNextInvestmentStepsInputSchema>;
 
 const RecommendNextInvestmentStepsOutputSchema = z.object({
-  recommendedSteps: z.string().describe('A list of recommended next steps for the user to take in their investment portfolio.'),
-  rationale: z.string().describe('The rationale behind the recommended steps, explaining why they are suitable for the user.'),
+  recommendedSteps: z.string().describe('Uma lista dos próximos passos recomendados para o usuário tomar em seu portfólio de investimentos.'),
+  rationale: z.string().describe('A justificativa por trás dos passos recomendados, explicando por que são adequados para o usuário.'),
 });
 
 export type RecommendNextInvestmentStepsOutput = z.infer<typeof RecommendNextInvestmentStepsOutputSchema>;
@@ -36,16 +34,16 @@ const prompt = ai.definePrompt({
   name: 'recommendNextInvestmentStepsPrompt',
   input: {schema: RecommendNextInvestmentStepsInputSchema},
   output: {schema: RecommendNextInvestmentStepsOutputSchema},
-  prompt: `Given the following user profile, current portfolio, and market conditions, recommend the next steps for the user's investment portfolio.
+  prompt: `Dado o seguinte perfil de usuário, portfólio atual e condições de mercado, recomende os próximos passos para o portfólio de investimentos do usuário.
 
-User Profile: {{{userProfile}}}
-Current Portfolio: {{{currentPortfolio}}}
-Market Conditions: {{{marketConditions}}}
+Perfil do Usuário: {{{userProfile}}}
+Portfólio Atual: {{{currentPortfolio}}}
+Condições de Mercado: {{{marketConditions}}}
 
-Consider the user's risk tolerance, financial goals, and investment knowledge when making your recommendations.
-Provide a clear rationale for each recommended step.
+Considere a tolerância ao risco do usuário, metas financeiras e conhecimento de investimento ao fazer suas recomendações.
+Forneça uma justificativa clara para cada passo recomendado.
 
-Ensure the recommendations are actionable and provide clear direction to the user.
+Garanta que as recomendações sejam acionáveis e forneçam uma direção clara ao usuário.
 `, config: {
     safetySettings: [
       {
@@ -79,4 +77,3 @@ const recommendNextInvestmentStepsFlow = ai.defineFlow(
     return output!;
   }
 );
-

@@ -1,50 +1,49 @@
 'use server';
 /**
- * @fileOverview This file defines a Genkit flow for analyzing a user's profile, risk tolerance,
- * and financial goals to create a personalized investment strategy.
+ * @fileOverview Este arquivo define um fluxo Genkit para analisar o perfil, a tolerância ao risco e as metas financeiras de um usuário para criar uma estratégia de investimento personalizada.
  *
- * - analyzeUserProfile - A function that triggers the user profile analysis flow.
- * - AnalyzeUserProfileInput - The input type for the analyzeUserProfile function.
- * - AnalyzeUserProfileOutput - The output type for the analyzeUserProfile function.
+ * - analyzeUserProfile - Uma função que aciona o fluxo de análise do perfil do usuário.
+ * - AnalyzeUserProfileInput - O tipo de entrada para a função analyzeUserProfile.
+ * - AnalyzeUserProfileOutput - O tipo de saída para a função analyzeUserProfile.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const AnalyzeUserProfileInputSchema = z.object({
-  age: z.number().describe('The age of the user.'),
+  age: z.number().describe('A idade do usuário.'),
   riskTolerance: z
     .string()
     .describe(
-      'The risk tolerance of the user (e.g., low, medium, high). Should be one of the following strings: low, medium, high.'
+      'A tolerância ao risco do usuário (por exemplo, baixa, média, alta). Deve ser uma das seguintes strings: baixa, média, alta.'
     ),
   financialGoals: z
     .string()
     .describe(
-      'The financial goals of the user (e.g., retirement, buying a home, saving for education).'
+      'As metas financeiras do usuário (por exemplo, aposentadoria, comprar uma casa, economizar para educação).'
     ),
   investmentExperience: z
     .string()
     .describe(
-      'The investment experience of the user (e.g., none, beginner, intermediate, expert).  Should be one of the following strings: none, beginner, intermediate, expert.'
+      'A experiência de investimento do usuário (por exemplo, nenhuma, iniciante, intermediária, especialista). Deve ser uma das seguintes strings: nenhuma, iniciante, intermediária, especialista.'
     ),
-  income: z.number().describe('The annual income of the user.'),
-  investmentAmount: z.number().describe('The total amount the user wants to invest.'),
+  income: z.number().describe('A renda anual do usuário.'),
+  investmentAmount: z.number().describe('O valor total que o usuário deseja investir.'),
 });
 export type AnalyzeUserProfileInput = z.infer<typeof AnalyzeUserProfileInputSchema>;
 
 const AnalyzeUserProfileOutputSchema = z.object({
   investmentStrategy: z
     .string()
-    .describe('A personalized investment strategy tailored to the user.'),
+    .describe('Uma estratégia de investimento personalizada e adaptada ao usuário.'),
   assetAllocation: z
     .string()
     .describe(
-      'The recommended asset allocation based on the user profile analysis (e.g., stocks, bonds, real estate).'
+      'A alocação de ativos recomendada com base na análise do perfil do usuário (por exemplo, ações, títulos, imóveis).'
     ),
   riskAssessment: z
     .string()
-    .describe('An assessment of the user risk profile based on the data provided.'),
+    .describe('Uma avaliação do perfil de risco do usuário com base nos dados fornecidos.'),
 });
 export type AnalyzeUserProfileOutput = z.infer<typeof AnalyzeUserProfileOutputSchema>;
 
@@ -56,23 +55,23 @@ const analyzeUserProfilePrompt = ai.definePrompt({
   name: 'analyzeUserProfilePrompt',
   input: {schema: AnalyzeUserProfileInputSchema},
   output: {schema: AnalyzeUserProfileOutputSchema},
-  prompt: `You are an expert investment advisor. Analyze the user profile and provide a personalized investment strategy, recommended asset allocation, and a risk assessment.
+  prompt: `Você é um consultor de investimentos especialista. Analise o perfil do usuário e forneça uma estratégia de investimento personalizada, alocação de ativos recomendada e uma avaliação de risco.
 
-User Profile:
-- Age: {{{age}}}
-- Risk Tolerance: {{{riskTolerance}}}
-- Financial Goals: {{{financialGoals}}}
-- Investment Experience: {{{investmentExperience}}}
-- Income: {{{income}}}
-- Investment Amount: {{{investmentAmount}}}
+Perfil do Usuário:
+- Idade: {{{age}}}
+- Tolerância ao Risco: {{{riskTolerance}}}
+- Metas Financeiras: {{{financialGoals}}}
+- Experiência de Investimento: {{{investmentExperience}}}
+- Renda: {{{income}}}
+- Valor do Investimento: {{{investmentAmount}}}
 
-Based on this information, provide the following:
+Com base nessas informações, forneça o seguinte:
 
-Investment Strategy: A detailed investment strategy tailored to the user's needs and goals.
-Asset Allocation: A recommended asset allocation percentage across different asset classes.
-Risk Assessment: A risk assessment of the user profile based on the data provided.
+Estratégia de Investimento: Uma estratégia de investimento detalhada, adaptada às necessidades и metas do usuário.
+Alocação de Ativos: Uma alocação de ativos recomendada em porcentagem entre diferentes classes de ativos.
+Avaliação de Risco: Uma avaliação de risco do perfil do usuário com base nos dados fornecidos.
 
-Make the investment strategy and asset allocation appropriate for a beginner investor.`,
+Faça a estratégia de investimento e a alocação de ativos apropriadas para um investidor iniciante.`,
 });
 
 const analyzeUserProfileFlow = ai.defineFlow(

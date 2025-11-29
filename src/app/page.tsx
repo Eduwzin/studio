@@ -18,13 +18,13 @@ export default function Home() {
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center">
           <div className="max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-headline font-bold text-foreground mb-4">
-              Invest with confidence.
+              Invista com confiança.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8">
-              Your AI-powered guide to financial growth. SafeStart Invest helps beginners navigate the world of investments with personalized strategies, educational resources, and continuous support.
+              Seu guia de crescimento financeiro com inteligência artificial. O SafeStart Invest ajuda iniciantes a navegar no mundo dos investimentos com estratégias personalizadas, recursos educacionais e suporte contínuo.
             </p>
             <Button asChild size="lg">
-              <Link href="/onboarding">Get Started for Free</Link>
+              <Link href="/onboarding">Comece de Graça</Link>
             </Button>
           </div>
         </section>
@@ -45,33 +45,33 @@ export default function Home() {
         )}
 
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <h2 className="text-3xl font-bold text-center mb-12 font-headline">Features Designed for Your Success</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 font-headline">Recursos Desenhados para o Seu Sucesso</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <FeatureCard
               icon={<Bot className="h-8 w-8 text-primary" />}
-              title="AI-Powered Analysis"
-              description="Our AI analyzes your profile to create a personalized investment strategy just for you."
+              title="Análise com IA"
+              description="Nossa IA analisa seu perfil para criar uma estratégia de investimento personalizada só para você."
             />
             <FeatureCard
               icon={<Target className="h-8 w-8 text-primary" />}
-              title="Custom Portfolios"
-              description="Receive a tailored portfolio allocation designed to meet your financial goals and risk tolerance."
+              title="Portfólios Personalizados"
+              description="Receba uma alocação de portfólio sob medida, projetada para atender às suas metas financeiras e tolerância ao risco."
             />
             <FeatureCard
               icon={<BookOpen className="h-8 w-8 text-primary" />}
-              title="Educational Trails"
-              description="Learn the fundamentals of investing with our easy-to-follow educational content."
+              title="Trilhas Educacionais"
+              description="Aprenda os fundamentos do investimento com nosso conteúdo educacional fácil de seguir."
             />
             <FeatureCard
               icon={<LineChart className="h-8 w-8 text-primary" />}
-              title="Continuous Monitoring"
-              description="We keep an eye on your investments and suggest improvements as market conditions change."
+              title="Monitoramento Contínuo"
+              description="Ficamos de olho nos seus investimentos e sugerimos melhorias conforme as condições do mercado mudam."
             />
           </div>
         </section>
       </main>
       <footer className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} SafeStart Invest. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} SafeStart Invest. Todos os direitos reservados.</p>
       </footer>
     </div>
   );

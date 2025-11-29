@@ -68,14 +68,14 @@ export default function DashboardClient() {
   const handlePortfolioGeneration = async () => {
     setLoading("generate");
     try {
-      // In a real app, this would come from the onboarding step
+      // Em um aplicativo real, isso viria da etapa de onboarding
       const userProfile =
-        "Risk tolerance: medium, Financial goals: long-term growth, Investment experience: beginner.";
+        "Tolerância ao risco: média, Metas financeiras: crescimento a longo prazo, Experiência de investimento: iniciante.";
       const result = await generatePersonalizedInvestmentPortfolio({
         userProfile,
       });
 
-      // Parse allocation string: "Stocks: 60%, Bonds: 30%, Real Estate: 10%"
+      // Parse allocation string: "Ações: 60%, Títulos: 30%, Imóveis: 10%"
       const allocation = result.portfolioAllocation
         .split(", ")
         .map((item) => {
@@ -87,8 +87,8 @@ export default function DashboardClient() {
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Error",
-        description: "Failed to generate portfolio.",
+        title: "Erro",
+        description: "Falha ao gerar o portfólio.",
       });
     } finally {
       setLoading(null);
@@ -101,23 +101,23 @@ export default function DashboardClient() {
     try {
       const result = await simulatePortfolioPerformance({
         portfolioDescription: JSON.stringify(portfolio.allocation),
-        marketConditions: "Stable market with slight upward trend.",
-        investmentGoals: "Long-term growth.",
+        marketConditions: "Mercado estável com leve tendência de alta.",
+        investmentGoals: "Crescimento a longo prazo.",
       });
       setAiResult({
-        title: "Portfolio Performance Simulation",
+        title: "Simulação de Desempenho do Portfólio",
         content: (
           <div className="space-y-4">
             <div>
-              <h4 className="font-semibold">Projected Performance</h4>
+              <h4 className="font-semibold">Desempenho Projetado</h4>
               <p className="text-sm text-muted-foreground">{result.projectedPerformance}</p>
             </div>
             <div>
-              <h4 className="font-semibold">Suggested Improvements</h4>
+              <h4 className="font-semibold">Melhorias Sugeridas</h4>
               <p className="text-sm text-muted-foreground">{result.suggestedImprovements}</p>
             </div>
             <div>
-              <h4 className="font-semibold">Risk Analysis</h4>
+              <h4 className="font-semibold">Análise de Risco</h4>
               <p className="text-sm text-muted-foreground">{result.riskAnalysis}</p>
             </div>
           </div>
@@ -126,8 +126,8 @@ export default function DashboardClient() {
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Error",
-        description: "Failed to run simulation.",
+        title: "Erro",
+        description: "Falha ao executar a simulação.",
       });
     } finally {
       setLoading(null);
@@ -140,19 +140,19 @@ export default function DashboardClient() {
     try {
       const result = await monitorInvestmentsForImprovements({
         portfolio: JSON.stringify(portfolio.allocation),
-        marketData: "Tech stocks are up 5%, bonds are stable.",
-        userRiskProfile: "medium"
+        marketData: "Ações de tecnologia subiram 5%, títulos estão estáveis.",
+        userRiskProfile: "médio"
       });
        setAiResult({
-        title: "Investment Monitoring Results",
+        title: "Resultados do Monitoramento de Investimentos",
         content: (
           <div className="space-y-4">
             <div>
-              <h4 className="font-semibold">Suggested Improvements</h4>
+              <h4 className="font-semibold">Melhorias Sugeridas</h4>
               <p className="text-sm text-muted-foreground">{result.suggestedImprovements}</p>
             </div>
             <div>
-              <h4 className="font-semibold">Rationale</h4>
+              <h4 className="font-semibold">Justificativa</h4>
               <p className="text-sm text-muted-foreground">{result.rationale}</p>
             </div>
           </div>
@@ -161,8 +161,8 @@ export default function DashboardClient() {
     } catch (error) {
        toast({
         variant: "destructive",
-        title: "Error",
-        description: "Failed to monitor investments.",
+        title: "Erro",
+        description: "Falha ao monitorar os investimentos.",
       });
     } finally {
         setLoading(null);
@@ -174,20 +174,20 @@ export default function DashboardClient() {
     setLoading("steps");
      try {
       const result = await recommendNextInvestmentSteps({
-        userProfile: "Risk tolerance: medium, Financial goals: long-term growth, Investment experience: beginner.",
+        userProfile: "Tolerância ao risco: média, Metas financeiras: crescimento a longo prazo, Experiência de investimento: iniciante.",
         currentPortfolio: JSON.stringify(portfolio.allocation),
-        marketConditions: "Slightly volatile market with opportunities in emerging tech."
+        marketConditions: "Mercado ligeiramente volátil com oportunidades em tecnologia emergente."
       });
        setAiResult({
-        title: "Recommended Next Steps",
+        title: "Próximos Passos Recomendados",
         content: (
           <div className="space-y-4">
             <div>
-              <h4 className="font-semibold">Recommended Steps</h4>
+              <h4 className="font-semibold">Passos Recomendados</h4>
               <p className="text-sm text-muted-foreground">{result.recommendedSteps}</p>
             </div>
             <div>
-              <h4 className="font-semibold">Rationale</h4>
+              <h4 className="font-semibold">Justificativa</h4>
               <p className="text-sm text-muted-foreground">{result.rationale}</p>
             </div>
           </div>
@@ -196,8 +196,8 @@ export default function DashboardClient() {
     } catch (error) {
        toast({
         variant: "destructive",
-        title: "Error",
-        description: "Failed to get next steps.",
+        title: "Erro",
+        description: "Falha ao obter os próximos passos.",
       });
     } finally {
         setLoading(null);
@@ -209,10 +209,9 @@ export default function DashboardClient() {
     return (
       <Card className="text-center">
         <CardHeader>
-          <CardTitle>Generate Your Personalized Portfolio</CardTitle>
+          <CardTitle>Gere Seu Portfólio Personalizado</CardTitle>
           <CardDescription>
-            Let our AI analyze your profile and create a custom investment plan
-            to get you started.
+            Deixe nossa IA analisar seu perfil e criar um plano de investimento personalizado para você começar.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -222,7 +221,7 @@ export default function DashboardClient() {
             ) : (
               <BrainCircuit className="mr-2 h-4 w-4" />
             )}
-            Generate with AI
+            Gerar com IA
           </Button>
         </CardContent>
       </Card>
@@ -233,7 +232,7 @@ export default function DashboardClient() {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <Card className="lg:col-span-2">
         <CardHeader>
-          <CardTitle>Your Portfolio Allocation</CardTitle>
+          <CardTitle>Sua Alocação de Portfólio</CardTitle>
           <CardDescription>{portfolio.summary}</CardDescription>
         </CardHeader>
         <CardContent>
@@ -284,10 +283,10 @@ export default function DashboardClient() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-primary" /> AI Tools
+              <TrendingUp className="h-5 w-5 text-primary" /> Ferramentas de IA
             </CardTitle>
             <CardDescription>
-              Analyze and improve your portfolio.
+              Analise e melhore seu portfólio.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
@@ -297,7 +296,7 @@ export default function DashboardClient() {
               ) : (
                 <AreaChart className="mr-2 h-4 w-4" />
               )}
-              Simulate Performance
+              Simular Desempenho
             </Button>
              <Button onClick={handleMonitoring} disabled={!!loading} variant="outline">
               {loading === "monitor" ? (
@@ -305,7 +304,7 @@ export default function DashboardClient() {
               ) : (
                 <RefreshCw className="mr-2 h-4 w-4" />
               )}
-              Monitor Assets
+              Monitorar Ativos
             </Button>
             <Button onClick={handleNextSteps} disabled={!!loading} variant="outline">
               {loading === "steps" ? (
@@ -313,7 +312,7 @@ export default function DashboardClient() {
               ) : (
                 <Lightbulb className="mr-2 h-4 w-4" />
               )}
-              Recommend Next Steps
+              Recomendar Próximos Passos
             </Button>
           </CardContent>
         </Card>
@@ -324,7 +323,7 @@ export default function DashboardClient() {
           <DialogHeader>
             <DialogTitle>{aiResult?.title}</DialogTitle>
             <DialogDescription>
-                Powered by SafeStart Invest AI
+                Desenvolvido por SafeStart Invest AI
             </DialogDescription>
           </DialogHeader>
           <div className="py-4 text-sm">

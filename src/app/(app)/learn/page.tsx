@@ -10,9 +10,9 @@ import Image from "next/image";
 export default function LearnPage() {
   return (
     <div>
-      <h1 className="text-3xl font-bold font-headline mb-2">Investment University</h1>
+      <h1 className="text-3xl font-bold font-headline mb-2">Universidade do Investimento</h1>
       <p className="text-muted-foreground mb-8">
-        Your journey to financial literacy starts here. Explore our educational trails to build a strong foundation in investing.
+        Sua jornada para a alfabetização financeira começa aqui. Explore nossas trilhas educacionais para construir uma base sólida em investimentos.
       </p>
 
       <Accordion type="single" collapsible className="w-full">

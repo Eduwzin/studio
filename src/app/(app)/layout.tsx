@@ -35,10 +35,10 @@ import Link from "next/link";
 import React from "react";
 
 const navItems = [
-  { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-  { href: "/learn", icon: BookOpen, label: "Learn" },
+  { href: "/dashboard", icon: LayoutDashboard, label: "Painel" },
+  { href: "/learn", icon: BookOpen, label: "Aprender" },
   { href: "/blog", icon: Newspaper, label: "Blog" },
-  { href: "/onboarding", icon: User, label: "My Profile" },
+  { href: "/onboarding", icon: User, label: "Meu Perfil" },
 ];
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -88,12 +88,12 @@ function UserNav() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-auto justify-start gap-2">
           <Avatar className="h-8 w-8">
-            <AvatarImage src="https://picsum.photos/seed/user/100/100" alt="User" data-ai-hint="person avatar" />
+            <AvatarImage src="https://picsum.photos/seed/user/100/100" alt="Usuário" data-ai-hint="person avatar" />
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
           <div className="hidden sm:flex flex-col items-start">
-            <span className="font-medium text-sm">User</span>
-            <span className="text-xs text-muted-foreground">Beginner Investor</span>
+            <span className="font-medium text-sm">Usuário</span>
+            <span className="text-xs text-muted-foreground">Investidor Iniciante</span>
           </div>
           <ChevronDown className="h-4 w-4 text-muted-foreground ml-2 hidden sm:block" />
         </Button>
@@ -101,16 +101,16 @@ function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">User</p>
+            <p className="text-sm font-medium leading-none">Usuário</p>
             <p className="text-xs leading-none text-muted-foreground">
-              user@example.com
+              usuario@exemplo.com
             </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <LogOut className="mr-2 h-4 w-4" />
-          <span>Log out</span>
+          <span>Sair</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

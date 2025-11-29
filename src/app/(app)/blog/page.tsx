@@ -7,9 +7,9 @@ import { Badge } from "@/components/ui/badge";
 export default function BlogPage() {
   return (
     <div>
-      <h1 className="text-3xl font-bold font-headline mb-2">The SafeStart Blog</h1>
+      <h1 className="text-3xl font-bold font-headline mb-2">O Blog SafeStart</h1>
       <p className="text-muted-foreground mb-8">
-        Stay informed with the latest market trends, investment strategies, and financial wisdom, all written for beginners.
+        Mantenha-se informado com as últimas tendências de mercado, estratégias de investimento e sabedoria financeira, tudo escrito para iniciantes.
       </p>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

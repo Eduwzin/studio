@@ -1,11 +1,11 @@
 'use server';
 
 /**
- * @fileOverview Simulates the performance of a portfolio over time using AI, incorporating forward-looking data, and suggests improvements.
+ * @fileOverview Simula o desempenho de um portfólio ao longo do tempo usando IA, incorporando dados prospectivos e sugerindo melhorias.
  *
- * - simulatePortfolioPerformance - A function that handles the portfolio performance simulation.
- * - SimulatePortfolioPerformanceInput - The input type for the simulatePortfolioPerformance function.
- * - SimulatePortfolioPerformanceOutput - The return type for the simulatePortfolioPerformance function.
+ * - simulatePortfolioPerformance - Uma função que lida com a simulação de desempenho do portfólio.
+ * - SimulatePortfolioPerformanceInput - O tipo de entrada para a função simulatePortfolioPerformance.
+ * - SimulatePortfolioPerformanceOutput - O tipo de retorno para a função simulatePortfolioPerformance.
  */
 
 import {ai} from '@/ai/genkit';
@@ -14,13 +14,13 @@ import {z} from 'genkit';
 const SimulatePortfolioPerformanceInputSchema = z.object({
   portfolioDescription: z
     .string()
-    .describe('A detailed description of the current investment portfolio, including asset allocation and historical performance.'),
+    .describe('Uma descrição detalhada do portfólio de investimentos atual, incluindo alocação de ativos e desempenho histórico.'),
   marketConditions: z
     .string()
-    .describe('A summary of current market conditions and economic forecasts.'),
+    .describe('Um resumo das condições atuais do mercado e previsões econômicas.'),
   investmentGoals: z
     .string()
-    .describe('The user’s investment goals, risk tolerance, and time horizon.'),
+    .describe('As metas de investimento do usuário, tolerância ao risco e horizonte de tempo.'),
 });
 export type SimulatePortfolioPerformanceInput = z.infer<
   typeof SimulatePortfolioPerformanceInputSchema
@@ -29,15 +29,15 @@ export type SimulatePortfolioPerformanceInput = z.infer<
 const SimulatePortfolioPerformanceOutputSchema = z.object({
   projectedPerformance: z
     .string()
-    .describe('A detailed projection of the portfolio’s performance over the specified time horizon, including potential growth and risks.'),
+    .describe('Uma projeção detalhada do desempenho do portfólio ao longo do horizonte de tempo especificado, incluindo crescimento potencial e riscos.'),
   suggestedImprovements: z
     .string()
     .describe(
-      'Specific recommendations for improving the portfolio’s performance, such as rebalancing asset allocation or adjusting investment strategies.'
+      'Recomendações específicas para melhorar o desempenho do portfólio, como rebalanceamento da alocação de ativos ou ajuste de estratégias de investimento.'
     ),
   riskAnalysis: z
     .string()
-    .describe('An analysis of the portfolio’s risk exposure and potential mitigation strategies.'),
+    .describe('Uma análise da exposição ao risco do portfólio e potenciais estratégias de mitigação.'),
 });
 export type SimulatePortfolioPerformanceOutput = z.infer<
   typeof SimulatePortfolioPerformanceOutputSchema
@@ -53,16 +53,16 @@ const prompt = ai.definePrompt({
   name: 'simulatePortfolioPerformancePrompt',
   input: {schema: SimulatePortfolioPerformanceInputSchema},
   output: {schema: SimulatePortfolioPerformanceOutputSchema},
-  prompt: `You are an AI investment advisor tasked with simulating the performance of a user's investment portfolio over time.
+  prompt: `Você é um consultor de investimentos de IA encarregado de simular o desempenho do portfólio de investimentos de um usuário ao longo do tempo.
 
-  Based on the provided portfolio description, current market conditions, and the user's investment goals, provide a detailed projection of the portfolio's performance, along with suggested improvements and a risk analysis.
+  Com base na descrição do portfólio fornecida, nas condições atuais do mercado e nas metas de investimento do usuário, forneça uma projeção detalhada do desempenho do portfólio, juntamente com melhorias sugeridas e uma análise de risco.
 
-  Portfolio Description: {{{portfolioDescription}}}
-  Market Conditions: {{{marketConditions}}}
-  Investment Goals: {{{investmentGoals}}}
+  Descrição do Portfólio: {{{portfolioDescription}}}
+  Condições de Mercado: {{{marketConditions}}}
+  Metas de Investimento: {{{investmentGoals}}}
 
-  Focus on providing actionable insights that the user can use to make informed decisions about their investment strategy.
-  Follow the schema to produce the output.
+  Concentre-se em fornecer insights acionáveis que o usuário possa usar para tomar decisões informadas sobre sua estratégia de investimento.
+  Siga o esquema para produzir a saída.
   `,
 });
 

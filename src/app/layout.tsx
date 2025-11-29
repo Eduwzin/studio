@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "SafeStart Invest",
-  description: "Your AI-powered guide to financial growth.",
+  description: "Seu guia de crescimento financeiro com inteligência artificial.",
 };
 
 export default function RootLayout({
@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="pt-BR" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

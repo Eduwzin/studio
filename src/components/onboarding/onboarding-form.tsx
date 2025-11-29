@@ -28,12 +28,12 @@ import { BrainCircuit, Loader2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 
 const formSchema = z.object({
-  age: z.coerce.number().min(18, { message: "You must be at least 18 years old." }).max(100),
-  income: z.coerce.number().min(0, { message: "Income must be a positive number." }),
-  investmentAmount: z.coerce.number().min(100, { message: "Minimum investment is $100." }),
+  age: z.coerce.number().min(18, { message: "Você deve ter pelo menos 18 anos." }).max(100),
+  income: z.coerce.number().min(0, { message: "A renda deve ser um número positivo." }),
+  investmentAmount: z.coerce.number().min(100, { message: "O investimento mínimo é de $100." }),
   riskTolerance: z.enum(["low", "medium", "high"]),
   investmentExperience: z.enum(["none", "beginner", "intermediate", "expert"]),
-  financialGoals: z.string().min(10, { message: "Please describe your goals in at least 10 characters." }),
+  financialGoals: z.string().min(10, { message: "Por favor, descreva seus objetivos em pelo menos 10 caracteres." }),
 });
 
 type AnalysisResult = {
@@ -53,7 +53,7 @@ export default function OnboardingForm() {
       age: 25,
       income: 50000,
       investmentAmount: 1000,
-      financialGoals: "Long-term growth for retirement.",
+      financialGoals: "Crescimento a longo prazo para aposentadoria.",
     },
   });
 
@@ -64,14 +64,14 @@ export default function OnboardingForm() {
         const result = await analyzeUserProfile(values);
         setAnalysisResult(result);
         toast({
-            title: "Analysis Complete!",
-            description: "We've created a personalized strategy for you.",
+            title: "Análise Concluída!",
+            description: "Criamos uma estratégia personalizada para você.",
         });
     } catch (error) {
         toast({
             variant: "destructive",
-            title: "Analysis Failed",
-            description: "There was an error processing your profile. Please try again.",
+            title: "Falha na Análise",
+            description: "Ocorreu um erro ao processar seu perfil. Por favor, tente novamente.",
         });
     } finally {
         setLoading(false);
@@ -88,7 +88,7 @@ export default function OnboardingForm() {
                         name="age"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Age</FormLabel>
+                            <FormLabel>Idade</FormLabel>
                             <FormControl>
                                 <Input type="number" placeholder="25" {...field} />
                             </FormControl>
@@ -101,7 +101,7 @@ export default function OnboardingForm() {
                         name="income"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Annual Income</FormLabel>
+                            <FormLabel>Renda Anual</FormLabel>
                             <FormControl>
                                 <Input type="number" placeholder="50000" {...field} />
                             </FormControl>
@@ -116,7 +116,7 @@ export default function OnboardingForm() {
                     name="investmentAmount"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Initial Investment Amount</FormLabel>
+                        <FormLabel>Valor do Investimento Inicial</FormLabel>
                         <FormControl>
                             <Input type="number" placeholder="1000" {...field} />
                         </FormControl>
@@ -131,21 +131,21 @@ export default function OnboardingForm() {
                         name="riskTolerance"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Risk Tolerance</FormLabel>
+                            <FormLabel>Tolerância ao Risco</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Select your risk tolerance" />
+                                    <SelectValue placeholder="Selecione sua tolerância ao risco" />
                                 </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                <SelectItem value="low">Low</SelectItem>
-                                <SelectItem value="medium">Medium</SelectItem>
-                                <SelectItem value="high">High</SelectItem>
+                                <SelectItem value="low">Baixa</SelectItem>
+                                <SelectItem value="medium">Média</SelectItem>
+                                <SelectItem value="high">Alta</SelectItem>
                                 </SelectContent>
                             </Select>
                             <FormDescription>
-                                How comfortable are you with market fluctuations?
+                                Quão confortável você está com as flutuações do mercado?
                             </FormDescription>
                             <FormMessage />
                             </FormItem>
@@ -156,22 +156,22 @@ export default function OnboardingForm() {
                         name="investmentExperience"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Investment Experience</FormLabel>
+                            <FormLabel>Experiência de Investimento</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Select your experience level" />
+                                    <SelectValue placeholder="Selecione seu nível de experiência" />
                                 </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                <SelectItem value="none">None</SelectItem>
-                                <SelectItem value="beginner">Beginner</SelectItem>
-                                <SelectItem value="intermediate">Intermediate</SelectItem>
-                                <SelectItem value="expert">Expert</SelectItem>
+                                <SelectItem value="none">Nenhuma</SelectItem>
+                                <SelectItem value="beginner">Iniciante</SelectItem>
+                                <SelectItem value="intermediate">Intermediária</SelectItem>
+                                <SelectItem value="expert">Especialista</SelectItem>
                                 </SelectContent>
                             </Select>
                             <FormDescription>
-                                How experienced are you with investing?
+                                Qual é a sua experiência com investimentos?
                             </FormDescription>
                             <FormMessage />
                             </FormItem>
@@ -184,9 +184,9 @@ export default function OnboardingForm() {
                     name="financialGoals"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Financial Goals</FormLabel>
+                        <FormLabel>Metas Financeiras</FormLabel>
                         <FormControl>
-                            <Input placeholder="e.g., Save for retirement, buy a house..." {...field} />
+                            <Input placeholder="ex: Economizar para a aposentadoria, comprar uma casa..." {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
@@ -197,12 +197,12 @@ export default function OnboardingForm() {
                     {loading ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Analyzing...
+                            Analisando...
                         </>
                     ) : (
                          <>
                             <BrainCircuit className="mr-2 h-4 w-4" />
-                            Analyze My Profile
+                            Analisar Meu Perfil
                         </>
                     )}
                 </Button>
@@ -211,20 +211,20 @@ export default function OnboardingForm() {
         {analysisResult && (
             <Card className="mt-8 bg-secondary">
                 <CardHeader>
-                    <CardTitle>Your Personalized Strategy</CardTitle>
-                    <CardDescription>Based on your profile, here is our AI's recommendation.</CardDescription>
+                    <CardTitle>Sua Estratégia Personalizada</CardTitle>
+                    <CardDescription>Com base no seu perfil, aqui está a recomendação da nossa IA.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                      <div>
-                        <h4 className="font-semibold text-foreground">Investment Strategy</h4>
+                        <h4 className="font-semibold text-foreground">Estratégia de Investimento</h4>
                         <p className="text-muted-foreground">{analysisResult.investmentStrategy}</p>
                     </div>
                      <div>
-                        <h4 className="font-semibold text-foreground">Recommended Asset Allocation</h4>
+                        <h4 className="font-semibold text-foreground">Alocação de Ativos Recomendada</h4>
                         <p className="text-muted-foreground">{analysisResult.assetAllocation}</p>
                     </div>
                      <div>
-                        <h4 className="font-semibold text-foreground">Risk Assessment</h4>
+                        <h4 className="font-semibold text-foreground">Avaliação de Risco</h4>
                         <p className="text-muted-foreground">{analysisResult.riskAssessment}</p>
                     </div>
                 </CardContent>
