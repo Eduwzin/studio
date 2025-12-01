@@ -103,6 +103,88 @@ function StockTable({ title, data }: { title: string; data: StockInfo[] }) {
   );
 }
 
+function AcoesTable({ title, data }: { title: string; data: StockInfo[] }) {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Ativo</TableHead>
+              <TableHead className="text-right">Preço</TableHead>
+              <TableHead className="text-right">Variação (Dia)</TableHead>
+              <TableHead className="text-right">P/L</TableHead>
+              <TableHead className="text-right">DY (%)</TableHead>
+              <TableHead className="text-right">P/VP</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.map((stock) => (
+              <TableRow key={stock.symbol}>
+                <TableCell>
+                  <div className="flex items-center gap-3">
+                    <Image
+                      src={stock.logourl}
+                      alt={`${stock.shortName} logo`}
+                      width={32}
+                      height={32}
+                      className="rounded-full"
+                    />
+                    <div>
+                      <div className="font-medium">{stock.symbol}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {stock.longName}
+                      </div>
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell className="text-right font-mono">
+                  R$ {stock.regularMarketPrice.toFixed(2)}
+                </TableCell>
+                <TableCell className="text-right">
+                  <Badge
+                    variant={
+                      stock.regularMarketChangePercent > 0
+                        ? "default"
+                        : "destructive"
+                    }
+                    className={cn(
+                        "gap-1",
+                        stock.regularMarketChangePercent > 0 && "bg-green-600 hover:bg-green-600/80",
+                        stock.regularMarketChangePercent < 0 && "bg-red-600 hover:bg-red-600/80",
+                        stock.regularMarketChangePercent === 0 && "bg-muted-foreground"
+                    )}
+                  >
+                    {stock.regularMarketChangePercent > 0 ? (
+                      <ArrowUp className="h-3 w-3" />
+                    ) : (
+                      <ArrowDown className="h-3 w-3" />
+                    )}
+                    {stock.regularMarketChangePercent.toFixed(2)}%
+                  </Badge>
+                </TableCell>
+                <TableCell className="text-right font-mono">
+                  {stock.priceEarnings?.toFixed(2) ?? 'N/A'}
+                </TableCell>
+                <TableCell className="text-right font-mono">
+                  {stock.dividendYield?.toFixed(2) ?? 'N/A'}
+                </TableCell>
+                <TableCell className="text-right font-mono">
+                  {stock.priceToBook?.toFixed(2) ?? 'N/A'}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
+  );
+}
+
+
 export default async function OportunidadesPage() {
   const [acoes, fiis, etfs] = await Promise.all([
     fetchAllStockData(STOCK_TICKERS),
@@ -124,7 +206,7 @@ export default async function OportunidadesPage() {
           <TabsTrigger value="etfs">ETFs</TabsTrigger>
         </TabsList>
         <TabsContent value="acoes">
-          <StockTable title="Ações em Destaque" data={acoes} />
+          <AcoesTable title="Ações em Destaque" data={acoes} />
         </TabsContent>
         <TabsContent value="fiis">
           <StockTable title="Fundos Imobiliários em Destaque" data={fiis} />

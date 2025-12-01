@@ -29,6 +29,10 @@ export interface StockInfo {
   priceEarnings: number;
   earningsPerShare: number;
   logourl: string;
+  // Novos campos adicionados
+  priceToBook: number;
+  dividendYield: number;
+  bookValue: number;
 }
 
 /**
@@ -42,11 +46,11 @@ export async function getStockInfo(ticker: string): Promise<StockInfo> {
     throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
   }
 
-  const url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}`;
+  const url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}&fundamental=true`;
 
   try {
-    // Adicionando revalidação para Next.js (a cada 1 minuto)
-    const response = await fetch(url, { next: { revalidate: 60 } });
+    // Adicionando revalidação para Next.js (a cada 15 minutos)
+    const response = await fetch(url, { next: { revalidate: 900 } });
     
     if (!response.ok) {
       throw new Error(`Erro na API da Brapi: ${response.statusText}`);
