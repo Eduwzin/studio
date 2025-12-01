@@ -30,9 +30,9 @@ export interface StockInfo {
   earningsPerShare: number;
   logourl: string;
   // Novos campos adicionados
-  priceToBook: number;
-  dividendYield: number;
-  bookValue: number;
+  priceToBook?: number;
+  dividendYield?: number;
+  bookValue?: number;
 }
 
 /**
