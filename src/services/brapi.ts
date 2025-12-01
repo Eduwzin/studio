@@ -1,4 +1,5 @@
 
+
 /**
  * @fileOverview Serviço para interagir com a API da Brapi para obter dados do mercado de ações.
  *
@@ -84,7 +85,7 @@ export interface SelicRate {
  */
 export async function getSelicRate(): Promise<number> {
     const token = "v7HL1xQumG7Unvpfc333zc";
-    const url = `https://brapi.dev/api/v2/prime-rate?token=${token}`;
+    const url = `https://brapi.dev/api/v2/prime_rates?token=${token}`;
 
     try {
         const response = await fetch(url, { next: { revalidate: 900 } }); // 15 minutos de cache
@@ -94,11 +95,11 @@ export async function getSelicRate(): Promise<number> {
         }
         const data = await response.json();
 
-        if (!data.prime_rate || data.prime_rate.length === 0 || data.prime_rate[0].name !== 'selic') {
+        if (!data.prime_rates || data.prime_rates.length === 0 || data.prime_rates[0].name !== 'selic') {
             throw new Error('Formato de resposta inesperado para a taxa SELIC.');
         }
 
-        return data.prime_rate[0].value;
+        return data.prime_rates[0].value;
     } catch (error) {
         console.error("Falha ao buscar taxa SELIC:", error);
         throw error; // Re-lança o erro para ser tratado pelo chamador
