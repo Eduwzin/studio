@@ -47,101 +47,101 @@ const CHART_COLORS = [
 
 const questions = [
   {
-    id: 'age',
+    id: 'idade',
     title: 'Qual a sua idade?',
     description: 'Sua idade nos ajuda a entender seu horizonte de investimento.',
     type: 'number'
   },
   {
-    id: 'objective',
+    id: 'objetivo',
     title: 'O que você espera dos seus investimentos?',
     description: 'Isso nos ajuda a entender seu objetivo e o risco que você aceita.',
     options: [
-      { value: 'security', label: 'Quero segurança e não perder dinheiro' },
-      { value: 'conservative_growth', label: 'Quero ganhar um pouco mais, mas sem arriscar muito' },
-      { value: 'growth', label: 'Quero fazer meu dinheiro crescer, mesmo que oscile' },
-      { value: 'high_yield', label: 'Quero alta rentabilidade, aceito riscos' },
+      { value: 'seguranca', label: 'Quero segurança e não perder dinheiro' },
+      { value: 'crescimento_conservador', label: 'Quero ganhar um pouco mais, mas sem arriscar muito' },
+      { value: 'crescimento', label: 'Quero fazer meu dinheiro crescer, mesmo que oscile' },
+      { value: 'alto_rendimento', label: 'Quero alta rentabilidade, aceito riscos' },
     ],
   },
   {
-    id: 'timeframe',
+    id: 'prazo',
     title: 'Quando você pretende usar esse dinheiro?',
     description: 'O prazo do seu investimento influencia o risco que podemos assumir.',
     options: [
-      { value: 'short_term', label: 'Nos próximos meses' },
-      { value: 'medium_term_1_3', label: 'Entre 1 e 3 anos' },
-      { value: 'medium_term_3_5', label: 'Entre 3 e 5 anos' },
-      { value: 'long_term', label: 'Só daqui a bastante tempo (mais de 5 anos)' },
+      { value: 'curto_prazo', label: 'Nos próximos meses' },
+      { value: 'medio_prazo_1_3', label: 'Entre 1 e 3 anos' },
+      { value: 'medio_prazo_3_5', label: 'Entre 3 e 5 anos' },
+      { value: 'longo_prazo', label: 'Só daqui a bastante tempo (mais de 5 anos)' },
     ],
   },
   {
-    id: 'loss_tolerance',
+    id: 'tolerancia_perda',
     title: 'Como você se sentiria se seu investimento caísse um pouco?',
     description: 'Sua reação a perdas temporárias é um indicador importante.',
     options: [
-      { value: 'very_worried', label: 'Eu ficaria muito preocupado e tiraria o dinheiro' },
-      { value: 'uncomfortable', label: 'Eu ficaria desconfortável, mas manteria' },
-      { value: 'understand', label: 'Eu entenderia que faz parte' },
-      { value: 'invest_more', label: 'Eu aproveitaria para investir mais' },
+      { value: 'muito_preocupado', label: 'Eu ficaria muito preocupado e tiraria o dinheiro' },
+      { value: 'desconfortavel', label: 'Eu ficaria desconfortável, mas manteria' },
+      { value: 'entenderia', label: 'Eu entenderia que faz parte' },
+      { value: 'investiria_mais', label: 'Eu aproveitaria para investir mais' },
     ],
   },
   {
-    id: 'income_stability',
+    id: 'estabilidade_renda',
     title: 'O quão estável é sua renda mensal?',
     description: 'Se sua renda é incerta, um perfil mais conservador pode ser melhor.',
     options: [
-      { value: 'unstable', label: 'Nada estável' },
-      { value: 'somewhat_unstable', label: 'Pouco estável' },
-      { value: 'stable', label: 'Estável' },
-      { value: 'very_stable', label: 'Muito estável' },
+      { value: 'instavel', label: 'Nada estável' },
+      { value: 'pouco_instavel', label: 'Pouco estável' },
+      { value: 'estavel', label: 'Estável' },
+      { value: 'muito_estavel', label: 'Muito estável' },
     ],
   },
   {
-    id: 'liquidity_need',
+    id: 'necessidade_liquidez',
     title: 'Você pode deixar esse dinheiro parado ou pode precisar dele rápido?',
     description: 'Isso nos ajuda a entender sua necessidade de liquidez.',
     options: [
-      { value: 'any_moment', label: 'Posso precisar dele a qualquer momento' },
-      { value: 'can_wait', label: 'Posso esperar um pouco' },
-      { value: 'long_time', label: 'Posso deixar por bastante tempo' },
-      { value: 'very_long_time', label: 'Não preciso mexer nesse dinheiro por muitos anos' },
+      { value: 'qualquer_momento', label: 'Posso precisar dele a qualquer momento' },
+      { value: 'pode_esperar', label: 'Posso esperar um pouco' },
+      { value: 'muito_tempo', label: 'Posso deixar por bastante tempo' },
+      { value: 'muitissimo_tempo', label: 'Não preciso mexer nesse dinheiro por muitos anos' },
     ],
   },
   {
-    id: 'experience',
+    id: 'experiencia',
     title: 'Você já investiu antes?',
     description: 'Sua experiência real nos ajuda a moldar a estratégia.',
     options: [
-      { value: 'never', label: 'Nunca' },
-      { value: 'simple', label: 'Já investi em algo simples (como poupança ou CDB)' },
-      { value: 'diverse', label: 'Já investi em outras coisas (ações, FIIs, ETFs)' },
-      { value: 'risky', label: 'Já investi até em coisas mais arriscadas (cripto, day trade etc.)' },
+      { value: 'nunca', label: 'Nunca' },
+      { value: 'simples', label: 'Já investi em algo simples (como poupança ou CDB)' },
+      { value: 'diversificado', label: 'Já investi em outras coisas (ações, FIIs, ETFs)' },
+      { value: 'arriscado', label: 'Já investi até em coisas mais arriscadas (cripto, day trade etc.)' },
     ],
   },
   {
-    id: 'reaction_to_loss',
+    id: 'reacao_a_perda',
     title: 'O que você faria se seus investimentos caíssem 10% em um mês?',
     description: 'Seu comportamento real sob pressão é a chave.',
     options: [
-      { value: 'sell_all', label: 'Venderia tudo' },
-      { value: 'wait', label: 'Esperaria a recuperação' },
-      { value: 'hold_and_contribute', label: 'Manteria e continuaria aportando' },
-      { value: 'buy_more', label: 'Compraria mais porque está barato' },
+      { value: 'venderia_tudo', label: 'Venderia tudo' },
+      { value: 'esperaria', label: 'Esperaria a recuperação' },
+      { value: 'manteria_e_aportaria', label: 'Manteria e continuaria aportando' },
+      { value: 'compraria_mais', label: 'Compraria mais porque está barato' },
     ],
   },
   {
-    id: 'risk_profile_sentence',
+    id: 'frase_perfil_risco',
     title: 'Qual dessas frases se parece mais com você?',
     description: 'Esta pergunta nos ajuda a confirmar seu perfil de investidor.',
     options: [
-      { value: 'security_over_gains', label: 'Prefiro ganhar menos, mas ter mais segurança' },
+      { value: 'seguranca_acima_de_ganhos', label: 'Prefiro ganhar menos, mas ter mais segurança' },
       {
-        value: 'some_risk_for_better_gains',
+        value: 'risco_moderado_para_ganhos_melhores',
         label: 'Aceito um pouco de risco para ter ganhos melhores',
       },
-      { value: 'accept_swings_for_good_returns', label: 'Aceito oscilações para buscar bons retornos' },
+      { value: 'aceita_oscilacoes_por_bons_retornos', label: 'Aceito oscilações para buscar bons retornos' },
       {
-        value: 'highest_returns_with_high_risk',
+        value: 'maiores_retornos_com_alto_risco',
         label: 'Quero os maiores retornos possíveis, mesmo com risco alto',
       },
     ],
@@ -149,15 +149,15 @@ const questions = [
 ];
 
 const formSchema = z.object({
-  age: z.coerce.number().min(18, { message: 'Você deve ter pelo menos 18 anos.' }).max(120, { message: 'Por favor, insira uma idade válida.' }),
-  objective: z.string({ required_error: 'Por favor, selecione uma opção.' }),
-  timeframe: z.string({ required_error: 'Por favor, selecione uma opção.' }),
-  loss_tolerance: z.string({ required_error: 'Por favor, selecione uma opção.' }),
-  income_stability: z.string({ required_error: 'Por favor, selecione uma opção.' }),
-  liquidity_need: z.string({ required_error: 'Por favor, selecione uma opção.' }),
-  experience: z.string({ required_error: 'Por favor, selecione uma opção.' }),
-  reaction_to_loss: z.string({ required_error: 'Por favor, selecione uma opção.' }),
-  risk_profile_sentence: z.string({ required_error: 'Por favor, selecione uma opção.' }),
+  idade: z.coerce.number().min(18, { message: 'Você deve ter pelo menos 18 anos.' }).max(120, { message: 'Por favor, insira uma idade válida.' }),
+  objetivo: z.string({ required_error: 'Por favor, selecione uma opção.' }),
+  prazo: z.string({ required_error: 'Por favor, selecione uma opção.' }),
+  tolerancia_perda: z.string({ required_error: 'Por favor, selecione uma opção.' }),
+  estabilidade_renda: z.string({ required_error: 'Por favor, selecione uma opção.' }),
+  necessidade_liquidez: z.string({ required_error: 'Por favor, selecione uma opção.' }),
+  experiencia: z.string({ required_error: 'Por favor, selecione uma opção.' }),
+  reacao_a_perda: z.string({ required_error: 'Por favor, selecione uma opção.' }),
+  frase_perfil_risco: z.string({ required_error: 'Por favor, selecione uma opção.' }),
 });
 
 type AnalysisResult = {
@@ -181,7 +181,7 @@ export default function OnboardingForm({ onProfileSaved }: OnboardingFormProps) 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      age: '' as any, 
+      idade: '' as any, 
     },
   });
 
@@ -207,23 +207,23 @@ export default function OnboardingForm({ onProfileSaved }: OnboardingFormProps) 
     setLoading(true);
     setAnalysisResult(null);
 
-    const { age, ...respostasQuestionario } = values;
+    const { idade, ...respostasQuestionario } = values;
 
     const fullUserProfile = `
-      - Idade: ${values.age}
-      - Objetivo: ${values.objective}
-      - Prazo: ${values.timeframe}
-      - Tolerância a perdas: ${values.loss_tolerance}
-      - Estabilidade da renda: ${values.income_stability}
-      - Necessidade de liquidez: ${values.liquidity_need}
-      - Experiência: ${values.experience}
-      - Reação a quedas: ${values.reaction_to_loss}
-      - Frase que define o perfil: ${values.risk_profile_sentence}
+      - Idade: ${values.idade}
+      - Objetivo: ${values.objetivo}
+      - Prazo: ${values.prazo}
+      - Tolerância a perdas: ${values.tolerancia_perda}
+      - Estabilidade da renda: ${values.estabilidade_renda}
+      - Necessidade de liquidez: ${values.necessidade_liquidez}
+      - Experiência: ${values.experiencia}
+      - Reação a quedas: ${values.reacao_a_perda}
+      - Frase que define o perfil: ${values.frase_perfil_risco}
     `;
 
     try {
       const result = await analyzeUserProfile({
-        age: values.age,
+        age: values.idade,
         investmentAmount: 0,
         income: 0,
         riskTolerance: '',
@@ -240,7 +240,7 @@ export default function OnboardingForm({ onProfileSaved }: OnboardingFormProps) 
             email: user.email,
             nome: user.displayName?.split(' ')[0] ?? '',
             sobrenome: user.displayName?.split(' ')[1] ?? '',
-            idade: values.age,
+            idade: values.idade,
             renda: 0,
           },
           perfilDeInvestimento: {
@@ -248,9 +248,9 @@ export default function OnboardingForm({ onProfileSaved }: OnboardingFormProps) 
             avaliacaoDeRisco: result.avaliacaoDeRisco,
             estrategiaDeInvestimento: result.estrategiaDeInvestimento,
             alocacaoDeAtivos: result.alocacaoDeAtivos,
-            horizonteDeInvestimento: values.timeframe,
-            metasFinanceiras: values.objective,
-            experienciaDeInvestimento: values.experience,
+            horizonteDeInvestimento: values.prazo,
+            metasFinanceiras: values.objetivo,
+            experienciaDeInvestimento: values.experiencia,
             respostasQuestionario: respostasQuestionario,
           }
         };

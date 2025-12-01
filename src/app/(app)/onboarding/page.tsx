@@ -20,64 +20,64 @@ const CHART_COLORS = [
 ];
 
 const questionLabels: { [key: string]: string } = {
-    objective: 'O que você espera dos seus investimentos?',
-    timeframe: 'Quando você pretende usar esse dinheiro?',
-    loss_tolerance: 'Como você se sentiria se seu investimento caísse um pouco?',
-    income_stability: 'O quão estável é sua renda mensal?',
-    liquidity_need: 'Você pode deixar esse dinheiro parado ou pode precisar dele rápido?',
-    experience: 'Você já investiu antes?',
-    reaction_to_loss: 'O que você faria se seus investimentos caíssem 10% em um mês?',
-    risk_profile_sentence: 'Qual dessas frases se parece mais com você?',
+    objetivo: 'O que você espera dos seus investimentos?',
+    prazo: 'Quando você pretende usar esse dinheiro?',
+    tolerancia_perda: 'Como você se sentiria se seu investimento caísse um pouco?',
+    estabilidade_renda: 'O quão estável é sua renda mensal?',
+    necessidade_liquidez: 'Você pode deixar esse dinheiro parado ou pode precisar dele rápido?',
+    experiencia: 'Você já investiu antes?',
+    reacao_a_perda: 'O que você faria se seus investimentos caíssem 10% em um mês?',
+    frase_perfil_risco: 'Qual dessas frases se parece mais com você?',
 };
 
 const answerLabels: { [key: string]: { [key: string]: string } } = {
-    objective: {
-        security: 'Quero segurança e não perder dinheiro',
-        conservative_growth: 'Quero ganhar um pouco mais, mas sem arriscar muito',
-        growth: 'Quero fazer meu dinheiro crescer, mesmo que oscile',
-        high_yield: 'Quero alta rentabilidade, aceito riscos',
+    objetivo: {
+        seguranca: 'Quero segurança e não perder dinheiro',
+        crescimento_conservador: 'Quero ganhar um pouco mais, mas sem arriscar muito',
+        crescimento: 'Quero fazer meu dinheiro crescer, mesmo que oscile',
+        alto_rendimento: 'Quero alta rentabilidade, aceito riscos',
     },
-    timeframe: {
-        short_term: 'Nos próximos meses',
-        medium_term_1_3: 'Entre 1 e 3 anos',
-        medium_term_3_5: 'Entre 3 e 5 anos',
-        long_term: 'Só daqui a bastante tempo (mais de 5 anos)',
+    prazo: {
+        curto_prazo: 'Nos próximos meses',
+        medio_prazo_1_3: 'Entre 1 e 3 anos',
+        medio_prazo_3_5: 'Entre 3 e 5 anos',
+        longo_prazo: 'Só daqui a bastante tempo (mais de 5 anos)',
     },
-    loss_tolerance: {
-        very_worried: 'Eu ficaria muito preocupado e tiraria o dinheiro',
-        uncomfortable: 'Eu ficaria desconfortável, mas manteria',
-        understand: 'Eu entenderia que faz parte',
-        invest_more: 'Eu aproveitaria para investir mais',
+    tolerancia_perda: {
+        muito_preocupado: 'Eu ficaria muito preocupado e tiraria o dinheiro',
+        desconfortavel: 'Eu ficaria desconfortável, mas manteria',
+        entenderia: 'Eu entenderia que faz parte',
+        investiria_mais: 'Eu aproveitaria para investir mais',
     },
-    income_stability: {
-        unstable: 'Nada estável',
-        somewhat_unstable: 'Pouco estável',
-        stable: 'Estável',
-        very_stable: 'Muito estável',
+    estabilidade_renda: {
+        instavel: 'Nada estável',
+        pouco_instavel: 'Pouco estável',
+        estavel: 'Estável',
+        muito_estavel: 'Muito estável',
     },
-    liquidity_need: {
-        any_moment: 'Posso precisar dele a qualquer momento',
-        can_wait: 'Posso esperar um pouco',
-        long_time: 'Posso deixar por bastante tempo',
-        very_long_time: 'Não preciso mexer nesse dinheiro por muitos anos',
+    necessidade_liquidez: {
+        qualquer_momento: 'Posso precisar dele a qualquer momento',
+        pode_esperar: 'Posso esperar um pouco',
+        muito_tempo: 'Posso deixar por bastante tempo',
+        muitissimo_tempo: 'Não preciso mexer nesse dinheiro por muitos anos',
     },
-    experience: {
-        never: 'Nunca',
-        simple: 'Já investi em algo simples (como poupança ou CDB)',
-        diverse: 'Já investi em outras coisas (ações, FIIs, ETFs)',
-        risky: 'Já investi até em coisas mais arriscadas (cripto, day trade etc.)',
+    experiencia: {
+        nunca: 'Nunca',
+        simples: 'Já investi em algo simples (como poupança ou CDB)',
+        diversificado: 'Já investi em outras coisas (ações, FIIs, ETFs)',
+        arriscado: 'Já investi até em coisas mais arriscadas (cripto, day trade etc.)',
     },
-    reaction_to_loss: {
-        sell_all: 'Venderia tudo',
-        wait: 'Esperaria a recuperação',
-        hold_and_contribute: 'Manteria e continuaria aportando',
-        buy_more: 'Compraria mais porque está barato',
+    reacao_a_perda: {
+        venderia_tudo: 'Venderia tudo',
+        esperaria: 'Esperaria a recuperação',
+        manteria_e_aportaria: 'Manteria e continuaria aportando',
+        compraria_mais: 'Compraria mais porque está barato',
     },
-    risk_profile_sentence: {
-        security_over_gains: 'Prefiro ganhar menos, mas ter mais segurança',
-        some_risk_for_better_gains: 'Aceito um pouco de risco para ter ganhos melhores',
-        accept_swings_for_good_returns: 'Aceito oscilações para buscar bons retornos',
-        highest_returns_with_high_risk: 'Quero os maiores retornos possíveis, mesmo com risco alto',
+    frase_perfil_risco: {
+        seguranca_acima_de_ganhos: 'Prefiro ganhar menos, mas ter mais segurança',
+        risco_moderado_para_ganhos_melhores: 'Aceito um pouco de risco para ter ganhos melhores',
+        aceita_oscilacoes_por_bons_retornos: 'Aceito oscilações para buscar bons retornos',
+        maiores_retornos_com_alto_risco: 'Quero os maiores retornos possíveis, mesmo com risco alto',
     },
 };
 
