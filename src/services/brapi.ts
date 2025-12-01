@@ -69,3 +69,38 @@ export async function getStockInfo(ticker: string): Promise<StockInfo> {
     throw error; // Re-lança o erro para ser tratado pelo chamador
   }
 }
+
+/**
+ * Representa a estrutura de dados esperada da resposta da API da Brapi para a taxa SELIC.
+ */
+export interface SelicRate {
+    name: string;
+    value: number;
+}
+
+/**
+ * Busca a taxa SELIC atual da API da Brapi.
+ * @returns Uma promessa que resolve para o valor da taxa SELIC.
+ */
+export async function getSelicRate(): Promise<number> {
+    const token = "v7HL1xQumG7Unvpfc333zc";
+    const url = `https://brapi.dev/api/v2/prime-rate?token=${token}`;
+
+    try {
+        const response = await fetch(url, { next: { revalidate: 900 } }); // 15 minutos de cache
+
+        if (!response.ok) {
+            throw new Error(`Erro na API da Brapi para SELIC: ${response.statusText}`);
+        }
+        const data = await response.json();
+
+        if (!data.prime_rate || data.prime_rate.length === 0 || data.prime_rate[0].name !== 'selic') {
+            throw new Error('Formato de resposta inesperado para a taxa SELIC.');
+        }
+
+        return data.prime_rate[0].value;
+    } catch (error) {
+        console.error("Falha ao buscar taxa SELIC:", error);
+        throw error; // Re-lança o erro para ser tratado pelo chamador
+    }
+}
