@@ -7,8 +7,6 @@ import Image from 'next/image';
 import { placeholderImages } from "@/lib/content";
 
 export default function Home() {
-  const heroImage = placeholderImages.find(p => p.id === 'hero');
-
   return (
     <div className="flex flex-col min-h-screen">
       <PublicHeader />
@@ -26,21 +24,6 @@ export default function Home() {
             </Button>
           </div>
         </section>
-
-        {heroImage && (
-           <section className="container mx-auto px-4 sm:px-6 lg:px-8">
-             <div className="relative aspect-[2/1] md:aspect-[3/1] rounded-xl overflow-hidden shadow-2xl">
-                <Image 
-                  src={heroImage.imageUrl} 
-                  alt={heroImage.description} 
-                  fill
-                  className="object-cover"
-                  data-ai-hint={heroImage.imageHint}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-             </div>
-           </section>
-        )}
 
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <h2 className="text-3xl font-bold text-center mb-12 font-headline">Recursos Desenhados para o Seu Sucesso</h2>
