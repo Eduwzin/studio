@@ -18,6 +18,9 @@ export function calculateNextProgress(
    if (!newProgress.completedMissions) {
     newProgress.completedMissions = [];
   }
+   if (!newProgress.ownedItems) {
+    newProgress.ownedItems = [];
+  }
 
   let lessonData = null;
   let levelData = null;
@@ -144,4 +147,45 @@ export function calculateNextProgress(
   }
 
   return newProgress;
+}
+
+
+/**
+ * Processa a compra de um item da loja.
+ * Verifica se o usuário tem moedas suficientes e atualiza o progresso.
+ *
+ * @param itemId O ID do item a ser comprado.
+ * @param currentProgress O estado atual do progresso do usuário.
+ * @returns Um objeto contendo o novo estado de progresso e um booleano de sucesso.
+ */
+export function purchaseItem(
+  itemId: string,
+  currentProgress: UserProgress
+): { newProgress: UserProgress; success: boolean; message: string } {
+  const { rewards } = gameConfig;
+  const newProgress: UserProgress = JSON.parse(JSON.stringify(currentProgress));
+  
+  if (!newProgress.ownedItems) {
+    newProgress.ownedItems = [];
+  }
+
+  const itemToBuy = rewards.shopItems.find(item => item.id === itemId);
+
+  if (!itemToBuy) {
+    return { newProgress: currentProgress, success: false, message: 'Item não encontrado na loja.' };
+  }
+
+  if (newProgress.ownedItems.includes(itemId)) {
+    return { newProgress: currentProgress, success: false, message: 'Você já possui este item.' };
+  }
+  
+  if (newProgress.coins < itemToBuy.costCoins) {
+    return { newProgress: currentProgress, success: false, message: 'Moedas insuficientes.' };
+  }
+
+  // Deduz as moedas e adiciona o item
+  newProgress.coins -= itemToBuy.costCoins;
+  newProgress.ownedItems.push(itemId);
+
+  return { newProgress, success: true, message: 'Compra realizada com sucesso!' };
 }

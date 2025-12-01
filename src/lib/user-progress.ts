@@ -8,4 +8,5 @@ export type UserProgress = {
   completedLessons: string[];
   earnedBadges: string[];
   completedMissions?: string[];
+  ownedItems?: string[];
 };

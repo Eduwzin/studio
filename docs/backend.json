@@ -280,6 +280,13 @@
           "items": {
             "type": "string"
           }
+        },
+        "ownedItems": {
+          "type": "array",
+          "description": "Uma lista de IDs de todos os itens da loja que o usuário comprou.",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": [
