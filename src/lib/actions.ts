@@ -26,6 +26,12 @@ import {
   GenerateLessonOutput
 } from '@/ai/flows/generate-lesson-content';
 
+import {
+    monitorPortfolio as monitorPortfolioFlow,
+    MonitorPortfolioInput,
+    MonitorPortfolioOutput,
+} from '@/ai/flows/monitor-portfolio-flow';
+
 
 export async function analyzeUserProfile(input: AnalyzeUserProfileInput) {
   const result = await analyzeUserProfileFlow(input);
@@ -64,5 +70,10 @@ export async function generateLesson(input: GenerateLessonInput) {
   const result = await generateLessonFlow(input);
   return result;
 }
+
+export async function monitorPortfolio(input: MonitorPortfolioInput): Promise<MonitorPortfolioOutput> {
+    return monitorPortfolioFlow(input);
+}
+
 
 export type { GenerateLessonInput, GenerateLessonOutput };

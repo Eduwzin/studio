@@ -27,7 +27,8 @@ import {
   Newspaper,
   User,
   LogOut,
-  ChevronDown
+  ChevronDown,
+  ShieldCheck,
 } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { usePathname, useRouter } from "next/navigation";
@@ -39,6 +40,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const navItems = [
   { href: "/onboarding", icon: User, label: "Meu Perfil" },
+  { href: "/monitoramento", icon: ShieldCheck, label: "Monitoramento" },
   { href: "/oportunidades", icon: TrendingUp, label: "Oportunidades" },
   { href: "/learn", icon: BookOpen, label: "Aprender" },
   { href: "/blog", icon: Newspaper, label: "Blog" },
