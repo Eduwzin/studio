@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
 import { doc } from 'firebase/firestore';
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 
 export default function LearnPage() {
   const { progression } = gameConfig;
@@ -105,28 +106,31 @@ export default function LearnPage() {
                      const Icon = isQuiz ? Trophy : Star;
                     return (
                       <li key={lesson.id} className={cn(!isUnlocked && "opacity-50 pointer-events-none")}>
-                        <Button
-                          variant="ghost"
-                          className="w-full h-auto justify-start text-left p-4 rounded-none disabled:opacity-100"
-                          disabled={!isUnlocked}
-                        >
-                          <div className="flex items-center justify-between w-full">
-                            <div className="flex items-center gap-4">
-                               <div className={cn("flex h-8 w-8 items-center justify-center rounded-full",
-                                 isLessonCompleted ? "bg-green-100 text-green-600" : "bg-primary/10 text-primary"
+                        <Link href={isUnlocked ? `/learn/${lesson.id}` : '#'} passHref>
+                            <Button
+                            asChild={!isUnlocked}
+                            variant="ghost"
+                            className="w-full h-auto justify-start text-left p-4 rounded-none disabled:opacity-100"
+                            disabled={!isUnlocked}
+                            >
+                            <div className="flex items-center justify-between w-full">
+                                <div className="flex items-center gap-4">
+                                <div className={cn("flex h-8 w-8 items-center justify-center rounded-full",
+                                    isLessonCompleted ? "bg-green-100 text-green-600" : "bg-primary/10 text-primary"
                                 )}>
-                                 <Icon className={cn("h-5 w-5")} />
-                               </div>
-                              <div>
-                                <p className={cn("font-semibold", isCurrentLesson && "text-primary")}>{lesson.title}</p>
-                                <p className="text-xs text-muted-foreground">{lesson.estimatedMinutes} min</p>
-                              </div>
+                                    <Icon className={cn("h-5 w-5")} />
+                                </div>
+                                <div>
+                                    <p className={cn("font-semibold", isCurrentLesson && "text-primary")}>{lesson.title}</p>
+                                    <p className="text-xs text-muted-foreground">{lesson.estimatedMinutes} min</p>
+                                </div>
+                                </div>
+                                <div className="text-right font-semibold text-primary/80">
+                                <p>+{lesson.xpReward} XP</p>
+                                </div>
                             </div>
-                            <div className="text-right font-semibold text-primary/80">
-                              <p>+{lesson.xpReward} XP</p>
-                            </div>
-                          </div>
-                        </Button>
+                            </Button>
+                        </Link>
                       </li>
                     )
                   })}
