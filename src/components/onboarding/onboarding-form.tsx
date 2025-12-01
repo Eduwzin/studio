@@ -53,7 +53,7 @@ const questions = [
     type: 'number'
   },
   {
-    id: 'objetivo',
+    id: 'objetivo_investimento',
     title: 'O que você espera dos seus investimentos?',
     description: 'Isso nos ajuda a entender seu objetivo e o risco que você aceita.',
     options: [
@@ -64,7 +64,7 @@ const questions = [
     ],
   },
   {
-    id: 'prazo',
+    id: 'prazo_investimento',
     title: 'Quando você pretende usar esse dinheiro?',
     description: 'O prazo do seu investimento influencia o risco que podemos assumir.',
     options: [
@@ -108,7 +108,7 @@ const questions = [
     ],
   },
   {
-    id: 'experiencia',
+    id: 'experiencia_investimento',
     title: 'Você já investiu antes?',
     description: 'Sua experiência real nos ajuda a moldar a estratégia.',
     options: [
@@ -150,12 +150,12 @@ const questions = [
 
 const formSchema = z.object({
   idade: z.coerce.number().min(18, { message: 'Você deve ter pelo menos 18 anos.' }).max(120, { message: 'Por favor, insira uma idade válida.' }),
-  objetivo: z.string({ required_error: 'Por favor, selecione uma opção.' }),
-  prazo: z.string({ required_error: 'Por favor, selecione uma opção.' }),
+  objetivo_investimento: z.string({ required_error: 'Por favor, selecione uma opção.' }),
+  prazo_investimento: z.string({ required_error: 'Por favor, selecione uma opção.' }),
   tolerancia_perda: z.string({ required_error: 'Por favor, selecione uma opção.' }),
   estabilidade_renda: z.string({ required_error: 'Por favor, selecione uma opção.' }),
   necessidade_liquidez: z.string({ required_error: 'Por favor, selecione uma opção.' }),
-  experiencia: z.string({ required_error: 'Por favor, selecione uma opção.' }),
+  experiencia_investimento: z.string({ required_error: 'Por favor, selecione uma opção.' }),
   reacao_a_perda: z.string({ required_error: 'Por favor, selecione uma opção.' }),
   frase_perfil_risco: z.string({ required_error: 'Por favor, selecione uma opção.' }),
 });
@@ -211,12 +211,12 @@ export default function OnboardingForm({ onProfileSaved }: OnboardingFormProps) 
 
     const fullUserProfile = `
       - Idade: ${values.idade}
-      - Objetivo: ${values.objetivo}
-      - Prazo: ${values.prazo}
+      - Objetivo: ${values.objetivo_investimento}
+      - Prazo: ${values.prazo_investimento}
       - Tolerância a perdas: ${values.tolerancia_perda}
       - Estabilidade da renda: ${values.estabilidade_renda}
       - Necessidade de liquidez: ${values.necessidade_liquidez}
-      - Experiência: ${values.experiencia}
+      - Experiência: ${values.experiencia_investimento}
       - Reação a quedas: ${values.reacao_a_perda}
       - Frase que define o perfil: ${values.frase_perfil_risco}
     `;
@@ -248,9 +248,9 @@ export default function OnboardingForm({ onProfileSaved }: OnboardingFormProps) 
             avaliacaoDeRisco: result.avaliacaoDeRisco,
             estrategiaDeInvestimento: result.estrategiaDeInvestimento,
             alocacaoDeAtivos: result.alocacaoDeAtivos,
-            horizonteDeInvestimento: values.prazo,
-            metasFinanceiras: values.objetivo,
-            experienciaDeInvestimento: values.experiencia,
+            horizonteDeInvestimento: values.prazo_investimento,
+            metasFinanceiras: values.objetivo_investimento,
+            experienciaDeInvestimento: values.experiencia_investimento,
             respostasQuestionario: respostasQuestionario,
           }
         };
