@@ -20,24 +20,24 @@ const CHART_COLORS = [
 ];
 
 const questionLabels: { [key: string]: string } = {
-    objetivo: 'O que você espera dos seus investimentos?',
-    prazo: 'Quando você pretende usar esse dinheiro?',
+    objetivo_investimento: 'O que você espera dos seus investimentos?',
+    prazo_investimento: 'Quando você pretende usar esse dinheiro?',
     tolerancia_perda: 'Como você se sentiria se seu investimento caísse um pouco?',
     estabilidade_renda: 'O quão estável é sua renda mensal?',
     necessidade_liquidez: 'Você pode deixar esse dinheiro parado ou pode precisar dele rápido?',
-    experiencia: 'Você já investiu antes?',
+    experiencia_investimento: 'Você já investiu antes?',
     reacao_a_perda: 'O que você faria se seus investimentos caíssem 10% em um mês?',
     frase_perfil_risco: 'Qual dessas frases se parece mais com você?',
 };
 
 const answerLabels: { [key: string]: { [key: string]: string } } = {
-    objetivo: {
+    objetivo_investimento: {
         seguranca: 'Quero segurança e não perder dinheiro',
         crescimento_conservador: 'Quero ganhar um pouco mais, mas sem arriscar muito',
         crescimento: 'Quero fazer meu dinheiro crescer, mesmo que oscile',
         alto_rendimento: 'Quero alta rentabilidade, aceito riscos',
     },
-    prazo: {
+    prazo_investimento: {
         curto_prazo: 'Nos próximos meses',
         medio_prazo_1_3: 'Entre 1 e 3 anos',
         medio_prazo_3_5: 'Entre 3 e 5 anos',
@@ -61,7 +61,7 @@ const answerLabels: { [key: string]: { [key: string]: string } } = {
         muito_tempo: 'Posso deixar por bastante tempo',
         muitissimo_tempo: 'Não preciso mexer nesse dinheiro por muitos anos',
     },
-    experiencia: {
+    experiencia_investimento: {
         nunca: 'Nunca',
         simples: 'Já investi em algo simples (como poupança ou CDB)',
         diversificado: 'Já investi em outras coisas (ações, FIIs, ETFs)',
