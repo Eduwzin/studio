@@ -13,9 +13,10 @@ import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 
 type QuizClientProps = {
   quiz: GenerateLessonOutput['quiz'];
+  onQuizCompleted: () => void;
 };
 
-export default function QuizClient({ quiz }: QuizClientProps) {
+export default function QuizClient({ quiz, onQuizCompleted }: QuizClientProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
@@ -26,6 +27,7 @@ export default function QuizClient({ quiz }: QuizClientProps) {
     return phrases[Math.floor(Math.random() * phrases.length)];
   };
 
+  // This check prevents the error. If the quiz is done, we show the summary.
   if (currentQuestionIndex >= quiz.length) {
     return (
        <Card className="text-center bg-primary/10 border-primary">
@@ -33,13 +35,17 @@ export default function QuizClient({ quiz }: QuizClientProps) {
           <CardTitle>Quiz Concluído!</CardTitle>
           <CardDescription>Você acertou {correctAnswers} de {quiz.length} perguntas.</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
             <p className="font-semibold text-lg">{getRandomFeedback('correct')}</p>
+            <Button onClick={onQuizCompleted}>
+                Finalizar e ver Progresso
+            </Button>
         </CardContent>
       </Card>
     );
   }
   
+  // This code now only runs if the quiz is NOT finished.
   const currentQuestion = quiz[currentQuestionIndex];
   const isCorrect = selectedAnswer === currentQuestion.correctAnswerIndex;
   

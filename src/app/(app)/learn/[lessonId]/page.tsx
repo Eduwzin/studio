@@ -11,10 +11,19 @@ import { Badge } from '@/components/ui/badge';
 import QuizClient from '@/components/learn/quiz-client';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
+import { calculateNextProgress } from '@/lib/game-logic';
+import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { useToast } from '@/hooks/use-toast';
+import type { UserProgress } from '@/lib/user-progress';
 
 export default function LessonPage() {
   const params = useParams();
   const router = useRouter();
+  const { user } = useUser();
+  const firestore = useFirestore();
+  const { toast } = useToast();
   const lessonId = params.lessonId as string;
 
   const [lessonContent, setLessonContent] = useState<GenerateLessonOutput | null>(null);
@@ -24,6 +33,13 @@ export default function LessonPage() {
   const lessonInfo = gameConfig.progression.levels
     .flatMap(level => level.lessons)
     .find(lesson => lesson.id === lessonId);
+
+  const userProgressRef = useMemoFirebase(() => {
+    if (!user) return null;
+    return doc(firestore, `users/${user.uid}/trilha/progress`);
+  }, [user, firestore]);
+
+  const { data: userProgress, isLoading: isLoadingProgress } = useDoc<UserProgress>(userProgressRef);
 
   useEffect(() => {
     if (!lessonInfo) {
@@ -51,12 +67,31 @@ export default function LessonPage() {
     fetchLessonContent();
   }, [lessonId, lessonInfo]);
 
+  const handleQuizCompleted = () => {
+    if (!userProgress || !userProgressRef) return;
+    
+    // Calcula o próximo estado
+    const newProgress = calculateNextProgress(lessonId, userProgress);
+    
+    // Salva o novo estado no Firestore (sem bloquear)
+    setDocumentNonBlocking(userProgressRef, newProgress, { merge: false });
+
+    toast({
+      title: "Lição Concluída!",
+      description: `Você ganhou ${newProgress.xp - userProgress.xp} XP e ${newProgress.coins - userProgress.coins} B-Coins!`,
+    });
+
+    // Redireciona para a página principal da trilha
+    router.push('/learn');
+  };
+
+
   if (!lessonInfo) {
     // notFound() will be called in the effect, but this is a safeguard
     return null;
   }
   
-  if (isLoading) {
+  if (isLoading || isLoadingProgress) {
     return (
       <div className="flex flex-col items-center justify-center text-center p-8 gap-4">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
@@ -100,12 +135,14 @@ export default function LessonPage() {
       </div>
       
       {lessonContent.quiz && lessonContent.quiz.length > 0 && (
-        <QuizClient quiz={lessonContent.quiz} />
+        <QuizClient quiz={lessonContent.quiz} onQuizCompleted={handleQuizCompleted} />
       )}
       
-      <div className="text-center pt-4">
-         <Button onClick={() => router.push('/learn')}>Concluir Lição (Simulado)</Button>
-      </div>
+      {!lessonContent.quiz || lessonContent.quiz.length === 0 && (
+         <div className="text-center pt-4">
+           <Button onClick={handleQuizCompleted}>Concluir Lição</Button>
+        </div>
+      )}
     </div>
   );
 }
