@@ -20,6 +20,10 @@ import {
     recommendNextInvestmentSteps as recommendNextInvestmentStepsFlow,
     RecommendNextInvestmentStepsInput,
 } from "@/ai/flows/recommend-next-investment-steps";
+import {
+    generateLesson as generateLessonFlow,
+    GenerateLessonInput,
+} from "@/ai/flows/generate-lesson-content";
 
 
 export async function analyzeUserProfile(input: AnalyzeUserProfileInput) {
@@ -52,5 +56,10 @@ export async function recommendNextInvestmentSteps(
     input: RecommendNextInvestmentStepsInput
 ) {
     const result = await recommendNextInvestmentStepsFlow(input);
+    return result;
+}
+
+export async function generateLesson(input: GenerateLessonInput) {
+    const result = await generateLessonFlow(input);
     return result;
 }
