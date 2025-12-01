@@ -9,6 +9,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const CHART_COLORS = [
   'hsl(var(--chart-1))',
@@ -17,6 +18,68 @@ const CHART_COLORS = [
   'hsl(var(--chart-4))',
   'hsl(var(--chart-5))',
 ];
+
+const questionLabels: { [key: string]: string } = {
+    objective: 'O que você espera dos seus investimentos?',
+    timeframe: 'Quando você pretende usar esse dinheiro?',
+    loss_tolerance: 'Como você se sentiria se seu investimento caísse um pouco?',
+    income_stability: 'O quão estável é sua renda mensal?',
+    liquidity_need: 'Você pode deixar esse dinheiro parado ou pode precisar dele rápido?',
+    experience: 'Você já investiu antes?',
+    reaction_to_loss: 'O que você faria se seus investimentos caíssem 10% em um mês?',
+    risk_profile_sentence: 'Qual dessas frases se parece mais com você?',
+};
+
+const answerLabels: { [key: string]: { [key: string]: string } } = {
+    objective: {
+        security: 'Quero segurança e não perder dinheiro',
+        conservative_growth: 'Quero ganhar um pouco mais, mas sem arriscar muito',
+        growth: 'Quero fazer meu dinheiro crescer, mesmo que oscile',
+        high_yield: 'Quero alta rentabilidade, aceito riscos',
+    },
+    timeframe: {
+        short_term: 'Nos próximos meses',
+        medium_term_1_3: 'Entre 1 e 3 anos',
+        medium_term_3_5: 'Entre 3 e 5 anos',
+        long_term: 'Só daqui a bastante tempo (mais de 5 anos)',
+    },
+    loss_tolerance: {
+        very_worried: 'Eu ficaria muito preocupado e tiraria o dinheiro',
+        uncomfortable: 'Eu ficaria desconfortável, mas manteria',
+        understand: 'Eu entenderia que faz parte',
+        invest_more: 'Eu aproveitaria para investir mais',
+    },
+    income_stability: {
+        unstable: 'Nada estável',
+        somewhat_unstable: 'Pouco estável',
+        stable: 'Estável',
+        very_stable: 'Muito estável',
+    },
+    liquidity_need: {
+        any_moment: 'Posso precisar dele a qualquer momento',
+        can_wait: 'Posso esperar um pouco',
+        long_time: 'Posso deixar por bastante tempo',
+        very_long_time: 'Não preciso mexer nesse dinheiro por muitos anos',
+    },
+    experience: {
+        never: 'Nunca',
+        simple: 'Já investi em algo simples (como poupança ou CDB)',
+        diverse: 'Já investi em outras coisas (ações, FIIs, ETFs)',
+        risky: 'Já investi até em coisas mais arriscadas (cripto, day trade etc.)',
+    },
+    reaction_to_loss: {
+        sell_all: 'Venderia tudo',
+        wait: 'Esperaria a recuperação',
+        hold_and_contribute: 'Manteria e continuaria aportando',
+        buy_more: 'Compraria mais porque está barato',
+    },
+    risk_profile_sentence: {
+        security_over_gains: 'Prefiro ganhar menos, mas ter mais segurança',
+        some_risk_for_better_gains: 'Aceito um pouco de risco para ter ganhos melhores',
+        accept_swings_for_good_returns: 'Aceito oscilações para buscar bons retornos',
+        highest_returns_with_high_risk: 'Quero os maiores retornos possíveis, mesmo com risco alto',
+    },
+};
 
 function UserProfileDisplay({ profile, onEdit }: { profile: any; onEdit: () => void }) {
   const getProfileIcon = (profile: string) => {
@@ -53,6 +116,8 @@ function UserProfileDisplay({ profile, onEdit }: { profile: any; onEdit: () => v
 
   const avaliacaoDeRisco = profile.perfilDeInvestimento?.avaliacaoDeRisco ?? 'N/A';
   const estrategiaDeInvestimento = profile.perfilDeInvestimento?.estrategiaDeInvestimento ?? 'Nenhuma estratégia definida.';
+  const respostasQuestionario = profile.perfilDeInvestimento?.respostasQuestionario ?? {};
+
 
   return (
     <div className="space-y-6">
@@ -106,6 +171,34 @@ function UserProfileDisplay({ profile, onEdit }: { profile: any; onEdit: () => v
           )}
         </CardContent>
       </Card>
+        
+      <Accordion type="single" collapsible>
+        <AccordionItem value="item-1">
+          <AccordionTrigger>
+            <h3 className="text-lg font-semibold">Ver Respostas do Questionário</h3>
+          </AccordionTrigger>
+          <AccordionContent>
+            <Card>
+                <CardContent className="pt-6 text-sm">
+                    <ul className="space-y-4">
+                        {Object.entries(respostasQuestionario).map(([key, value]) => {
+                            const questionLabel = questionLabels[key];
+                            const answerLabel = answerLabels[key]?.[value as string] || value;
+                            if (!questionLabel) return null;
+                            return (
+                                <li key={key} className="border-b pb-2 last:border-b-0">
+                                    <p className="font-semibold text-foreground">{questionLabel}</p>
+                                    <p className="text-muted-foreground">{answerLabel as string}</p>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </CardContent>
+            </Card>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+
       <div className="text-center">
         <Button onClick={onEdit} variant="outline">
           <Edit className="mr-2 h-4 w-4" />
