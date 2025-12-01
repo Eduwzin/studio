@@ -32,14 +32,14 @@ const MacroContextSchema = z.object({
 });
 
 // Esquema de entrada para o fluxo
-export const MonitorPortfolioInputSchema = z.object({
+const MonitorPortfolioInputSchema = z.object({
   userProfile: UserProfileSchema,
   macroContext: MacroContextSchema,
 });
 export type MonitorPortfolioInput = z.infer<typeof MonitorPortfolioInputSchema>;
 
 // Esquema de saída, seguindo o formato de 4 blocos solicitado
-export const MonitorPortfolioOutputSchema = z.object({
+const MonitorPortfolioOutputSchema = z.object({
   scenarioAnalysis: z.string().describe("Bloco 1: Uma leitura simples do cenário atual, explicando se o ambiente favorece renda fixa ou variável, o impacto dos juros nos FIIs, etc."),
   userProfileImpact: z.string().describe("Bloco 2: Uma análise de como o cenário atual afeta especificamente o perfil de risco do usuário (conservador, moderado ou agressivo)."),
   recommendedNextSteps: z.string().describe("Bloco 3: Ações práticas e direcionais que o investidor deve considerar (ex: 'reforçar posição em...', 'aumentar gradualmente a parcela em...')."),
@@ -85,7 +85,7 @@ Analise os seguintes dados e gere as recomendações para o investidor.
 - **Inflação (IPCA 12m):** {{macroContext.ipca12m}}% (tendência: {{macroContext.ipcaTrend}})
 - **IFIX (variação recente):** {{macroContext.ifixChange}}%
 - **Ibovespa (variação recente):** {{macroContext.ibovChange}}%
-- **Dólar (USD/BRL):** R$ {{macroContext.dollarRate}}
+- **Dólar (USD/BRL):** R$ {{macro...dollarRate}}
 - **Sentimento de Mercado:** {{macroContext.marketSentiment}}
 
 Agora, gere a análise completa no formato de 4 blocos solicitado.
@@ -93,7 +93,7 @@ Agora, gere a análise completa no formato de 4 blocos solicitado.
 });
 
 // Definição do fluxo Genkit
-export const monitorPortfolioFlow = ai.defineFlow(
+const monitorPortfolioFlow = ai.defineFlow(
   {
     name: 'monitorPortfolioFlow',
     inputSchema: MonitorPortfolioInputSchema,
