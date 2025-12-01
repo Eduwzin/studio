@@ -72,36 +72,42 @@ export async function getStockInfo(ticker: string): Promise<StockInfo> {
 }
 
 /**
- * Representa a estrutura de dados esperada da resposta da API da Brapi para a taxa SELIC.
+ * Representa a estrutura de dados esperada da resposta da API do BCB para a SELIC.
  */
-export interface SelicRate {
-    name: string;
-    value: number;
+interface SelicDataItem {
+    data: string;
+    valor: string;
 }
 
 /**
- * Busca a taxa SELIC atual da API da Brapi.
- * @returns Uma promessa que resolve para o valor da taxa SELIC.
+ * Busca a taxa SELIC atual da API do Banco Central do Brasil (BCB).
+ * @returns Uma promessa que resolve para o valor numérico da taxa SELIC.
  */
 export async function getSelicRate(): Promise<number> {
-    const token = "v7HL1xQumG7Unvpfc333zc";
-    const url = `https://brapi.dev/api/v2/prime-rate?token=${token}`;
+    const url = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json`;
 
     try {
-        const response = await fetch(url, { next: { revalidate: 900 } }); // 15 minutos de cache
+        const response = await fetch(url, { next: { revalidate: 3600 } }); // 1 hora de cache
 
         if (!response.ok) {
-            throw new Error(`Erro na API da Brapi para SELIC: ${response.statusText}`);
+            throw new Error(`Erro na API do BCB para SELIC: ${response.statusText}`);
         }
-        const data = await response.json();
+        
+        const data: SelicDataItem[] = await response.json();
 
-        if (!data.prime_rate || data.prime_rate.length === 0 || data.prime_rate[0].name !== 'selic') {
-            throw new Error('Formato de resposta inesperado para a taxa SELIC.');
+        if (!Array.isArray(data) || data.length === 0 || !data[0].valor) {
+            throw new Error('Formato de resposta inesperado para a taxa SELIC do BCB.');
         }
 
-        return data.prime_rate[0].value;
+        const selicValue = parseFloat(data[0].valor);
+        
+        if (isNaN(selicValue)) {
+            throw new Error('Valor da SELIC retornado pela API do BCB não é um número válido.');
+        }
+
+        return selicValue;
     } catch (error) {
-        console.error("Falha ao buscar taxa SELIC:", error);
+        console.error("Falha ao buscar taxa SELIC na API do BCB:", error);
         throw error; // Re-lança o erro para ser tratado pelo chamador
     }
 }
