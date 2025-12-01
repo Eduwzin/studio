@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { GenerateLessonOutput } from '@/lib/actions';
+import { GenerateLessonOutput } from '@/ai/flows/generate-lesson-content';
 import { CheckCircle2, XCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import gameConfig from '@/lib/game-config.json';

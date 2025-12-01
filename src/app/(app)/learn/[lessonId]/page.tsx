@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { notFound, useParams, useRouter } from 'next/navigation';
-import { generateLesson, GenerateLessonOutput } from '@/lib/actions';
+import { generateLesson } from '@/ai/flows/generate-lesson-content';
+import { GenerateLessonOutput } from '@/ai/flows/generate-lesson-content';
 import gameConfig from '@/lib/game-config.json';
 import { Loader2 } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';

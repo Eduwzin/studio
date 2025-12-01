@@ -1,29 +1,30 @@
-"use server";
+'use server';
 
 import {
   analyzeUserProfile as analyzeUserProfileFlow,
   AnalyzeUserProfileInput,
-} from "@/ai/flows/analyze-user-profile-for-investment-strategy";
+} from '@/ai/flows/analyze-user-profile-for-investment-strategy';
 import {
   generatePersonalizedInvestmentPortfolio as generatePersonalizedInvestmentPortfolioFlow,
   GeneratePersonalizedInvestmentPortfolioInput,
-} from "@/ai/flows/generate-personalized-investment-portfolio";
+} from '@/ai/flows/generate-personalized-investment-portfolio';
 import {
   simulatePortfolioPerformance as simulatePortfolioPerformanceFlow,
   SimulatePortfolioPerformanceInput,
-} from "@/ai/flows/simulate-portfolio-performance";
+} from '@/ai/flows/simulate-portfolio-performance';
 import {
-    monitorInvestmentsForImprovements as monitorInvestmentsForImprovementsFlow,
-    MonitorInvestmentsForImprovementsInput,
-} from "@/ai/flows/monitor-investments-for-improvements";
+  monitorInvestmentsForImprovements as monitorInvestmentsForImprovementsFlow,
+  MonitorInvestmentsForImprovementsInput,
+} from '@/ai/flows/monitor-investments-for-improvements';
 import {
-    recommendNextInvestmentSteps as recommendNextInvestmentStepsFlow,
-    RecommendNextInvestmentStepsInput,
-} from "@/ai/flows/recommend-next-investment-steps";
+  recommendNextInvestmentSteps as recommendNextInvestmentStepsFlow,
+  RecommendNextInvestmentStepsInput,
+} from '@/ai/flows/recommend-next-investment-steps';
 import {
-    generateLesson as generateLessonFlow,
-    GenerateLessonInput,
-} from "@/ai/flows/generate-lesson-content";
+  generateLesson as generateLessonFlow,
+  GenerateLessonInput,
+  GenerateLessonOutput
+} from '@/ai/flows/generate-lesson-content';
 
 
 export async function analyzeUserProfile(input: AnalyzeUserProfileInput) {
@@ -46,20 +47,22 @@ export async function simulatePortfolioPerformance(
 }
 
 export async function monitorInvestmentsForImprovements(
-    input: MonitorInvestmentsForImprovementsInput
+  input: MonitorInvestmentsForImprovementsInput
 ) {
-    const result = await monitorInvestmentsForImprovementsFlow(input);
-    return result;
+  const result = await monitorInvestmentsForImprovementsFlow(input);
+  return result;
 }
 
 export async function recommendNextInvestmentSteps(
-    input: RecommendNextInvestmentStepsInput
+  input: RecommendNextInvestmentStepsInput
 ) {
-    const result = await recommendNextInvestmentStepsFlow(input);
-    return result;
+  const result = await recommendNextInvestmentStepsFlow(input);
+  return result;
 }
 
 export async function generateLesson(input: GenerateLessonInput) {
-    const result = await generateLessonFlow(input);
-    return result;
+  const result = await generateLessonFlow(input);
+  return result;
 }
+
+export type { GenerateLessonInput, GenerateLessonOutput };
