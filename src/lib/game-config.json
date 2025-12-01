@@ -1,0 +1,509 @@
+{
+  "gameConfigVersion": 1,
+
+  "character": {
+    "id": "beagle_investidor",
+    "name": "Beagle",
+    "role": "mentor_financeiro",
+    "tagline": "Seu cachorro de guarda da liberdade financeira.",
+    "personality": {
+      "traits": [
+        "engraçado",
+        "didático",
+        "motivador",
+        "sarcástico_de_leve",
+        "amigo"
+      ],
+      "toneOfVoice": [
+        "direto",
+        "informal",
+        "otimista",
+        "educacional"
+      ]
+    },
+    "visualStyle": {
+      "species": "beagle",
+      "clothes": "colete verde de consultor financeiro e gravata simples",
+      "props": [
+        "planilha_na_pata",
+        "grafico_subindo",
+        "moedas_ao_redor"
+      ]
+    },
+    "catchPhrases": {
+      "correctAnswer": [
+        "Aí sim! Isso rende mais que poupança.",
+        "Boa! Dividendos mentais caindo na conta.",
+        "Respeita o investidor em evolução!"
+      ],
+      "wrongAnswer": [
+        "Quase! Igual escolher ação só pelo preço.",
+        "Não foi dessa vez, mas investidor aprende errando.",
+        "Errou barato! Bora tentar de novo."
+      ],
+      "streakKept": [
+        "Streak viva! Sua carteira agradece.",
+        "Você voltou! O Beagle fica até com o rabo balançando.",
+        "Persistência gera patrimônio, hein?"
+      ],
+      "streakBroken": [
+        "Sumiu ontem, né? O mercado não para!",
+        "Perdeu a streak, mas não perdeu o jogo.",
+        "Tá tudo bem, bora recomeçar!"
+      ]
+    }
+  },
+
+  "economy": {
+    "xpPerLessonDefault": 10,
+    "xpPerQuizDefault": 20,
+    "coinPerLessonDefault": 5,
+    "coinPerQuizDefault": 10,
+    "currency": {
+      "name": "B-Coins",
+      "symbol": "BC",
+      "startingAmount": 0
+    },
+    "streak": {
+      "enabled": true,
+      "dailyBonusXpIncrement": 5,
+      "maxDailyBonusXp": 30,
+      "resetOnMissedDay": true
+    }
+  },
+
+  "rewards": {
+    "badges": [
+      {
+        "id": "maratonista_de_estudos",
+        "name": "Maratonista de estudos",
+        "description": "Completou 10 lições em uma semana."
+      },
+      {
+        "id": "investidor_constante",
+        "name": "Investidor constante",
+        "description": "Manteve a streak por 5 dias seguidos."
+      },
+      {
+        "id": "modulo_master",
+        "name": "Mestre do módulo",
+        "description": "Concluiu um módulo completo."
+      },
+      {
+        "id": "fii_hunter",
+        "name": "Caçador de FIIs",
+        "description": "Completou todas as lições de FIIs."
+      }
+    ],
+    "shopItems": [
+      {
+        "id": "skin_beagle_terno",
+        "name": "Beagle de terno",
+        "type": "skin",
+        "costCoins": 200
+      },
+      {
+        "id": "skin_beagle_oculos_escuros",
+        "name": "Beagle milionário",
+        "type": "skin",
+        "costCoins": 300
+      },
+      {
+        "id": "boost_xp_2x_30min",
+        "name": "XP em dobro por 30 minutos",
+        "type": "boost",
+        "costCoins": 150
+      }
+    ]
+  },
+
+  "missions": {
+    "daily": [
+      {
+        "id": "daily_complete_1_lesson",
+        "title": "Complete 1 lição hoje",
+        "description": "Finalize qualquer lição até o fim do dia.",
+        "type": "complete_lessons",
+        "target": 1,
+        "xpReward": 15,
+        "coinReward": 10
+      },
+      {
+        "id": "daily_answer_5_questions",
+        "title": "Responda 5 perguntas",
+        "description": "Responda 5 questões de múltipla escolha.",
+        "type": "answer_questions",
+        "target": 5,
+        "xpReward": 20,
+        "coinReward": 10
+      },
+      {
+        "id": "daily_keep_streak",
+        "title": "Mantenha sua streak",
+        "description": "Estude ao menos uma lição para não perder a sequência.",
+        "type": "maintain_streak",
+        "target": 1,
+        "xpReward": 25,
+        "coinReward": 15
+      },
+      {
+        "id": "daily_review_lesson",
+        "title": "Revise uma lição",
+        "description": "Refaça qualquer lição concluída.",
+        "type": "review_lesson",
+        "target": 1,
+        "xpReward": 10,
+        "coinReward": 5
+      }
+    ],
+    "weekly": [
+      {
+        "id": "weekly_complete_10_lessons",
+        "title": "Maratona da semana",
+        "description": "Complete 10 lições.",
+        "type": "complete_lessons",
+        "target": 10,
+        "xpReward": 150,
+        "coinReward": 80,
+        "badgeReward": "maratonista_de_estudos"
+      },
+      {
+        "id": "weekly_no_streak_break_5_days",
+        "title": "Constância é tudo",
+        "description": "Não quebre a streak por 5 dias.",
+        "type": "maintain_streak_days",
+        "target": 5,
+        "xpReward": 120,
+        "coinReward": 70,
+        "badgeReward": "investidor_constante"
+      },
+      {
+        "id": "weekly_finish_module",
+        "title": "Conclua um módulo",
+        "description": "Finalize todas as lições de um módulo.",
+        "type": "complete_module",
+        "target": 1,
+        "xpReward": 200,
+        "coinReward": 100,
+        "badgeReward": "modulo_master"
+      },
+      {
+        "id": "weekly_fii_focus",
+        "title": "Semana dos FIIs",
+        "description": "Complete 5 lições de FIIs.",
+        "type": "complete_lessons_tag",
+        "tag": "fiis",
+        "target": 5,
+        "xpReward": 150,
+        "coinReward": 90,
+        "badgeReward": "fii_hunter"
+      }
+    ]
+  },
+
+  "progression": {
+    "levels": [
+
+      {
+        "id": "level_1_fundamentos",
+        "name": "Fundamentos Essenciais",
+        "displayName": "Nível 1 - Fundamentos",
+        "minXpToUnlock": 0,
+        "description": "Entenda o básico de investimentos, risco, retorno e inflação.",
+        "lessons": [
+          {
+            "id": "l1_f1_o_que_e_investir",
+            "title": "O que é investir?",
+            "xpReward": 10,
+            "coinReward": 5,
+            "estimatedMinutes": 3,
+            "tags": ["fundamentos"]
+          },
+          {
+            "id": "l1_f2_inflacao_e_juros",
+            "title": "Inflação e juros sem complicação",
+            "xpReward": 10,
+            "coinReward": 5,
+            "estimatedMinutes": 4,
+            "tags": ["fundamentos"]
+          },
+          {
+            "id": "l1_f3_risco_retorno",
+            "title": "Risco x retorno",
+            "xpReward": 10,
+            "coinReward": 5,
+            "estimatedMinutes": 4,
+            "tags": ["fundamentos"]
+          },
+          {
+            "id": "l1_f4_renda_fixa_vs_variavel",
+            "title": "Renda fixa x renda variável",
+            "xpReward": 15,
+            "coinReward": 8,
+            "estimatedMinutes": 5,
+            "tags": ["fundamentos"]
+          },
+          {
+            "id": "l1_quiz_final",
+            "title": "Desafio do Nível 1",
+            "type": "quiz",
+            "xpReward": 20,
+            "coinReward": 10,
+            "estimatedMinutes": 5,
+            "tags": ["fundamentos", "quiz"]
+          }
+        ]
+      },
+
+      {
+        "id": "level_2_renda_fixa",
+        "name": "Renda Fixa",
+        "displayName": "Nível 2 - Renda Fixa",
+        "minXpToUnlock": 50,
+        "description": "Aprenda CDB, Tesouro Direto e como usar renda fixa na sua estratégia.",
+        "lessons": [
+          {
+            "id": "l2_f1_cdb_basico",
+            "title": "O que é CDB?",
+            "xpReward": 10,
+            "coinReward": 5,
+            "estimatedMinutes": 4,
+            "tags": ["renda_fixa"]
+          },
+          {
+            "id": "l2_f2_tesouro_direto",
+            "title": "Tesouro Direto em 3 minutos",
+            "xpReward": 10,
+            "coinReward": 5,
+            "estimatedMinutes": 4,
+            "tags": ["renda_fixa"]
+          },
+          {
+            "id": "l2_f3_quando_usar",
+            "title": "Quando usar cada tipo de título",
+            "xpReward": 15,
+            "coinReward": 8,
+            "estimatedMinutes": 5,
+            "tags": ["renda_fixa"]
+          },
+          {
+            "id": "l2_quiz_final",
+            "title": "Desafio de Renda Fixa",
+            "type": "quiz",
+            "xpReward": 25,
+            "coinReward": 12,
+            "estimatedMinutes": 5,
+            "tags": ["renda_fixa", "quiz"]
+          }
+        ]
+      },
+
+      {
+        "id": "level_3_fiis",
+        "name": "Fundos Imobiliários",
+        "displayName": "Nível 3 - FIIs",
+        "minXpToUnlock": 120,
+        "description": "Aprenda como FIIs funcionam, geram renda e como analizá-los com poucos indicadores.",
+        "lessons": [
+          {
+            "id": "l3_f1_o_que_e_fii",
+            "title": "O que é um FII?",
+            "xpReward": 10,
+            "coinReward": 5,
+            "estimatedMinutes": 4,
+            "tags": ["fiis"]
+          },
+          {
+            "id": "l3_f2_tipos_de_fii",
+            "title": "Tipos de FIIs (Tijolo / Papel / Híbrido)",
+            "xpReward": 10,
+            "coinReward": 5,
+            "estimatedMinutes": 4,
+            "tags": ["fiis"]
+          },
+          {
+            "id": "l3_f3_indicadores_basicos",
+            "title": "P/VP, Dividend Yield e Vacância",
+            "xpReward": 15,
+            "coinReward": 8,
+            "estimatedMinutes": 5,
+            "tags": ["fiis"]
+          },
+          {
+            "id": "l3_f4_como_analisar",
+            "title": "Como analisar um FII em 3 passos",
+            "xpReward": 15,
+            "coinReward": 8,
+            "estimatedMinutes": 5,
+            "tags": ["fiis"]
+          },
+          {
+            "id": "l3_quiz_final",
+            "title": "Desafio dos FIIs",
+            "type": "quiz",
+            "xpReward": 25,
+            "coinReward": 12,
+            "estimatedMinutes": 5,
+            "tags": ["fiis", "quiz"]
+          }
+        ]
+      },
+
+      {
+        "id": "level_4_acoes",
+        "name": "Ações e ETFs",
+        "displayName": "Nível 4 - Ações e ETFs",
+        "minXpToUnlock": 200,
+        "description": "Entenda ações, ETFs e como utilizá-los para investir com mais segurança e longo prazo.",
+        "lessons": [
+          {
+            "id": "l4_f1_o_que_e_acao",
+            "title": "O que é uma ação?",
+            "xpReward": 10,
+            "coinReward": 5,
+            "estimatedMinutes": 4,
+            "tags": ["acoes"]
+          },
+          {
+            "id": "l4_f2_o_que_e_etf",
+            "title": "O que é um ETF?",
+            "xpReward": 10,
+            "coinReward": 5,
+            "estimatedMinutes": 4,
+            "tags": ["etfs"]
+          },
+          {
+            "id": "l4_f3_acoes_vs_etfs",
+            "title": "Ações individuais x ETFs",
+            "xpReward": 15,
+            "coinReward": 8,
+            "estimatedMinutes": 5,
+            "tags": ["acoes", "etfs"]
+          },
+          {
+            "id": "l4_f4_estrategias_basicas",
+            "title": "Estratégias com ações e ETFs",
+            "xpReward": 15,
+            "coinReward": 8,
+            "estimatedMinutes": 5,
+            "tags": ["acoes", "etfs", "estrategias"]
+          },
+          {
+            "id": "l4_quiz_final",
+            "title": "Desafio de Ações e ETFs",
+            "type": "quiz",
+            "xpReward": 25,
+            "coinReward": 12,
+            "estimatedMinutes": 5,
+            "tags": ["acoes", "etfs", "quiz"]
+          }
+        ]
+      },
+
+      {
+        "id": "level_5_criptos",
+        "name": "Criptomoedas",
+        "displayName": "Nível 5 - Criptomoedas",
+        "minXpToUnlock": 280,
+        "description": "Aprenda o essencial sobre criptomoedas, riscos e formas seguras de uso.",
+        "lessons": [
+          {
+            "id": "l5_f1_o_que_e_cripto",
+            "title": "O que é criptomoeda?",
+            "xpReward": 10,
+            "coinReward": 5,
+            "estimatedMinutes": 4,
+            "tags": ["criptos"]
+          },
+          {
+            "id": "l5_f2_bitcoin_reserva",
+            "title": "Bitcoin como reserva digital",
+            "xpReward": 10,
+            "coinReward": 5,
+            "estimatedMinutes": 4,
+            "tags": ["criptos"]
+          },
+          {
+            "id": "l5_f3_riscos",
+            "title": "Riscos reais das criptos",
+            "xpReward": 15,
+            "coinReward": 8,
+            "estimatedMinutes": 5,
+            "tags": ["criptos", "riscos"]
+          },
+          {
+            "id": "l5_f4_estrategia_segura",
+            "title": "Como incluir cripto com pouco risco",
+            "xpReward": 15,
+            "coinReward": 8,
+            "estimatedMinutes": 5,
+            "tags": ["criptos", "estrategias"]
+          },
+          {
+            "id": "l5_quiz_final",
+            "title": "Desafio das Criptomoedas",
+            "type": "quiz",
+            "xpReward": 25,
+            "coinReward": 12,
+            "estimatedMinutes": 5,
+            "tags": ["criptos", "quiz"]
+          }
+        ]
+      },
+
+      {
+        "id": "level_6_estrategias",
+        "name": "Estratégias de Investimento",
+        "displayName": "Nível 6 - Estratégias de Investimento",
+        "minXpToUnlock": 350,
+        "description": "Aprenda métodos práticos para montar carteira, rebalancear e seguir no longo prazo.",
+        "lessons": [
+          {
+            "id": "l6_f1_carteiras_por_perfil",
+            "title": "Carteiras por perfil",
+            "xpReward": 10,
+            "coinReward": 5,
+            "estimatedMinutes": 4,
+            "tags": ["estrategias"]
+          },
+          {
+            "id": "l6_f2_barbell",
+            "title": "Estratégia Barbell (Barra)",
+            "xpReward": 10,
+            "coinReward": 5,
+            "estimatedMinutes": 4,
+            "tags": ["estrategias"]
+          },
+          {
+            "id": "l6_f3_core_satellite",
+            "title": "Estratégia Core & Satellite",
+            "xpReward": 15,
+            "coinReward": 8,
+            "estimatedMinutes": 5,
+            "tags": ["estrategias"]
+          },
+          {
+            "id": "l6_f4_rebalanceamento",
+            "title": "Rebalanceamento simples",
+            "xpReward": 15,
+            "coinReward": 8,
+            "estimatedMinutes": 5,
+            "tags": ["estrategias"]
+          },
+          {
+            "id": "l6_quiz_final",
+            "title": "Desafio das Estratégias",
+            "type": "quiz",
+            "xpReward": 25,
+            "coinReward": 12,
+            "estimatedMinutes": 5,
+            "tags": ["estrategias", "quiz"]
+          }
+        ]
+      }
+
+    ]
+  }
+}
+
+    
