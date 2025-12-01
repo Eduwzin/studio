@@ -7,4 +7,5 @@ export type UserProgress = {
   lastStudyDate: string | null;
   completedLessons: string[];
   earnedBadges: string[];
+  completedMissions?: string[];
 };

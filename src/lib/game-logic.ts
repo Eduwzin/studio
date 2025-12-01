@@ -15,6 +15,9 @@ export function calculateNextProgress(
 ): UserProgress {
   const { progression, economy } = gameConfig;
   const newProgress: UserProgress = JSON.parse(JSON.stringify(currentProgress)); // Deep copy
+   if (!newProgress.completedMissions) {
+    newProgress.completedMissions = [];
+  }
 
   let lessonData = null;
   let levelData = null;
@@ -36,7 +39,7 @@ export function calculateNextProgress(
     return currentProgress; // Retorna o progresso inalterado se a lição não for encontrada
   }
 
-  // 1. Atualizar XP e Moedas
+  // 1. Atualizar XP e Moedas da lição (apenas se não foi completada antes)
   if (!newProgress.completedLessons.includes(lessonId)) {
     newProgress.xp += lessonData.xpReward ?? economy.xpPerLessonDefault;
     newProgress.coins += lessonData.coinReward ?? economy.coinPerLessonDefault;
@@ -92,5 +95,53 @@ export function calculateNextProgress(
     newProgress.currentLessonId = levelData.lessons[lessonIndex + 1].id;
   }
   
+    // 4. Verificar e aplicar recompensas de missões
+  const allMissions = [...gameConfig.missions.daily, ...gameConfig.missions.weekly];
+  for (const mission of allMissions) {
+    if (newProgress.completedMissions?.includes(mission.id)) {
+      continue; // Pula missão já completada
+    }
+
+    let missionCompleted = false;
+    switch (mission.type) {
+      case 'complete_lessons':
+        // Esta verificação é simplista, para uma implementação real,
+        // seria necessário rastrear o número de lições completadas no período (dia/semana).
+        if (newProgress.completedLessons.length >= mission.target) {
+            missionCompleted = true;
+        }
+        break;
+      case 'maintain_streak_days':
+        if (newProgress.streakDays >= mission.target) {
+            missionCompleted = true;
+        }
+        break;
+      case 'complete_module':
+         // Verifica se todas as lições de algum módulo foram completadas
+        for (const level of progression.levels) {
+            const allLessonsInLevel = level.lessons.map(l => l.id);
+            if (allLessonsInLevel.every(lId => newProgress.completedLessons.includes(lId))) {
+                // Se um módulo for concluído e a missão de módulo correspondente não estiver completa.
+                if(mission.badgeReward && !newProgress.earnedBadges.includes(mission.badgeReward)){
+                     missionCompleted = true;
+                     if(mission.badgeReward) {
+                        newProgress.earnedBadges.push(mission.badgeReward);
+                     }
+                }
+            }
+        }
+        break;
+    }
+
+    if (missionCompleted) {
+      newProgress.xp += mission.xpReward;
+      newProgress.coins += mission.coinReward;
+      newProgress.completedMissions.push(mission.id);
+      if (mission.badgeReward && !newProgress.earnedBadges.includes(mission.badgeReward)) {
+        newProgress.earnedBadges.push(mission.badgeReward);
+      }
+    }
+  }
+
   return newProgress;
 }

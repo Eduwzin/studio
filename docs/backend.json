@@ -36,7 +36,9 @@
               "description": "Renda anual do usuário."
             }
           },
-          "required": ["email"]
+          "required": [
+            "email"
+          ]
         },
         "perfilDeInvestimento": {
           "type": "object",
@@ -268,6 +270,13 @@
         "earnedBadges": {
           "type": "array",
           "description": "Uma lista de IDs de todas as medalhas que o usuário já ganhou.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "completedMissions": {
+          "type": "array",
+          "description": "Uma lista de IDs de todas as missões que o usuário já completou.",
           "items": {
             "type": "string"
           }
