@@ -46,7 +46,7 @@ export async function getStockInfo(ticker: string): Promise<StockInfo> {
     throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
   }
 
-  const url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}&fundamental=true`;
+  const url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}&fundamental=true&dividends=true`;
 
   try {
     // Adicionando revalidação para Next.js (a cada 15 minutos)
