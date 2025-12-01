@@ -85,7 +85,7 @@ export interface SelicRate {
  */
 export async function getSelicRate(): Promise<number> {
     const token = "v7HL1xQumG7Unvpfc333zc";
-    const url = `https://brapi.dev/api/v2/prime_rates?token=${token}`;
+    const url = `https://brapi.dev/api/v2/prime-rates?token=${token}`;
 
     try {
         const response = await fetch(url, { next: { revalidate: 900 } }); // 15 minutos de cache
