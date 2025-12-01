@@ -16,6 +16,7 @@
  * - /users/{userId}/userProfiles/{profileId} -> Private user profile data.
  * - /users/{userId}/investmentPortfolios/{portfolioId} -> Private user investment portfolios.
  * - /users/{userId}/investmentPortfolios/{portfolioId}/nextStepRecommendations/{recommendationId} -> Private, AI-generated recommendations for a specific portfolio.
+ * - /users/{userId}/trilha/progress -> Private user progress data for the educational trail.
  * - /educationalTrails/{trailId} -> Public, read-only educational content.
  * - /blogArticles/{articleId} -> Public, read-only blog content.
  *
@@ -101,6 +102,33 @@ service cloud.firestore {
     function hasValidRecommendationDataOnUpdate() {
       return request.resource.data.portfolioId == resource.data.portfolioId;
     }
+    
+    /**
+     * Ensures the UserProgress document has the correct structure on create.
+     * Fields like xp, coins, and streakDays must start at 0.
+     */
+    function hasValidUserProgressDataOnCreate() {
+      let data = request.resource.data;
+      return data.xp == 0 &&
+             data.coins == 0 &&
+             data.streakDays == 0 &&
+             data.lastStudyDate == null &&
+             data.completedLessons.size() == 0 &&
+             data.earnedBadges.size() == 0;
+    }
+
+    /**
+     * Ensures fields that should be incremented (like xp, coins, streakDays)
+     * only increase or stay the same, preventing cheating.
+     */
+    function hasValidUserProgressDataOnUpdate() {
+        let newData = request.resource.data;
+        let oldData = resource.data;
+        return newData.xp >= oldData.xp &&
+               newData.coins >= oldData.coins &&
+               newData.streakDays >= oldData.streakDays;
+    }
+
 
     // --------------------------------------------------------------------
     // User Data Rules
@@ -132,6 +160,23 @@ service cloud.firestore {
       allow delete: if isExistingOwner(userId);
     }
     
+     /**
+     * @description Secures a user's progress in the educational trail. Only the owner can read/write their progress.
+     * @path /users/{userId}/trilha/{docId}
+     * @allow (get) A user (auth.uid=`user_abc`) reads their progress at `/users/user_abc/trilha/progress`.
+     * @deny (list) A user tries to list documents in the `trilha` subcollection.
+     * @principle Enforces strict ownership for gamified progress data.
+     */
+    match /users/{userId}/trilha/{docId} {
+        // Only allow access to the specific 'progress' document
+        allow get: if isOwner(userId) && docId == 'progress';
+        allow create: if isOwner(userId) && docId == 'progress' && hasValidUserProgressDataOnCreate();
+        allow update: if isExistingOwner(userId) && docId == 'progress' && hasValidUserProgressDataOnUpdate();
+        // Generally, progress should not be deleted by the user.
+        allow delete: if false; 
+        allow list: if false;
+    }
+
     /**
      * @description Secures a user's investment portfolios. Only the owner can view or modify them.
      * @path /users/{userId}/investmentPortfolios/{portfolioId}
@@ -197,3 +242,5 @@ service cloud.firestore {
     }
   }
 }
+
+    

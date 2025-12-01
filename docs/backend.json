@@ -223,6 +223,65 @@
         "recommendationText",
         "dateGenerated"
       ]
+    },
+    "UserProgress": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserProgress",
+      "type": "object",
+      "description": "Armazena o progresso de um usuário na trilha educacional gamificada.",
+      "properties": {
+        "currentLevelId": {
+          "type": "string",
+          "description": "O ID do nível atual em que o usuário está."
+        },
+        "currentLessonId": {
+          "type": "string",
+          "description": "O ID da próxima lição que o usuário deve fazer."
+        },
+        "xp": {
+          "type": "number",
+          "description": "Total de pontos de experiência (XP) acumulados."
+        },
+        "coins": {
+          "type": "number",
+          "description": "Total de moedas virtuais (B-Coins) acumuladas."
+        },
+        "streakDays": {
+          "type": "number",
+          "description": "Número de dias consecutivos de estudo (streak)."
+        },
+        "lastStudyDate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time",
+          "description": "A data do último dia em que o usuário estudou. Nulo se nunca estudou."
+        },
+        "completedLessons": {
+          "type": "array",
+          "description": "Uma lista de IDs de todas as lições que o usuário já completou.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "earnedBadges": {
+          "type": "array",
+          "description": "Uma lista de IDs de todas as medalhas que o usuário já ganhou.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "currentLevelId",
+        "currentLessonId",
+        "xp",
+        "coins",
+        "streakDays",
+        "completedLessons",
+        "earnedBadges"
+      ]
     }
   },
   "auth": {
@@ -249,6 +308,22 @@
             {
               "name": "profileId",
               "description": "The unique identifier of the user profile."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/trilha/progress",
+        "definition": {
+          "entityName": "UserProgress",
+          "schema": {
+            "$ref": "#/backend/entities/UserProgress"
+          },
+          "description": "Armazena o progresso do usuário na trilha educacional gamificada. Há um único documento chamado 'progress' por usuário.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
             }
           ]
         }
@@ -333,3 +408,5 @@
     "reasoning": "The Firestore data structure is designed to support the SafeStart Invest platform, focusing on user profiles, investment portfolios, educational content, and AI-driven recommendations. It prioritizes authorization independence, clear access patterns, and scalability.\n\n**Authorization Independence & QAPs:**\n\n*   User-owned data (UserProfile, InvestmentPortfolio, NextStepRecommendation) is stored under `/users/{userId}` collections. This leverages path-based authorization, eliminating the need for `get()` calls in security rules and enabling atomic operations. This structure inherently supports QAPs by allowing secure listing of user-specific data without complex filtering.\n*   EducationalTrail and BlogArticle collections are top-level, implying public read access. Segregation ensures different security postures are not mixed, simplifying security rules.\n\n**Structure Overview:**\n\n*   `/users/{userId}/userProfiles/{profileId}`: Stores user profile information. The `userId` in the path ensures that only the authenticated user can access their profile. Since the userId is available in the path there is no need to store it in the document itself.\n*   `/users/{userId}/investmentPortfolios/{portfolioId}`: Stores investment portfolios owned by a specific user. The `userId` in the path guarantees ownership, enabling secure listing. The `portfolioId` is used to uniquely identify each portfolio.\n*   `/users/{userId}/investmentPortfolios/{portfolioId}/nextStepRecommendations/{recommendationId}`: Stores AI-generated next-step recommendations for a specific portfolio. The nested structure under `/users/{userId}/investmentPortfolios/{portfolioId}` ensures that only the owner of the portfolio can access these recommendations. This maintains the hierarchical ownership and simplifies security rules.\n*   `/educationalTrails/{educationalTrailId}`: Stores educational trails available to all users. This is a top-level collection for globally accessible data.\n*   `/blogArticles/{blogArticleId}`: Stores blog articles accessible to all users. This is a top-level collection for globally accessible data."
   }
 }
+
+    
