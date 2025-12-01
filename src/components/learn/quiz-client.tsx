@@ -21,6 +21,25 @@ export default function QuizClient({ quiz }: QuizClientProps) {
   const [showResult, setShowResult] = useState(false);
   const [correctAnswers, setCorrectAnswers] = useState(0);
 
+  const getRandomFeedback = (type: 'correct' | 'wrong') => {
+    const phrases = type === 'correct' ? gameConfig.character.catchPhrases.correctAnswer : gameConfig.character.catchPhrases.wrongAnswer;
+    return phrases[Math.floor(Math.random() * phrases.length)];
+  };
+
+  if (currentQuestionIndex >= quiz.length) {
+    return (
+       <Card className="text-center bg-primary/10 border-primary">
+        <CardHeader>
+          <CardTitle>Quiz Concluído!</CardTitle>
+          <CardDescription>Você acertou {correctAnswers} de {quiz.length} perguntas.</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <p className="font-semibold text-lg">{getRandomFeedback('correct')}</p>
+        </CardContent>
+      </Card>
+    );
+  }
+  
   const currentQuestion = quiz[currentQuestionIndex];
   const isCorrect = selectedAnswer === currentQuestion.correctAnswerIndex;
   
@@ -37,27 +56,6 @@ export default function QuizClient({ quiz }: QuizClientProps) {
     setSelectedAnswer(null);
     setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
-
-  const getRandomFeedback = (type: 'correct' | 'wrong') => {
-    const phrases = type === 'correct' ? gameConfig.character.catchPhrases.correctAnswer : gameConfig.character.catchPhrases.wrongAnswer;
-    return phrases[Math.floor(Math.random() * phrases.length)];
-  };
-
-
-  if (currentQuestionIndex >= quiz.length) {
-    return (
-       <Card className="text-center bg-primary/10 border-primary">
-        <CardHeader>
-          <CardTitle>Quiz Concluído!</CardTitle>
-          <CardDescription>Você acertou {correctAnswers} de {quiz.length} perguntas.</CardDescription>
-        </CardHeader>
-        <CardContent>
-            <p className="font-semibold text-lg">{getRandomFeedback('correct')}</p>
-        </CardContent>
-      </Card>
-    );
-  }
-
 
   return (
     <Card>
