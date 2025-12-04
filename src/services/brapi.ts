@@ -144,3 +144,57 @@ export async function getIpcaRate(): Promise<number> {
         throw error; // Re-lança o erro para ser tratado pelo chamador
     }
 }
+
+/**
+ * Representa a estrutura de dados da resposta da API de Expectativas de Mercado do BCB.
+ */
+interface FocusSelicItem {
+    Indicador: string;
+    Data: string;
+    DataReferencia: string;
+    Media: number;
+    Mediana: number;
+    DesvioPadrao: number;
+    Minimo: number;
+    Maximo: number;
+    numeroRespondentes: number;
+    baseCalculo: number;
+}
+
+interface FocusApiResponse {
+    value: FocusSelicItem[];
+}
+
+/**
+ * Busca a projeção da taxa SELIC (mediana) do relatório Focus do BCB.
+ * @returns Uma promessa que resolve para o valor numérico da projeção da SELIC.
+ */
+export async function getProjectedSelicRate(): Promise<number> {
+    const url = 'https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoSelic?$top=1&$orderby=Data%20desc&$format=json';
+
+    try {
+        const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache de 24 horas
+
+        if (!response.ok) {
+            throw new Error(`Erro na API Focus do BCB: ${response.statusText}`);
+        }
+
+        const data: FocusApiResponse = await response.json();
+        
+        if (!data.value || data.value.length === 0) {
+            throw new Error('Formato de resposta inesperado da API Focus.');
+        }
+
+        const projectedRate = data.value[0].Mediana;
+
+        if (typeof projectedRate !== 'number') {
+            throw new Error('Valor da projeção da SELIC não é um número válido.');
+        }
+        
+        return projectedRate;
+
+    } catch (error) {
+        console.error("Falha ao buscar projeção da SELIC na API Focus:", error);
+        throw error; // Re-lança o erro para ser tratado pelo chamador
+    }
+}
