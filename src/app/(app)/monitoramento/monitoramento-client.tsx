@@ -138,7 +138,7 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
 
   const formatPointsChange = (points: number) => {
       const sign = points > 0 ? '+' : '';
-      return `${sign}${points.toFixed(2)}`;
+      return `${sign}${points}`;
   }
 
   return (
