@@ -84,7 +84,7 @@ interface SelicDataItem {
  * @returns Uma promessa que resolve para o valor numérico da taxa SELIC.
  */
 export async function getSelicRate(): Promise<number> {
-    const url = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json`;
+    const url = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/20?formato=json`;
 
     try {
         const response = await fetch(url, { next: { revalidate: 3600 } }); // 1 hora de cache
