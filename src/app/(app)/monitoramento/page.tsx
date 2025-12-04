@@ -9,6 +9,7 @@ export default async function MonitoramentoPage() {
     let projectedSelicRate: number;
     let projectedIpcaRate: number;
     let ifixData: StockInfo | null = null;
+    let ibovData: StockInfo | null = null;
 
     try {
         selicRate = await getSelicRate();
@@ -44,6 +45,13 @@ export default async function MonitoramentoPage() {
         console.error("Usando variação do IFIX de fallback devido a erro na API:", error);
         // Em caso de erro, ifixData permanecerá nulo.
     }
+    
+    try {
+        ibovData = await getStockInfo('^BVSP');
+    } catch (error) {
+        console.error("Usando dados do IBOV de fallback devido a erro na API:", error);
+        // Em caso de erro, ibovData permanecerá nulo.
+    }
 
 
     // Determina a tendência da SELIC
@@ -74,5 +82,6 @@ export default async function MonitoramentoPage() {
         projectedIpcaRate={projectedIpcaRate}
         ipcaTrend={ipcaTrend}
         ifixData={ifixData}
+        ibovData={ibovData}
     />;
 }
