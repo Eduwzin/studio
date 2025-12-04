@@ -9,6 +9,7 @@ import { doc } from 'firebase/firestore';
 import { Loader2, Zap, Newspaper, Shield, LineChart, Target, BrainCircuit } from 'lucide-react';
 import { monitorPortfolio } from '@/lib/actions';
 import type { MonitorPortfolioOutput } from '@/ai/flows/monitor-portfolio-flow';
+import { cn } from '@/lib/utils';
 
 type Trend = 'alta' | 'queda' | 'estavel';
 
@@ -19,9 +20,10 @@ type MonitoramentoClientProps = {
     selicTrend: Trend;
     projectedIpcaRate: number;
     ipcaTrend: Trend;
+    ifixChange: number;
 };
 
-export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSelicRate, selicTrend, projectedIpcaRate, ipcaTrend }: MonitoramentoClientProps) {
+export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSelicRate, selicTrend, projectedIpcaRate, ipcaTrend, ifixChange }: MonitoramentoClientProps) {
   const { user } = useUser();
   const firestore = useFirestore();
 
@@ -42,7 +44,7 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
       selicTrend: selicTrend,
       ipca12m: ipcaRate,
       ipcaTrend: ipcaTrend,
-      ifixChange: 2.5, // Mantendo simulado por enquanto
+      ifixChange: ifixChange,
       ibovChange: 5.0, // Mantendo simulado por enquanto
       dollarRate: 5.15, // Mantendo simulado por enquanto
       marketSentiment: 'neutro' as const, // Mantendo simulado por enquanto
@@ -150,8 +152,9 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
             <CardTitle>Análise Contínua do seu Portfólio</CardTitle>
             <CardDescription>
                 Clique no botão para que nossa IA analise os dados de mercado: 
-                SELIC atual de <span className="font-bold text-primary">{selicRate}%</span> (projeção: <span className="font-bold text-primary">{projectedSelicRate}%</span>, tendência {getTrendText(selicTrend)}),
-                IPCA acumulado de <span className="font-bold text-primary">{ipcaRate.toFixed(2)}%</span> (projeção: <span className="font-bold text-primary">{projectedIpcaRate.toFixed(2)}%</span>, tendência {getTrendText(ipcaTrend)}).
+                SELIC atual de <span className="font-bold text-primary">{selicRate}%</span> (projeção: <span className="font-bold text-primary">{projectedSelicRate}%</span>, tendência {getTrendText(selicTrend)});
+                IPCA acumulado de <span className="font-bold text-primary">{ipcaRate.toFixed(2)}%</span> (projeção: <span className="font-bold text-primary">{projectedIpcaRate.toFixed(2)}%</span>, tendência {getTrendText(ipcaTrend)});
+                IFIX (hoje): <span className={cn("font-bold", ifixChange > 0 ? 'text-green-600' : 'text-red-600')}>{ifixChange.toFixed(2)}%</span>.
             </CardDescription>
         </CardHeader>
         <CardContent>

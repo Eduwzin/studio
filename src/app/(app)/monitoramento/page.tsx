@@ -1,5 +1,6 @@
 
-import { getSelicRate, getIpcaRate, getProjectedSelicRate, getProjectedIpcaRate } from '@/services/brapi';
+
+import { getSelicRate, getIpcaRate, getProjectedSelicRate, getProjectedIpcaRate, getStockInfo } from '@/services/brapi';
 import MonitoramentoClient from './monitoramento-client';
 
 export default async function MonitoramentoPage() {
@@ -7,6 +8,7 @@ export default async function MonitoramentoPage() {
     let ipcaRate: number;
     let projectedSelicRate: number;
     let projectedIpcaRate: number;
+    let ifixChange: number;
 
     try {
         selicRate = await getSelicRate();
@@ -36,6 +38,15 @@ export default async function MonitoramentoPage() {
         projectedIpcaRate = 3.8;
     }
 
+    try {
+        const ifixData = await getStockInfo('IFIX');
+        ifixChange = ifixData.regularMarketChangePercent;
+    } catch (error) {
+        console.error("Usando variação do IFIX de fallback devido a erro na API:", error);
+        ifixChange = 2.5;
+    }
+
+
     // Determina a tendência da SELIC
     let selicTrend: 'alta' | 'queda' | 'estavel';
     if (projectedSelicRate < selicRate) {
@@ -63,5 +74,6 @@ export default async function MonitoramentoPage() {
         selicTrend={selicTrend}
         projectedIpcaRate={projectedIpcaRate}
         ipcaTrend={ipcaTrend}
+        ifixChange={ifixChange}
     />;
 }
