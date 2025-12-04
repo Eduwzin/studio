@@ -74,7 +74,7 @@ export async function getStockInfo(ticker: string): Promise<StockInfo> {
 /**
  * Representa a estrutura de dados esperada da resposta da API do BCB para a SELIC.
  */
-interface SelicDataItem {
+interface BcbDataItem {
     data: string;
     valor: string;
 }
@@ -93,7 +93,7 @@ export async function getSelicRate(): Promise<number> {
             throw new Error(`Erro na API do BCB para SELIC: ${response.statusText}`);
         }
         
-        const data: SelicDataItem[] = await response.json();
+        const data: BcbDataItem[] = await response.json();
 
         if (!Array.isArray(data) || data.length === 0 || !data[0].valor) {
             throw new Error('Formato de resposta inesperado para a taxa SELIC do BCB.');
@@ -108,6 +108,40 @@ export async function getSelicRate(): Promise<number> {
         return selicValue;
     } catch (error) {
         console.error("Falha ao buscar taxa SELIC na API do BCB:", error);
+        throw error; // Re-lança o erro para ser tratado pelo chamador
+    }
+}
+
+
+/**
+ * Busca a taxa IPCA (inflação) acumulada dos últimos 12 meses da API do Banco Central do Brasil (BCB).
+ * @returns Uma promessa que resolve para o valor numérico da taxa IPCA.
+ */
+export async function getIpcaRate(): Promise<number> {
+    const url = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.10844/dados/ultimos/12?formato=json`;
+
+    try {
+        const response = await fetch(url, { next: { revalidate: 3600 } }); // 1 hora de cache
+
+        if (!response.ok) {
+            throw new Error(`Erro na API do BCB para IPCA: ${response.statusText}`);
+        }
+        
+        const data: BcbDataItem[] = await response.json();
+
+        if (!Array.isArray(data) || data.length === 0 || !data[0].valor) {
+            throw new Error('Formato de resposta inesperado para a taxa IPCA do BCB.');
+        }
+
+        const ipcaValue = parseFloat(data[0].valor);
+        
+        if (isNaN(ipcaValue)) {
+            throw new Error('Valor do IPCA retornado pela API do BCB não é um número válido.');
+        }
+
+        return ipcaValue;
+    } catch (error) {
+        console.error("Falha ao buscar taxa IPCA na API do BCB:", error);
         throw error; // Re-lança o erro para ser tratado pelo chamador
     }
 }

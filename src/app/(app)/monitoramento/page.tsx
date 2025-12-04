@@ -1,9 +1,11 @@
 
-import { getSelicRate } from '@/services/brapi';
+import { getSelicRate, getIpcaRate } from '@/services/brapi';
 import MonitoramentoClient from './monitoramento-client';
 
 export default async function MonitoramentoPage() {
     let selicRate: number;
+    let ipcaRate: number;
+
     try {
         // Busca a taxa SELIC real no servidor
         selicRate = await getSelicRate();
@@ -13,5 +15,14 @@ export default async function MonitoramentoPage() {
         selicRate = 10.50; 
     }
 
-    return <MonitoramentoClient selicRate={selicRate} />;
+    try {
+        // Busca a taxa IPCA real no servidor
+        ipcaRate = await getIpcaRate();
+    } catch (error) {
+        // Em caso de erro na API, usa um valor padrão
+        console.error("Usando taxa IPCA de fallback devido a erro na API:", error);
+        ipcaRate = 3.9;
+    }
+
+    return <MonitoramentoClient selicRate={selicRate} ipcaRate={ipcaRate} />;
 }
