@@ -99,7 +99,7 @@ export async function getSelicRate(): Promise<number> {
             throw new Error('Formato de resposta inesperado para a taxa SELIC do BCB.');
         }
 
-        const selicValue = parseFloat(data[0].valor);
+        const selicValue = parseFloat(data[data.length - 1].valor);
         
         if (isNaN(selicValue)) {
             throw new Error('Valor da SELIC retornado pela API do BCB não é um número válido.');
@@ -129,17 +129,16 @@ export async function getIpcaRate(): Promise<number> {
         
         const data: BcbDataItem[] = await response.json();
 
-        if (!Array.isArray(data) || data.length === 0 || !data[0].valor) {
+        if (!Array.isArray(data) || data.length === 0) {
             throw new Error('Formato de resposta inesperado para a taxa IPCA do BCB.');
         }
 
-        const ipcaValue = parseFloat(data[0].valor);
+        const totalIpca = data.reduce((sum, item) => {
+            const value = parseFloat(item.valor);
+            return sum + (isNaN(value) ? 0 : value);
+        }, 0);
         
-        if (isNaN(ipcaValue)) {
-            throw new Error('Valor do IPCA retornado pela API do BCB não é um número válido.');
-        }
-
-        return ipcaValue;
+        return totalIpca;
     } catch (error) {
         console.error("Falha ao buscar taxa IPCA na API do BCB:", error);
         throw error; // Re-lança o erro para ser tratado pelo chamador
