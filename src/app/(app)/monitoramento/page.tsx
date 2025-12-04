@@ -39,7 +39,7 @@ export default async function MonitoramentoPage() {
     }
 
     try {
-        const ifixData = await getStockInfo('IFIX');
+        const ifixData = await getStockInfo('IFIX.SA');
         ifixChange = ifixData.regularMarketChangePercent;
     } catch (error) {
         console.error("Usando variação do IFIX de fallback devido a erro na API:", error);
