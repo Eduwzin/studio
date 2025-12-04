@@ -13,9 +13,11 @@ import type { MonitorPortfolioOutput } from '@/ai/flows/monitor-portfolio-flow';
 type MonitoramentoClientProps = {
     selicRate: number;
     ipcaRate: number;
+    projectedSelicRate: number;
+    selicTrend: 'alta' | 'queda' | 'estavel';
 };
 
-export default function MonitoramentoClient({ selicRate, ipcaRate }: MonitoramentoClientProps) {
+export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSelicRate, selicTrend }: MonitoramentoClientProps) {
   const { user } = useUser();
   const firestore = useFirestore();
 
@@ -30,16 +32,16 @@ export default function MonitoramentoClient({ selicRate, ipcaRate }: Monitoramen
   const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // O contexto macroeconômico agora usa a SELIC e IPCA reais e simula o resto
+  // O contexto macroeconômico agora usa a SELIC, IPCA e a tendência reais
   const macroContext = {
       selicRate: selicRate,
-      selicTrend: 'estavel' as const,
+      selicTrend: selicTrend,
       ipca12m: ipcaRate,
-      ipcaTrend: 'queda' as const,
-      ifixChange: 2.5,
-      ibovChange: 5.0,
-      dollarRate: 5.15,
-      marketSentiment: 'neutro' as const,
+      ipcaTrend: 'queda' as const, // Mantendo simulado por enquanto
+      ifixChange: 2.5, // Mantendo simulado por enquanto
+      ibovChange: 5.0, // Mantendo simulado por enquanto
+      dollarRate: 5.15, // Mantendo simulado por enquanto
+      marketSentiment: 'neutro' as const, // Mantendo simulado por enquanto
   };
 
   const handleAnalyzeClick = async () => {
@@ -119,6 +121,14 @@ export default function MonitoramentoClient({ selicRate, ipcaRate }: Monitoramen
     </div>
   );
 
+  const getTrendText = () => {
+    switch(selicTrend) {
+      case 'alta': return 'de alta';
+      case 'queda': return 'de queda';
+      case 'estavel': return 'de estabilidade';
+    }
+  }
+
   return (
     <div className="max-w-4xl mx-auto">
       <header className="mb-8">
@@ -134,7 +144,7 @@ export default function MonitoramentoClient({ selicRate, ipcaRate }: Monitoramen
       <Card className="text-center">
         <CardHeader>
             <CardTitle>Análise Contínua do seu Portfólio</CardTitle>
-            <CardDescription>Clique no botão abaixo para que nossa IA analise os dados mais recentes do mercado, incluindo a taxa SELIC de <span className="font-bold text-primary">{selicRate}%</span> e o IPCA acumulado de <span className="font-bold text-primary">{ipcaRate.toFixed(2)}%</span>, e forneça os próximos passos ideais para o seu perfil.</CardDescription>
+            <CardDescription>Clique no botão para que nossa IA analise os dados de mercado: SELIC atual de <span className="font-bold text-primary">{selicRate}%</span>, IPCA acumulado de <span className="font-bold text-primary">{ipcaRate.toFixed(2)}%</span> e a projeção da SELIC de <span className="font-bold text-primary">{projectedSelicRate}%</span>, indicando uma tendência {getTrendText()}.</CardDescription>
         </CardHeader>
         <CardContent>
             {isLoadingProfile ? (
