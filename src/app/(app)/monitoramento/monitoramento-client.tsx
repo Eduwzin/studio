@@ -6,10 +6,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
-import { Loader2, Zap, Newspaper, Shield, LineChart, Target, BrainCircuit } from 'lucide-react';
+import { Loader2, Zap, Newspaper, Shield, LineChart, Target, BrainCircuit, Info } from 'lucide-react';
 import { monitorPortfolio } from '@/lib/actions';
 import type { MonitorPortfolioOutput } from '@/ai/flows/monitor-portfolio-flow';
 import { cn } from '@/lib/utils';
+import type { StockInfo } from '@/services/brapi';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 type Trend = 'alta' | 'queda' | 'estavel';
 
@@ -20,11 +22,10 @@ type MonitoramentoClientProps = {
     selicTrend: Trend;
     projectedIpcaRate: number;
     ipcaTrend: Trend;
-    ifixChange: number;
-    ifixPointsChange: number;
+    ifixData: StockInfo | null;
 };
 
-export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSelicRate, selicTrend, projectedIpcaRate, ipcaTrend, ifixChange, ifixPointsChange }: MonitoramentoClientProps) {
+export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSelicRate, selicTrend, projectedIpcaRate, ipcaTrend, ifixData }: MonitoramentoClientProps) {
   const { user } = useUser();
   const firestore = useFirestore();
 
@@ -38,6 +39,9 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
   const [analysis, setAnalysis] = useState<MonitorPortfolioOutput | null>(null);
   const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  const ifixChange = ifixData?.regularMarketChangePercent ?? 0;
+  const ifixPointsChange = ifixData?.regularMarketChange ?? 0;
 
   // O contexto macroeconômico agora usa a SELIC, IPCA e a tendência reais
   const macroContext = {
@@ -186,6 +190,28 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
             )}
         </CardContent>
       </Card>
+
+      {ifixData && (
+        <Accordion type="single" collapsible className="w-full mt-4">
+            <AccordionItem value="item-1">
+                <AccordionTrigger>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Info className="h-4 w-4" />
+                        Ver dados brutos da API do IFIX (para teste)
+                    </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                    <Card className="mt-2">
+                        <CardContent className="p-4">
+                            <pre className="text-xs whitespace-pre-wrap break-all bg-muted p-4 rounded-md">
+                                {JSON.stringify(ifixData, null, 2)}
+                            </pre>
+                        </CardContent>
+                    </Card>
+                </AccordionContent>
+            </AccordionItem>
+        </Accordion>
+      )}
 
       {error && (
         <Alert variant="destructive" className="mt-8">

@@ -1,6 +1,6 @@
 
 
-import { getSelicRate, getIpcaRate, getProjectedSelicRate, getProjectedIpcaRate, getStockInfo } from '@/services/brapi';
+import { getSelicRate, getIpcaRate, getProjectedSelicRate, getProjectedIpcaRate, getStockInfo, StockInfo } from '@/services/brapi';
 import MonitoramentoClient from './monitoramento-client';
 
 export default async function MonitoramentoPage() {
@@ -8,8 +8,7 @@ export default async function MonitoramentoPage() {
     let ipcaRate: number;
     let projectedSelicRate: number;
     let projectedIpcaRate: number;
-    let ifixChange: number;
-    let ifixPointsChange: number;
+    let ifixData: StockInfo | null = null;
 
     try {
         selicRate = await getSelicRate();
@@ -40,13 +39,10 @@ export default async function MonitoramentoPage() {
     }
 
     try {
-        const ifixData = await getStockInfo('IFIX.SA');
-        ifixChange = ifixData.regularMarketChangePercent;
-        ifixPointsChange = ifixData.regularMarketChange;
+        ifixData = await getStockInfo('IFIX.SA');
     } catch (error) {
         console.error("Usando variação do IFIX de fallback devido a erro na API:", error);
-        ifixChange = 2.5;
-        ifixPointsChange = 6.66;
+        // Em caso de erro, ifixData permanecerá nulo.
     }
 
 
@@ -77,7 +73,6 @@ export default async function MonitoramentoPage() {
         selicTrend={selicTrend}
         projectedIpcaRate={projectedIpcaRate}
         ipcaTrend={ipcaTrend}
-        ifixChange={ifixChange}
-        ifixPointsChange={ifixPointsChange}
+        ifixData={ifixData}
     />;
 }
