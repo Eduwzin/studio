@@ -1,11 +1,12 @@
 
-import { getSelicRate, getIpcaRate, getProjectedSelicRate } from '@/services/brapi';
+import { getSelicRate, getIpcaRate, getProjectedSelicRate, getProjectedIpcaRate } from '@/services/brapi';
 import MonitoramentoClient from './monitoramento-client';
 
 export default async function MonitoramentoPage() {
     let selicRate: number;
     let ipcaRate: number;
     let projectedSelicRate: number;
+    let projectedIpcaRate: number;
 
     try {
         selicRate = await getSelicRate();
@@ -28,6 +29,13 @@ export default async function MonitoramentoPage() {
         projectedSelicRate = 9.75;
     }
 
+    try {
+        projectedIpcaRate = await getProjectedIpcaRate();
+    } catch (error) {
+        console.error("Usando projeção do IPCA de fallback devido a erro na API:", error);
+        projectedIpcaRate = 3.8;
+    }
+
     // Determina a tendência da SELIC
     let selicTrend: 'alta' | 'queda' | 'estavel';
     if (projectedSelicRate < selicRate) {
@@ -38,10 +46,22 @@ export default async function MonitoramentoPage() {
         selicTrend = 'estavel';
     }
 
+    // Determina a tendência do IPCA
+    let ipcaTrend: 'alta' | 'queda' | 'estavel';
+    if (projectedIpcaRate < ipcaRate) {
+        ipcaTrend = 'queda';
+    } else if (projectedIpcaRate > ipcaRate) {
+        ipcaTrend = 'alta';
+    } else {
+        ipcaTrend = 'estavel';
+    }
+
     return <MonitoramentoClient 
         selicRate={selicRate} 
         ipcaRate={ipcaRate} 
         projectedSelicRate={projectedSelicRate}
         selicTrend={selicTrend}
+        projectedIpcaRate={projectedIpcaRate}
+        ipcaTrend={ipcaTrend}
     />;
 }

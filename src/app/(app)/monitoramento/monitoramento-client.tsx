@@ -10,14 +10,18 @@ import { Loader2, Zap, Newspaper, Shield, LineChart, Target, BrainCircuit } from
 import { monitorPortfolio } from '@/lib/actions';
 import type { MonitorPortfolioOutput } from '@/ai/flows/monitor-portfolio-flow';
 
+type Trend = 'alta' | 'queda' | 'estavel';
+
 type MonitoramentoClientProps = {
     selicRate: number;
     ipcaRate: number;
     projectedSelicRate: number;
-    selicTrend: 'alta' | 'queda' | 'estavel';
+    selicTrend: Trend;
+    projectedIpcaRate: number;
+    ipcaTrend: Trend;
 };
 
-export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSelicRate, selicTrend }: MonitoramentoClientProps) {
+export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSelicRate, selicTrend, projectedIpcaRate, ipcaTrend }: MonitoramentoClientProps) {
   const { user } = useUser();
   const firestore = useFirestore();
 
@@ -37,7 +41,7 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
       selicRate: selicRate,
       selicTrend: selicTrend,
       ipca12m: ipcaRate,
-      ipcaTrend: 'queda' as const, // Mantendo simulado por enquanto
+      ipcaTrend: ipcaTrend,
       ifixChange: 2.5, // Mantendo simulado por enquanto
       ibovChange: 5.0, // Mantendo simulado por enquanto
       dollarRate: 5.15, // Mantendo simulado por enquanto
@@ -121,8 +125,8 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
     </div>
   );
 
-  const getTrendText = () => {
-    switch(selicTrend) {
+  const getTrendText = (trend: Trend) => {
+    switch(trend) {
       case 'alta': return 'de alta';
       case 'queda': return 'de queda';
       case 'estavel': return 'de estabilidade';
@@ -144,7 +148,11 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
       <Card className="text-center">
         <CardHeader>
             <CardTitle>Análise Contínua do seu Portfólio</CardTitle>
-            <CardDescription>Clique no botão para que nossa IA analise os dados de mercado: SELIC atual de <span className="font-bold text-primary">{selicRate}%</span>, IPCA acumulado de <span className="font-bold text-primary">{ipcaRate.toFixed(2)}%</span> e a projeção da SELIC de <span className="font-bold text-primary">{projectedSelicRate}%</span>, indicando uma tendência {getTrendText()}.</CardDescription>
+            <CardDescription>
+                Clique no botão para que nossa IA analise os dados de mercado: 
+                SELIC atual de <span className="font-bold text-primary">{selicRate}%</span> (projeção: <span className="font-bold text-primary">{projectedSelicRate}%</span>, tendência {getTrendText(selicTrend)}),
+                IPCA acumulado de <span className="font-bold text-primary">{ipcaRate.toFixed(2)}%</span> (projeção: <span className="font-bold text-primary">{projectedIpcaRate.toFixed(2)}%</span>, tendência {getTrendText(ipcaTrend)}).
+            </CardDescription>
         </CardHeader>
         <CardContent>
             {isLoadingProfile ? (

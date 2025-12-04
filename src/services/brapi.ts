@@ -148,7 +148,7 @@ export async function getIpcaRate(): Promise<number> {
 /**
  * Representa a estrutura de dados da resposta da API de Expectativas de Mercado do BCB.
  */
-interface FocusSelicItem {
+interface FocusMarketDataItem {
     Indicador: string;
     Data: string;
     DataReferencia: string;
@@ -162,7 +162,7 @@ interface FocusSelicItem {
 }
 
 interface FocusApiResponse {
-    value: FocusSelicItem[];
+    value: FocusMarketDataItem[];
 }
 
 /**
@@ -196,5 +196,40 @@ export async function getProjectedSelicRate(): Promise<number> {
     } catch (error) {
         console.error("Falha ao buscar projeção da SELIC na API Focus:", error);
         throw error; // Re-lança o erro para ser tratado pelo chamador
+    }
+}
+
+
+/**
+ * Busca a projeção da taxa IPCA (mediana) do relatório Focus do BCB.
+ * @returns Uma promessa que resolve para o valor numérico da projeção do IPCA.
+ */
+export async function getProjectedIpcaRate(): Promise<number> {
+    const url = 'https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoInflacao24Meses?$top=1&$orderby=Data%20desc&$format=json';
+
+    try {
+        const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache de 24 horas
+
+        if (!response.ok) {
+            throw new Error(`Erro na API Focus do BCB para IPCA: ${response.statusText}`);
+        }
+
+        const data: FocusApiResponse = await response.json();
+        
+        if (!data.value || data.value.length === 0) {
+            throw new Error('Formato de resposta inesperado da API Focus para IPCA.');
+        }
+
+        const projectedRate = data.value[0].Mediana;
+
+        if (typeof projectedRate !== 'number') {
+            throw new Error('Valor da projeção do IPCA não é um número válido.');
+        }
+        
+        return projectedRate;
+
+    } catch (error) {
+        console.error("Falha ao buscar projeção do IPCA na API Focus:", error);
+        throw error;
     }
 }
