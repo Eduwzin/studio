@@ -21,9 +21,10 @@ type MonitoramentoClientProps = {
     projectedIpcaRate: number;
     ipcaTrend: Trend;
     ifixChange: number;
+    ifixPointsChange: number;
 };
 
-export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSelicRate, selicTrend, projectedIpcaRate, ipcaTrend, ifixChange }: MonitoramentoClientProps) {
+export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSelicRate, selicTrend, projectedIpcaRate, ipcaTrend, ifixChange, ifixPointsChange }: MonitoramentoClientProps) {
   const { user } = useUser();
   const firestore = useFirestore();
 
@@ -135,6 +136,11 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
     }
   }
 
+  const formatPointsChange = (points: number) => {
+      const sign = points > 0 ? '+' : '';
+      return `${sign}${points.toFixed(2)}`;
+  }
+
   return (
     <div className="max-w-4xl mx-auto">
       <header className="mb-8">
@@ -154,7 +160,7 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
                 Clique no botão para que nossa IA analise os dados de mercado: 
                 SELIC atual de <span className="font-bold text-primary">{selicRate}%</span> (projeção: <span className="font-bold text-primary">{projectedSelicRate.toFixed(2)}%</span>, tendência {getTrendText(selicTrend)});
                 IPCA acumulado de <span className="font-bold text-primary">{ipcaRate.toFixed(2)}%</span> (projeção: <span className="font-bold text-primary">{projectedIpcaRate.toFixed(2)}%</span>, tendência {getTrendText(ipcaTrend)});
-                IFIX (hoje): <span className={cn("font-bold", ifixChange > 0 ? 'text-green-600' : 'text-red-600')}>{ifixChange}%</span>.
+                IFIX (hoje): <span className={cn("font-bold", ifixChange > 0 ? 'text-green-600' : 'text-red-600')}>{ifixChange.toFixed(3)}% / {formatPointsChange(ifixPointsChange)} pts</span>.
             </CardDescription>
         </CardHeader>
         <CardContent>

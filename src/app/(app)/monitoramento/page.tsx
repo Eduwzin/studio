@@ -9,6 +9,7 @@ export default async function MonitoramentoPage() {
     let projectedSelicRate: number;
     let projectedIpcaRate: number;
     let ifixChange: number;
+    let ifixPointsChange: number;
 
     try {
         selicRate = await getSelicRate();
@@ -41,9 +42,11 @@ export default async function MonitoramentoPage() {
     try {
         const ifixData = await getStockInfo('IFIX.SA');
         ifixChange = ifixData.regularMarketChangePercent;
+        ifixPointsChange = ifixData.regularMarketChange;
     } catch (error) {
         console.error("Usando variação do IFIX de fallback devido a erro na API:", error);
         ifixChange = 2.5;
+        ifixPointsChange = 6.66;
     }
 
 
@@ -75,5 +78,6 @@ export default async function MonitoramentoPage() {
         projectedIpcaRate={projectedIpcaRate}
         ipcaTrend={ipcaTrend}
         ifixChange={ifixChange}
+        ifixPointsChange={ifixPointsChange}
     />;
 }
