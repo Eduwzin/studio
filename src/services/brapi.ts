@@ -50,8 +50,8 @@ export async function getStockInfo(ticker: string): Promise<StockInfo> {
   const url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}&fundamental=true&dividends=true`;
 
   try {
-    // Adicionando revalidação para Next.js (a cada 15 minutos)
-    const response = await fetch(url, { next: { revalidate: 900 } });
+    // Removida a revalidação para buscar dados em tempo real a cada chamada
+    const response = await fetch(url, { cache: 'no-store' });
     
     if (!response.ok) {
       throw new Error(`Erro na API da Brapi: ${response.statusText}`);
