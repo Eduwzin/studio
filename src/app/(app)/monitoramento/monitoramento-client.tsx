@@ -152,9 +152,9 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
             <CardTitle>Análise Contínua do seu Portfólio</CardTitle>
             <CardDescription>
                 Clique no botão para que nossa IA analise os dados de mercado: 
-                SELIC atual de <span className="font-bold text-primary">{selicRate}%</span> (projeção: <span className="font-bold text-primary">{projectedSelicRate}%</span>, tendência {getTrendText(selicTrend)});
+                SELIC atual de <span className="font-bold text-primary">{selicRate}%</span> (projeção: <span className="font-bold text-primary">{projectedSelicRate.toFixed(2)}%</span>, tendência {getTrendText(selicTrend)});
                 IPCA acumulado de <span className="font-bold text-primary">{ipcaRate.toFixed(2)}%</span> (projeção: <span className="font-bold text-primary">{projectedIpcaRate.toFixed(2)}%</span>, tendência {getTrendText(ipcaTrend)});
-                IFIX (hoje): <span className={cn("font-bold", ifixChange > 0 ? 'text-green-600' : 'text-red-600')}>{ifixChange.toFixed(2)}%</span>.
+                IFIX (hoje): <span className={cn("font-bold", ifixChange > 0 ? 'text-green-600' : 'text-red-600')}>{ifixChange}%</span>.
             </CardDescription>
         </CardHeader>
         <CardContent>
