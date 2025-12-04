@@ -191,28 +191,6 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
         </CardContent>
       </Card>
 
-      {ifixData && (
-        <Accordion type="single" collapsible className="w-full mt-4">
-            <AccordionItem value="item-1">
-                <AccordionTrigger>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Info className="h-4 w-4" />
-                        Ver dados brutos da API do IFIX (para teste)
-                    </div>
-                </AccordionTrigger>
-                <AccordionContent>
-                    <Card className="mt-2">
-                        <CardContent className="p-4">
-                            <pre className="text-xs whitespace-pre-wrap break-all bg-muted p-4 rounded-md">
-                                {JSON.stringify(ifixData, null, 2)}
-                            </pre>
-                        </CardContent>
-                    </Card>
-                </AccordionContent>
-            </AccordionItem>
-        </Accordion>
-      )}
-
       {error && (
         <Alert variant="destructive" className="mt-8">
           <AlertTitle>Erro na Análise</AlertTitle>
