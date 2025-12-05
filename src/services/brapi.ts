@@ -50,7 +50,7 @@ export async function getStockInfo(ticker: string): Promise<StockInfo> {
   const url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}&fundamental=true&dividends=true`;
 
   try {
-    // Removida a revalidação para buscar dados em tempo real a cada chamada
+    // Força a busca de dados em tempo real a cada chamada
     const response = await fetch(url, { cache: 'no-store' });
     
     if (!response.ok) {
@@ -231,5 +231,40 @@ export async function getProjectedIpcaRate(): Promise<number> {
     } catch (error) {
         console.error("Falha ao buscar projeção do IPCA na API Focus:", error);
         throw error;
+    }
+}
+
+
+/**
+ * Busca a cotação do Dólar (PTAX) mais recente da API do Banco Central do Brasil (BCB).
+ * @returns Uma promessa que resolve para o valor numérico da cotação do Dólar.
+ */
+export async function getDollarRate(): Promise<number> {
+    const url = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados/ultimos/1?formato=json';
+
+    try {
+        const response = await fetch(url, { next: { revalidate: 3600 } }); // 1 hora de cache
+
+        if (!response.ok) {
+            throw new Error(`Erro na API do BCB para cotação do Dólar: ${response.statusText}`);
+        }
+
+        const data: BcbDataItem[] = await response.json();
+
+        if (!Array.isArray(data) || data.length === 0 || !data[0].valor) {
+            throw new Error('Formato de resposta inesperado para a cotação do Dólar do BCB.');
+        }
+
+        const dollarValue = parseFloat(data[0].valor);
+
+        if (isNaN(dollarValue)) {
+            throw new Error('Valor da cotação do Dólar retornado pela API do BCB não é um número válido.');
+        }
+
+        return dollarValue;
+
+    } catch (error) {
+        console.error("Falha ao buscar cotação do Dólar na API do BCB:", error);
+        throw error; // Re-lança o erro para ser tratado pelo chamador
     }
 }
