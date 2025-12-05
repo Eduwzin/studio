@@ -1,6 +1,7 @@
 
 
 
+
 /**
  * @fileOverview Serviço para interagir com a API da Brapi para obter dados do mercado de ações.
  *
@@ -35,20 +36,28 @@ export interface StockInfo {
   priceToBook?: number;
   dividendYield?: number;
   bookValue?: number;
+  historicalDataPrice?: { date: number; open: number; high: number; low: number; close: number; volume: number; adjustedClose: number; }[];
 }
 
 /**
  * Busca informações detalhadas para um único ticker de ação da API da Brapi.
  * @param ticker O ticker da ação a ser buscado (ex: "PETR4", "MGLU3").
+ * @param range O intervalo de tempo para os dados históricos (ex: "1y", "6mo").
+ * @param interval O intervalo entre os pontos de dados (ex: "1d", "1wk").
  * @returns Uma promessa que resolve para o objeto de informações da ação.
  * @throws Lança um erro se o ticker não for encontrado ou se houver um problema com a solicitação da API.
  */
-export async function getStockInfo(ticker: string): Promise<StockInfo> {
+export async function getStockInfo(ticker: string, range?: string, interval?: string): Promise<StockInfo> {
   if (!BRAPI_API_TOKEN) {
     throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
   }
 
-  const url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}&fundamental=true&dividends=true`;
+  let url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}&fundamental=true&dividends=true`;
+
+  if (range && interval) {
+    url += `&range=${range}&interval=${interval}`;
+  }
+
 
   try {
     // Força a busca de dados em tempo real a cada chamada

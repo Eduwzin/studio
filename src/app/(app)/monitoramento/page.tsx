@@ -41,14 +41,14 @@ export default async function MonitoramentoPage() {
     }
 
     try {
-        ifixData = await getStockInfo('IFIX.SA');
+        ifixData = await getStockInfo('IFIX');
     } catch (error) {
         console.error("Usando variação do IFIX de fallback devido a erro na API:", error);
         // Em caso de erro, ifixData permanecerá nulo.
     }
     
     try {
-        ibovData = await getStockInfo('^BVSP');
+        ibovData = await getStockInfo('^BVSP', '1y', '1wk');
     } catch (error) {
         console.error("Usando dados do IBOV de fallback devido a erro na API:", error);
         // Em caso de erro, ibovData permanecerá nulo.
