@@ -1,5 +1,4 @@
 
-
 import { getSelicRate, getIpcaRate, getProjectedSelicRate, getProjectedIpcaRate, getStockInfo, StockInfo, getDollarRate } from '@/services/brapi';
 import MonitoramentoClient from './monitoramento-client';
 
@@ -12,6 +11,7 @@ export default async function MonitoramentoPage() {
     let ibovData: StockInfo | null = null;
     let dollarRate: number;
 
+    // --- Data Fetching ---
     try {
         selicRate = await getSelicRate();
     } catch (error) {
@@ -44,14 +44,12 @@ export default async function MonitoramentoPage() {
         ifixData = await getStockInfo('IFIX');
     } catch (error) {
         console.error("Usando variação do IFIX de fallback devido a erro na API:", error);
-        // Em caso de erro, ifixData permanecerá nulo.
     }
     
     try {
         ibovData = await getStockInfo('^BVSP', '1y', '1wk');
     } catch (error) {
         console.error("Usando dados do IBOV de fallback devido a erro na API:", error);
-        // Em caso de erro, ibovData permanecerá nulo.
     }
     
     try {
@@ -61,25 +59,41 @@ export default async function MonitoramentoPage() {
         dollarRate = 5.25;
     }
 
+    // --- Trend Calculation ---
 
-    // Determina a tendência da SELIC
+    // SELIC & IPCA Trends
     let selicTrend: 'alta' | 'queda' | 'estavel';
-    if (projectedSelicRate < selicRate) {
-        selicTrend = 'queda';
-    } else if (projectedSelicRate > selicRate) {
-        selicTrend = 'alta';
-    } else {
-        selicTrend = 'estavel';
-    }
+    if (projectedSelicRate < selicRate) selicTrend = 'queda';
+    else if (projectedSelicRate > selicRate) selicTrend = 'alta';
+    else selicTrend = 'estavel';
 
-    // Determina a tendência do IPCA
     let ipcaTrend: 'alta' | 'queda' | 'estavel';
-    if (projectedIpcaRate < ipcaRate) {
-        ipcaTrend = 'queda';
-    } else if (projectedIpcaRate > ipcaRate) {
-        ipcaTrend = 'alta';
-    } else {
-        ipcaTrend = 'estavel';
+    if (projectedIpcaRate < ipcaRate) ipcaTrend = 'queda';
+    else if (projectedIpcaRate > ipcaRate) ipcaTrend = 'alta';
+    else ipcaTrend = 'estavel';
+
+    // IBOV Trend Calculations
+    let ibovChange1d = ibovData?.regularMarketChangePercent ?? 0;
+    let ibovChange30d = 0;
+    let ibovChange365d = 0;
+
+    if (ibovData?.historicalDataPrice && ibovData.historicalDataPrice.length > 0) {
+        const historicalData = ibovData.historicalDataPrice.sort((a, b) => b.date - a.date);
+        const latestClose = historicalData[0]?.close;
+        
+        if (latestClose) {
+            // 30-day trend (approx 4 weeks)
+            const close30d = historicalData[4]?.close;
+            if (close30d) {
+                ibovChange30d = ((latestClose - close30d) / close30d) * 100;
+            }
+
+            // 365-day trend (approx 52 weeks)
+            const close365d = historicalData[historicalData.length - 1]?.close;
+            if (close365d) {
+                ibovChange365d = ((latestClose - close365d) / close365d) * 100;
+            }
+        }
     }
 
     return <MonitoramentoClient 
@@ -92,5 +106,8 @@ export default async function MonitoramentoPage() {
         ifixData={ifixData}
         ibovData={ibovData}
         dollarRate={dollarRate}
+        ibovChange1d={ibovChange1d}
+        ibovChange30d={ibovChange30d}
+        ibovChange365d={ibovChange365d}
     />;
 }

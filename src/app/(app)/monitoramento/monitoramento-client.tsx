@@ -24,9 +24,25 @@ type MonitoramentoClientProps = {
     ifixData: StockInfo | null;
     ibovData: StockInfo | null;
     dollarRate: number;
+    ibovChange1d: number;
+    ibovChange30d: number;
+    ibovChange365d: number;
 };
 
-export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSelicRate, selicTrend, projectedIpcaRate, ipcaTrend, ifixData, ibovData, dollarRate }: MonitoramentoClientProps) {
+export default function MonitoramentoClient({ 
+    selicRate, 
+    ipcaRate, 
+    projectedSelicRate, 
+    selicTrend, 
+    projectedIpcaRate, 
+    ipcaTrend, 
+    ifixData, 
+    ibovData, 
+    dollarRate,
+    ibovChange1d,
+    ibovChange30d,
+    ibovChange365d 
+}: MonitoramentoClientProps) {
   const { user } = useUser();
   const firestore = useFirestore();
 
@@ -42,18 +58,18 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
   
   const ifixChange = ifixData?.regularMarketChangePercent ?? 0;
   const ifixPointsChange = ifixData?.regularMarketChange ?? 0;
-  const ibovChange = ibovData?.regularMarketChangePercent ?? 0;
-  const ibovPointsChange = ibovData?.regularMarketChange ?? 0;
-
+  
   const macroContext = {
       selicRate: selicRate,
       selicTrend: selicTrend,
       ipca12m: ipcaRate,
       ipcaTrend: ipcaTrend,
       ifixChange: ifixChange,
-      ibovChange: ibovChange,
+      ibovChange: ibovChange1d, // Mantém a mudança diária para contexto
       dollarRate: dollarRate,
-      marketSentiment: 'neutro' as const,
+      marketSentiment: 'neutro' as const, // Pode ser aprimorado no futuro
+      ibovChange30d: ibovChange30d,
+      ibovChange365d: ibovChange365d,
   };
 
   const handleAnalyzeClick = async () => {
@@ -144,6 +160,11 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
       const sign = points > 0 ? '+' : '';
       return `${sign}${points.toFixed(2)}`;
   }
+  
+    const formatPercent = (value: number, decimals = 2) => {
+    const sign = value > 0 ? '+' : '';
+    return `${sign}${value.toFixed(decimals)}%`;
+  }
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -164,9 +185,11 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
                 Clique no botão para que nossa IA analise os dados de mercado: 
                 Dólar <span className="font-bold text-primary">R$ {dollarRate.toFixed(2)}</span>;
                 SELIC atual de <span className="font-bold text-primary">{selicRate}%</span> (projeção: <span className="font-bold text-primary">{projectedSelicRate.toFixed(2)}%</span>, tendência {getTrendText(selicTrend)});
-                IPCA acumulado de <span className="font-bold text-primary">{ipcaRate.toFixed(2)}%</span> (projeção: <span className="font-bold text-primary">{projectedIpcaRate.toFixed(2)}%</span>, tendência {getTrendText(ipcaTrend)});
-                IFIX (hoje): <span className={cn("font-bold", ifixChange > 0 ? 'text-green-600' : 'text-red-600')}>{ifixChange.toFixed(3)}% / {formatPointsChange(ifixPointsChange)} pts</span>;
-                IBOV (hoje): <span className={cn("font-bold", ibovChange > 0 ? 'text-green-600' : 'text-red-600')}>{ibovChange.toFixed(2)}% / {formatPointsChange(ibovPointsChange)} pts</span>.
+                IPCA acumulado de <span className="font-bold text-primary">{ipcaRate.toFixed(2)}%</span> (tendência {getTrendText(ipcaTrend)});
+                IFIX (hoje): <span className={cn("font-bold", ifixChange > 0 ? 'text-green-600' : 'text-red-600')}>{formatPercent(ifixChange, 3)} / {formatPointsChange(ifixPointsChange)} pts</span>;
+                IBOV (1D): <span className={cn("font-bold", ibovChange1d > 0 ? 'text-green-600' : 'text-red-600')}>{formatPercent(ibovChange1d)}</span>;
+                IBOV (30D): <span className={cn("font-bold", ibovChange30d > 0 ? 'text-green-600' : 'text-red-600')}>{formatPercent(ibovChange30d)}</span>;
+                IBOV (1A): <span className={cn("font-bold", ibovChange365d > 0 ? 'text-green-600' : 'text-red-600')}>{formatPercent(ibovChange365d)}</span>.
             </CardDescription>
         </CardHeader>
         <CardContent>
