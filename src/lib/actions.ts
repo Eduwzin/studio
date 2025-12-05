@@ -32,6 +32,12 @@ import {
     MonitorPortfolioOutput,
 } from '@/ai/flows/monitor-portfolio-flow';
 
+import {
+    suggestAssets as suggestAssetsFlow,
+    SuggestAssetsInput,
+    SuggestAssetsOutput,
+} from '@/ai/flows/suggest-assets-flow';
+
 
 export async function analyzeUserProfile(input: AnalyzeUserProfileInput) {
   const result = await analyzeUserProfileFlow(input);
@@ -73,6 +79,10 @@ export async function generateLesson(input: GenerateLessonInput) {
 
 export async function monitorPortfolio(input: MonitorPortfolioInput): Promise<MonitorPortfolioOutput> {
     return monitorPortfolioFlow(input);
+}
+
+export async function suggestAssets(input: SuggestAssetsInput): Promise<SuggestAssetsOutput> {
+    return suggestAssetsFlow(input);
 }
 
 
