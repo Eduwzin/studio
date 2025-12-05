@@ -1,5 +1,6 @@
 
 
+
 /**
  * @fileOverview Serviço para interagir com a API da Brapi para obter dados do mercado de ações.
  *
@@ -240,7 +241,7 @@ export async function getProjectedIpcaRate(): Promise<number> {
  * @returns Uma promessa que resolve para o valor numérico da cotação do Dólar.
  */
 export async function getDollarRate(): Promise<number> {
-    const url = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados/ultimos/1?formato=json';
+    const url = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados/ultimos/20?formato=json';
 
     try {
         const response = await fetch(url, { next: { revalidate: 3600 } }); // 1 hora de cache
@@ -251,11 +252,11 @@ export async function getDollarRate(): Promise<number> {
 
         const data: BcbDataItem[] = await response.json();
 
-        if (!Array.isArray(data) || data.length === 0 || !data[0].valor) {
+        if (!Array.isArray(data) || data.length === 0 || !data[data.length - 1].valor) {
             throw new Error('Formato de resposta inesperado para a cotação do Dólar do BCB.');
         }
 
-        const dollarValue = parseFloat(data[0].valor);
+        const dollarValue = parseFloat(data[data.length - 1].valor);
 
         if (isNaN(dollarValue)) {
             throw new Error('Valor da cotação do Dólar retornado pela API do BCB não é um número válido.');
