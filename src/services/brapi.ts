@@ -118,7 +118,7 @@ export async function getSelicRate(): Promise<number> {
  * @returns Uma promessa que resolve para o valor numérico da taxa IPCA.
  */
 export async function getIpcaRate(): Promise<number> {
-    const url = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.10844/dados/ultimos/12?formato=json`;
+    const url = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados/ultimos/12?formato=json`;
 
     try {
         const response = await fetch(url, { next: { revalidate: 3600 } }); // 1 hora de cache
