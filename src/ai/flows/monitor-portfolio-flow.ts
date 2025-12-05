@@ -6,7 +6,7 @@
  *
  * - monitorPortfolio: A função principal que executa o fluxo de análise.
  * - MonitorPortfolioInput: O tipo de entrada para a função, contendo o perfil do usuário e o contexto macro.
- * - MonitorPortfolioOutput: O tipo de saída, estruturado em quatro blocos claros de recomendação.
+ * - MonitorPortfolioOutput: O tipo de saída, estruturado com a recomendação de alocação de aporte.
  */
 
 import { ai } from '@/ai/genkit';
@@ -38,14 +38,15 @@ const MonitorPortfolioInputSchema = z.object({
 });
 export type MonitorPortfolioInput = z.infer<typeof MonitorPortfolioInputSchema>;
 
-// Esquema de saída, seguindo o formato de 4 blocos solicitado
+// Esquema de saída, focado na alocação do aporte mensal
 const MonitorPortfolioOutputSchema = z.object({
-  scenarioAnalysis: z.string().describe("Bloco 1: Uma leitura simples do cenário atual, explicando se o ambiente favorece renda fixa ou variável, o impacto dos juros nos FIIs, etc."),
-  userProfileImpact: z.string().describe("Bloco 2: Uma análise de como o cenário atual afeta especificamente o perfil de risco do usuário (conservador, moderado ou agressivo)."),
-  recommendedNextSteps: z.string().describe("Bloco 3: Ações práticas e direcionais que o investidor deve considerar (ex: 'reforçar posição em...', 'aumentar gradualmente a parcela em...')."),
-  recommendationRationale: z.string().describe("Bloco 4: Uma justificativa simples e didática para as recomendações fornecidas, conectando-as ao cenário macroeconômico."),
+  cenarioDetectado: z.enum(["Otimista", "Neutro", "Pessimista", "Cautela"]).describe("O cenário macroeconômico detectado pela IA."),
+  explicacaoCenario: z.string().describe("Uma explicação curta e direta do porquê o cenário foi classificado dessa forma, baseado nos indicadores."),
+  alocacaoRecomendada: z.string().describe("A sugestão de alocação do aporte mensal em porcentagens e classes de ativos. Ex: '70% em Renda Fixa Pós-fixada, 30% em Tesouro IPCA+'"),
+  racionalRecomendacao: z.string().describe("A justificativa para a alocação recomendada, conectando os dados macro ao perfil do investidor."),
 });
 export type MonitorPortfolioOutput = z.infer<typeof MonitorPortfolioOutputSchema>;
+
 
 // Função exportada que os componentes do Next.js chamarão
 export async function monitorPortfolio(input: MonitorPortfolioInput): Promise<MonitorPortfolioOutput> {
@@ -57,23 +58,42 @@ const monitorPrompt = ai.definePrompt({
   name: 'monitorPortfolioPrompt',
   input: { schema: MonitorPortfolioInputSchema },
   output: { schema: MonitorPortfolioOutputSchema },
-  system: `Você é um agente de inteligência artificial especializado em investimentos, macroeconomia e gestão dinâmica de portfólio. Seu papel é atuar como um "radar de mercado", analisando o cenário econômico e indicando os próximos passos que o investidor deve considerar para manter sua carteira saudável.
+  system: `Você é um agente de IA especialista em investimentos, atuando como um "Radar de Mercado". Sua tarefa é analisar indicadores macroeconômicos e o perfil de um investidor para sugerir como ele deve direcionar os aportes do mês.
 
-## Sua Missão
-Com base no perfil do investidor e no contexto macroeconômico fornecido, gere orientações personalizadas para ajudar o investidor a manter sua carteira saudável.
+REGRAS DE INTERPRETAÇÃO:
+- Selic (tendência de queda): Renda fixa perde atratividade futura, ativos de risco (ações, FIIs) ganham espaço.
+- IPCA (tendência de alta): Pressiona a Selic para cima, favorece pós-fixados e prejudica FIIs de tijolo.
+- IFIX (positivo): Otimismo e fluxo entrando em FIIs.
+- IBOV (positivo): Apetite geral ao risco no mercado de ações.
+- Dólar (alto): Aumento do risco-país, pode prejudicar a bolsa.
 
-## Regras de Conduta
-- NÃO recomende ativos ou tickers específicos (ex: PETR4). Fale apenas de classes de ativos (ex: "ações de grandes empresas", "FIIs de tijolo").
-- NÃO forneça percentuais exatos de alocação. Use apenas direções como "aumentar", "reduzir", "priorizar", "manter", "ter cautela".
-- Use linguagem simples, objetiva e didática.
-- Adapte a agressividade da recomendação ao perfil do investidor (conservador, moderado, agressivo).
-- Baseie TODAS as suas conclusões estritamente nos dados de entrada fornecidos.
+REGRAS DE CENÁRIO:
+- Cenário Otimista: Selic com tendência de queda, IPCA controlado (queda/estável), IBOV e IFIX positivos, Dólar estável ou em queda.
+- Cenário Neutro/Cautela: Indicadores mistos, como Selic estável, mas IPCA com leve alta.
+- Cenário Pessimista: Selic com tendência de alta, IPCA subindo, IBOV e IFIX negativos, Dólar em alta.
 
-## Formato de Saída Obrigatório
-Responda SEMPRE usando a estrutura de 4 blocos definida no esquema de saída.`,
+REGRAS DE ALOCAÇÃO POR PERFIL (para o aporte do mês):
+- CONSERVADOR:
+  - Otimista: Aumentar levemente a alocação em Tesouro IPCA+ e FIIs de papel. Manter base em pós-fixado (Tesouro Selic, CDB 100%+).
+  - Neutro/Cautela: Foco total em Renda Fixa pós-fixada (Tesouro Selic, CDBs).
+  - Pessimista: 100% do aporte em liquidez e segurança (Tesouro Selic).
+- MODERADO:
+  - Otimista: Aumentar exposição em FIIs de tijolo e ETFs de ações (BOVA11). Reduzir parte do aporte em pós-fixado.
+  - Neutro/Cautela: Manter equilíbrio entre RF e RV. Posição moderada em Tesouro IPCA+.
+  - Pessimista: Aumentar aporte em RF pós-fixada. Na RV, preferir FIIs de papel. Reduzir ações.
+- ARROJADO:
+  - Otimista: Aumentar forte em ações e ETFs (Brasil e exterior). Aportar em FIIs de tijolo e Tesouro IPCA+ longo.
+  - Neutro/Cautela: Manter posições, fazer compras seletivas.
+  - Pessimista: Usar o cenário para comprar ações de qualidade em queda (oportunidades). Aumentar caixa. Evitar FIIs de tijolo.
+
+FORMATO DE SAÍDA OBRIGATÓRIO:
+1. cenarioDetectado: Classifique o cenário em "Otimista", "Neutro", "Pessimista" ou "Cautela".
+2. explicacaoCenario: Justifique a classificação em uma frase.
+3. alocacaoRecomendada: Forneça a sugestão de alocação para o APORTE DO MÊS em porcentagens e classes de ativos.
+4. racionalRecomendacao: Explique por que essa alocação faz sentido para o perfil do usuário, conectando com o cenário.`,
 
   prompt: `
-Analise os seguintes dados e gere as recomendações para o investidor.
+Analise os seguintes dados e gere a recomendação de aporte para o investidor.
 
 ### 1. Perfil do Investidor
 - **Perfil de Risco:** {{userProfile.riskProfile}}
@@ -83,12 +103,11 @@ Analise os seguintes dados e gere as recomendações para o investidor.
 ### 2. Contexto Macroeconômico Atual
 - **Taxa Selic:** {{macroContext.selicRate}}% (tendência: {{macroContext.selicTrend}})
 - **Inflação (IPCA 12m):** {{macroContext.ipca12m}}% (tendência: {{macroContext.ipcaTrend}})
-- **IFIX (variação recente):** {{macroContext.ifixChange}}%
-- **Ibovespa (variação recente):** {{macroContext.ibovChange}}%
+- **IFIX (variação dia):** {{macroContext.ifixChange}}%
+- **Ibovespa (variação dia):** {{macroContext.ibovChange}}%
 - **Dólar (USD/BRL):** R$ {{macroContext.dollarRate}}
-- **Sentimento de Mercado:** {{macroContext.marketSentiment}}
 
-Agora, gere a análise completa no formato de 4 blocos solicitado.
+Agora, gere a análise completa no formato de saída solicitado.
 `,
 });
 

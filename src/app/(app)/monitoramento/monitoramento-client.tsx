@@ -6,12 +6,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
-import { Loader2, Zap, Newspaper, Shield, LineChart, Target, BrainCircuit, Info } from 'lucide-react';
+import { Loader2, Zap, BrainCircuit, TrendingUp, Shield, BarChart, FilePieChart } from 'lucide-react';
 import { monitorPortfolio } from '@/lib/actions';
 import type { MonitorPortfolioOutput } from '@/ai/flows/monitor-portfolio-flow';
 import { cn } from '@/lib/utils';
 import type { StockInfo } from '@/services/brapi';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 type Trend = 'alta' | 'queda' | 'estavel';
 
@@ -31,7 +30,6 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
   const { user } = useUser();
   const firestore = useFirestore();
 
-  // Busca o perfil do usuário no Firestore
   const userProfileRef = useMemoFirebase(() => {
     if (!user) return null;
     return doc(firestore, `users/${user.uid}/userProfiles/${user.uid}`);
@@ -47,7 +45,6 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
   const ibovChange = ibovData?.regularMarketChangePercent ?? 0;
   const ibovPointsChange = ibovData?.regularMarketChange ?? 0;
 
-  // O contexto macroeconômico agora usa a SELIC, IPCA e a tendência reais
   const macroContext = {
       selicRate: selicRate,
       selicTrend: selicTrend,
@@ -56,7 +53,7 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
       ifixChange: ifixChange,
       ibovChange: ibovChange,
       dollarRate: dollarRate,
-      marketSentiment: 'neutro' as const, // Mantendo simulado por enquanto
+      marketSentiment: 'neutro' as const,
   };
 
   const handleAnalyzeClick = async () => {
@@ -87,52 +84,51 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
     }
   };
 
+    const getScenarioIcon = (scenario: string) => {
+        switch (scenario) {
+            case 'Otimista': return <TrendingUp className="text-green-500" />;
+            case 'Pessimista': return <TrendingUp className="text-red-500 rotate-180" />;
+            case 'Neutro': return <BarChart className="text-gray-500" />;
+            case 'Cautela': return <Shield className="text-yellow-500" />;
+            default: return <Zap className="text-primary" />;
+        }
+    }
+
+
   const AnalysisResult = () => (
     <div className="space-y-6 mt-8 animate-in fade-in-50">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Newspaper className="text-primary" />
-            Leitura do Cenário Atual
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground">{analysis?.scenarioAnalysis}</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Shield className="text-primary" />
-            Como Isso Afeta Seu Perfil
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground">{analysis?.userProfileImpact}</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Target className="text-primary" />
-            Próximos Passos Recomendados
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground">{analysis?.recommendedNextSteps}</p>
-        </CardContent>
-      </Card>
-      <Card className="bg-primary/5 border-primary/20">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <LineChart className="text-primary" />
-            Justificativa das Recomendações
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground">{analysis?.recommendationRationale}</p>
-        </CardContent>
-      </Card>
+        <Card>
+            <CardHeader>
+                <CardTitle className="flex items-center gap-3">
+                    {getScenarioIcon(analysis!.cenarioDetectado)}
+                    Cenário Detectado: {analysis?.cenarioDetectado}
+                </CardTitle>
+                <CardDescription>
+                    {analysis?.explicacaoCenario}
+                </CardDescription>
+            </CardHeader>
+        </Card>
+
+        <Card className="bg-primary/5 border-primary/20">
+            <CardHeader>
+                <CardTitle className="flex items-center gap-3">
+                    <FilePieChart className="text-primary"/>
+                    Alocação Recomendada para seu Aporte
+                </CardTitle>
+                <CardDescription>
+                    Com base no cenário e no seu perfil, sugerimos a seguinte distribuição para seus próximos investimentos:
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <p className="text-xl font-bold text-center text-foreground mb-4">{analysis?.alocacaoRecomendada}</p>
+                <Alert>
+                    <AlertTitle className="font-semibold">Racional da Recomendação</AlertTitle>
+                    <AlertDescription>
+                        {analysis?.racionalRecomendacao}
+                    </AlertDescription>
+                </Alert>
+            </CardContent>
+        </Card>
     </div>
   );
 
@@ -189,7 +185,7 @@ export default function MonitoramentoClient({ selicRate, ipcaRate, projectedSeli
                     ) : (
                         <>
                             <BrainCircuit className="mr-2 h-4 w-4" />
-                            Analisar e Recomendar Próximos Passos
+                            Analisar e Recomendar Aporte
                         </>
                     )}
                 </Button>
