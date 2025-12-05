@@ -85,7 +85,7 @@ Analise os seguintes dados e gere as recomendações para o investidor.
 - **Inflação (IPCA 12m):** {{macroContext.ipca12m}}% (tendência: {{macroContext.ipcaTrend}})
 - **IFIX (variação recente):** {{macroContext.ifixChange}}%
 - **Ibovespa (variação recente):** {{macroContext.ibovChange}}%
-- **Dólar (USD/BRL):** R$ {{macro...dollarRate}}
+- **Dólar (USD/BRL):** R$ {{macroContext.dollarRate}}
 - **Sentimento de Mercado:** {{macroContext.marketSentiment}}
 
 Agora, gere a análise completa no formato de 4 blocos solicitado.
