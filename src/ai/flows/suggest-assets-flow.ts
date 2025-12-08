@@ -9,7 +9,7 @@
  * - SuggestAssetsOutput: O tipo de saída, contendo uma lista de ativos sugeridos.
  */
 
-import { ai } from '@/ai/genkit';
+import { ai, geminiPro } from '@/ai/genkit';
 import { getStockInfoFromBrapi } from '@/ai/tools/get-stock-info-from-brapi';
 import { z } from 'genkit';
 
@@ -42,6 +42,7 @@ export async function suggestAssets(input: SuggestAssetsInput): Promise<SuggestA
 // Definição do prompt para a IA
 const suggestAssetsPrompt = ai.definePrompt({
   name: 'suggestAssetsPrompt',
+  model: geminiPro,
   input: { schema: SuggestAssetsInputSchema },
   output: { schema: SuggestAssetsOutputSchema },
   tools: [getStockInfoFromBrapi], // Disponibiliza a ferramenta para a IA

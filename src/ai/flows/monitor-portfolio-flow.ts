@@ -9,7 +9,7 @@
  * - MonitorPortfolioOutput: O tipo de saída, estruturado com a recomendação de alocação de aporte.
  */
 
-import { ai } from '@/ai/genkit';
+import { ai, geminiPro } from '@/ai/genkit';
 import { z } from 'genkit';
 
 // Esquema para o perfil do investidor
@@ -58,6 +58,7 @@ export async function monitorPortfolio(input: MonitorPortfolioInput): Promise<Mo
 // Definição do prompt para a IA
 const monitorPrompt = ai.definePrompt({
   name: 'monitorPortfolioPrompt',
+  model: geminiPro,
   input: { schema: MonitorPortfolioInputSchema },
   output: { schema: MonitorPortfolioOutputSchema },
   system: `Você é um agente de IA especialista em investimentos, atuando como um "Radar de Mercado". Sua tarefa é analisar indicadores macroeconômicos e o perfil de um investidor para sugerir como ele deve direcionar os aportes do mês, com uma visão estratégica de longo prazo.

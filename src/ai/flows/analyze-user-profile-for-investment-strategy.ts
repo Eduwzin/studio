@@ -7,7 +7,7 @@
  * - AnalyzeUserProfileOutput - O tipo de saída para a função analyzeUserProfile.
  */
 
-import {ai} from '@/ai/genkit';
+import {ai, geminiPro} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const AnalyzeUserProfileInputSchema = z.object({
@@ -53,6 +53,7 @@ export async function analyzeUserProfile(input: AnalyzeUserProfileInput): Promis
 
 const analyzeUserProfilePrompt = ai.definePrompt({
   name: 'analyzeUserProfilePrompt',
+  model: geminiPro,
   input: {schema: AnalyzeUserProfileInputSchema},
   output: {schema: AnalyzeUserProfileOutputSchema},
   prompt: `Você é um consultor de investimentos especialista. Analise o perfil do usuário, incluindo idade e respostas ao questionário, para fornecer uma estratégia de investimento, alocação de ativos e avaliação de risco.
