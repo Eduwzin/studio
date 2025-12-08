@@ -86,4 +86,6 @@ export async function suggestAssets(input: SuggestAssetsInput): Promise<SuggestA
 }
 
 
-export type { GenerateLessonInput, GenerateLessonOutput };
+export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioInput, MonitorPortfolioOutput };
+
+    

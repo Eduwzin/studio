@@ -9,7 +9,7 @@ import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import { Loader2, Zap, BrainCircuit, TrendingUp, Shield, BarChart, FilePieChart, Beaker } from 'lucide-react';
 import { monitorPortfolio } from '@/lib/actions';
-import type { MonitorPortfolioOutput } from '@/ai/flows/monitor-portfolio-flow';
+import type { MonitorPortfolioOutput } from '@/lib/actions';
 import { cn } from '@/lib/utils';
 import type { StockInfo, DollarInfo } from '@/services/brapi';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -92,6 +92,8 @@ export default function MonitoramentoClient({
           riskTolerance: userProfile.perfilDeInvestimento?.experienciaDeInvestimento ?? 'média',
         },
         macroContext: macroContext,
+        projectedSelic: projectedSelicRate,
+        projectedIpca: projectedIpcaRate,
       });
       setAnalysis(result);
     } catch (err) {
@@ -102,14 +104,13 @@ export default function MonitoramentoClient({
     }
   };
 
-    const getScenarioIcon = (scenario: string) => {
-        switch (scenario) {
-            case 'Otimista': return <TrendingUp className="text-green-500" />;
-            case 'Pessimista': return <TrendingUp className="text-red-500 rotate-180" />;
-            case 'Neutro': return <BarChart className="text-gray-500" />;
-            case 'Cautela': return <Shield className="text-yellow-500" />;
-            default: return <Zap className="text-primary" />;
-        }
+    const getScenarioIcon = (scenario?: string) => {
+        if (!scenario) return <Zap className="text-primary" />;
+        if (scenario.includes('juros em queda')) return <TrendingUp className="text-green-500" />;
+        if (scenario.includes('juros altos')) return <Shield className="text-blue-500" />;
+        if (scenario.includes('renda variável')) return <BarChart className="text-purple-500" />;
+        if (scenario.includes('proteção')) return <Shield className="text-yellow-500" />;
+        return <Zap className="text-primary" />;
     }
 
 
@@ -251,3 +252,5 @@ export default function MonitoramentoClient({
     </div>
   );
 }
+
+    

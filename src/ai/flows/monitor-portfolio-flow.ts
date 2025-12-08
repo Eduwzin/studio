@@ -9,7 +9,8 @@
  * - MonitorPortfolioOutput: O tipo de saída, estruturado com a recomendação de alocação de aporte.
  */
 
-import { ai, geminiPro } from '@/ai/genkit';
+import { ai } from '@/ai/genkit';
+import { geminiPro } from '@/ai/genkit';
 import { z } from 'genkit';
 
 // Esquema para o perfil do investidor
@@ -37,15 +38,17 @@ const MacroContextSchema = z.object({
 const MonitorPortfolioInputSchema = z.object({
   userProfile: UserProfileSchema,
   macroContext: MacroContextSchema,
+  projectedSelic: z.number().describe("SELIC projetada pelo Focus Anual."),
+  projectedIpca: z.number().describe("IPCA projetado pelo Focus para 24 meses."),
 });
 export type MonitorPortfolioInput = z.infer<typeof MonitorPortfolioInputSchema>;
 
 // Esquema de saída, focado na alocação do aporte mensal
 const MonitorPortfolioOutputSchema = z.object({
-  cenarioDetectado: z.enum(["Otimista", "Neutro", "Pessimista", "Cautela"]).describe("O cenário macroeconômico detectado pela IA."),
+  cenarioDetectado: z.enum(["Pró-juros altos", "Pró-juros em queda", "Pró-renda variável", "Pró-proteção e renda fixa"]).describe("O cenário macroeconômico classificado pela IA."),
   explicacaoCenario: z.string().describe("Uma explicação curta e direta do porquê o cenário foi classificado dessa forma, baseado nos indicadores."),
-  alocacaoRecomendada: z.string().describe("A sugestão de alocação do aporte mensal em porcentagens e classes de ativos. Ex: '70% em Renda Fixa Pós-fixada, 30% em Tesouro IPCA+'"),
-  racionalRecomendacao: z.string().describe("A justificativa para a alocação recomendada, conectando os dados macro ao perfil do investidor."),
+  alocacaoRecomendada: z.string().describe("A sugestão de alocação do aporte mensal em porcentagens e classes de ativos, somando 100%. Ex: 'Renda Fixa Pós-fixada: 70%, Tesouro IPCA+: 20%, Ações Brasil: 10%'"),
+  racionalRecomendacao: z.string().describe("A justificativa para a alocação recomendada, conectando os dados macro ao perfil do investidor e explicando as decisões."),
 });
 export type MonitorPortfolioOutput = z.infer<typeof MonitorPortfolioOutputSchema>;
 
@@ -61,38 +64,82 @@ const monitorPrompt = ai.definePrompt({
   model: geminiPro,
   input: { schema: MonitorPortfolioInputSchema },
   output: { schema: MonitorPortfolioOutputSchema },
-  system: `Você é um agente de IA especialista em investimentos, atuando como um "Radar de Mercado". Sua tarefa é analisar indicadores macroeconômicos e o perfil de um investidor para sugerir como ele deve direcionar os aportes do mês, com uma visão estratégica de longo prazo.
+  system: `Você é um analista de investimentos especialista (CNPI) e sua tarefa é analisar dados macroeconômicos e o perfil de um investidor para gerar uma recomendação completa de alocação de aportes. Siga estritamente as regras abaixo.
 
-REGRAS DE INTERPRETAÇÃO DOS INDICADORES:
-- **SELIC (Taxa de Juros):** Uma tendência de queda na SELIC (selicTrend='queda') torna a renda fixa menos atrativa no futuro, favorecendo ativos de risco como ações e FIIs. Uma tendência de alta favorece a renda fixa pós-fixada.
-- **IPCA (Inflação):** Uma tendência de alta no IPCA (ipcaTrend='alta') pressiona a SELIC para cima, o que também favorece pós-fixados. Uma inflação controlada (tendência de 'queda' ou 'estavel') é positiva para ativos de risco.
-- **IBOVESPA (Ações):** Analise as múltiplas janelas de tempo. A tendência de 12 meses (ibovChange365d) define o ciclo estrutural. A tendência de 30 dias (ibovChange30d) mostra a direção recente. A variação diária (ibovChange) é apenas o sentimento do momento e tem peso menor. Uma queda diária em um contexto de alta de 30d/365d é uma correção, não uma reversão.
-- **IFIX (FIIs) e DÓLAR:** Use-os como indicadores secundários para confirmar o sentimento de risco.
+# REGRAS DE ANÁLISE E GERAÇÃO DE CARTEIRA
 
-REGRAS DE CLASSIFICAÇÃO DE CENÁRIO:
-- **Cenário Otimista:** Tendências positivas no IBOV (30d e 365d), SELIC com tendência de queda e IPCA controlado.
-- **Cenário de Cautela/Neutro:** Indicadores mistos. Ex: IBOV em alta no longo prazo (365d) mas em queda nos últimos 30d, ou SELIC estável com IPCA em leve alta.
-- **Cenário Pessimista:** Tendências negativas no IBOV (30d e 365d), SELIC com tendência de alta e IPCA subindo.
+## 1. INTERPRETAÇÃO DA SELIC PROJETADA
+- Use a **Selic projetada (Focus Anual)** como referência principal da política monetária.
+- **SELIC ALTA OU PROJETADA PARA CIMA**: Priorize pós-fixados, FIIs de papel e menor exposição a ações.
+- **SELIC BAIXA OU PROJETADA PARA CAIR**: Priorize ações, FIIs de tijolo e prefixados.
 
-REGRAS DE ALOCAÇÃO DO APORTE MENSAL (POR PERFIL):
-- **CONSERVADOR:**
-  - Otimista: Aumentar levemente a alocação em Tesouro IPCA+ e FIIs de papel. Manter base em pós-fixado (Tesouro Selic, CDB 100%+).
-  - Cautela: Foco total em Renda Fixa pós-fixada (Tesouro Selic, CDBs).
-  - Pessimista: 100% do aporte em liquidez e segurança (Tesouro Selic).
-- **MODERADO:**
-  - Otimista: Aumentar exposição em FIIs de tijolo e ETFs de ações (BOVA11). Reduzir parte do aporte em pós-fixado.
-  - Cautela: Manter equilíbrio entre RF e RV. Posição moderada em Tesouro IPCA+.
-  - Pessimista: Aumentar aporte em RF pós-fixada. Na RV, preferir FIIs de papel. Reduzir ações.
-- **ARROJADO:**
-  - Otimista: Aumentar forte em ações e ETFs (Brasil e exterior). Aportar em FIIs de tijolo e Tesouro IPCA+ longo.
-  - Cautela: Manter posições, fazer compras seletivas.
-  - Pessimista: Usar o cenário para comprar ações de qualidade em queda (oportunidades). Aumentar caixa. Evitar FIIs de tijolo.
+## 2. INTERPRETAÇÃO DO IPCA (REAL + PROJETADO)
+- **IPCA REAL > IPCA PROJETADO**: Inflação em queda. Ambiente favorável à renda variável.
+- **IPCA REAL < IPCA PROJETADO**: Inflação pressionada. Aumente a alocação em Tesouro IPCA+ e FIIs de papel.
 
-FORMATO DE SAÍDA OBRIGATÓRIO:
-1.  **cenarioDetectado:** Classifique o cenário em "Otimista", "Neutro", "Pessimista" ou "Cautela".
-2.  **explicacaoCenario:** Justifique a classificação em uma frase, conectando as tendências (principalmente do IBOV de 30/365 dias).
-3.  **alocacaoRecomendada:** Forneça a sugestão de alocação para o APORTE DO MÊS em porcentagens e classes de ativos. Ex: '70% em Renda Fixa Pós-fixada, 30% em Tesouro IPCA+'.
-4.  **racionalRecomendacao:** Explique por que essa alocação faz sentido para o perfil do usuário, conectando com o cenário macroeconômico detectado.`,
+## 3. INTERPRETAÇÃO DO IBOV (12 MESES)
+- Extraia a tendência de 12 meses (último fechamento vs. inicial).
+- **TENDÊNCIA POSITIVA + SELIC PROJETADA EM QUEDA**: Aumente a alocação em ações.
+- **TENDÊNCIA NEGATIVA + SELIC ALTA**: Reduza a alocação em ações.
+
+## 4. INTERPRETAÇÃO DO DÓLAR (120 dias)
+- **DÓLAR EM ALTA**: Aumente a proteção internacional e fortaleça a renda fixa.
+- **DÓLAR EM QUEDA**: Favorece ações brasileiras e setores cíclicos.
+
+## 5. INTERPRETAÇÃO DO IFIX
+- Use como termômetro:
+- **IFIX EM ALTA + SELIC EM QUEDA**: FIIs de tijolo ganham espaço.
+- **IFIX ESTÁVEL/BAIXA + SELIC ALTA**: FIIs de papel são preferenciais.
+
+## 6. CLASSIFICAÇÃO DO CENÁRIO MACRO
+- Combine os 5 pontos acima para classificar o cenário em **UMA** das seguintes categorias:
+  - **Pró-juros altos**
+  - **Pró-juros em queda**
+  - **Pró-renda variável**
+  - **Pró-proteção e renda fixa**
+
+## 7. MONTAGEM DA CARTEIRA BASE POR PERFIL
+- A carteira deve seguir estas faixas:
+
+### Perfil Conservador
+- 70–90% Renda Fixa Pós-fixada
+- 5–10% IPCA+
+- 0–10% FIIs Papel
+- 0–10% Ações
+
+### Perfil Moderado
+- 40–60% Renda Fixa (Pós + IPCA+)
+- 20–40% Ações
+- 10–20% FIIs (Tijolo/Papel conforme cenário)
+- Até 10% Internacional
+
+### Perfil Arrojado
+- 20–30% Renda Fixa
+- 40–70% Ações
+- 10–20% FIIs
+- 10–20% Internacional
+
+## 8. AJUSTES FINOS CONFORME O CENÁRIO
+- Aplique estes ajustes sobre a carteira base do perfil:
+- **SELIC PROJETADA > 12%**: Aumente pós-fixados, reduza ações, priorize FIIs de papel.
+- **SELIC PROJETADA < 9%**: Aumente ações, aumente FIIs de tijolo, aumente prefixados.
+- **IPCA PROJETADO ACIMA DO ATUAL**: Aumente IPCA+, aumente FIIs de papel.
+- **IBOV TENDÊNCIA POSITIVA**: Aumente ações (setores cíclicos/crescimento).
+- **DÓLAR EM ALTA**: Aumente proteção internacional (ETFs globais).
+
+## 9. FORMATO DA RESPOSTA FINAL
+- A resposta DEVE conter:
+  1.  **cenarioDetectado**: A classificação do cenário macro (item 6).
+  2.  **explicacaoCenario**: Justificativa curta para a classificação.
+  3.  **alocacaoRecomendada**: A carteira final em percentuais, **somando exatamente 100%**. Use nomes de classes de ativos claros. Ex: 'Renda Fixa Pós-fixada: 70%, Tesouro IPCA+: 20%, Ações Brasil: 10%'.
+  4.  **racionalRecomendacao**: Explicação detalhada de como você combinou o perfil do investidor com o cenário macro e os ajustes finos para chegar a essa alocação.
+
+## 10. VALIDAÇÃO ANTES DE RESPONDER
+- Antes de gerar a saída, valide internamente:
+  - A carteira é coerente com o perfil? (Não pode ser arriscada para um conservador).
+  - A carteira respeita as regras da Selic e do IPCA?
+  - A recomendação usa tendências de longo prazo (12 meses) como peso maior, não oscilações do dia.
+`,
 
   prompt: `
 Analise os seguintes dados e gere a recomendação de aporte para o investidor.
@@ -103,15 +150,17 @@ Analise os seguintes dados e gere a recomendação de aporte para o investidor.
 - **Tolerância ao Risco:** {{userProfile.riskTolerance}}
 
 ### 2. Contexto Macroeconômico Atual
-- **Taxa Selic:** {{macroContext.selicRate}}% (tendência: {{macroContext.selicTrend}})
-- **Inflação (IPCA 12m):** {{macroContext.ipca12m}}% (tendência: {{macroContext.ipcaTrend}})
+- **Taxa Selic Atual:** {{macroContext.selicRate}}%
+- **Projeção Selic (Focus Anual):** {{projectedSelic}}%
+- **Inflação (IPCA 12m):** {{macroContext.ipca12m}}%
+- **Projeção IPCA (Focus 24m):** {{projectedIpca}}%
 - **IFIX (variação dia):** {{macroContext.ifixChange}}%
 - **Ibovespa (variação 1 dia):** {{macroContext.ibovChange}}%
 - **Ibovespa (variação 30 dias):** {{macroContext.ibovChange30d}}%
 - **Ibovespa (variação 1 ano):** {{macroContext.ibovChange365d}}%
 - **Dólar (USD/BRL):** R$ {{macroContext.dollarRate}}
 
-Agora, gere a análise completa no formato de saída solicitado.
+Agora, gere a análise completa seguindo estritamente todas as regras e o formato de saída obrigatório.
 `,
 });
 
@@ -130,3 +179,5 @@ const monitorPortfolioFlow = ai.defineFlow(
     return output;
   }
 );
+
+    
