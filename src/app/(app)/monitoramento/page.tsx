@@ -1,5 +1,5 @@
 
-import { getSelicRate, getIpcaRate, getProjectedSelicRate, getProjectedIpcaRate, getStockInfo, StockInfo, getDollarRate } from '@/services/brapi';
+import { getSelicRate, getIpcaRate, getProjectedSelicRate, getProjectedIpcaRate, getStockInfo, StockInfo, getDollarRate, DollarInfo } from '@/services/brapi';
 import MonitoramentoClient from './monitoramento-client';
 
 export default async function MonitoramentoPage() {
@@ -9,7 +9,7 @@ export default async function MonitoramentoPage() {
     let projectedIpcaRate: number;
     let ifixData: StockInfo | null = null;
     let ibovData: StockInfo | null = null;
-    let dollarRate: number;
+    let dollarInfo: DollarInfo = { currentRate: 5.25, history: [] };
 
     // --- Data Fetching ---
     try {
@@ -53,10 +53,9 @@ export default async function MonitoramentoPage() {
     }
     
     try {
-        dollarRate = await getDollarRate();
+        dollarInfo = await getDollarRate();
     } catch (error) {
         console.error("Usando cotação do Dólar de fallback devido a erro na API:", error);
-        dollarRate = 5.25;
     }
 
     // --- Trend Calculation ---
@@ -105,7 +104,7 @@ export default async function MonitoramentoPage() {
         ipcaTrend={ipcaTrend}
         ifixData={ifixData}
         ibovData={ibovData}
-        dollarRate={dollarRate}
+        dollarInfo={dollarInfo}
         ibovChange1d={ibovChange1d}
         ibovChange30d={ibovChange30d}
         ibovChange365d={ibovChange365d}

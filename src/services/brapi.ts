@@ -79,7 +79,7 @@ export async function getStockInfo(ticker: string, range?: string, interval?: st
 }
 
 /**
- * Representa a estrutura de dados esperada da resposta da API do BCB para a SELIC.
+ * Representa a estrutura de dados da resposta da API do BCB para a SELIC.
  */
 interface BcbDataItem {
     data: string;
@@ -241,21 +241,31 @@ export async function getProjectedIpcaRate(): Promise<number> {
     }
 }
 
+export type DollarInfo = {
+    currentRate: number;
+    history: BcbDataItem[];
+};
 
 /**
  * Busca a cotação do Dólar (PTAX) mais recente da API do Banco Central do Brasil (BCB).
  * A função agora busca os dados dos últimos 120 dias para garantir que a informação esteja sempre atualizada.
- * @returns Uma promessa que resolve para o valor numérico da cotação do Dólar mais recente.
+ * @returns Uma promessa que resolve com a cotação mais recente e o histórico dos últimos dias.
  */
-export async function getDollarRate(): Promise<number> {
+export async function getDollarRate(): Promise<DollarInfo> {
     const today = new Date();
-    const endDate = today.toLocaleDateString('pt-BR'); // Formato DD/MM/AAAA
+    // Clona a data para não modificar o objeto original
+    const endDateObj = new Date(today);
+    // Formata a data final para o formato 'MM-DD-YYYY'
+    const dataFinal = `${endDateObj.getMonth() + 1}-${endDateObj.getDate()}-${endDateObj.getFullYear()}`;
 
+    // Clona a data para calcular a data de início
     const startDateObj = new Date(today);
-    startDateObj.setDate(today.getDate() - 120); // Ajustado para 120 dias
-    const startDate = startDateObj.toLocaleDateString('pt-BR'); // Formato DD/MM/AAAA
-
-    const url = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados?formato=json&dataInicial=${startDate}&dataFinal=${endDate}`;
+    startDateObj.setDate(today.getDate() - 120);
+    // Formata a data de início para o formato 'MM-DD-YYYY'
+    const dataInicial = `${startDateObj.getMonth() + 1}-${startDateObj.getDate()}-${startDateObj.getFullYear()}`;
+    
+    // Constrói a URL para a API de cotação do Dólar
+    const url = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados?formato=json&dataInicial=${dataInicial}&dataFinal=${dataFinal}`;
 
     try {
         const response = await fetch(url, { next: { revalidate: 3600 } }); // 1 hora de cache
@@ -267,18 +277,16 @@ export async function getDollarRate(): Promise<number> {
         const data: BcbDataItem[] = await response.json();
 
         // A API pode retornar um array vazio se não houver cotação no período (ex: fim de semana)
-        // Por isso, pegamos o último valor válido do array.
         if (!Array.isArray(data) || data.length === 0) {
-            console.warn(`Nenhuma cotação do Dólar encontrada para o período de ${startDate} a ${endDate}. Tentando com um período maior.`);
-            // Fallback: busca o último valor disponível se o período de 120 dias falhar.
-             const fallbackUrl = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados/ultimos/1?formato=json';
-             const fallbackResponse = await fetch(fallbackUrl);
-             if (!fallbackResponse.ok) throw new Error('Falha na API de fallback do BCB para Dólar.');
-             const fallbackData: BcbDataItem[] = await fallbackResponse.json();
-             if (fallbackData.length === 0) throw new Error('Dados de fallback para o Dólar também estão vazios.');
-             const lastValue = parseFloat(fallbackData[0].valor);
-             if (isNaN(lastValue)) throw new Error('Valor de fallback do Dólar não é um número válido.');
-             return lastValue;
+            // Tenta um fallback se não encontrar dados no período.
+            const fallbackUrl = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados/ultimos/1?formato=json';
+            const fallbackResponse = await fetch(fallbackUrl);
+            if (!fallbackResponse.ok) throw new Error('Falha na API de fallback do BCB para Dólar.');
+            const fallbackData: BcbDataItem[] = await fallbackResponse.json();
+            if (fallbackData.length === 0) throw new Error('Dados de fallback para o Dólar também estão vazios.');
+            const lastValue = parseFloat(fallbackData[0].valor);
+            if (isNaN(lastValue)) throw new Error('Valor de fallback do Dólar não é um número válido.');
+            return { currentRate: lastValue, history: fallbackData };
         }
 
         // Pega o último item do array, que é o mais recente
@@ -289,7 +297,7 @@ export async function getDollarRate(): Promise<number> {
             throw new Error('Valor da cotação do Dólar retornado pela API do BCB não é um número válido.');
         }
 
-        return dollarValue;
+        return { currentRate: dollarValue, history: data };
 
     } catch (error) {
         console.error("Falha ao buscar cotação do Dólar na API do BCB:", error);
