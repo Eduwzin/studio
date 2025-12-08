@@ -168,22 +168,7 @@ export default function MonitoramentoClient({
   }
 
   const debugData = {
-    selicRate,
-    ipcaRate,
-    projectedSelicRate,
-    selicTrend,
-    projectedIpcaRate,
-    ipcaTrend,
-    dollarRate,
-    ibovChange1d,
-    ibovChange30d,
-    ibovChange365d,
-    ifixData,
-    ibovData: {
-      ...ibovData,
-      historicalDataPrice: `O histórico de preços contém ${ibovData?.historicalDataPrice?.length ?? 0} registros. O primeiro é mostrado abaixo.`,
-      firstHistoricalPoint: ibovData?.historicalDataPrice?.[0]
-    }
+    dollarRate
   };
 
   return (
