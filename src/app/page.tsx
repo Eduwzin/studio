@@ -19,9 +19,14 @@ export default function Home() {
             <p className="text-lg md:text-xl text-muted-foreground mb-8">
               Seu guia de crescimento financeiro com inteligência artificial. O SafeStart Invest ajuda iniciantes a navegar no mundo dos investimentos com estratégias personalizadas, recursos educacionais e suporte contínuo.
             </p>
-            <Button asChild size="lg">
-              <Link href="/onboarding">Comece de Graça</Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Button asChild size="lg">
+                  <Link href="/onboarding">Comece de Graça</Link>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                    <Link href="/login">Já tenho conta</Link>
+                </Button>
+            </div>
           </div>
         </section>
 
