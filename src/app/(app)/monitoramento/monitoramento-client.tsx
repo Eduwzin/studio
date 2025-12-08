@@ -6,11 +6,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
-import { Loader2, Zap, BrainCircuit, TrendingUp, Shield, BarChart, FilePieChart } from 'lucide-react';
+import { Loader2, Zap, BrainCircuit, TrendingUp, Shield, BarChart, FilePieChart, Beaker } from 'lucide-react';
 import { monitorPortfolio } from '@/lib/actions';
 import type { MonitorPortfolioOutput } from '@/ai/flows/monitor-portfolio-flow';
 import { cn } from '@/lib/utils';
 import type { StockInfo } from '@/services/brapi';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 type Trend = 'alta' | 'queda' | 'estavel';
 
@@ -166,6 +167,25 @@ export default function MonitoramentoClient({
     return `${sign}${value.toFixed(decimals)}%`;
   }
 
+  const debugData = {
+    selicRate,
+    ipcaRate,
+    projectedSelicRate,
+    selicTrend,
+    projectedIpcaRate,
+    ipcaTrend,
+    dollarRate,
+    ibovChange1d,
+    ibovChange30d,
+    ibovChange365d,
+    ifixData,
+    ibovData: {
+      ...ibovData,
+      historicalDataPrice: `O histórico de preços contém ${ibovData?.historicalDataPrice?.length ?? 0} registros. O primeiro é mostrado abaixo.`,
+      firstHistoricalPoint: ibovData?.historicalDataPrice?.[0]
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto">
       <header className="mb-8">
@@ -225,6 +245,27 @@ export default function MonitoramentoClient({
 
       {analysis && <AnalysisResult />}
 
+       <div className="mt-12">
+            <Accordion type="single" collapsible>
+                <AccordionItem value="debug-data">
+                    <AccordionTrigger>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                           <Beaker className="h-4 w-4"/>
+                           Dados Brutos da API (Depuração)
+                        </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        <Card className="bg-muted/50">
+                            <CardContent className="pt-6">
+                                <pre className="text-xs whitespace-pre-wrap">
+                                    <code>{JSON.stringify(debugData, null, 2)}</code>
+                                </pre>
+                            </CardContent>
+                        </Card>
+                    </AccordionContent>
+                </AccordionItem>
+            </Accordion>
+        </div>
     </div>
   );
 }
