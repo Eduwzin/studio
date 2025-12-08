@@ -178,7 +178,7 @@ interface FocusApiResponse {
  * @returns Uma promessa que resolve para o valor numérico da projeção da SELIC.
  */
 export async function getProjectedSelicRate(): Promise<number> {
-    const url = 'https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoSelic?$top=1&$orderby=Data%20desc&$format=json';
+    const url = 'https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoAnuais?$filter=Indicador%20eq%20%27Selic%27&$top=1&$orderby=Data%20desc&$format=json';
 
     try {
         const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache de 24 horas
