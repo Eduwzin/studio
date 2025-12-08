@@ -1,4 +1,5 @@
 
+
 /**
  * @fileOverview Serviço para interagir com a API da Brapi para obter dados do mercado de ações.
  *
@@ -255,14 +256,14 @@ export async function getDollarRate(): Promise<DollarInfo> {
     const today = new Date();
     // Clona a data para não modificar o objeto original
     const endDateObj = new Date(today);
-    // Formata a data final para o formato 'MM-DD-YYYY'
-    const dataFinal = `${endDateObj.getMonth() + 1}-${endDateObj.getDate()}-${endDateObj.getFullYear()}`;
+    // Formata a data final para o formato 'MM/DD/YYYY'
+    const dataFinal = `${endDateObj.getMonth() + 1}/${endDateObj.getDate()}/${endDateObj.getFullYear()}`;
 
     // Clona a data para calcular a data de início
     const startDateObj = new Date(today);
     startDateObj.setDate(today.getDate() - 120);
-    // Formata a data de início para o formato 'MM-DD-YYYY'
-    const dataInicial = `${startDateObj.getMonth() + 1}-${startDateObj.getDate()}-${startDateObj.getFullYear()}`;
+    // Formata a data de início para o formato 'MM/DD/YYYY'
+    const dataInicial = `${startDateObj.getMonth() + 1}/${startDateObj.getDate()}/${startDateObj.getFullYear()}`;
     
     // Constrói a URL para a API de cotação do Dólar
     const url = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados?formato=json&dataInicial=${dataInicial}&dataFinal=${dataFinal}`;
