@@ -1,8 +1,4 @@
 
-
-
-
-
 /**
  * @fileOverview Serviço para interagir com a API da Brapi para obter dados do mercado de ações.
  *
@@ -248,7 +244,7 @@ export async function getProjectedIpcaRate(): Promise<number> {
 
 /**
  * Busca a cotação do Dólar (PTAX) mais recente da API do Banco Central do Brasil (BCB).
- * A função agora busca os dados dos últimos 30 dias para garantir que a informação esteja sempre atualizada.
+ * A função agora busca os dados dos últimos 120 dias para garantir que a informação esteja sempre atualizada.
  * @returns Uma promessa que resolve para o valor numérico da cotação do Dólar mais recente.
  */
 export async function getDollarRate(): Promise<number> {
@@ -256,7 +252,7 @@ export async function getDollarRate(): Promise<number> {
     const endDate = today.toLocaleDateString('pt-BR'); // Formato DD/MM/AAAA
 
     const startDateObj = new Date(today);
-    startDateObj.setDate(today.getDate() - 30);
+    startDateObj.setDate(today.getDate() - 120); // Ajustado para 120 dias
     const startDate = startDateObj.toLocaleDateString('pt-BR'); // Formato DD/MM/AAAA
 
     const url = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados?formato=json&dataInicial=${startDate}&dataFinal=${endDate}`;
@@ -274,7 +270,7 @@ export async function getDollarRate(): Promise<number> {
         // Por isso, pegamos o último valor válido do array.
         if (!Array.isArray(data) || data.length === 0) {
             console.warn(`Nenhuma cotação do Dólar encontrada para o período de ${startDate} a ${endDate}. Tentando com um período maior.`);
-            // Fallback: busca o último valor disponível se o período de 30 dias falhar.
+            // Fallback: busca o último valor disponível se o período de 120 dias falhar.
              const fallbackUrl = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados/ultimos/1?formato=json';
              const fallbackResponse = await fetch(fallbackUrl);
              if (!fallbackResponse.ok) throw new Error('Falha na API de fallback do BCB para Dólar.');
