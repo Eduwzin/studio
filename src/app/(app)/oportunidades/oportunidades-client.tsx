@@ -6,8 +6,8 @@ import { doc } from 'firebase/firestore';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Loader2, Zap, BrainCircuit, Lightbulb, TrendingUp, Shield, BarChart, FileText } from 'lucide-react';
-import { suggestAssets } from '@/lib/actions';
+import { Loader2, Lightbulb, BrainCircuit, TrendingUp, Shield, BarChart, FileText } from 'lucide-react';
+import { suggestAssets, monitorPortfolio } from '@/lib/actions';
 import type { SuggestAssetsOutput } from '@/ai/flows/suggest-assets-flow';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -37,10 +37,26 @@ export default function OportunidadesClient() {
     setSuggestions(null);
 
     try {
+      // Passo 1: Obter a análise de mercado do Radar de Mercado (de forma silenciosa)
+      const marketAnalysisResult = await monitorPortfolio({
+        userProfile: {
+          riskProfile: userProfile.perfilDeInvestimento.avaliacaoDeRisco,
+          investmentHorizon: userProfile.perfilDeInvestimento.horizonteDeInvestimento,
+          riskTolerance: userProfile.perfilDeInvestimento.experienciaDeInvestimento,
+        },
+        // Os dados de macroeconomia são buscados no lado do servidor dentro da action.
+        // Se a action precisasse deles aqui, teríamos que buscá-los primeiro.
+        macroContext: {} as any, // A action/flow busca os dados.
+        projectedSelic: 0,
+        projectedIpca: 0
+      });
+
+      // Passo 2: Usar a análise de mercado para gerar sugestões de ativos
       const result = await suggestAssets({
         riskProfile: userProfile.perfilDeInvestimento.avaliacaoDeRisco,
-        marketAnalysis: `Baseado no seu perfil ${userProfile.perfilDeInvestimento.avaliacaoDeRisco}, a estratégia atual é focar em ${userProfile.perfilDeInvestimento.estrategiaDeInvestimento}`,
+        marketAnalysis: `Cenário detectado: ${marketAnalysisResult.cenarioDetectado}. Justificativa: ${marketAnalysisResult.racionalRecomendacao}`,
       });
+
       setSuggestions(result);
     } catch (err) {
       console.error(err);

@@ -37,6 +37,7 @@ import {
     SuggestAssetsInput,
     SuggestAssetsOutput,
 } from '@/ai/flows/suggest-assets-flow';
+import { getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedSelicRate, getSelicRate, getStockInfo } from '@/services/brapi';
 
 
 export async function analyzeUserProfile(input: AnalyzeUserProfileInput) {
@@ -78,7 +79,62 @@ export async function generateLesson(input: GenerateLessonInput) {
 }
 
 export async function monitorPortfolio(input: MonitorPortfolioInput): Promise<MonitorPortfolioOutput> {
-    return monitorPortfolioFlow(input);
+    // Busca todos os dados macroeconômicos necessários aqui, dentro da server action.
+    // Isso centraliza a lógica e evita que o cliente precise buscar cada um.
+    const selicRate = await getSelicRate().catch(() => 10.50);
+    const ipcaRate = await getIpcaRate().catch(() => 3.9);
+    const projectedSelicRate = await getProjectedSelicRate().catch(() => 9.75);
+    const projectedIpcaRate = await getProjectedIpcaRate().catch(() => 3.8);
+    const ifixData = await getStockInfo('IFIX').catch(() => null);
+    const ibovData = await getStockInfo('^BVSP', '1y', '1wk').catch(() => null);
+    const dollarInfo = await getDollarRate().catch(() => ({ currentRate: 5.25, history: [] }));
+
+    let selicTrend: 'alta' | 'queda' | 'estavel';
+    if (projectedSelicRate < selicRate) selicTrend = 'queda';
+    else if (projectedSelicRate > selicRate) selicTrend = 'alta';
+    else selicTrend = 'estavel';
+
+    let ipcaTrend: 'alta' | 'queda' | 'estavel';
+    if (projectedIpcaRate < ipcaRate) ipcaTrend = 'queda';
+    else if (projectedIpcaRate > ipcaRate) ipcaTrend = 'alta';
+    else ipcaTrend = 'estavel';
+
+    let ibovChange1d = ibovData?.regularMarketChangePercent ?? 0;
+    let ibovChange30d = 0;
+    let ibovChange365d = 0;
+
+     if (ibovData?.historicalDataPrice && ibovData.historicalDataPrice.length > 0) {
+        const historicalData = ibovData.historicalDataPrice.sort((a, b) => b.date - a.date);
+        const latestClose = historicalData[0]?.close;
+        
+        if (latestClose) {
+            const close30d = historicalData[4]?.close; // ~4 semanas
+            if (close30d) ibovChange30d = ((latestClose - close30d) / close30d) * 100;
+
+            const close365d = historicalData[historicalData.length - 1]?.close;
+            if (close365d) ibovChange365d = ((latestClose - close365d) / close365d) * 100;
+        }
+    }
+    
+    const fullInput: MonitorPortfolioInput = {
+        ...input,
+        projectedSelic: projectedSelicRate,
+        projectedIpca: projectedIpcaRate,
+        macroContext: {
+            selicRate,
+            selicTrend,
+            ipca12m: ipcaRate,
+            ipcaTrend,
+            ifixChange: ifixData?.regularMarketChangePercent ?? 0,
+            ibovChange: ibovChange1d,
+            ibovChange30d,
+            ibovChange365d,
+            dollarRate: dollarInfo.currentRate,
+            marketSentiment: 'neutro'
+        }
+    };
+    
+    return monitorPortfolioFlow(fullInput);
 }
 
 export async function suggestAssets(input: SuggestAssetsInput): Promise<SuggestAssetsOutput> {
@@ -87,5 +143,3 @@ export async function suggestAssets(input: SuggestAssetsInput): Promise<SuggestA
 
 
 export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioInput, MonitorPortfolioOutput };
-
-    

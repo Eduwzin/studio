@@ -16,7 +16,7 @@ import { z } from 'genkit';
 // Esquema de entrada que combina o perfil do usuário e a análise de mercado
 const SuggestAssetsInputSchema = z.object({
   riskProfile: z.string().describe("O perfil de risco do investidor (ex: Conservador, Moderado, Arrojado)."),
-  marketAnalysis: z.string().describe("A análise macroeconômica e a recomendação de alocação de aporte (ex: Cenário Otimista, focar em ações de tecnologia)."),
+  marketAnalysis: z.string().describe("A análise macroeconômica e a recomendação de alocação de aporte (ex: 'Cenário detectado: Pró-juros em queda. Justificativa: Com a inflação controlada e a Selic projetada para baixar, o momento é favorável para ativos de risco, especialmente no setor de varejo e construção.')"),
 });
 export type SuggestAssetsInput = z.infer<typeof SuggestAssetsInputSchema>;
 
@@ -51,11 +51,12 @@ const suggestAssetsPrompt = ai.definePrompt({
 Sua tarefa é analisar o perfil do investidor e a recomendação estratégica do "Radar de Mercado" para sugerir ATIVOS ESPECÍFICOS.
 
 REGRAS OBRIGATÓRIAS:
-1.  **Use a Ferramenta:** Você DEVE usar a ferramenta 'getStockInfoFromBrapi' para buscar dados de um ou mais tickers que você acha que se encaixam na estratégia. Use os dados retornados (preço, variação, etc.) para fortalecer sua recomendação.
-2.  **Seja Específico:** Não dê sugestões genéricas como "invista em tecnologia". Sugira tickers reais (ex: "MGLU3", "HGLG11", "BOVA11").
-3.  **Justifique a Escolha:** Para cada ativo, explique em uma frase curta POR QUE ele é uma boa escolha para o cenário e perfil atuais. Exemplo: "Com a queda da SELIC, o setor de varejo se beneficia, e MGLU3 apresentou bom volume recente."
-4.  **Diversifique as Sugestões:** Forneça de 3 a 5 sugestões, tentando variar entre Ações, FIIs e ETFs, se a estratégia permitir.
-5.  **Foco no Perfil:** Adapte a agressividade das suas sugestões ao perfil de risco. Não sugira uma ação de altíssimo risco para um perfil conservador.
+1.  **Analise o Cenário:** A 'marketAnalysis' contém a conclusão do Radar de Mercado. Use essa diretriz como sua principal fonte de estratégia. Por exemplo, se a análise indica "Pró-juros em queda", foque em ações de setores que se beneficiam disso (varejo, construção) e FIIs de tijolo.
+2.  **Use a Ferramenta:** Você DEVE usar a ferramenta 'getStockInfoFromBrapi' para buscar dados de tickers que você acredita que se encaixam na estratégia. Use os dados retornados (preço, variação, etc.) para fortalecer sua recomendação.
+3.  **Foco no Perfil:** Adapte a agressividade das suas sugestões ao 'riskProfile'. Não sugira uma ação de altíssimo risco para um perfil conservador, mesmo que o cenário seja favorável. Para perfis conservadores, mesmo em cenários de risco, sugira ações de empresas mais consolidadas ("blue chips") ou ETFs mais amplos.
+4.  **Seja Específico:** Não dê sugestões genéricas como "invista em tecnologia". Sugira tickers reais (ex: "MGLU3", "HGLG11", "BOVA11").
+5.  **Justifique a Escolha:** Para cada ativo, explique em uma frase curta POR QUE ele é uma boa escolha para o cenário E para o perfil atuais. Exemplo: "Com a queda da SELIC, o setor de varejo se beneficia, e MGLU3 é uma opção de maior crescimento para um perfil moderado/arrojado."
+6.  **Diversifique as Sugestões:** Forneça de 3 a 5 sugestões, tentando variar entre Ações, FIIs e ETFs, se a estratégia permitir.
 `,
 
   prompt: `

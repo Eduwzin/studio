@@ -3,64 +3,22 @@ import { getSelicRate, getIpcaRate, getProjectedSelicRate, getProjectedIpcaRate,
 import MonitoramentoClient from './monitoramento-client';
 
 export default async function MonitoramentoPage() {
-    let selicRate: number;
-    let ipcaRate: number;
-    let projectedSelicRate: number;
-    let projectedIpcaRate: number;
-    let ifixData: StockInfo | null = null;
-    let ibovData: StockInfo | null = null;
-    let dollarInfo: DollarInfo = { currentRate: 5.25, history: [] };
+    // Os dados agora são buscados na Server Action 'monitorPortfolio'
+    // Esta página do servidor apenas renderiza o componente cliente.
+    // A lógica de busca e cálculo foi movida para 'src/lib/actions.ts'
+    // para ser reutilizável e centralizada.
 
-    // --- Data Fetching ---
-    try {
-        selicRate = await getSelicRate();
-    } catch (error) {
-        console.error("Usando taxa SELIC de fallback devido a erro na API:", error);
-        selicRate = 10.50; 
-    }
+    // A busca inicial de dados para exibição ainda pode ser feita aqui
+    // para evitar um carregamento vazio no cliente.
+    const selicRate = await getSelicRate().catch(() => 10.50);
+    const ipcaRate = await getIpcaRate().catch(() => 3.9);
+    const projectedSelicRate = await getProjectedSelicRate().catch(() => 9.75);
+    const projectedIpcaRate = await getProjectedIpcaRate().catch(() => 3.8);
+    const ifixData = await getStockInfo('IFIX').catch(() => null);
+    const ibovData = await getStockInfo('^BVSP', '1y', '1wk').catch(() => null);
+    const dollarInfo = await getDollarRate().catch(() => ({ currentRate: 5.25, history: [] }));
 
-    try {
-        ipcaRate = await getIpcaRate();
-    } catch (error) {
-        console.error("Usando taxa IPCA de fallback devido a erro na API:", error);
-        ipcaRate = 3.9;
-    }
 
-    try {
-        projectedSelicRate = await getProjectedSelicRate();
-    } catch (error) {
-        console.error("Usando projeção da SELIC de fallback devido a erro na API:", error);
-        projectedSelicRate = 9.75;
-    }
-
-    try {
-        projectedIpcaRate = await getProjectedIpcaRate();
-    } catch (error) {
-        console.error("Usando projeção do IPCA de fallback devido a erro na API:", error);
-        projectedIpcaRate = 3.8;
-    }
-
-    try {
-        ifixData = await getStockInfo('IFIX');
-    } catch (error) {
-        console.error("Usando variação do IFIX de fallback devido a erro na API:", error);
-    }
-    
-    try {
-        ibovData = await getStockInfo('^BVSP', '1y', '1wk');
-    } catch (error) {
-        console.error("Usando dados do IBOV de fallback devido a erro na API:", error);
-    }
-    
-    try {
-        dollarInfo = await getDollarRate();
-    } catch (error) {
-        console.error("Usando cotação do Dólar de fallback devido a erro na API:", error);
-    }
-
-    // --- Trend Calculation ---
-
-    // SELIC & IPCA Trends
     let selicTrend: 'alta' | 'queda' | 'estavel';
     if (projectedSelicRate < selicRate) selicTrend = 'queda';
     else if (projectedSelicRate > selicRate) selicTrend = 'alta';
@@ -71,7 +29,6 @@ export default async function MonitoramentoPage() {
     else if (projectedIpcaRate > ipcaRate) ipcaTrend = 'alta';
     else ipcaTrend = 'estavel';
 
-    // IBOV Trend Calculations
     let ibovChange1d = ibovData?.regularMarketChangePercent ?? 0;
     let ibovChange30d = 0;
     let ibovChange365d = 0;
@@ -81,19 +38,18 @@ export default async function MonitoramentoPage() {
         const latestClose = historicalData[0]?.close;
         
         if (latestClose) {
-            // 30-day trend (approx 4 weeks)
             const close30d = historicalData[4]?.close;
             if (close30d) {
                 ibovChange30d = ((latestClose - close30d) / close30d) * 100;
             }
 
-            // 365-day trend (approx 52 weeks)
             const close365d = historicalData[historicalData.length - 1]?.close;
             if (close365d) {
                 ibovChange365d = ((latestClose - close365d) / close365d) * 100;
             }
         }
     }
+
 
     return <MonitoramentoClient 
         selicRate={selicRate} 
