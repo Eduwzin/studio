@@ -9,8 +9,7 @@
  * - MonitorPortfolioOutput: O tipo de saída, estruturado com a recomendação de alocação de aporte.
  */
 
-import { ai } from '@/ai/genkit';
-import { geminiPro } from '@/ai/genkit';
+import { ai, geminiPro } from '@/ai/genkit';
 import { z } from 'genkit';
 
 // Esquema para o perfil do investidor
@@ -179,5 +178,3 @@ const monitorPortfolioFlow = ai.defineFlow(
     return output;
   }
 );
-
-    
