@@ -4,6 +4,7 @@
  * @fileOverview Serviço para interagir com a API da Brapi para obter dados do mercado de ações.
  *
  * - getStockInfo - Uma função para buscar informações sobre um ticker de ação específico.
+ * - getAvailableTickers - Uma função para buscar uma lista de todos os tickers disponíveis.
  */
 
 const BRAPI_API_BASE_URL = 'https://brapi.dev/api';
@@ -255,15 +256,12 @@ export type DollarInfo = {
 export async function getDollarRate(): Promise<DollarInfo> {
     const today = new Date();
     const endDateObj = new Date(today);
-    // Formato brasileiro: DD/MM/AAAA
     const dataFinal = `${String(endDateObj.getDate()).padStart(2, '0')}/${String(endDateObj.getMonth() + 1).padStart(2, '0')}/${endDateObj.getFullYear()}`;
 
     const startDateObj = new Date(today);
     startDateObj.setDate(today.getDate() - 120);
-    // Formato brasileiro: DD/MM/AAAA
     const dataInicial = `${String(startDateObj.getDate()).padStart(2, '0')}/${String(startDateObj.getMonth() + 1).padStart(2, '0')}/${startDateObj.getFullYear()}`;
     
-    // Constrói a URL para a API de cotação do Dólar
     const url = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados?formato=json&dataInicial=${dataInicial}&dataFinal=${dataFinal}`;
 
     try {
@@ -275,9 +273,7 @@ export async function getDollarRate(): Promise<DollarInfo> {
 
         const data: BcbDataItem[] = await response.json();
 
-        // A API pode retornar um array vazio se não houver cotação no período (ex: fim de semana)
         if (!Array.isArray(data) || data.length === 0) {
-            // Tenta um fallback se não encontrar dados no período.
             const fallbackUrl = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados/ultimos/1?formato=json';
             const fallbackResponse = await fetch(fallbackUrl);
             if (!fallbackResponse.ok) throw new Error('Falha na API de fallback do BCB para Dólar.');
@@ -288,7 +284,6 @@ export async function getDollarRate(): Promise<DollarInfo> {
             return { currentRate: lastValue, history: fallbackData };
         }
 
-        // Pega o último item do array, que é o mais recente
         const latestData = data[data.length - 1];
         const dollarValue = parseFloat(latestData.valor);
 
@@ -300,6 +295,50 @@ export async function getDollarRate(): Promise<DollarInfo> {
 
     } catch (error) {
         console.error("Falha ao buscar cotação do Dólar na API do BCB:", error);
-        throw error; // Re-lança o erro para ser tratado pelo chamador
+        throw error;
     }
+}
+
+/**
+ * Representa a estrutura de dados esperada da resposta da API da Brapi para a lista de tickers.
+ */
+export interface AvailableTickersResponse {
+  stocks: string[];
+  fiis: string[];
+  bdrs: string[];
+}
+
+/**
+ * Busca a lista de todos os tickers disponíveis (ações, FIIs, BDRs) da API da Brapi.
+ * @returns Uma promessa que resolve para um objeto contendo arrays de tickers.
+ */
+export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
+  if (!BRAPI_API_TOKEN) {
+    throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
+  }
+
+  const url = `${BRAPI_API_BASE_URL}/quote/list?token=${BRAPI_API_TOKEN}`;
+
+  try {
+    const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache de 24 horas
+
+    if (!response.ok) {
+      throw new Error(`Erro na API da Brapi ao listar ativos: ${response.statusText}`);
+    }
+    
+    const data = await response.json();
+
+    if (!data.stocks || !data.fiis || !data.bdrs) {
+        throw new Error('Formato de resposta inesperado da API da Brapi para a lista de tickers.');
+    }
+
+    return {
+        stocks: data.stocks,
+        fiis: data.fiis,
+        bdrs: data.bdrs,
+    };
+  } catch (error) {
+    console.error("Falha ao buscar lista de tickers da Brapi:", error);
+    throw error;
+  }
 }
