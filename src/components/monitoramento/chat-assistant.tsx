@@ -1,11 +1,11 @@
+
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Bot, Loader2, Send, Sparkles } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Bot, Loader2, Send } from 'lucide-react';
 import { chatWithMarketAnalyst } from '@/lib/actions';
 import { ScrollArea } from '../ui/scroll-area';
 import { cn } from '@/lib/utils';
@@ -31,6 +31,14 @@ export default function ChatAssistant({ userProfileContext, marketContext }: Cha
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Auto-scroll to bottom when new messages are added
+    if (scrollAreaRef.current) {
+        scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,84 +76,73 @@ export default function ChatAssistant({ userProfileContext, marketContext }: Cha
   };
 
   return (
-    <Card className="mt-8">
-        <CardHeader>
-            <CardTitle className="flex items-center gap-3">
-                <Sparkles className="text-primary"/>
-                Assistente de Análise
-            </CardTitle>
-            <CardDescription>
-                Converse com a IA para tirar dúvidas sobre o cenário e as recomendações.
-            </CardDescription>
-        </CardHeader>
-      <CardContent>
-        <div className="flex flex-col h-96">
-            <ScrollArea className="flex-grow p-4 border rounded-md mb-4 bg-muted/50">
-                <div className="space-y-4">
-                {messages.map((message, index) => (
-                    <div
-                    key={index}
-                    className={cn(
-                        'flex items-start gap-3',
-                        message.role === 'user' ? 'justify-end' : 'justify-start'
-                    )}
-                    >
-                    {message.role === 'model' && (
-                        <Avatar className="h-8 w-8 bg-primary text-primary-foreground flex-shrink-0">
-                            <AvatarFallback><Bot size={18}/></AvatarFallback>
-                        </Avatar>
-                    )}
-                    <div
-                        className={cn(
-                        'rounded-lg p-3 max-w-sm text-sm',
-                        message.role === 'user'
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-background'
-                        )}
-                    >
-                        {message.content}
-                    </div>
-                    </div>
-                ))}
-                {isLoading && (
-                     <div className='flex items-start gap-3 justify-start'>
-                        <Avatar className="h-8 w-8 bg-primary text-primary-foreground flex-shrink-0">
-                            <AvatarFallback><Bot size={18}/></AvatarFallback>
-                        </Avatar>
-                        <div className='rounded-lg p-3 max-w-sm text-sm bg-background flex items-center'>
-                           <Loader2 className="h-5 w-5 animate-spin"/>
-                        </div>
-                    </div>
+    <div className="flex flex-col h-full">
+        <ScrollArea className="flex-grow p-4">
+            <div className="space-y-4" ref={scrollAreaRef}>
+            {messages.map((message, index) => (
+                <div
+                key={index}
+                className={cn(
+                    'flex items-start gap-3',
+                    message.role === 'user' ? 'justify-end' : 'justify-start'
                 )}
+                >
+                {message.role === 'model' && (
+                    <Avatar className="h-8 w-8 bg-primary text-primary-foreground flex-shrink-0">
+                        <AvatarFallback><Bot size={18}/></AvatarFallback>
+                    </Avatar>
+                )}
+                <div
+                    className={cn(
+                    'rounded-lg p-3 max-w-sm text-sm',
+                    message.role === 'user'
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted'
+                    )}
+                >
+                    {message.content}
                 </div>
-            </ScrollArea>
-            {error && (
-                <Alert variant="destructive" className="mb-4">
+                </div>
+            ))}
+            {isLoading && (
+                 <div className='flex items-start gap-3 justify-start'>
+                    <Avatar className="h-8 w-8 bg-primary text-primary-foreground flex-shrink-0">
+                        <AvatarFallback><Bot size={18}/></AvatarFallback>
+                    </Avatar>
+                    <div className='rounded-lg p-3 max-w-sm text-sm bg-muted flex items-center'>
+                       <Loader2 className="h-5 w-5 animate-spin"/>
+                    </div>
+                </div>
+            )}
+            </div>
+        </ScrollArea>
+        {error && (
+            <div className="p-4 pt-0">
+                <Alert variant="destructive">
                     <AlertDescription>{error}</AlertDescription>
                 </Alert>
-            )}
-            <form onSubmit={handleSendMessage} className="flex items-center gap-2">
-                <Textarea
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                placeholder="Ex: Por que a renda fixa está mais atrativa agora?"
-                className="flex-grow resize-none"
-                rows={1}
-                disabled={isLoading}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        handleSendMessage(e);
-                    }
-                }}
-                />
-                <Button type="submit" disabled={isLoading || !input.trim()} size="icon">
-                    <Send className="h-4 w-4" />
-                    <span className="sr-only">Enviar</span>
-                </Button>
-            </form>
-        </div>
-      </CardContent>
-    </Card>
+            </div>
+        )}
+        <form onSubmit={handleSendMessage} className="flex items-center gap-2 p-4 border-t">
+            <Textarea
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            placeholder="Ex: Por que a renda fixa está atrativa?"
+            className="flex-grow resize-none"
+            rows={1}
+            disabled={isLoading}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage(e);
+                }
+            }}
+            />
+            <Button type="submit" disabled={isLoading || !input.trim()} size="icon">
+                <Send className="h-4 w-4" />
+                <span className="sr-only">Enviar</span>
+            </Button>
+        </form>
+    </div>
   );
 }

@@ -13,7 +13,7 @@ import type { MonitorPortfolioOutput } from '@/lib/actions';
 import { cn } from '@/lib/utils';
 import type { StockInfo, DollarInfo } from '@/services/brapi';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import ChatAssistant from '@/components/monitoramento/chat-assistant';
+import ChatWidget from '@/components/monitoramento/chat-widget';
 
 type Trend = 'alta' | 'queda' | 'estavel';
 
@@ -79,9 +79,9 @@ export default function MonitoramentoClient({
           riskTolerance: userProfile.perfilDeInvestimento?.experienciaDeInvestimento ?? 'média',
         },
         macroContext: {} as any, 
-        projectedCurrentYearSelic: 0,
-        projectedNextYearSelic: 0,
-        projectedIpca: 0
+        projectedCurrentYearSelic: projectedCurrentYearSelic,
+        projectedNextYearSelic: projectedNextYearSelic,
+        projectedIpca: projectedIpcaRate,
       });
       setAnalysis(result);
     } catch (err) {
@@ -222,7 +222,7 @@ export default function MonitoramentoClient({
       {analysis && <AnalysisResult />}
 
       {userProfile && (
-        <ChatAssistant 
+        <ChatWidget 
             userProfileContext={userProfileContextString}
             marketContext={analysis ? `Análise gerada: ${analysis.cenarioDetectado}. ${analysis.explicacaoCenario}` : marketContextString}
         />
@@ -252,5 +252,3 @@ export default function MonitoramentoClient({
     </div>
   );
 }
-
-    
