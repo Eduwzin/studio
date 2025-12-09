@@ -24,12 +24,12 @@ export interface StockInfo {
   regularMarketChange: number;
   regularMarketChangePercent: number;
   regularMarketTime: string;
-  marketCap: number;
+  marketCap: number | null;
   regularMarketVolume: number;
   fiftyTwoWeekLow: number;
   fiftyTwoWeekHigh: number;
-  priceEarnings: number;
-  earningsPerShare: number;
+  priceEarnings: number | null;
+  earningsPerShare: number | null;
   logourl: string;
   // Novos campos adicionados
   priceToBook?: number;
@@ -317,7 +317,7 @@ export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
     throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
   }
 
-  const url = `${BRAPI_API_BASE_URL}/quote/list?token=${BRAPI_API_TOKEN}`;
+  const url = `${BRAPI_API_BASE_URL}/available?token=${BRAPI_API_TOKEN}`;
 
   try {
     const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache de 24 horas
@@ -328,13 +328,13 @@ export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
     
     const data = await response.json();
 
-    if (!data.stocks || !data.fiis || !data.bdrs) {
+    if (!data.stocks || !data.funds || !data.bdrs) {
         throw new Error('Formato de resposta inesperado da API da Brapi para a lista de tickers.');
     }
 
     return {
         stocks: data.stocks,
-        fiis: data.fiis,
+        fiis: data.funds,
         bdrs: data.bdrs,
     };
   } catch (error) {
