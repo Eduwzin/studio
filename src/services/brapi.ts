@@ -379,17 +379,19 @@ export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
     
     const data = await response.json();
 
-    if (!data.stocks || !data.funds || !data.bdrs) {
-        throw new Error('Formato de resposta inesperado da API da Brapi para a lista de tickers.');
-    }
-
+    // Tornando a função mais resiliente a respostas parciais ou malformadas
     return {
-        stocks: data.stocks,
-        fiis: data.funds,
-        bdrs: data.bdrs,
+        stocks: data?.stocks ?? [],
+        fiis: data?.funds ?? [],
+        bdrs: data?.bdrs ?? [],
     };
   } catch (error) {
     console.error("Falha ao buscar lista de tickers da Brapi:", error);
-    throw error;
+    // Em caso de falha total, retorna listas vazias para evitar que a aplicação quebre
+    return {
+        stocks: [],
+        fiis: [],
+        bdrs: [],
+    };
   }
 }
