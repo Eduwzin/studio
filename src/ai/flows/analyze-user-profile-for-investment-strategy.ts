@@ -39,7 +39,7 @@ const AnalyzeUserProfileOutputSchema = z.object({
   alocacaoDeAtivos: z
     .string()
     .describe(
-      "A alocação de ativos recomendada em uma string simples, separada por vírgulas, com pares de nome e porcentagem. Exemplo: 'Ações: 60%, Títulos: 30%, Imóveis: 10%'"
+      "A alocação de ativos recomendada em uma string simples, separada por vírgulas, com pares de nome, porcentagem e exemplos práticos. Exemplo: 'Renda Fixa (ex: Tesouro Selic, CDBs): 70%, Ações Brasil (ex: BOVA11): 20%, Ativos Internacionais (ex: IVVB11): 10%'"
     ),
   avaliacaoDeRisco: z
     .string()
@@ -64,9 +64,9 @@ Respostas do Questionário do Usuário:
 
 Com base nessas informações, forneça o seguinte:
 
-Estratégia de Investimento: Uma estratégia de investimento detalhada e acionável, adequada para o perfil identificado, resumida em uma única frase.
-Alocação de Ativos: Uma alocação de ativos recomendada em porcentagens, como uma string separada por vírgulas (ex: 'Ações: 60%, Títulos: 30%, Imóveis: 10%').
-Avaliação de Risco: Classifique o perfil de risco do usuário em UMA das três categorias: Conservador, Moderado ou Arrojado.
+1.  **Estratégia de Investimento:** Uma estratégia de investimento detalhada e acionável, adequada para o perfil identificado, resumida em uma única frase.
+2.  **Alocação de Ativos:** Uma alocação de ativos recomendada em porcentagens, como uma string separada por vírgulas. **Para cada classe de ativo, inclua exemplos práticos entre parênteses**. Exemplo: 'Renda Fixa (ex: Tesouro Selic, CDBs): 70%, Ações Brasil (ex: BOVA11): 20%, Ativos Internacionais (ex: IVVB11): 10%'.
+3.  **Avaliação de Risco:** Classifique o perfil de risco do usuário em UMA das três categorias: Conservador, Moderado ou Arrojado.
 
 Faça a estratégia de investimento e a alocação de ativos apropriadas para um investidor iniciante, explicando o porquê da sua recomendação. A saída deve ser concisa e direta ao ponto.`,
 });
