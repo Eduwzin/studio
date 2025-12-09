@@ -11,3 +11,5 @@ import '@/ai/tools/get-stock-info-from-brapi.ts';
 import '@/ai/flows/generate-lesson-content.ts';
 import '@/ai/flows/monitor-portfolio-flow.ts';
 import '@/ai/flows/suggest-assets-flow.ts';
+import '@/ai/flows/chat-with-market-analyst.ts';
+

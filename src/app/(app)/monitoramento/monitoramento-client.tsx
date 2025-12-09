@@ -13,6 +13,7 @@ import type { MonitorPortfolioOutput } from '@/lib/actions';
 import { cn } from '@/lib/utils';
 import type { StockInfo, DollarInfo } from '@/services/brapi';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import ChatAssistant from '@/components/monitoramento/chat-assistant';
 
 type Trend = 'alta' | 'queda' | 'estavel';
 
@@ -77,11 +78,10 @@ export default function MonitoramentoClient({
           investmentHorizon: userProfile.perfilDeInvestimento?.horizonteDeInvestimento ?? 'longo prazo',
           riskTolerance: userProfile.perfilDeInvestimento?.experienciaDeInvestimento ?? 'média',
         },
-        // O restante dos dados macro são buscados dentro da Server Action
         macroContext: {} as any, 
-        projectedCurrentYearSelic: 0, // A action busca o valor real
-        projectedNextYearSelic: 0, // A action busca o valor real
-        projectedIpca: 0 // A action busca o valor real
+        projectedCurrentYearSelic: 0,
+        projectedNextYearSelic: 0,
+        projectedIpca: 0
       });
       setAnalysis(result);
     } catch (err) {
@@ -139,20 +139,14 @@ export default function MonitoramentoClient({
     </div>
   );
 
-  const getTrendText = (trend: Trend) => {
-    switch(trend) {
-      case 'alta': return 'de alta';
-      case 'queda': return 'de queda';
-      case 'estavel': return 'de estabilidade';
-    }
-  }
-  
   const formatPercent = (value: number, decimals = 2) => {
     const sign = value > 0 ? '+' : '';
     return `${sign}${value.toFixed(decimals)}%`;
   }
 
-  const selicTrendText = projectedNextYearSelic < selicRate ? 'de queda' : projectedNextYearSelic > selicRate ? 'de alta' : 'de estabilidade';
+  const userProfileContextString = `Perfil de risco: ${userProfile?.perfilDeInvestimento?.avaliacaoDeRisco}, Horizonte: ${userProfile?.perfilDeInvestimento?.horizonteDeInvestimento}`;
+  const marketContextString = `SELIC atual: ${selicRate}%, Projeção SELIC (ano seguinte): ${projectedNextYearSelic}%. IPCA (12m): ${ipcaRate}%. Dólar: ${dollarInfo.currentRate.toFixed(2)}. IBOV (1A): ${formatPercent(ibovChange365d)}`;
+
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -227,6 +221,13 @@ export default function MonitoramentoClient({
 
       {analysis && <AnalysisResult />}
 
+      {userProfile && (
+        <ChatAssistant 
+            userProfileContext={userProfileContextString}
+            marketContext={analysis ? `Análise gerada: ${analysis.cenarioDetectado}. ${analysis.explicacaoCenario}` : marketContextString}
+        />
+      )}
+
        <div className="mt-12">
             <Accordion type="single" collapsible>
                 <AccordionItem value="debug-data">
@@ -240,7 +241,7 @@ export default function MonitoramentoClient({
                         <Card className="bg-muted/50">
                             <CardContent className="pt-6">
                                 <pre className="text-xs whitespace-pre-wrap max-h-60 overflow-y-auto">
-                                    <code>{JSON.stringify({ selicRate, ipcaRate, projectedCurrentYearSelic, projectedNextYearSelic, projectedIpcaRate, ipcaTrend, ifixData, ibovData, dollarInfo }, null, 2)}</code>
+                                    <code>{JSON.stringify({ selicRate, ipcaRate, projectedCurrentYearSelic, projectedNextYearSelic, projectedIpcaRate, ipcaTrend, ifixData, ibovData, dollarInfo, ibovChange1d, ibovChange30d, ibovChange365d }, null, 2)}</code>
                                 </pre>
                             </CardContent>
                         </Card>

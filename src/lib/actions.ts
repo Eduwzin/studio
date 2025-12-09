@@ -25,18 +25,21 @@ import {
   GenerateLessonInput,
   GenerateLessonOutput
 } from '@/ai/flows/generate-lesson-content';
-
 import {
     monitorPortfolio as monitorPortfolioFlow,
     MonitorPortfolioInput,
     MonitorPortfolioOutput,
 } from '@/ai/flows/monitor-portfolio-flow';
-
 import {
     suggestAssets as suggestAssetsFlow,
     SuggestAssetsInput,
     SuggestAssetsOutput,
 } from '@/ai/flows/suggest-assets-flow';
+import {
+    chatWithMarketAnalyst as chatWithMarketAnalystFlow,
+    ChatInput,
+    ChatOutput,
+} from '@/ai/flows/chat-with-market-analyst';
 import { getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo } from '@/services/brapi';
 
 
@@ -117,7 +120,7 @@ export async function monitorPortfolio(input: MonitorPortfolioInput): Promise<Mo
         projectedIpca: projectedIpcaRate,
         macroContext: {
             selicRate,
-            selicTrend: 'estavel', // A tendência agora é mais complexa, a IA deve derivar
+            selicTrend: 'estavel',
             ipca12m: ipcaRate,
             ipcaTrend,
             ifixChange: ifixData?.regularMarketChangePercent ?? 0,
@@ -134,6 +137,10 @@ export async function monitorPortfolio(input: MonitorPortfolioInput): Promise<Mo
 
 export async function suggestAssets(input: SuggestAssetsInput): Promise<SuggestAssetsOutput> {
     return suggestAssetsFlow(input);
+}
+
+export async function chatWithMarketAnalyst(input: ChatInput): Promise<ChatOutput> {
+    return chatWithMarketAnalystFlow(input);
 }
 
 
