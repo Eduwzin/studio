@@ -19,8 +19,8 @@ type Trend = 'alta' | 'queda' | 'estavel';
 type MonitoramentoClientProps = {
     selicRate: number;
     ipcaRate: number;
-    projectedSelicRate: number;
-    selicTrend: Trend;
+    projectedCurrentYearSelic: number;
+    projectedNextYearSelic: number;
     projectedIpcaRate: number;
     ipcaTrend: Trend;
     ifixData: StockInfo | null;
@@ -34,8 +34,8 @@ type MonitoramentoClientProps = {
 export default function MonitoramentoClient({ 
     selicRate, 
     ipcaRate, 
-    projectedSelicRate, 
-    selicTrend, 
+    projectedCurrentYearSelic,
+    projectedNextYearSelic,
     projectedIpcaRate, 
     ipcaTrend, 
     ifixData, 
@@ -59,21 +59,7 @@ export default function MonitoramentoClient({
   const [error, setError] = useState<string | null>(null);
   
   const ifixChange = ifixData?.regularMarketChangePercent ?? 0;
-  const ifixPointsChange = ifixData?.regularMarketChange ?? 0;
   
-  const macroContext = {
-      selicRate: selicRate,
-      selicTrend: selicTrend,
-      ipca12m: ipcaRate,
-      ipcaTrend: ipcaTrend,
-      ifixChange: ifixChange,
-      ibovChange: ibovChange1d, // Mantém a mudança diária para contexto
-      dollarRate: dollarInfo.currentRate,
-      marketSentiment: 'neutro' as const, // Pode ser aprimorado no futuro
-      ibovChange30d: ibovChange30d,
-      ibovChange365d: ibovChange365d,
-  };
-
   const handleAnalyzeClick = async () => {
     if (!userProfile) {
       setError('Seu perfil de investidor não foi encontrado. Por favor, preencha o onboarding primeiro.');
@@ -91,9 +77,11 @@ export default function MonitoramentoClient({
           investmentHorizon: userProfile.perfilDeInvestimento?.horizonteDeInvestimento ?? 'longo prazo',
           riskTolerance: userProfile.perfilDeInvestimento?.experienciaDeInvestimento ?? 'média',
         },
-        macroContext: macroContext,
-        projectedSelic: projectedSelicRate,
-        projectedIpca: projectedIpcaRate,
+        // O restante dos dados macro são buscados dentro da Server Action
+        macroContext: {} as any, 
+        projectedCurrentYearSelic: 0,
+        projectedNextYearSelic: 0,
+        projectedIpca: 0
       });
       setAnalysis(result);
     } catch (err) {
@@ -158,16 +146,13 @@ export default function MonitoramentoClient({
       case 'estavel': return 'de estabilidade';
     }
   }
-
-  const formatPointsChange = (points: number) => {
-      const sign = points > 0 ? '+' : '';
-      return `${sign}${points.toFixed(2)}`;
-  }
   
-    const formatPercent = (value: number, decimals = 2) => {
+  const formatPercent = (value: number, decimals = 2) => {
     const sign = value > 0 ? '+' : '';
     return `${sign}${value.toFixed(decimals)}%`;
   }
+
+  const selicTrendText = projectedNextYearSelic < selicRate ? 'de queda' : projectedNextYearSelic > selicRate ? 'de alta' : 'de estabilidade';
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -185,14 +170,8 @@ export default function MonitoramentoClient({
         <CardHeader>
             <CardTitle>Análise Contínua do seu Portfólio</CardTitle>
             <CardDescription>
-                Clique no botão para que nossa IA analise os dados de mercado: 
-                Dólar <span className="font-bold text-primary">R$ {dollarInfo.currentRate.toFixed(2)}</span>;
-                SELIC atual de <span className="font-bold text-primary">{selicRate}%</span> (projeção: <span className="font-bold text-primary">{projectedSelicRate.toFixed(2)}%</span>, tendência {getTrendText(selicTrend)});
-                IPCA acumulado de <span className="font-bold text-primary">{ipcaRate.toFixed(2)}%</span> (tendência {getTrendText(ipcaTrend)});
-                IFIX (hoje): <span className={cn("font-bold", ifixChange > 0 ? 'text-green-600' : 'text-red-600')}>{formatPercent(ifixChange, 3)} / {formatPointsChange(ifixPointsChange)} pts</span>;
-                IBOV (1D): <span className={cn("font-bold", ibovChange1d > 0 ? 'text-green-600' : 'text-red-600')}>{formatPercent(ibovChange1d)}</span>;
-                IBOV (30D): <span className={cn("font-bold", ibovChange30d > 0 ? 'text-green-600' : 'text-red-600')}>{formatPercent(ibovChange30d)}</span>;
-                IBOV (1A): <span className={cn("font-bold", ibovChange365d > 0 ? 'text-green-600' : 'text-red-600')}>{formatPercent(ibovChange365d)}</span>.
+                Clique no botão para que nossa IA analise os dados de mercado.
+                SELIC: <span className="font-bold text-primary">{selicRate}%</span> (Proj. {new Date().getFullYear()}: <span className="font-bold text-primary">{projectedCurrentYearSelic.toFixed(2)}%</span>, Proj. {new Date().getFullYear() + 1}: <span className="font-bold text-primary">{projectedNextYearSelic.toFixed(2)}%</span>). Tendência estratégica: {selicTrendText}.
             </CardDescription>
         </CardHeader>
         <CardContent>
@@ -241,7 +220,7 @@ export default function MonitoramentoClient({
                         <Card className="bg-muted/50">
                             <CardContent className="pt-6">
                                 <pre className="text-xs whitespace-pre-wrap max-h-60 overflow-y-auto">
-                                    <code>{JSON.stringify(dollarInfo, null, 2)}</code>
+                                    <code>{JSON.stringify({ dollarInfo, ibovData, ifixData }, null, 2)}</code>
                                 </pre>
                             </CardContent>
                         </Card>
@@ -252,5 +231,3 @@ export default function MonitoramentoClient({
     </div>
   );
 }
-
-    

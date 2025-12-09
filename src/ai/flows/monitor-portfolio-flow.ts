@@ -22,7 +22,7 @@ const UserProfileSchema = z.object({
 // Esquema para o contexto macroeconômico
 const MacroContextSchema = z.object({
   selicRate: z.number().describe("A taxa Selic meta atual."),
-  selicTrend: z.enum(["alta", "queda", "estavel"]).describe("A tendência da taxa Selic."),
+  selicTrend: z.enum(["alta", "queda", "estavel"]).describe("A tendência da taxa Selic (obsoleto, a IA deve inferir)."),
   ipca12m: z.number().describe("O valor do IPCA acumulado em 12 meses."),
   ipcaTrend: z.enum(["alta", "queda", "estavel"]).describe("A tendência da inflação (IPCA)."),
   ifixChange: z.number().describe("A variação recente do índice IFIX (percentual)."),
@@ -37,7 +37,8 @@ const MacroContextSchema = z.object({
 const MonitorPortfolioInputSchema = z.object({
   userProfile: UserProfileSchema,
   macroContext: MacroContextSchema,
-  projectedSelic: z.number().describe("SELIC projetada pelo Focus Anual."),
+  projectedCurrentYearSelic: z.number().describe("SELIC projetada pelo Focus para o ano corrente."),
+  projectedNextYearSelic: z.number().describe("SELIC projetada pelo Focus para o ano seguinte."),
   projectedIpca: z.number().describe("IPCA projetado pelo Focus para 24 meses."),
 });
 export type MonitorPortfolioInput = z.infer<typeof MonitorPortfolioInputSchema>;
@@ -67,28 +68,31 @@ const monitorPrompt = ai.definePrompt({
 
 # REGRAS DE ANÁLISE E GERAÇÃO DE CARTEIRA
 
-## 1. INTERPRETAÇÃO DA SELIC PROJETADA
-- Use a **Selic projetada (Focus Anual)** como referência principal da política monetária.
-- **SELIC ALTA OU PROJETADA PARA CIMA**: Priorize pós-fixados, FIIs de papel e menor exposição a ações.
-- **SELIC BAIXA OU PROJETADA PARA CAIR**: Priorize ações, FIIs de tijolo e prefixados.
+## 1. INTERPRETAÇÃO DA SELIC (DUAS PROJEÇÕES)
+- **Selic Ano Corrente ({{projectedCurrentYearSelic}}%)**: Use para calibrar o **curto prazo**. Influencia a proporção de pós-fixados e a atratividade da liquidez imediata.
+- **Selic Ano Seguinte ({{projectedNextYearSelic}}%)**: Use como **principal indicador de tendência** para a alocação estratégica.
+- **Lógica de Tendência**: A direção é definida pela comparação entre a SELIC atual ({{macroContext.selicRate}}%) e a projeção do ANO SEGUINTE.
+  - **Tendência de QUEDA**: Se Selic Ano Seguinte < Selic Atual. Favorece ações, FIIs de tijolo, prefixados.
+  - **Tendência de ALTA**: Se Selic Ano Seguinte > Selic Atual. Favorece pós-fixados, FIIs de papel.
+  - **Tendência ESTÁVEL**: Se forem próximas. Cenário de análise mais fina.
 
 ## 2. INTERPRETAÇÃO DO IPCA (REAL + PROJETADO)
-- **IPCA REAL > IPCA PROJETADO**: Inflação em queda. Ambiente favorável à renda variável.
-- **IPCA REAL < IPCA PROJETADO**: Inflação pressionada. Aumente a alocação em Tesouro IPCA+ e FIIs de papel.
+- **IPCA REAL > IPCA PROJETADO ({{projectedIpca}}%)**: Inflação em queda. Ambiente favorável à renda variável.
+- **IPCA REAL < IPCA PROJETADO ({{projectedIpca}}%)**: Inflação pressionada. Aumente a alocação em Tesouro IPCA+ e FIIs de papel.
 
 ## 3. INTERPRETAÇÃO DO IBOV (12 MESES)
-- Extraia a tendência de 12 meses (último fechamento vs. inicial).
-- **TENDÊNCIA POSITIVA + SELIC PROJETADA EM QUEDA**: Aumente a alocação em ações.
-- **TENDÊNCIA NEGATIVA + SELIC ALTA**: Reduza a alocação em ações.
+- Extraia a tendência de 12 meses ({{macroContext.ibovChange365d}}%).
+- **TENDÊNCIA POSITIVA + SELIC EM QUEDA (ver regra 1)**: Aumente a alocação em ações.
+- **TENDÊNCIA NEGATIVA + SELIC EM ALTA (ver regra 1)**: Reduza a alocação em ações.
 
-## 4. INTERPRETAÇÃO DO DÓLAR (120 dias)
+## 4. INTERPRETAÇÃO DO DÓLAR
 - **DÓLAR EM ALTA**: Aumente a proteção internacional e fortaleça a renda fixa.
 - **DÓLAR EM QUEDA**: Favorece ações brasileiras e setores cíclicos.
 
 ## 5. INTERPRETAÇÃO DO IFIX
 - Use como termômetro:
 - **IFIX EM ALTA + SELIC EM QUEDA**: FIIs de tijolo ganham espaço.
-- **IFIX ESTÁVEL/BAIXA + SELIC ALTA**: FIIs de papel são preferenciais.
+- **IFIX ESTÁVEL/BAIXA + SELIC EM ALTA**: FIIs de papel são preferenciais.
 
 ## 6. CLASSIFICAÇÃO DO CENÁRIO MACRO
 - Combine os 5 pontos acima para classificar o cenário em **UMA** das seguintes categorias:
@@ -120,8 +124,8 @@ const monitorPrompt = ai.definePrompt({
 
 ## 8. AJUSTES FINOS CONFORME O CENÁRIO
 - Aplique estes ajustes sobre a carteira base do perfil:
-- **SELIC PROJETADA > 12%**: Aumente pós-fixados, reduza ações, priorize FIIs de papel.
-- **SELIC PROJETADA < 9%**: Aumente ações, aumente FIIs de tijolo, aumente prefixados.
+- **SELIC ANO SEGUINTE > 11%**: Aumente pós-fixados, reduza ações, priorize FIIs de papel.
+- **SELIC ANO SEGUINTE < 9%**: Aumente ações, aumente FIIs de tijolo, aumente prefixados.
 - **IPCA PROJETADO ACIMA DO ATUAL**: Aumente IPCA+, aumente FIIs de papel.
 - **IBOV TENDÊNCIA POSITIVA**: Aumente ações (setores cíclicos/crescimento).
 - **DÓLAR EM ALTA**: Aumente proteção internacional (ETFs globais).
@@ -136,8 +140,8 @@ const monitorPrompt = ai.definePrompt({
 ## 10. VALIDAÇÃO ANTES DE RESPONDER
 - Antes de gerar a saída, valide internamente:
   - A carteira é coerente com o perfil? (Não pode ser arriscada para um conservador).
-  - A carteira respeita as regras da Selic e do IPCA?
-  - A recomendação usa tendências de longo prazo (12 meses) como peso maior, não oscilações do dia.
+  - A carteira respeita a tendência da Selic (regra 1)?
+  - A recomendação usa tendências de longo prazo como peso maior, não oscilações do dia.
 `,
 
   prompt: `
@@ -150,7 +154,8 @@ Analise os seguintes dados e gere a recomendação de aporte para o investidor.
 
 ### 2. Contexto Macroeconômico Atual
 - **Taxa Selic Atual:** {{macroContext.selicRate}}%
-- **Projeção Selic (Focus Anual):** {{projectedSelic}}%
+- **Projeção Selic (Ano Corrente):** {{projectedCurrentYearSelic}}%
+- **Projeção Selic (Ano Seguinte):** {{projectedNextYearSelic}}%
 - **Inflação (IPCA 12m):** {{macroContext.ipca12m}}%
 - **Projeção IPCA (Focus 24m):** {{projectedIpca}}%
 - **IFIX (variação dia):** {{macroContext.ifixChange}}%

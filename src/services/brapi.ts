@@ -175,36 +175,79 @@ interface FocusApiResponse {
 }
 
 /**
- * Busca a projeção da taxa SELIC (mediana) do relatório Focus do BCB.
+ * Busca a projeção da taxa SELIC (mediana) do relatório Focus do BCB para o ano corrente.
  * @returns Uma promessa que resolve para o valor numérico da projeção da SELIC.
  */
-export async function getProjectedSelicRate(): Promise<number> {
-    const url = 'https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoAnuais?$filter=Indicador%20eq%20%27Selic%27&$top=1&$orderby=Data%20desc&$format=json';
+export async function getProjectedCurrentYearSelicRate(): Promise<number> {
+    const currentYear = new Date().getFullYear();
+    const url = `https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoAnuais?$filter=Indicador%20eq%20'Selic'%20and%20DataReferencia%20eq%20'${currentYear}'&$top=1&$orderby=Data%20desc&$format=json`;
 
     try {
         const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache de 24 horas
 
         if (!response.ok) {
-            throw new Error(`Erro na API Focus do BCB: ${response.statusText}`);
+            throw new Error(`Erro na API Focus do BCB (Anual): ${response.statusText}`);
         }
 
         const data: FocusApiResponse = await response.json();
         
         if (!data.value || data.value.length === 0) {
-            throw new Error('Formato de resposta inesperado da API Focus.');
+            // Fallback para a API sem filtro de ano, caso a específica falhe
+             const fallbackUrl = 'https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoAnuais?$filter=Indicador%20eq%20%27Selic%27&$top=1&$orderby=Data%20desc&$format=json';
+             const fallbackResponse = await fetch(fallbackUrl);
+             const fallbackData: FocusApiResponse = await fallbackResponse.json();
+             if (!fallbackData.value || fallbackData.value.length === 0) {
+                 throw new Error('Formato de resposta inesperado da API Focus Anual.');
+             }
+             return fallbackData.value[0].Mediana;
         }
 
         const projectedRate = data.value[0].Mediana;
 
         if (typeof projectedRate !== 'number') {
-            throw new Error('Valor da projeção da SELIC não é um número válido.');
+            throw new Error('Valor da projeção da SELIC Anual não é um número válido.');
         }
         
         return projectedRate;
 
     } catch (error) {
-        console.error("Falha ao buscar projeção da SELIC na API Focus:", error);
+        console.error("Falha ao buscar projeção da SELIC Anual na API Focus:", error);
         throw error; // Re-lança o erro para ser tratado pelo chamador
+    }
+}
+
+
+/**
+ * Busca a projeção da taxa SELIC (mediana) do relatório Focus do BCB para o ano seguinte.
+ * @returns Uma promessa que resolve para o valor numérico da projeção da SELIC.
+ */
+export async function getProjectedNextYearSelicRate(): Promise<number> {
+    const url = 'https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoSelic?$top=1&$orderby=Data%20desc&$format=json';
+
+    try {
+        const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache de 24 horas
+
+        if (!response.ok) {
+            throw new Error(`Erro na API Focus do BCB para Selic Futura: ${response.statusText}`);
+        }
+
+        const data: FocusApiResponse = await response.json();
+        
+        if (!data.value || data.value.length === 0) {
+            throw new Error('Formato de resposta inesperado da API Focus para Selic Futura.');
+        }
+
+        const projectedRate = data.value[0].Mediana;
+
+        if (typeof projectedRate !== 'number') {
+            throw new Error('Valor da projeção da SELIC futura não é um número válido.');
+        }
+        
+        return projectedRate;
+
+    } catch (error) {
+        console.error("Falha ao buscar projeção da SELIC futura na API Focus:", error);
+        throw error;
     }
 }
 
@@ -256,13 +299,13 @@ export type DollarInfo = {
 export async function getDollarRate(): Promise<DollarInfo> {
     const today = new Date();
     const endDateObj = new Date(today);
-    const dataFinal = `${String(endDateObj.getDate()).padStart(2, '0')}/${String(endDateObj.getMonth() + 1).padStart(2, '0')}/${endDateObj.getFullYear()}`;
+    const dataFinal = `${String(endDateObj.getMonth() + 1).padStart(2, '0')}-${String(endDateObj.getDate()).padStart(2, '0')}-${endDateObj.getFullYear()}`;
 
     const startDateObj = new Date(today);
     startDateObj.setDate(today.getDate() - 120);
-    const dataInicial = `${String(startDateObj.getDate()).padStart(2, '0')}/${String(startDateObj.getMonth() + 1).padStart(2, '0')}/${startDateObj.getFullYear()}`;
+    const dataInicial = `${String(startDateObj.getMonth() + 1).padStart(2, '0')}-${String(startDateObj.getDate()).padStart(2, '0')}-${startDateObj.getFullYear()}`;
     
-    const url = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados?formato=json&dataInicial=${dataInicial}&dataFinal=${dataFinal}`;
+    const url = `https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarPeriodo(dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)?@dataInicial='${dataInicial}'&@dataFinalCotacao='${dataFinal}'&$top=120&$orderby=dataHoraCotacao%20desc&$format=json`;
 
     try {
         const response = await fetch(url, { next: { revalidate: 3600 } }); // 1 hora de cache
@@ -271,9 +314,11 @@ export async function getDollarRate(): Promise<DollarInfo> {
             throw new Error(`Erro na API do BCB para cotação do Dólar: ${response.statusText}`);
         }
 
-        const data: BcbDataItem[] = await response.json();
+        const data = await response.json();
+        const cotacoes = data.value;
 
-        if (!Array.isArray(data) || data.length === 0) {
+
+        if (!Array.isArray(cotacoes) || cotacoes.length === 0) {
             const fallbackUrl = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados/ultimos/1?formato=json';
             const fallbackResponse = await fetch(fallbackUrl);
             if (!fallbackResponse.ok) throw new Error('Falha na API de fallback do BCB para Dólar.');
@@ -281,17 +326,23 @@ export async function getDollarRate(): Promise<DollarInfo> {
             if (fallbackData.length === 0) throw new Error('Dados de fallback para o Dólar também estão vazios.');
             const lastValue = parseFloat(fallbackData[0].valor);
             if (isNaN(lastValue)) throw new Error('Valor de fallback do Dólar não é um número válido.');
-            return { currentRate: lastValue, history: fallbackData };
+            const bcbHistory = fallbackData.map(item => ({ data: item.data, valor: item.valor }));
+            return { currentRate: lastValue, history: bcbHistory };
         }
 
-        const latestData = data[data.length - 1];
-        const dollarValue = parseFloat(latestData.valor);
+        const latestData = cotacoes[0];
+        const dollarValue = latestData.cotacaoCompra;
 
         if (isNaN(dollarValue)) {
             throw new Error('Valor da cotação do Dólar retornado pela API do BCB não é um número válido.');
         }
+        
+        const history: BcbDataItem[] = cotacoes.map((item: any) => ({
+             data: new Date(item.dataHoraCotacao).toLocaleDateString('pt-BR'),
+             valor: item.cotacaoCompra.toString()
+        }));
 
-        return { currentRate: dollarValue, history: data };
+        return { currentRate: dollarValue, history: history };
 
     } catch (error) {
         console.error("Falha ao buscar cotação do Dólar na API do BCB:", error);

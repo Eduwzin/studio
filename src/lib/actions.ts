@@ -37,7 +37,7 @@ import {
     SuggestAssetsInput,
     SuggestAssetsOutput,
 } from '@/ai/flows/suggest-assets-flow';
-import { getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedSelicRate, getSelicRate, getStockInfo } from '@/services/brapi';
+import { getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo } from '@/services/brapi';
 
 
 export async function analyzeUserProfile(input: AnalyzeUserProfileInput) {
@@ -79,20 +79,14 @@ export async function generateLesson(input: GenerateLessonInput) {
 }
 
 export async function monitorPortfolio(input: MonitorPortfolioInput): Promise<MonitorPortfolioOutput> {
-    // Busca todos os dados macroeconômicos necessários aqui, dentro da server action.
-    // Isso centraliza a lógica e evita que o cliente precise buscar cada um.
     const selicRate = await getSelicRate().catch(() => 10.50);
     const ipcaRate = await getIpcaRate().catch(() => 3.9);
-    const projectedSelicRate = await getProjectedSelicRate().catch(() => 9.75);
+    const projectedCurrentYearSelic = await getProjectedCurrentYearSelicRate().catch(() => selicRate);
+    const projectedNextYearSelic = await getProjectedNextYearSelicRate().catch(() => projectedCurrentYearSelic);
     const projectedIpcaRate = await getProjectedIpcaRate().catch(() => 3.8);
     const ifixData = await getStockInfo('IFIX').catch(() => null);
     const ibovData = await getStockInfo('^BVSP', '1y', '1wk').catch(() => null);
     const dollarInfo = await getDollarRate().catch(() => ({ currentRate: 5.25, history: [] }));
-
-    let selicTrend: 'alta' | 'queda' | 'estavel';
-    if (projectedSelicRate < selicRate) selicTrend = 'queda';
-    else if (projectedSelicRate > selicRate) selicTrend = 'alta';
-    else selicTrend = 'estavel';
 
     let ipcaTrend: 'alta' | 'queda' | 'estavel';
     if (projectedIpcaRate < ipcaRate) ipcaTrend = 'queda';
@@ -118,11 +112,12 @@ export async function monitorPortfolio(input: MonitorPortfolioInput): Promise<Mo
     
     const fullInput: MonitorPortfolioInput = {
         ...input,
-        projectedSelic: projectedSelicRate,
+        projectedCurrentYearSelic: projectedCurrentYearSelic,
+        projectedNextYearSelic: projectedNextYearSelic,
         projectedIpca: projectedIpcaRate,
         macroContext: {
             selicRate,
-            selicTrend,
+            selicTrend: 'estavel', // A tendência agora é mais complexa, a IA deve derivar
             ipca12m: ipcaRate,
             ipcaTrend,
             ifixChange: ifixData?.regularMarketChangePercent ?? 0,

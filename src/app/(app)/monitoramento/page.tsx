@@ -1,28 +1,20 @@
 
-import { getSelicRate, getIpcaRate, getProjectedSelicRate, getProjectedIpcaRate, getStockInfo, StockInfo, getDollarRate, DollarInfo } from '@/services/brapi';
+import { getSelicRate, getIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getProjectedIpcaRate, getStockInfo, getDollarRate } from '@/services/brapi';
 import MonitoramentoClient from './monitoramento-client';
 
 export default async function MonitoramentoPage() {
-    // Os dados agora são buscados na Server Action 'monitorPortfolio'
-    // Esta página do servidor apenas renderiza o componente cliente.
-    // A lógica de busca e cálculo foi movida para 'src/lib/actions.ts'
-    // para ser reutilizável e centralizada.
-
-    // A busca inicial de dados para exibição ainda pode ser feita aqui
-    // para evitar um carregamento vazio no cliente.
+    // Busca os dados no servidor para passar ao componente cliente.
+    // A lógica de negócio e chamada à IA fica na Server Action 'monitorPortfolio',
+    // que por sua vez também busca esses dados para garantir que estão sempre atualizados
+    // no momento da análise.
     const selicRate = await getSelicRate().catch(() => 10.50);
     const ipcaRate = await getIpcaRate().catch(() => 3.9);
-    const projectedSelicRate = await getProjectedSelicRate().catch(() => 9.75);
+    const projectedCurrentYearSelic = await getProjectedCurrentYearSelicRate().catch(() => selicRate);
+    const projectedNextYearSelic = await getProjectedNextYearSelicRate().catch(() => projectedCurrentYearSelic);
     const projectedIpcaRate = await getProjectedIpcaRate().catch(() => 3.8);
     const ifixData = await getStockInfo('IFIX').catch(() => null);
     const ibovData = await getStockInfo('^BVSP', '1y', '1wk').catch(() => null);
     const dollarInfo = await getDollarRate().catch(() => ({ currentRate: 5.25, history: [] }));
-
-
-    let selicTrend: 'alta' | 'queda' | 'estavel';
-    if (projectedSelicRate < selicRate) selicTrend = 'queda';
-    else if (projectedSelicRate > selicRate) selicTrend = 'alta';
-    else selicTrend = 'estavel';
 
     let ipcaTrend: 'alta' | 'queda' | 'estavel';
     if (projectedIpcaRate < ipcaRate) ipcaTrend = 'queda';
@@ -54,8 +46,8 @@ export default async function MonitoramentoPage() {
     return <MonitoramentoClient 
         selicRate={selicRate} 
         ipcaRate={ipcaRate} 
-        projectedSelicRate={projectedSelicRate}
-        selicTrend={selicTrend}
+        projectedCurrentYearSelic={projectedCurrentYearSelic}
+        projectedNextYearSelic={projectedNextYearSelic}
         projectedIpcaRate={projectedIpcaRate}
         ipcaTrend={ipcaTrend}
         ifixData={ifixData}
