@@ -353,10 +353,17 @@ export async function getDollarRate(): Promise<DollarInfo> {
 /**
  * Representa a estrutura de dados esperada da resposta da API da Brapi para a lista de tickers.
  */
+export interface AvailableTicker {
+  stock: string;
+  name: string;
+  logo: string;
+  type: string;
+}
+
 export interface AvailableTickersResponse {
-  stocks: string[];
-  fiis: string[];
-  bdrs: string[];
+  stocks: AvailableTicker[];
+  fiis: AvailableTicker[];
+  bdrs: AvailableTicker[];
 }
 
 /**
@@ -379,11 +386,13 @@ export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
     
     const data = await response.json();
 
+    const fiis = (data?.stocks ?? []).filter((s: AvailableTicker) => s.type === 'fund');
+
     // Tornando a função mais resiliente a respostas parciais ou malformadas
     return {
-        stocks: data?.stocks ?? [],
-        fiis: data?.funds ?? [],
-        bdrs: data?.bdrs ?? [],
+        stocks: (data?.stocks ?? []).filter((s: AvailableTicker) => s.type === 'stock'),
+        fiis: fiis,
+        bdrs: (data?.stocks ?? []).filter((s: AvailableTicker) => s.type === 'bdr'),
     };
   } catch (error) {
     console.error("Falha ao buscar lista de tickers da Brapi:", error);
