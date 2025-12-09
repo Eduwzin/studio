@@ -79,9 +79,9 @@ export default function MonitoramentoClient({
         },
         // O restante dos dados macro são buscados dentro da Server Action
         macroContext: {} as any, 
-        projectedCurrentYearSelic: 0,
-        projectedNextYearSelic: 0,
-        projectedIpca: 0
+        projectedCurrentYearSelic: 0, // A action busca o valor real
+        projectedNextYearSelic: 0, // A action busca o valor real
+        projectedIpca: 0 // A action busca o valor real
       });
       setAnalysis(result);
     } catch (err) {
@@ -169,9 +169,29 @@ export default function MonitoramentoClient({
       <Card className="text-center">
         <CardHeader>
             <CardTitle>Análise Contínua do seu Portfólio</CardTitle>
-            <CardDescription>
-                Clique no botão para que nossa IA analise os dados de mercado.
-                SELIC: <span className="font-bold text-primary">{selicRate}%</span> (Proj. {new Date().getFullYear()}: <span className="font-bold text-primary">{projectedCurrentYearSelic.toFixed(2)}%</span>, Proj. {new Date().getFullYear() + 1}: <span className="font-bold text-primary">{projectedNextYearSelic.toFixed(2)}%</span>). Tendência estratégica: {selicTrendText}.
+            <CardDescription className="text-sm space-y-1">
+                <p>Clique no botão para que nossa IA analise os dados de mercado e gere uma recomendação de aporte.</p>
+                <p className="font-semibold">
+                    SELIC: <span className="text-primary">{selicRate.toFixed(2)}%</span>
+                    &nbsp;&bull;&nbsp;
+                    Projeção {new Date().getFullYear()}: <span className="text-primary">{projectedCurrentYearSelic.toFixed(2)}%</span>
+                    &nbsp;&bull;&nbsp;
+                    Projeção {new Date().getFullYear() + 1}: <span className="text-primary">{projectedNextYearSelic.toFixed(2)}%</span>
+                </p>
+                <p className="font-semibold">
+                    Inflação (12m): <span className="text-primary">{ipcaRate.toFixed(2)}%</span>
+                    &nbsp;&bull;&nbsp;
+                    Projeção (Focus): <span className="text-primary">{projectedIpcaRate.toFixed(2)}%</span>
+                    &nbsp;&bull;&nbsp;
+                    Dólar: <span className="text-primary">R$ {dollarInfo.currentRate.toFixed(2)}</span>
+                </p>
+                 <p className="font-semibold">
+                    IBOV (1D): <span className={cn(ibovChange1d >= 0 ? "text-green-600" : "text-red-600")}>{formatPercent(ibovChange1d)}</span>
+                    &nbsp;&bull;&nbsp;
+                    IBOV (30D): <span className={cn(ibovChange30d >= 0 ? "text-green-600" : "text-red-600")}>{formatPercent(ibovChange30d)}</span>
+                    &nbsp;&bull;&nbsp;
+                    IBOV (1A): <span className={cn(ibovChange365d >= 0 ? "text-green-600" : "text-red-600")}>{formatPercent(ibovChange365d)}</span>
+                </p>
             </CardDescription>
         </CardHeader>
         <CardContent>
@@ -220,7 +240,7 @@ export default function MonitoramentoClient({
                         <Card className="bg-muted/50">
                             <CardContent className="pt-6">
                                 <pre className="text-xs whitespace-pre-wrap max-h-60 overflow-y-auto">
-                                    <code>{JSON.stringify({ dollarInfo, ibovData, ifixData }, null, 2)}</code>
+                                    <code>{JSON.stringify({ selicRate, ipcaRate, projectedCurrentYearSelic, projectedNextYearSelic, projectedIpcaRate, ipcaTrend, ifixData, ibovData, dollarInfo }, null, 2)}</code>
                                 </pre>
                             </CardContent>
                         </Card>
@@ -231,3 +251,5 @@ export default function MonitoramentoClient({
     </div>
   );
 }
+
+    
