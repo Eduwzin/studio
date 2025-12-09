@@ -27,12 +27,12 @@ const StockInfoOutputSchema = z.object({
   regularMarketChange: z.number(),
   regularMarketChangePercent: z.number(),
   regularMarketTime: z.string(),
-  marketCap: z.number(),
+  marketCap: z.number().nullable(),
   regularMarketVolume: z.number(),
   fiftyTwoWeekLow: z.number(),
   fiftyTwoWeekHigh: z.number(),
-  priceEarnings: z.number(),
-  earningsPerShare: z.number(),
+  priceEarnings: z.number().nullable(),
+  earningsPerShare: z.number().nullable(),
   logourl: z.string(),
 });
 
