@@ -47,18 +47,17 @@ export interface StockInfo {
  * @throws Lança um erro se o ticker não for encontrado ou se houver um problema com a solicitação da API.
  */
 export async function getStockInfo(ticker: string, range?: string, interval?: string): Promise<StockInfo> {
-  if (!BRAPI_API_TOKEN) {
-    throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
-  }
-
-  let url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}&fundamental=true&dividends=true`;
-
-  if (range && interval) {
-    url += `&range=${range}&interval=${interval}`;
-  }
-
-
   try {
+    if (!BRAPI_API_TOKEN) {
+      throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
+    }
+
+    let url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}&fundamental=true&dividends=true`;
+
+    if (range && interval) {
+      url += `&range=${range}&interval=${interval}`;
+    }
+
     // Força a busca de dados em tempo real a cada chamada
     const response = await fetch(url, { cache: 'no-store' });
     
@@ -371,13 +370,13 @@ export interface AvailableTickersResponse {
  * @returns Uma promessa que resolve para um objeto contendo arrays de tickers.
  */
 export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
-  if (!BRAPI_API_TOKEN) {
-    throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
-  }
-
-  const url = `${BRAPI_API_BASE_URL}/available?token=${BRAPI_API_TOKEN}`;
-
   try {
+    if (!BRAPI_API_TOKEN) {
+      throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
+    }
+
+    const url = `${BRAPI_API_BASE_URL}/available?token=${BRAPI_API_TOKEN}`;
+
     const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache de 24 horas
 
     if (!response.ok) {
