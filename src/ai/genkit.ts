@@ -1,3 +1,4 @@
+'use server';
 import {genkit} from 'genkit';
 import {googleAI} from '@genkit-ai/google-genai';
 
@@ -7,4 +8,4 @@ export const ai = genkit({
   ],
 });
 
-export const geminiModel = googleAI.model('gemini-1.5-flash-latest');
+export const geminiModel = googleAI.model('gemini-1.5-pro-latest');
