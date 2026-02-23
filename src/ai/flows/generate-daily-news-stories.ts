@@ -9,7 +9,7 @@
  * - GenerateStoriesOutput: The output type, containing the 5 summarized stories.
  */
 
-import { ai } from '@/ai/genkit';
+import { ai, geminiPro } from '@/ai/genkit';
 import { z } from 'genkit';
 
 // 2. Schema for the final, summarized story format
@@ -59,7 +59,7 @@ export async function generateDailyNewsStories(input: GenerateStoriesInput): Pro
 // 5. The Genkit Prompt Definition
 const newsAnalysisPrompt = ai.definePrompt({
   name: 'dailyNewsAnalysisPrompt',
-  model: 'googleai/gemini-1.5-flash',
+  model: geminiPro,
   input: { schema: GenerateStoriesInputSchema },
   output: { schema: GenerateStoriesOutputSchema },
   system: `Você é um editor-chefe de um portal de notícias financeiras para iniciantes, o SafeStart Invest. Sua missão é transformar uma lista de notícias brutas em um briefing diário de 5 "stories" inteligentes, relevantes e fáceis de entender.
