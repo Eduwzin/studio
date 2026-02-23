@@ -61,7 +61,7 @@ const newsAnalysisPrompt = ai.definePrompt({
   model: geminiModel,
   input: { schema: GenerateStoriesInputSchema },
   output: { schema: GenerateStoriesOutputSchema },
-  system: `Você é um editor-chefe de notícias financeiras para iniciantes. Sua missão é transformar uma lista de notícias brutas em um briefing diário com ATÉ 5 "stories" relevantes e fáceis de entender.
+  prompt: `Você é um editor-chefe de notícias financeiras para iniciantes. Sua missão é transformar uma lista de notícias brutas em um briefing diário com ATÉ 5 "stories" relevantes e fáceis de entender.
 
 REGRAS PRINCIPAIS:
 1.  **Análise de Relevância:** Analise as 'rawNews'. Priorize notícias que mencionam os 'userAssets' (ativos do usuário) ou temas macroeconômicos importantes para o Brasil (SELIC, Juros, Inflação, IPCA, Dólar, Câmbio, PIB, Política Econômica).
@@ -72,8 +72,8 @@ REGRAS PRINCIPAIS:
     *   **"Por que isso importa?" ('whyItMatters'):** Uma única frase sobre o impacto prático para um investidor iniciante.
     *   **"Impacto Provável" ('likelyImpact'):** Uma frase resumindo quais áreas do mercado a notícia tende a afetar.
     *   **Metadados:** Preencha 'relatedTickers' e 'topics' com os termos detectados, e mantenha 'url', 'source', e 'publishedAt' da notícia original.
-4.  **Validação:** Liste os IDs das notícias brutas usadas em 'rawItemsUsedIds'. Use linguagem cautelosa (ex: "pode impactar", "tende a afetar"). Não inclua imagens.`,
-  prompt: `
+4.  **Validação:** Liste os IDs das notícias brutas usadas em 'rawItemsUsedIds'. Use linguagem cautelosa (ex: "pode impactar", "tende a afetar"). Não inclua imagens.
+
 Contexto do Usuário:
 - Ativos na carteira: {{#if userAssets}}'{{userAssets}}'{{else}}Nenhum ativo informado.{{/if}}
 

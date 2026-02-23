@@ -46,7 +46,7 @@ const suggestAssetsPrompt = ai.definePrompt({
   input: { schema: SuggestAssetsInputSchema },
   output: { schema: SuggestAssetsOutputSchema },
   tools: [getStockInfoFromBrapi], // Disponibiliza a ferramenta para a IA
-  system: `Você é um analista de investimentos (CNPI) especialista em escolher ativos para investidores de varejo.
+  prompt: `Você é um analista de investimentos (CNPI) especialista em escolher ativos para investidores de varejo.
 
 Sua tarefa é analisar o perfil do investidor e a recomendação estratégica do "Radar de Mercado" para sugerir ATIVOS ESPECÍFICOS.
 
@@ -57,9 +57,7 @@ REGRAS OBRIGATÓRIAS:
 4.  **Seja Específico:** Não dê sugestões genéricas como "invista em tecnologia". Sugira tickers reais (ex: "MGLU3", "HGLG11", "BOVA11").
 5.  **Justifique a Escolha:** Para cada ativo, explique em uma frase curta POR QUE ele é uma boa escolha para o cenário E para o perfil atuais. Exemplo: "Com a queda da SELIC, o setor de varejo se beneficia, e MGLU3 é uma opção de maior crescimento para um perfil moderado/arrojado."
 6.  **Diversifique as Sugestões:** Forneça de 3 a 5 sugestões, tentando variar entre Ações, FIIs e ETFs, se a estratégia permitir.
-`,
 
-  prompt: `
 Análise estratégica recebida:
 - **Perfil do Investidor:** {{riskProfile}}
 - **Diretriz do Radar de Mercado:** "{{marketAnalysis}}"

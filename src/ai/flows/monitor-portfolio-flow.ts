@@ -64,7 +64,7 @@ const monitorPrompt = ai.definePrompt({
   model: geminiModel,
   input: { schema: MonitorPortfolioInputSchema },
   output: { schema: MonitorPortfolioOutputSchema },
-  system: `Você é um analista de investimentos especialista (CNPI) e sua tarefa é analisar dados macroeconômicos e o perfil de um investidor para gerar uma recomendação completa de alocação de aportes. Siga estritamente as regras abaixo.
+  prompt: `Você é um analista de investimentos especialista (CNPI) e sua tarefa é analisar dados macroeconômicos e o perfil de um investidor para gerar uma recomendação completa de alocação de aportes. Siga estritamente as regras abaixo.
 
 # REGRAS DE ANÁLISE E GERAÇÃO DE CARTEIRA
 
@@ -142,9 +142,7 @@ const monitorPrompt = ai.definePrompt({
   - A carteira é coerente com o perfil? (Não pode ser arriscada para um conservador).
   - A carteira respeita a tendência da Selic (regra 1)?
   - A recomendação usa tendências de longo prazo como peso maior, não oscilações do dia.
-`,
 
-  prompt: `
 Analise os seguintes dados e gere a recomendação de aporte para o investidor.
 
 ### 1. Perfil do Investidor
