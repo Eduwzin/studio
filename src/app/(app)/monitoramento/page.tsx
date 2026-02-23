@@ -13,7 +13,7 @@ export default async function MonitoramentoPage() {
     const projectedNextYearSelic = await getProjectedNextYearSelicRate().catch(() => projectedCurrentYearSelic);
     const projectedIpcaRate = await getProjectedIpcaRate().catch(() => 3.8);
     const ifixData = await getStockInfo('IFIX').catch(() => null);
-    const ibovData = await getStockInfo('^BVSP', '1y', '1wk').catch(() => null);
+    const ibovData = await getStockInfo('^BVSP', '1y', '1d').catch(() => null);
     const dollarInfo = await getDollarRate().catch(() => ({ currentRate: 5.25, history: [] }));
 
     let ipcaTrend: 'alta' | 'queda' | 'estavel';
@@ -30,11 +30,13 @@ export default async function MonitoramentoPage() {
         const latestClose = historicalData[0]?.close;
         
         if (latestClose) {
-            const close30d = historicalData[4]?.close;
+            // With daily data, ~21 trading days in a month.
+            const close30d = historicalData[21]?.close;
             if (close30d) {
                 ibovChange30d = ((latestClose - close30d) / close30d) * 100;
             }
 
+            // The last item in a 1y range is ~365 days ago.
             const close365d = historicalData[historicalData.length - 1]?.close;
             if (close365d) {
                 ibovChange365d = ((latestClose - close365d) / close365d) * 100;

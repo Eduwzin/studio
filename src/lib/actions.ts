@@ -1,3 +1,4 @@
+
 'use server';
 
 import {
@@ -109,7 +110,7 @@ export async function monitorPortfolio(input: MonitorPortfolioClientInput): Prom
     const projectedNextYearSelic = await getProjectedNextYearSelicRate().catch(() => projectedCurrentYearSelic);
     const projectedIpcaRate = await getProjectedIpcaRate().catch(() => 3.8);
     const ifixData = await getStockInfoService('IFIX').catch(() => null);
-    const ibovData = await getStockInfoService('^BVSP', '1y', '1wk').catch(() => null);
+    const ibovData = await getStockInfoService('^BVSP', '1y', '1d').catch(() => null);
     const dollarInfo = await getDollarRate().catch(() => ({ currentRate: 5.25, history: [] }));
 
     let ipcaTrend: 'alta' | 'queda' | 'estavel';
@@ -126,7 +127,8 @@ export async function monitorPortfolio(input: MonitorPortfolioClientInput): Prom
         const latestClose = historicalData[0]?.close;
         
         if (latestClose) {
-            const close30d = historicalData[4]?.close; // ~4 semanas
+            // With daily data, ~21 trading days in a month.
+            const close30d = historicalData[21]?.close;
             if (close30d) ibovChange30d = ((latestClose - close30d) / close30d) * 100;
 
             const close365d = historicalData[historicalData.length - 1]?.close;
@@ -167,7 +169,7 @@ export async function chatWithMarketAnalyst(input: ChatInput): Promise<ChatOutpu
 
 export async function getStockInfo(ticker: string): Promise<StockInfo | null> {
     try {
-        const stockInfo = await getStockInfoService(ticker, '1y', '1wk');
+        const stockInfo = await getStockInfoService(ticker, '1y', '1d');
         return stockInfo;
     } catch (error) {
         console.error(`Failed to get stock info for ${ticker}:`, error);
