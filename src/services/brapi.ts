@@ -370,36 +370,43 @@ export interface AvailableTickersResponse {
  * @returns Uma promessa que resolve para um objeto contendo arrays de tickers.
  */
 export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
+  const fetchTickers = async (type: 'stock' | 'fund' | 'bdr') => {
+    try {
+        if (!BRAPI_API_TOKEN) {
+            throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
+        }
+      const url = `${BRAPI_API_BASE_URL}/quote/list?token=${BRAPI_API_TOKEN}&type=${type}`;
+      const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache 24h
+
+      if (!response.ok) {
+        console.error(`Erro na API da Brapi para o tipo ${type}: ${response.statusText}`);
+        return [];
+      }
+      const data = await response.json();
+      // A API /quote/list retorna uma chave 'stocks' para todos os tipos.
+      // Nós adicionamos o campo 'type' manualmente para uso no frontend.
+      return (data.stocks || []).map((ticker: any) => ({
+        stock: ticker.stock,
+        name: ticker.name,
+        logo: ticker.logo,
+        type: type,
+      }));
+    } catch (error) {
+      console.error(`Falha ao buscar tickers do tipo ${type}:`, error);
+      return []; // Retorna array vazio em caso de erro para este tipo
+    }
+  };
+
   try {
-    if (!BRAPI_API_TOKEN) {
-      throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
-    }
+    const [stocks, fiis, bdrs] = await Promise.all([
+      fetchTickers('stock'),
+      fetchTickers('fund'), // 'fund' na API da Brapi corresponde a FIIs
+      fetchTickers('bdr')
+    ]);
 
-    const url = `${BRAPI_API_BASE_URL}/available?token=${BRAPI_API_TOKEN}`;
-
-    const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache de 24 horas
-
-    if (!response.ok) {
-      throw new Error(`Erro na API da Brapi ao listar ativos: ${response.statusText}`);
-    }
-    
-    const data = await response.json();
-
-    const fiis = (data?.stocks ?? []).filter((s: AvailableTicker) => s.type === 'fund');
-
-    // Tornando a função mais resiliente a respostas parciais ou malformadas
-    return {
-        stocks: (data?.stocks ?? []).filter((s: AvailableTicker) => s.type === 'stock'),
-        fiis: fiis,
-        bdrs: (data?.stocks ?? []).filter((s: AvailableTicker) => s.type === 'bdr'),
-    };
+    return { stocks, fiis, bdrs };
   } catch (error) {
-    console.error("Falha ao buscar lista de tickers da Brapi:", error);
-    // Em caso de falha total, retorna listas vazias para evitar que a aplicação quebre
-    return {
-        stocks: [],
-        fiis: [],
-        bdrs: [],
-    };
+    console.error("Falha geral ao buscar listas de tickers da Brapi:", error);
+    return { stocks: [], fiis: [], bdrs: [] };
   }
 }
