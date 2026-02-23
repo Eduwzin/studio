@@ -219,8 +219,8 @@ export async function getDailyNewsAction(payload: { userId: string; userAssets?:
 
   const uniqueNews = Array.from(new Map(cleanedNews.map(item => [item.url, item])).values());
 
-  if (uniqueNews.length < 5) {
-      console.warn("Not enough high-quality news to generate a briefing.");
+  if (uniqueNews.length === 0) {
+      console.warn("No high-quality news found after cleaning to generate a briefing.");
       return [];
   }
   

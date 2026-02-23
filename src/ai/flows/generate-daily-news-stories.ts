@@ -2,11 +2,11 @@
 /**
  * @fileOverview This file defines a Genkit flow that analyzes raw news articles,
  * cross-references them with a user's portfolio and macro-economic topics,
- * and generates a ranked, diversified, and simplified 5-story news briefing.
+ * and generates a ranked, diversified, and simplified news briefing of up to 5 stories.
  *
  * - generateDailyNewsStories: The main function that orchestrates the news analysis.
  * - GenerateStoriesInput: The input type, containing raw news and user context.
- * - GenerateStoriesOutput: The output type, containing the 5 summarized stories.
+ * - GenerateStoriesOutput: The output type, containing the summarized stories.
  */
 
 import { ai, geminiPro } from '@/ai/genkit';
@@ -42,7 +42,7 @@ export type GenerateStoriesInput = z.infer<typeof GenerateStoriesInputSchema>;
 // 3. Schema for the final output of the flow
 const GenerateStoriesOutputSchema = z.object({
   stories: z.array(StorySchema).describe("Uma lista de até 5 stories de notícias, rankeadas e diversificadas."),
-  rawItemsUsedIds: z.array(z.string()).describe("Uma lista dos IDs dos itens de notícias brutas que foram usados para gerar os 5 stories."),
+  rawItemsUsedIds: z.array(z.string()).describe("Uma lista dos IDs dos itens de notícias brutas que foram usados para gerar os stories."),
 });
 export type GenerateStoriesOutput = z.infer<typeof GenerateStoriesOutputSchema>;
 
@@ -60,7 +60,7 @@ const newsAnalysisPrompt = ai.definePrompt({
   model: geminiPro,
   input: { schema: GenerateStoriesInputSchema },
   output: { schema: GenerateStoriesOutputSchema },
-  system: `Você é um editor-chefe de um portal de notícias financeiras para iniciantes, o SafeStart Invest. Sua missão é transformar uma lista de notícias brutas em um briefing diário de 5 "stories" inteligentes, relevantes e fáceis de entender.
+  system: `Você é um editor-chefe de um portal de notícias financeiras para iniciantes, o SafeStart Invest. Sua missão é transformar uma lista de notícias brutas em um briefing diário de ATÉ 5 "stories" inteligentes, relevantes e fáceis de entender.
 
 Siga este processo rigorosamente:
 
@@ -71,11 +71,11 @@ Siga este processo rigorosamente:
     *   **Ranking:** Crie um ranking mental das notícias. O critério de maior peso é a menção direta a um ativo do usuário. O segundo maior peso são os temas macro. Recência é o terceiro critério.
 
 2.  **Seleção e Diversificação:**
-    *   Escolha as 5 notícias mais importantes do seu ranking.
-    *   **Regra de Diversidade:** Garanta que os 5 stories não sejam todos sobre o mesmo assunto. Tente criar um mix equilibrado, como por exemplo: 1 sobre juros/inflação, 1 sobre câmbio/commodities, 1 sobre uma empresa específica (idealmente da carteira do usuário), 1 sobre o cenário global (EUA/China) e 1 de "insight geral".
+    *   Escolha as notícias mais importantes do seu ranking, ATÉ UM MÁXIMO DE 5.
+    *   **Regra de Diversidade:** Garanta que os stories não sejam todos sobre o mesmo assunto. Tente criar um mix equilibrado, como por exemplo: 1 sobre juros/inflação, 1 sobre câmbio/commodities, 1 sobre uma empresa específica (idealmente da carteira do usuário), e outras de insight geral.
 
 3.  **Geração dos Stories:**
-    *   Para cada uma das 5 notícias selecionadas, gere um objeto 'Story' seguindo as regras abaixo.
+    *   Para cada uma das notícias selecionadas, gere um objeto 'Story' seguindo as regras abaixo.
     *   **Título:** Crie um novo título, curto e impactante (máx 65 caracteres).
     *   **Resumo:** Reescreva o conteúdo em 2-3 frases, usando linguagem 100% leiga. Zero "economês".
     *   **"Por que isso importa?":** Escreva uma única frase explicando o impacto prático para um investidor iniciante. (campo 'whyItMatters')
@@ -83,7 +83,6 @@ Siga este processo rigorosamente:
     *   **Metadados:** Preencha 'relatedTickers' e 'topics' com os termos que você detectou. Mantenha os campos 'url', 'source' e 'publishedAt' da notícia original.
 
 4.  **Validação Final:**
-    *   Certifique-se de que a saída contém exatamente 5 stories.
     *   Liste os IDs das notícias brutas originais que você usou no campo 'rawItemsUsedIds'.
     *   NUNCA dê conselhos de investimento ou faça previsões certeiras. Use linguagem como "pode impactar", "tende a afetar", "investidores estão de olho em".`,
   prompt: `
@@ -95,7 +94,7 @@ Notícias brutas do dia:
 - ID: {{id}}, Título: "{{title}}", Resumo: "{{summary_raw}}"
 {{/each}}
 
-Agora, execute a análise e gere o briefing com 5 stories.
+Agora, execute a análise e gere o briefing com os stories mais importantes.
 `,
 });
 
