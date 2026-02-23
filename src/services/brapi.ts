@@ -52,7 +52,7 @@ export async function getStockInfo(ticker: string, range?: string, interval?: st
       throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
     }
 
-    let url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}&fundamental=true&dividends=true`;
+    let url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}&fundamental=true`;
 
     if (range && interval) {
       url += `&range=${range}&interval=${interval}`;
