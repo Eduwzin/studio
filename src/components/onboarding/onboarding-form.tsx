@@ -208,17 +208,24 @@ export default function OnboardingForm({ onProfileSaved }: OnboardingFormProps) 
     setAnalysisResult(null);
 
     const { idade, ...respostasQuestionario } = values;
+    
+    const getLabel = (questionId: string, value: string) => {
+        const question = questions.find(q => q.id === questionId);
+        if (!question || !question.options) return value;
+        const option = question.options.find(o => o.value === value);
+        return option ? option.label : value;
+    };
 
     const fullUserProfile = `
       - Idade: ${values.idade}
-      - Objetivo: ${values.objetivo_investimento}
-      - Prazo: ${values.prazo_investimento}
-      - Tolerância a perdas: ${values.tolerancia_perda}
-      - Estabilidade da renda: ${values.estabilidade_renda}
-      - Necessidade de liquidez: ${values.necessidade_liquidez}
-      - Experiência: ${values.experiencia_investimento}
-      - Reação a quedas: ${values.reacao_a_perda}
-      - Frase que define o perfil: ${values.frase_perfil_risco}
+      - Objetivo do Investimento: ${getLabel('objetivo_investimento', values.objetivo_investimento)}
+      - Prazo do Investimento: ${getLabel('prazo_investimento', values.prazo_investimento)}
+      - Tolerância à Perda: ${getLabel('tolerancia_perda', values.tolerancia_perda)}
+      - Estabilidade da Renda: ${getLabel('estabilidade_renda', values.estabilidade_renda)}
+      - Necessidade de Liquidez: ${getLabel('necessidade_liquidez', values.necessidade_liquidez)}
+      - Experiência com Investimentos: ${getLabel('experiencia_investimento', values.experiencia_investimento)}
+      - Reação a Quedas de 10%: ${getLabel('reacao_a_perda', values.reacao_a_perda)}
+      - Frase que Melhor Define o Perfil: ${getLabel('frase_perfil_risco', values.frase_perfil_risco)}
     `;
 
     try {
@@ -263,6 +270,7 @@ export default function OnboardingForm({ onProfileSaved }: OnboardingFormProps) 
       });
       onProfileSaved();
     } catch (error) {
+      console.error(error);
       toast({
         variant: 'destructive',
         title: 'Falha na Análise',
