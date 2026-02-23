@@ -52,18 +52,24 @@ export async function getStockInfo(ticker: string, range?: string, interval?: st
       throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
     }
 
-    // Usando o endpoint da API v1 para consistência, mas com os parâmetros corretos que funcionam.
-    let url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}&fundamental=true`;
+    // Usando o endpoint v2, conforme a documentação e o exemplo do usuário
+    const modules = 'defaultKeyStatistics,summaryDetail';
+    let url = `https://brapi.dev/api/v2/quote/${ticker}?modules=${modules}`;
 
     if (range && interval) {
         url += `&range=${range}&interval=${interval}`;
     }
 
-    const response = await fetch(url, { cache: 'no-store' });
+    const response = await fetch(url, {
+      cache: 'no-store',
+      headers: {
+        'Authorization': `Bearer ${BRAPI_API_TOKEN}`
+      }
+    });
 
     if (!response.ok) {
       const errorBody = await response.text();
-      throw new Error(`Erro na API da Brapi: ${response.statusText}. Body: ${errorBody}`);
+      throw new Error(`Erro na API da Brapi v2: ${response.statusText}. Body: ${errorBody}`);
     }
     const data = await response.json();
 
@@ -71,10 +77,41 @@ export async function getStockInfo(ticker: string, range?: string, interval?: st
       throw new Error(`Nenhuma informação encontrada para o ticker: ${ticker}`);
     }
 
-    // A v1 já retorna os dados no formato que o componente espera
-    return data.results[0] as StockInfo;
+    const result = data.results[0];
+
+    // Mapeando a resposta da v2 para a nossa interface StockInfo
+    const stockInfo: StockInfo = {
+      symbol: result.symbol,
+      shortName: result.shortName,
+      longName: result.longName,
+      currency: result.currency,
+      regularMarketPrice: result.regularMarketPrice,
+      regularMarketDayHigh: result.regularMarketDayHigh,
+      regularMarketDayLow: result.regularMarketDayLow,
+      regularMarketChange: result.regularMarketChange,
+      regularMarketChangePercent: result.regularMarketChangePercent,
+      regularMarketTime: result.regularMarketTime,
+      marketCap: result.marketCap,
+      regularMarketVolume: result.regularMarketVolume,
+      fiftyTwoWeekLow: result.fiftyTwoWeekLow,
+      fiftyTwoWeekHigh: result.fiftyTwoWeekHigh,
+      logourl: result.logoUrl, // Mapeando de logoUrl para logourl
+      
+      // Mapeando dados de defaultKeyStatistics e summaryDetail
+      priceEarnings: result.defaultKeyStatistics?.trailingPE ?? null,
+      earningsPerShare: result.defaultKeyStatistics?.trailingEps ?? null,
+      priceToBook: result.defaultKeyStatistics?.priceToBook ?? undefined,
+      bookValue: result.defaultKeyStatistics?.bookValue ?? undefined,
+      // A API retorna o DY como uma fração (ex: 0.1 para 10%), então multiplicamos por 100.
+      dividendYield: (result.summaryDetail?.dividendYield ?? 0) * 100, 
+      
+      historicalDataPrice: result.historicalDataPrice,
+    };
+
+    return stockInfo;
+
   } catch (error) {
-     console.error(`Falha ao buscar detalhes do ativo para ${ticker}:`, error);
+     console.error(`Falha ao buscar detalhes do ativo para ${ticker} usando a API v2:`, error);
     throw error;
   }
 }
