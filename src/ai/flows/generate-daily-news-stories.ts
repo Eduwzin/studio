@@ -14,7 +14,7 @@ import { z } from 'genkit';
 
 // Schema for the final, summarized story format
 const StorySchema = z.object({
-  title: z.string().max(65).describe("Um título curto e direto para o story (máximo 65 caracteres)."),
+  title: z.string().describe("Um título curto e direto para o story (máximo 65 caracteres)."),
   summary: z.string().describe("O resumo da notícia em linguagem simples e didática (2-3 frases)."),
   whyItMatters: z.string().describe("Explicação de por que a notícia é importante para um investidor iniciante (1 frase)."),
   likelyImpact: z.string().describe("O impacto provável no mercado (ex: 'tende a mexer em dólar/bolsa/juros')."),
