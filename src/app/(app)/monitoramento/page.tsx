@@ -13,7 +13,7 @@ export default async function MonitoramentoPage() {
     const projectedNextYearSelic = await getProjectedNextYearSelicRate().catch(() => projectedCurrentYearSelic);
     const projectedIpcaRate = await getProjectedIpcaRate().catch(() => 3.8);
     const ifixData = await getStockInfo('IFIX').catch(() => null);
-    const ibovData = await getStockInfo('IBOVESPA', '1y', '1wk').catch(() => null);
+    const ibovData = await getStockInfo('^BVSP', '1y', '1wk').catch(() => null);
     const dollarInfo = await getDollarRate().catch(() => ({ currentRate: 5.25, history: [] }));
 
     let ipcaTrend: 'alta' | 'queda' | 'estavel';

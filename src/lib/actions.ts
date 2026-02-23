@@ -109,7 +109,7 @@ export async function monitorPortfolio(input: MonitorPortfolioClientInput): Prom
     const projectedNextYearSelic = await getProjectedNextYearSelicRate().catch(() => projectedCurrentYearSelic);
     const projectedIpcaRate = await getProjectedIpcaRate().catch(() => 3.8);
     const ifixData = await getStockInfoService('IFIX').catch(() => null);
-    const ibovData = await getStockInfoService('IBOVESPA', '1y', '1wk').catch(() => null);
+    const ibovData = await getStockInfoService('^BVSP', '1y', '1wk').catch(() => null);
     const dollarInfo = await getDollarRate().catch(() => ({ currentRate: 5.25, history: [] }));
 
     let ipcaTrend: 'alta' | 'queda' | 'estavel';
