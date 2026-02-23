@@ -9,7 +9,7 @@
  * - ChatOutput: O tipo de saída, contendo a resposta da IA.
  */
 
-import { ai, geminiPro } from '@/ai/genkit';
+import { ai, geminiModel } from '@/ai/genkit';
 import { z } from 'genkit';
 
 // Esquema para cada mensagem no histórico do chat
@@ -41,7 +41,7 @@ export async function chatWithMarketAnalyst(input: ChatInput): Promise<ChatOutpu
 // Definição do prompt da IA
 const chatPrompt = ai.definePrompt({
   name: 'chatWithMarketAnalystPrompt',
-  model: geminiPro,
+  model: geminiModel,
   input: { schema: ChatInputSchema },
   output: { schema: ChatOutputSchema },
   system: `Você é um Analista de Investimentos Sênior (CNPI) e está conversando com um investidor iniciante. Sua missão é responder às perguntas dele de forma clara, didática e direta.

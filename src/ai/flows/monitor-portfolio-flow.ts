@@ -9,7 +9,7 @@
  * - MonitorPortfolioOutput: O tipo de saída, estruturado com a recomendação de alocação de aporte.
  */
 
-import { ai, geminiPro } from '@/ai/genkit';
+import { ai, geminiModel } from '@/ai/genkit';
 import { z } from 'genkit';
 
 // Esquema para o perfil do investidor
@@ -61,7 +61,7 @@ export async function monitorPortfolio(input: MonitorPortfolioInput): Promise<Mo
 // Definição do prompt para a IA
 const monitorPrompt = ai.definePrompt({
   name: 'monitorPortfolioPrompt',
-  model: geminiPro,
+  model: geminiModel,
   input: { schema: MonitorPortfolioInputSchema },
   output: { schema: MonitorPortfolioOutputSchema },
   system: `Você é um analista de investimentos especialista (CNPI) e sua tarefa é analisar dados macroeconômicos e o perfil de um investidor para gerar uma recomendação completa de alocação de aportes. Siga estritamente as regras abaixo.

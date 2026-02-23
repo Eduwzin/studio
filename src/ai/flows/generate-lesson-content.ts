@@ -7,7 +7,7 @@
  * - `GenerateLessonOutput`: A definição do tipo de saída para a função.
  */
 
-import { ai, geminiPro } from '@/ai/genkit';
+import { ai, geminiModel } from '@/ai/genkit';
 import { z } from 'genkit';
 
 const GenerateLessonInputSchema = z.object({
@@ -36,7 +36,7 @@ export async function generateLesson(input: GenerateLessonInput): Promise<Genera
 
 const prompt = ai.definePrompt({
   name: 'generateLessonPrompt',
-  model: geminiPro,
+  model: geminiModel,
   input: { schema: GenerateLessonInputSchema },
   output: { schema: GenerateLessonOutputSchema },
   prompt: `Você é o Beagle Investidor, um mentor financeiro amigável, engraçado, motivador e um pouco sarcástico. Sua missão é ensinar iniciantes sobre investimentos de forma simples e divertida.

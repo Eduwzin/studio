@@ -8,7 +8,7 @@
  * - SimulatePortfolioPerformanceOutput - O tipo de retorno para a função simulatePortfolioPerformance.
  */
 
-import {ai, geminiPro} from '@/ai/genkit';
+import {ai, geminiModel} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const SimulatePortfolioPerformanceInputSchema = z.object({
@@ -51,7 +51,7 @@ export async function simulatePortfolioPerformance(
 
 const prompt = ai.definePrompt({
   name: 'simulatePortfolioPerformancePrompt',
-  model: geminiPro,
+  model: geminiModel,
   input: {schema: SimulatePortfolioPerformanceInputSchema},
   output: {schema: SimulatePortfolioPerformanceOutputSchema},
   prompt: `Você é um consultor de investimentos de IA encarregado de simular o desempenho do portfólio de investimentos de um usuário ao longo do tempo.

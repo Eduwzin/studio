@@ -7,7 +7,7 @@
  * - GeneratePersonalizedInvestmentPortfolioOutput - O tipo de retorno para a função generatePersonalizedInvestmentPortfolio.
  */
 
-import {ai, geminiPro} from '@/ai/genkit';
+import {ai, geminiModel} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GeneratePersonalizedInvestmentPortfolioInputSchema = z.object({
@@ -36,7 +36,7 @@ export async function generatePersonalizedInvestmentPortfolio(
 
 const prompt = ai.definePrompt({
   name: 'generatePersonalizedInvestmentPortfolioPrompt',
-  model: geminiPro,
+  model: geminiModel,
   input: {schema: GeneratePersonalizedInvestmentPortfolioInputSchema},
   output: {schema: GeneratePersonalizedInvestmentPortfolioOutputSchema},
   prompt: `Você é um consultor financeiro especialista. Dada a seguinte análise de perfil de usuário, crie uma alocação de portfólio de investimentos personalizada.

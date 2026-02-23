@@ -8,7 +8,7 @@
  * - `RecommendNextInvestmentStepsOutput`: Definição do tipo de saída para a função.
  */
 
-import {ai, geminiPro} from '@/ai/genkit';
+import {ai, geminiModel} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const RecommendNextInvestmentStepsInputSchema = z.object({
@@ -32,7 +32,7 @@ export async function recommendNextInvestmentSteps(input: RecommendNextInvestmen
 
 const prompt = ai.definePrompt({
   name: 'recommendNextInvestmentStepsPrompt',
-  model: geminiPro,
+  model: geminiModel,
   input: {schema: RecommendNextInvestmentStepsInputSchema},
   output: {schema: RecommendNextInvestmentStepsOutputSchema},
   prompt: `Dado o seguinte perfil de usuário, portfólio atual e condições de mercado, recomende os próximos passos para o portfólio de investimentos do usuário.
