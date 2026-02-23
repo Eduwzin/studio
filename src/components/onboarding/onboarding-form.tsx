@@ -209,15 +209,16 @@ export default function OnboardingForm({ onProfileSaved }: OnboardingFormProps) 
 
     const { idade, ...respostasQuestionario } = values;
     
-    const getLabel = (questionId: string, value: string) => {
+    const getLabel = (questionId: string, value: string | number) => {
+        if (value === undefined || value === null) return 'não informado';
         const question = questions.find(q => q.id === questionId);
-        if (!question || !question.options) return value;
+        if (!question || !question.options) return String(value);
         const option = question.options.find(o => o.value === value);
-        return option ? option.label : value;
+        return option ? option.label : String(value);
     };
 
     const fullUserProfile = `
-      - Idade: ${values.idade}
+      - Idade: ${getLabel('idade', values.idade)}
       - Objetivo do Investimento: ${getLabel('objetivo_investimento', values.objetivo_investimento)}
       - Prazo do Investimento: ${getLabel('prazo_investimento', values.prazo_investimento)}
       - Tolerância à Perda: ${getLabel('tolerancia_perda', values.tolerancia_perda)}
@@ -269,19 +270,17 @@ export default function OnboardingForm({ onProfileSaved }: OnboardingFormProps) 
         description: 'Criamos uma estratégia personalizada para você e salvamos no seu perfil.',
       });
       onProfileSaved();
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      console.error("Analysis Error:", error);
       toast({
         variant: 'destructive',
         title: 'Falha na Análise',
-        description: 'Ocorreu um erro ao processar seu perfil. Por favor, tente novamente.',
+        description: error.message || 'Ocorreu um erro ao processar seu perfil. Por favor, tente novamente.',
       });
     } finally {
       setLoading(false);
     }
   }
-
-  const currentQuestion = questions[currentStep];
 
   const getProfileIcon = (profile: string) => {
     if (!profile) return <CheckCircle2 className="h-8 w-8 text-primary" />;
@@ -331,40 +330,48 @@ export default function OnboardingForm({ onProfileSaved }: OnboardingFormProps) 
         <Form {...form}>
           <form onSubmit={e => e.preventDefault()} className="space-y-8">
             <Progress value={((currentStep + 1) / questions.length) * 100} className="mb-8" />
-            <FormField
-              control={form.control}
-              name={currentQuestion.id as keyof z.infer<typeof formSchema>}
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel className="text-xl font-bold">{currentQuestion.title}</FormLabel>
-                  <FormDescription>{currentQuestion.description}</FormDescription>
-                  <FormControl>
-                    {currentQuestion.type === 'number' ? (
-                        <Input type="number" {...field} onChange={e => field.onChange(e.target.value === '' ? '' : Number(e.target.value))} placeholder="Sua idade"/>
-                    ) : (
-                        <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="flex flex-col space-y-2"
-                        >
-                        {currentQuestion.options?.map(option => (
-                            <FormItem
-                            className="flex items-center space-x-3 space-y-0"
-                            key={option.value}
-                            >
-                            <FormControl>
-                                <RadioGroupItem value={option.value} />
-                            </FormControl>
-                            <FormLabel className="font-normal">{option.label}</FormLabel>
-                            </FormItem>
-                        ))}
-                        </RadioGroup>
+            
+            <div className="relative">
+                {questions.map((question, index) => (
+                <div key={question.id} style={{ display: currentStep === index ? 'block' : 'none' }}>
+                    <FormField
+                    control={form.control}
+                    name={question.id as keyof z.infer<typeof formSchema>}
+                    render={({ field }) => (
+                        <FormItem className="space-y-3">
+                        <FormLabel className="text-xl font-bold">{question.title}</FormLabel>
+                        <FormDescription>{question.description}</FormDescription>
+                        <FormControl>
+                            {question.type === 'number' ? (
+                                <Input type="number" {...field} onChange={e => field.onChange(e.target.value === '' ? '' : Number(e.target.value))} placeholder="Sua idade"/>
+                            ) : (
+                                <RadioGroup
+                                onValueChange={field.onChange}
+                                value={field.value}
+                                className="flex flex-col space-y-2"
+                                >
+                                {question.options?.map(option => (
+                                    <FormItem
+                                    className="flex items-center space-x-3 space-y-0"
+                                    key={option.value}
+                                    >
+                                    <FormControl>
+                                        <RadioGroupItem value={option.value} />
+                                    </FormControl>
+                                    <FormLabel className="font-normal">{option.label}</FormLabel>
+                                    </FormItem>
+                                ))}
+                                </RadioGroup>
+                            )}
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
                     )}
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    />
+                </div>
+                ))}
+            </div>
+
 
             <div className="flex justify-between">
               <Button
@@ -455,3 +462,5 @@ export default function OnboardingForm({ onProfileSaved }: OnboardingFormProps) 
     </div>
   );
 }
+
+    
