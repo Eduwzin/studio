@@ -87,7 +87,7 @@ export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
 
-  const { user } = useUser();
+  const { user, isUserLoading } = useUser();
   const firestore = useFirestore();
 
   const userProfileRef = useMemoFirebase(() => {
@@ -97,19 +97,34 @@ export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
 
   const { data: userProfile, isLoading: isLoadingProfile } = useDoc<any>(userProfileRef);
 
-  const fetchNews = useCallback(async () => {
-    if (isLoadingProfile) return; // Aguarda o perfil do usuário ser carregado
+  const fetchNews = useCallback(async (forceRefresh = false) => {
+    // Wait for user and profile to be loaded
+    if (!user || isLoadingProfile || isUserLoading) {
+      return;
+    }
 
     setIsLoading(true);
     const assets = extractTickersFromString(userProfile?.perfilDeInvestimento?.alocacaoDeAtivos);
-    const refreshedNews = await getDailyNewsAction(assets);
-    setNews(refreshedNews);
-    setIsLoading(false);
-  }, [userProfile, isLoadingProfile]);
+    try {
+      const refreshedNews = await getDailyNewsAction({
+        userId: user.uid,
+        userAssets: assets,
+        forceRefresh: forceRefresh,
+      });
+      setNews(refreshedNews);
+    } catch (e) {
+      console.error("Failed to fetch news:", e);
+      setNews([]); // Set to empty on error
+    } finally {
+      setIsLoading(false);
+    }
+  }, [user, userProfile, isLoadingProfile, isUserLoading]);
 
 
   useEffect(() => {
-    fetchNews();
+    // This effect runs once when the component mounts and dependencies are ready.
+    // It will re-run if the user logs in/out, but the guards inside fetchNews prevent premature calls.
+    fetchNews(false);
   }, [fetchNews]);
 
   useEffect(() => {
@@ -188,7 +203,7 @@ export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
         )}
 
         <div className="flex items-center justify-center gap-4 mt-6">
-          <Button onClick={fetchNews} disabled={isLoading} variant="outline">
+          <Button onClick={() => fetchNews(true)} disabled={isLoading} variant="outline">
             <RefreshCw className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
             Atualizar
           </Button>

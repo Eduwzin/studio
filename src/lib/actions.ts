@@ -46,7 +46,20 @@ import {
   NewsStory,
 } from '@/ai/flows/generate-daily-news-stories';
 import { getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, StockInfo } from '@/services/brapi';
-import { getMarketNews as getGNewsMarketNews, type GNewsArticle } from '@/services/gnews';
+import { getMarketNews as getGNewsMarketNews } from '@/services/gnews';
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import { firebaseConfig } from '@/firebase/config';
+
+// Helper to initialize Firestore on the server if not already done.
+// This is safe to call multiple times.
+function getDb() {
+  if (getApps().length) {
+    return getFirestore(getApp());
+  }
+  const app = initializeApp(firebaseConfig);
+  return getFirestore(app);
+}
 
 export async function analyzeUserProfile(input: AnalyzeUserProfileInput) {
   const result = await analyzeUserProfileFlow(input);
@@ -158,15 +171,39 @@ export async function getStockInfo(ticker: string): Promise<StockInfo | null> {
     }
 }
 
-export async function getDailyNewsAction(userAssets: string = ''): Promise<NewsStory[]> {
-  // 1. Fetch raw news from GNews, fetching more to have a good selection.
+export async function getDailyNewsAction(payload: { userId: string; userAssets?: string; forceRefresh?: boolean }): Promise<NewsStory[]> {
+  const { userId, userAssets = '', forceRefresh = false } = payload;
+  const db = getDb();
+
+  const today = new Date();
+  const dateId = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  const docRef = doc(db, 'users', userId, 'dailyNews', dateId);
+
+  // 1. Check cache first, unless forceRefresh is true
+  if (!forceRefresh) {
+    try {
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data.stories && data.stories.length > 0) {
+          console.log("Returning cached news from Firestore for", dateId);
+          return data.stories as NewsStory[];
+        }
+      }
+    } catch (e) {
+      console.error("Error reading news cache from Firestore:", e);
+      // If cache read fails, proceed to generate new news
+    }
+  }
+
+  // 2. Fetch raw news from GNews, fetching more to have a good selection.
   const rawNewsFromApi = await getGNewsMarketNews(20);
 
   if (!rawNewsFromApi || rawNewsFromApi.length === 0) {
     return [];
   }
 
-  // 2. Normalize, validate, and deduplicate the news.
+  // 3. Normalize, validate, and deduplicate the news.
   const cleanedNews = rawNewsFromApi
     .map((article, index) => ({
       id: article.url || `${article.title}-${index}`,
@@ -187,17 +224,35 @@ export async function getDailyNewsAction(userAssets: string = ''): Promise<NewsS
       return [];
   }
   
-  // 3. Call the AI Flow to process the news.
+  // 4. Call the AI Flow to process the news.
   const input: GenerateStoriesInput = {
     rawNews: uniqueNews.slice(0, 20), // Limit to 20 to avoid large payloads.
     userAssets: userAssets,
   };
   
   try {
-    const { stories } = await generateDailyNewsStories(input);
+    const aiResult = await generateDailyNewsStories(input);
+    const stories = aiResult.stories;
     
-    // 5. Cache the result in Firestore (future enhancement).
-    // The logic for this would go here, using the user's ID and the current date.
+    if (!stories || stories.length === 0) {
+      console.log("AI generated no stories.");
+      return [];
+    }
+
+    // 5. Cache the new result in Firestore
+    const cachePayload = {
+      generatedAt: new Date().toISOString(),
+      stories: stories,
+      rawItemsUsedIds: aiResult.rawItemsUsedIds || [],
+      version: '1.0.0'
+    };
+
+    try {
+      await setDoc(docRef, cachePayload);
+    } catch (e) {
+      console.error("Error writing news cache to Firestore:", e);
+      // Proceed without caching if it fails, user still gets the news.
+    }
 
     return stories;
 
