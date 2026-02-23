@@ -9,15 +9,16 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from '@/components/ui/carousel';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Clock, ExternalLink, RefreshCw, Rss } from 'lucide-react';
 import Link from 'next/link';
 import type { DailyNewsArticle } from '@/lib/content';
-import { dailyNews as mockNews } from '@/lib/content';
 import { Skeleton } from '@/components/ui/skeleton';
+import { getDailyNewsAction } from '@/lib/actions';
+import Image from 'next/image';
 
 type DailyNewsClientProps = {
   initialNews: DailyNewsArticle[];
@@ -25,8 +26,20 @@ type DailyNewsClientProps = {
 
 function NewsStoryCard({ story }: { story: DailyNewsArticle }) {
   return (
-    <Card className="h-full flex flex-col">
-      <CardHeader>
+    <Card className="h-full flex flex-col overflow-hidden">
+      {story.imageUrl && (
+        <div className="relative aspect-video w-full">
+          <Image
+            src={story.imageUrl}
+            alt={story.title}
+            fill
+            className="object-cover"
+            unoptimized // Brapi images might not be standard sizes
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        </div>
+      )}
+      <CardHeader className={!story.imageUrl ? 'pt-6' : ''}>
         <CardTitle>{story.title}</CardTitle>
       </CardHeader>
       <CardContent className="flex-grow flex flex-col justify-between">
@@ -40,9 +53,9 @@ function NewsStoryCard({ story }: { story: DailyNewsArticle }) {
                 </div>
             </div>
              <Button asChild variant="outline" className="w-full">
-                <Link href={story.link} target="_blank">
+                <Link href={story.link} target="_blank" rel="noopener noreferrer">
                     Ver notícia
-                    <ExternalLink className="ml-2" />
+                    <ExternalLink className="ml-2 h-4 w-4" />
                 </Link>
             </Button>
         </div>
@@ -51,28 +64,26 @@ function NewsStoryCard({ story }: { story: DailyNewsArticle }) {
   );
 }
 
+
 export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
   const [news, setNews] = useState(initialNews);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(initialNews.length === 0);
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
 
   const handleRefresh = useCallback(async () => {
     setIsLoading(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 500));
-    // In a real app, you'd fetch new data here. We'll just shuffle the mock data for a visual effect.
-    setNews([...mockNews].sort(() => Math.random() - 0.5));
+    const refreshedNews = await getDailyNewsAction();
+    setNews(refreshedNews);
     setIsLoading(false);
   }, []);
   
-  // Set initial loading state to true for the first render simulation
   useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => setIsLoading(false), 500);
-    return () => clearTimeout(timer);
-  }, []);
+    if (initialNews.length === 0 && !isLoading) {
+      handleRefresh();
+    }
+  }, [initialNews, handleRefresh, isLoading]);
 
   useEffect(() => {
     if (!api) {
@@ -85,7 +96,7 @@ export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
     api.on('select', () => {
       setCurrent(api.selectedScrollSnap() + 1);
     });
-  }, [api]);
+  }, [api, news]); // Add news to dependency array to update count on refresh
 
   const today = format(new Date(), "eeee, dd 'de' MMMM 'de' yyyy", {
     locale: ptBR,
@@ -103,7 +114,8 @@ export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
 
       <div className="relative">
          {isLoading ? (
-            <Card className="h-[450px]">
+            <Card className="h-[550px]">
+                <Skeleton className="h-[200px] w-full" />
                 <CardHeader>
                     <Skeleton className="h-8 w-3/4" />
                 </CardHeader>
@@ -111,7 +123,7 @@ export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
                     <Skeleton className="h-4 w-full" />
                     <Skeleton className="h-4 w-full" />
                     <Skeleton className="h-4 w-4/5" />
-                    <div className="pt-20">
+                    <div className="pt-12">
                       <Skeleton className="h-10 w-full"/>
                     </div>
                 </CardContent>
@@ -119,13 +131,24 @@ export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
          ) : (
             <Carousel setApi={setApi} className="w-full">
                 <CarouselContent>
-                {news.map(story => (
+                {news.length > 0 ? news.map(story => (
                     <CarouselItem key={story.id}>
-                        <div className="p-1 h-[450px]">
+                        <div className="p-1 h-[550px]">
                             <NewsStoryCard story={story} />
                         </div>
                     </CarouselItem>
-                ))}
+                )) : (
+                  <CarouselItem>
+                    <div className="p-1 h-[550px]">
+                      <Card className="h-full flex flex-col items-center justify-center text-center">
+                        <CardHeader>
+                          <CardTitle>Nenhuma notícia encontrada</CardTitle>
+                          <CardDescription>Não foi possível carregar as notícias. Tente atualizar.</CardDescription>
+                        </CardHeader>
+                      </Card>
+                    </div>
+                  </CarouselItem>
+                )}
                 </CarouselContent>
                 <CarouselPrevious className="hidden sm:flex" />
                 <CarouselNext className="hidden sm:flex" />
@@ -134,11 +157,11 @@ export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
 
         <div className="flex items-center justify-center gap-4 mt-6">
             <Button onClick={handleRefresh} disabled={isLoading} variant="outline">
-              <RefreshCw className={`mr-2 ${isLoading ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
               Atualizar
             </Button>
             <div className="text-center text-sm text-muted-foreground">
-                {current > 0 ? `${current} de ${count}` : ''}
+                {count > 0 && current > 0 ? `${current} de ${count}` : ''}
             </div>
         </div>
       </div>

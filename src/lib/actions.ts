@@ -40,7 +40,10 @@ import {
     ChatInput,
     ChatOutput,
 } from '@/ai/flows/chat-with-market-analyst';
-import { getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, StockInfo } from '@/services/brapi';
+import { getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, StockInfo, getMarketNews as getMarketNewsService, type BrapiNewsArticle } from '@/services/brapi';
+import { formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import type { DailyNewsArticle } from './content';
 
 
 export async function analyzeUserProfile(input: AnalyzeUserProfileInput) {
@@ -145,12 +148,32 @@ export async function chatWithMarketAnalyst(input: ChatInput): Promise<ChatOutpu
 
 export async function getStockInfo(ticker: string): Promise<StockInfo | null> {
     try {
-        const stockInfo = await getStockInfoService(ticker);
+        const stockInfo = await getStockInfoService(ticker, '1y', '1d');
         return stockInfo;
     } catch (error) {
         console.error(`Failed to get stock info for ${ticker}:`, error);
         return null;
     }
+}
+
+export async function getDailyNewsAction(): Promise<DailyNewsArticle[]> {
+  const rawNews = await getMarketNewsService(5);
+
+  if (!rawNews || rawNews.length === 0) {
+    return [];
+  }
+
+  const processedNews: DailyNewsArticle[] = rawNews.map((article: BrapiNewsArticle) => ({
+    id: String(article.id),
+    title: article.title,
+    summary: 'Acesse a notícia para ver o conteúdo completo.',
+    source: article.source,
+    time: formatDistanceToNow(new Date(article.published_at), { addSuffix: true, locale: ptBR }),
+    link: article.url,
+    imageUrl: article.image
+  }));
+
+  return processedNews;
 }
 
 

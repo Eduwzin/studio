@@ -427,3 +427,41 @@ export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
     return { stocks: [], fiis: [], bdrs: [] };
   }
 }
+
+/**
+ * Representa a estrutura de dados de um artigo de notícia da API da Brapi.
+ */
+export interface BrapiNewsArticle {
+  id: number;
+  title: string;
+  source: string;
+  url: string;
+  image: string;
+  published_at: string;
+  tickers: string[];
+}
+
+/**
+ * Busca as últimas notícias do mercado financeiro da API da Brapi.
+ * @param limit O número de notícias a serem buscadas.
+ * @returns Uma promessa que resolve para um array de artigos de notícia.
+ */
+export async function getMarketNews(limit: number = 5): Promise<BrapiNewsArticle[]> {
+  try {
+    if (!BRAPI_API_TOKEN) {
+      throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
+    }
+    const url = `${BRAPI_API_BASE_URL}/news?limit=${limit}&token=${BRAPI_API_TOKEN}`;
+    const response = await fetch(url, { next: { revalidate: 1800 } }); // Cache 30 min
+
+    if (!response.ok) {
+      throw new Error(`Erro na API de notícias da Brapi: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.news || [];
+  } catch (error) {
+    console.error("Falha ao buscar notícias da Brapi:", error);
+    return []; // Retorna array vazio em caso de erro.
+  }
+}
