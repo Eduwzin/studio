@@ -12,7 +12,7 @@
 import { ai, geminiModel } from '@/ai/genkit';
 import { z } from 'genkit';
 
-// 2. Schema for the final, summarized story format
+// Schema for the final, summarized story format
 const StorySchema = z.object({
   title: z.string().max(65).describe("Um título curto e direto para o story (máximo 65 caracteres)."),
   summary: z.string().describe("O resumo da notícia em linguagem simples e didática (2-3 frases)."),
@@ -26,7 +26,7 @@ const StorySchema = z.object({
   imageUrl: z.string().url().optional().describe("A URL de uma imagem representativa da notícia (opcional).")
 });
 
-// 1. Schema for the input data to the flow
+// Schema for the input data to the flow
 const GenerateStoriesInputSchema = z.object({
   rawNews: z.array(z.object({
     id: z.string(),
@@ -40,7 +40,7 @@ const GenerateStoriesInputSchema = z.object({
 });
 export type GenerateStoriesInput = z.infer<typeof GenerateStoriesInputSchema>;
 
-// 3. Schema for the final output of the flow
+// Schema for the final output of the flow
 const GenerateStoriesOutputSchema = z.object({
   stories: z.array(StorySchema).describe("Uma lista de até 5 stories de notícias, rankeadas e diversificadas."),
   rawItemsUsedIds: z.array(z.string()).describe("Uma lista dos IDs dos itens de notícias brutas que foram usados para gerar os stories."),
@@ -50,12 +50,12 @@ export type GenerateStoriesOutput = z.infer<typeof GenerateStoriesOutputSchema>;
 // Exporting for client-side usage, matches the StorySchema
 export type NewsStory = z.infer<typeof StorySchema>;
 
-// 4. Exported function for Next.js components to call
+// Exported function for Next.js components to call
 export async function generateDailyNewsStories(input: GenerateStoriesInput): Promise<GenerateStoriesOutput> {
   return newsAnalysisFlow(input);
 }
 
-// 5. The Genkit Prompt Definition
+// The Genkit Prompt Definition
 const newsAnalysisPrompt = ai.definePrompt({
   name: 'dailyNewsAnalysisPrompt',
   model: geminiModel,
@@ -86,7 +86,7 @@ Agora, execute a análise e gere o briefing com os stories mais importantes.
 `,
 });
 
-// 6. The Genkit Flow Definition
+// The Genkit Flow Definition
 const newsAnalysisFlow = ai.defineFlow(
   {
     name: 'newsAnalysisFlow',

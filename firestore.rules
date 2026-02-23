@@ -17,6 +17,7 @@
  * - /users/{userId}/investmentPortfolios/{portfolioId} -> Private user investment portfolios.
  * - /users/{userId}/investmentPortfolios/{portfolioId}/nextStepRecommendations/{recommendationId} -> Private, AI-generated recommendations for a specific portfolio.
  * - /users/{userId}/trilha/progress -> Private user progress data for the educational trail.
+ * - /users/{userId}/dailyNewsCache/{cacheId} -> Private, user-specific cache for daily news.
  * - /educationalTrails/{trailId} -> Public, read-only educational content.
  * - /blogArticles/{articleId} -> Public, read-only blog content.
  *
@@ -143,67 +144,79 @@ service cloud.firestore {
      */
     match /users/{userId} {
       allow read, write: if false;
-    }
-    
-    /**
-     * @description Secures a user's private profile. Only the owner can manage their profile.
-     * @path /users/{userId}/userProfiles/{profileId}
-     * @allow (create) A new user (auth.uid=`user_abc`) creates their own profile at `/users/user_abc/userProfiles/profile_123`.
-     * @deny (get) A user (auth.uid=`user_xyz`) tries to read a profile at `/users/user_abc/userProfiles/profile_123`.
-     * @principle Restricts access to a user's own data tree.
-     */
-    match /users/{userId}/userProfiles/{profileId} {
-      allow get: if isOwner(userId);
-      allow list: if isOwner(userId);
-      allow create: if isOwner(userId) && hasValidUserProfileDataOnCreate(userId);
-      allow update: if isExistingOwner(userId) && hasValidUserProfileDataOnUpdate();
-      allow delete: if isExistingOwner(userId);
-    }
-    
-     /**
-     * @description Secures a user's progress in the educational trail. Only the owner can read/write their progress.
-     * @path /users/{userId}/trilha/{docId}
-     * @allow (get) A user (auth.uid=`user_abc`) reads their progress at `/users/user_abc/trilha/progress`.
-     * @deny (list) A user tries to list documents in the `trilha` subcollection.
-     * @principle Enforces strict ownership for gamified progress data.
-     */
-    match /users/{userId}/trilha/{docId} {
-        // Only allow access to the specific 'progress' document
-        allow get: if isOwner(userId) && docId == 'progress';
-        allow create: if isOwner(userId) && docId == 'progress' && hasValidUserProgressDataOnCreate();
-        allow update: if isExistingOwner(userId) && docId == 'progress' && hasValidUserProgressDataOnUpdate();
-        // Generally, progress should not be deleted by the user.
-        allow delete: if false; 
-        allow list: if false;
-    }
-
-    /**
-     * @description Secures a user's investment portfolios. Only the owner can view or modify them.
-     * @path /users/{userId}/investmentPortfolios/{portfolioId}
-     * @allow (list) A logged-in user (auth.uid=`user_abc`) lists their own portfolios at `/users/user_abc/investmentPortfolios`.
-     * @deny (update) A user (auth.uid=`user_xyz`) tries to modify a portfolio at `/users/user_abc/investmentPortfolios/port_456`.
-     * @principle Enforces document ownership and validates relational integrity between a portfolio and its owner.
-     */
-    match /users/{userId}/investmentPortfolios/{portfolioId} {
-      allow get: if isOwner(userId);
-      allow list: if isOwner(userId);
-      allow create: if isOwner(userId) && hasValidPortfolioDataOnCreate(userId);
-      allow update: if isExistingOwner(userId) && hasValidPortfolioDataOnUpdate();
-      allow delete: if isExistingOwner(userId);
 
       /**
-       * @description Secures AI-generated recommendations for a portfolio. Access is inherited from the parent portfolio owner.
-       * @path /users/{userId}/investmentPortfolios/{portfolioId}/nextStepRecommendations/{recommendationId}
-       * @allow (get) The portfolio owner (auth.uid=`user_abc`) reads a recommendation at `/users/user_abc/investmentPortfolios/port_456/nextStepRecommendations/rec_789`.
-       * @deny (create) A different user (auth.uid=`user_xyz`) tries to create a recommendation under another user's portfolio.
-       * @principle Inherits ownership from the parent document path, ensuring data privacy in nested subcollections.
+       * @description Secures a user's private profile. Only the owner can manage their profile.
+       * @path /users/{userId}/userProfiles/{profileId}
+       * @allow (create) A new user (auth.uid=`user_abc`) creates their own profile at `/users/user_abc/userProfiles/profile_123`.
+       * @deny (get) A user (auth.uid=`user_xyz`) tries to read a profile at `/users/user_abc/userProfiles/profile_123`.
+       * @principle Restricts access to a user's own data tree.
        */
-      match /nextStepRecommendations/{recommendationId} {
+      match /userProfiles/{profileId} {
         allow get: if isOwner(userId);
         allow list: if isOwner(userId);
-        allow create: if isOwner(userId) && hasValidRecommendationDataOnCreate(portfolioId);
-        allow update: if isExistingOwner(userId) && hasValidRecommendationDataOnUpdate();
+        allow create: if isOwner(userId) && hasValidUserProfileDataOnCreate(userId);
+        allow update: if isExistingOwner(userId) && hasValidUserProfileDataOnUpdate();
         allow delete: if isExistingOwner(userId);
+      }
+      
+       /**
+       * @description Secures a user's progress in the educational trail. Only the owner can read/write their progress.
+       * @path /users/{userId}/trilha/{docId}
+       * @allow (get) A user (auth.uid=`user_abc`) reads their progress at `/users/user_abc/trilha/progress`.
+       * @deny (list) A user tries to list documents in the `trilha` subcollection.
+       * @principle Enforces strict ownership for gamified progress data.
+       */
+      match /trilha/{docId} {
+          // Only allow access to the specific 'progress' document
+          allow get: if isOwner(userId) && docId == 'progress';
+          allow create: if isOwner(userId) && docId == 'progress' && hasValidUserProgressDataOnCreate();
+          allow update: if isExistingOwner(userId) && docId == 'progress' && hasValidUserProgressDataOnUpdate();
+          // Generally, progress should not be deleted by the user.
+          allow delete: if false; 
+          allow list: if false;
+      }
+
+      /**
+       * @description Secures a user's investment portfolios. Only the owner can view or modify them.
+       * @path /users/{userId}/investmentPortfolios/{portfolioId}
+       * @allow (list) A logged-in user (auth.uid=`user_abc`) lists their own portfolios at `/users/user_abc/investmentPortfolios`.
+       * @deny (update) A user (auth.uid=`user_xyz`) tries to modify a portfolio at `/users/user_abc/investmentPortfolios/port_456`.
+       * @principle Enforces document ownership and validates relational integrity between a portfolio and its owner.
+       */
+      match /investmentPortfolios/{portfolioId} {
+        allow get: if isOwner(userId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && hasValidPortfolioDataOnCreate(userId);
+        allow update: if isExistingOwner(userId) && hasValidPortfolioDataOnUpdate();
+        allow delete: if isExistingOwner(userId);
+
+        /**
+         * @description Secures AI-generated recommendations for a portfolio. Access is inherited from the parent portfolio owner.
+         * @path /users/{userId}/investmentPortfolios/{portfolioId}/nextStepRecommendations/{recommendationId}
+         * @allow (get) The portfolio owner (auth.uid=`user_abc`) reads a recommendation at `/users/user_abc/investmentPortfolios/port_456/nextStepRecommendations/rec_789`.
+         * @deny (create) A different user (auth.uid=`user_xyz`) tries to create a recommendation under another user's portfolio.
+         * @principle Inherits ownership from the parent document path, ensuring data privacy in nested subcollections.
+         */
+        match /nextStepRecommendations/{recommendationId} {
+          allow get: if isOwner(userId);
+          allow list: if isOwner(userId);
+          allow create: if isOwner(userId) && hasValidRecommendationDataOnCreate(portfolioId);
+          allow update: if isExistingOwner(userId) && hasValidRecommendationDataOnUpdate();
+          allow delete: if isExistingOwner(userId);
+        }
+      }
+
+      /**
+       * @description Secures the user-specific cache for daily news. Only the owner can manage their cache.
+       * @path /users/{userId}/dailyNewsCache/{date}
+       * @allow (get) A user reads their own cached news for a specific date.
+       * @deny (list) A user cannot list all cached news entries.
+       * @principle Restricts access to a user's own data tree for temporary/cached data.
+       */
+      match /dailyNewsCache/{cacheId} {
+        allow read, write: if isOwner(userId);
+        allow list: if false; // Don't allow listing cache entries
       }
     }
 
@@ -242,5 +255,3 @@ service cloud.firestore {
     }
   }
 }
-
-    

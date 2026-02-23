@@ -41,9 +41,15 @@ import {
     ChatInput,
     ChatOutput,
 } from '@/ai/flows/chat-with-market-analyst';
+import {
+  generateDailyNewsStories as generateDailyNewsStoriesFlow,
+  type GenerateStoriesInput,
+  type NewsStory,
+} from '@/ai/flows/generate-daily-news-stories';
+import { getMarketNews } from '@/services/gnews';
 import { getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, StockInfo } from '@/services/brapi';
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { firebaseConfig } from '@/firebase/config';
 
 // Helper to initialize Firestore on the server if not already done.
@@ -177,4 +183,64 @@ export async function getStockInfo(ticker: string): Promise<StockInfo | null> {
     }
 }
 
-export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput };
+export async function getDailyNewsAction(
+    { userId, userAssets, forceRefresh = false }: { userId: string; userAssets: string; forceRefresh?: boolean }
+): Promise<NewsStory[]> {
+    const db = getDb();
+    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+    const cacheRef = doc(db, 'users', userId, 'dailyNewsCache', today);
+
+    if (!forceRefresh) {
+        try {
+            const cacheSnap = await getDoc(cacheRef);
+            if (cacheSnap.exists()) {
+                const data = cacheSnap.data();
+                // Also check if the assets used for caching match the current user assets
+                if (data.stories && data.stories.length > 0 && data.userAssets === userAssets) {
+                     return data.stories;
+                }
+            }
+        } catch (error) {
+            console.error("Error reading from daily news cache:", error);
+            // Don't block, proceed to fetch fresh news
+        }
+    }
+
+    const rawArticles = await getMarketNews(25);
+    if (rawArticles.length === 0) {
+        return []; // Return empty if no news is fetched
+    }
+
+    const generateStoriesInput: GenerateStoriesInput = {
+        rawNews: rawArticles.map(a => ({
+            id: a.url,
+            title: a.title,
+            summary_raw: a.description,
+            url: a.url,
+            source: a.source.name,
+            publishedAt: a.publishedAt,
+        })),
+        userAssets: userAssets,
+    };
+
+    const result = await generateDailyNewsStoriesFlow(generateStoriesInput);
+
+    // Cache the result in Firestore for future requests
+    if (result.stories.length > 0) {
+        try {
+            await setDoc(cacheRef, { 
+                stories: result.stories, 
+                userAssets: userAssets, // Store the assets used for this cache
+                createdAt: new Date().toISOString() 
+            });
+        } catch(error) {
+             console.error("Error writing to daily news cache:", error);
+             // Don't block the user, just log the error
+        }
+    }
+
+    return result.stories;
+}
+
+
+export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory };

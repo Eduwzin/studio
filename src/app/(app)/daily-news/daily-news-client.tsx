@@ -193,7 +193,7 @@ export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
                     <Card className="min-h-[450px] flex flex-col items-center justify-center text-center">
                       <CardHeader>
                         <CardTitle>Nenhuma notícia encontrada</CardTitle>
-                        <CardDescription>Não foi possível carregar seu resumo de notícias hoje. Tente atualizar amanhã.</CardDescription>
+                        <CardDescription>Não foi possível carregar seu resumo de notícias hoje. Tente atualizar mais tarde.</CardDescription>
                       </CardHeader>
                     </Card>
                   </div>

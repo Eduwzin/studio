@@ -3,6 +3,8 @@
  */
 
 const GNEWS_API_BASE_URL = 'https://gnews.io/api/v4';
+// IMPORTANT: This key is for demonstration purposes. In a real application,
+// this should be stored securely as an environment variable.
 const GNEWS_API_KEY = 'ce6bf6b6d877e9a1c2f667d4df2bb568';
 
 export interface GNewsArticle {
@@ -23,23 +25,25 @@ export interface GNewsArticle {
  * @param limit The number of news articles to fetch.
  * @returns A promise that resolves to an array of news articles.
  */
-export async function getMarketNews(limit: number = 20): Promise<GNewsArticle[]> {
+export async function getMarketNews(limit: number = 25): Promise<GNewsArticle[]> {
   if (!GNEWS_API_KEY) {
-    throw new Error('GNews API key (GNEWS_API_KEY) is not configured in the environment.');
+    throw new Error('GNews API key is not configured.');
   }
   
   // Parameters for financial news in Brazil
   const category = 'business';
   const lang = 'pt';
   const country = 'br';
+  const query = 'mercado financeiro OR bolsa de valores OR investimentos OR economia';
   
-  const url = `${GNEWS_API_BASE_URL}/top-headlines?category=${category}&lang=${lang}&country=${country}&max=${limit}&apikey=${GNEWS_API_KEY}`;
+  const url = `${GNEWS_API_BASE_URL}/search?q=${encodeURIComponent(query)}&category=${category}&lang=${lang}&country=${country}&max=${limit}&apikey=${GNEWS_API_KEY}`;
 
   try {
     const response = await fetch(url, { next: { revalidate: 1800 } }); // 30 min cache
 
     if (!response.ok) {
       const errorData = await response.json();
+      console.error("GNews API Error:", errorData);
       throw new Error(`GNews API Error: ${errorData.errors.join(', ')}`);
     }
 
@@ -47,7 +51,7 @@ export async function getMarketNews(limit: number = 20): Promise<GNewsArticle[]>
     return data.articles || [];
   } catch (error) {
     console.error("Failed to fetch news from GNews:", error);
-    // Re-throw the error so the calling action can handle it appropriately.
-    throw error;
+    // Return an empty array to avoid breaking the app if GNews fails
+    return [];
   }
 }
