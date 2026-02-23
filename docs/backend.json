@@ -298,45 +298,6 @@
         "completedLessons",
         "earnedBadges"
       ]
-    },
-    "NewsStory": {
-      "title": "NewsStory",
-      "type": "object",
-      "description": "Represents a single news story processed and summarized by the AI.",
-      "properties": {
-        "title": { "type": "string" },
-        "summary": { "type": "string" },
-        "whyItMatters": { "type": "string" },
-        "likelyImpact": { "type": "string" },
-        "url": { "type": "string" },
-        "source": { "type": "string" },
-        "publishedAt": { "type": "string", "format": "date-time" },
-        "relatedTickers": { "type": "array", "items": { "type": "string" } },
-        "topics": { "type": "array", "items": { "type": "string" } },
-        "imageUrl": { "type": "string" }
-      },
-      "required": ["title", "summary", "whyItMatters", "likelyImpact", "url", "source", "publishedAt"]
-    },
-    "UserDailyNews": {
-      "title": "UserDailyNews",
-      "type": "object",
-      "description": "Stores the user's daily news briefing for a specific day.",
-      "properties": {
-        "generatedAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "stories": {
-          "type": "array",
-          "items": { "$ref": "#/backend/entities/NewsStory" }
-        },
-        "rawItemsUsedIds": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "version": { "type": "string" }
-      },
-      "required": ["generatedAt", "stories"]
     }
   },
   "auth": {
@@ -379,26 +340,6 @@
             {
               "name": "userId",
               "description": "The unique identifier of the user."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/users/{userId}/dailyNews/{dateId}",
-        "definition": {
-          "entityName": "UserDailyNews",
-          "schema": {
-            "$ref": "#/backend/entities/UserDailyNews"
-          },
-          "description": "Stores the user's AI-generated daily news summary for a specific day, identified by dateId (YYYY-MM-DD).",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user."
-            },
-            {
-              "name": "dateId",
-              "description": "The date of the news summary in YYYY-MM-DD format."
             }
           ]
         }
@@ -483,3 +424,4 @@
     "reasoning": "The Firestore data structure is designed to support the SafeStart Invest platform, focusing on user profiles, investment portfolios, educational content, and AI-driven recommendations. It prioritizes authorization independence, clear access patterns, and scalability.\n\n**Authorization Independence & QAPs:**\n\n*   User-owned data (UserProfile, InvestmentPortfolio, NextStepRecommendation) is stored under `/users/{userId}` collections. This leverages path-based authorization, eliminating the need for `get()` calls in security rules and enabling atomic operations. This structure inherently supports QAPs by allowing secure listing of user-specific data without complex filtering.\n*   EducationalTrail and BlogArticle collections are top-level, implying public read access. Segregation ensures different security postures are not mixed, simplifying security rules.\n\n**Structure Overview:**\n\n*   `/users/{userId}/userProfiles/{profileId}`: Stores user profile information. The `userId` in the path ensures that only the authenticated user can access their profile. Since the userId is available in the path there is no need to store it in the document itself.\n*   `/users/{userId}/investmentPortfolios/{portfolioId}`: Stores investment portfolios owned by a specific user. The `userId` in the path guarantees ownership, enabling secure listing. The `portfolioId` is used to uniquely identify each portfolio.\n*   `/users/{userId}/investmentPortfolios/{portfolioId}/nextStepRecommendations/{recommendationId}`: Stores AI-generated next-step recommendations for a specific portfolio. The nested structure under `/users/{userId}/investmentPortfolios/{portfolioId}` ensures that only the owner of the portfolio can access these recommendations. This maintains the hierarchical ownership and simplifies security rules.\n*   `/educationalTrails/{educationalTrailId}`: Stores educational trails available to all users. This is a top-level collection for globally accessible data.\n*   `/blogArticles/{blogArticleId}`: Stores blog articles accessible to all users. This is a top-level collection for globally accessible data."
   }
 }
+    

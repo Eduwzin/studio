@@ -1,10 +1,7 @@
 import type { ImagePlaceholder } from './placeholder-images';
 import data from './placeholder-images.json';
-import type { NewsStory as GenkitNewsStory } from '@/ai/flows/generate-daily-news-stories';
 
 export const placeholderImages: ImagePlaceholder[] = data.placeholderImages;
-
-export type NewsStory = GenkitNewsStory;
 
 export type Article = {
   slug: string;
@@ -96,3 +93,5 @@ export const educationalContent: EduTopic[] = [
         content: "Diversificação é a prática de distribuir seus investimentos por vários ativos para reduzir o risco. A ideia é que, se um investimento tiver um desempenho ruim, outros podem ter um bom desempenho, equilibrando seu portfólio geral. Uma frase comum que você ouvirá é 'Não coloque todos os seus ovos na mesma cesta'. Um portfólio bem diversificado pode incluir uma mistura de ações, títulos e outras classes de ativos."
     }
 ];
+
+    

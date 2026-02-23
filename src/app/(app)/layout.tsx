@@ -30,7 +30,6 @@ import {
   ChevronDown,
   ShieldCheck,
   List,
-  Radio,
 } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { usePathname, useRouter } from "next/navigation";
@@ -47,7 +46,6 @@ const navItems = [
   { href: "/ativos", icon: List, label: "Ativos" },
   { href: "/learn", icon: BookOpen, label: "Aprender" },
   { href: "/blog", icon: Newspaper, label: "Blog" },
-  { href: "/daily-news", icon: Radio, label: "Notícias do Dia" },
 ];
 
 function AppLayoutClient({ children }: { children: React.ReactNode }) {
@@ -165,3 +163,5 @@ function UserNav() {
     </DropdownMenu>
   );
 }
+
+    

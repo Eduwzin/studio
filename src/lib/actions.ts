@@ -40,15 +40,9 @@ import {
     ChatInput,
     ChatOutput,
 } from '@/ai/flows/chat-with-market-analyst';
-import {
-  generateDailyNewsStories,
-  GenerateStoriesInput,
-  NewsStory,
-} from '@/ai/flows/generate-daily-news-stories';
 import { getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, StockInfo } from '@/services/brapi';
-import { getMarketNews as getGNewsMarketNews } from '@/services/gnews';
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
 import { firebaseConfig } from '@/firebase/config';
 
 // Helper to initialize Firestore on the server if not already done.
@@ -181,94 +175,6 @@ export async function getStockInfo(ticker: string): Promise<StockInfo | null> {
     }
 }
 
-export async function getDailyNewsAction(payload: { userId: string; userAssets?: string; forceRefresh?: boolean }): Promise<NewsStory[]> {
-  const { userId, userAssets = '', forceRefresh = false } = payload;
-  const db = getDb();
-
-  const today = new Date();
-  const dateId = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-  const docRef = doc(db, 'users', userId, 'dailyNews', dateId);
-
-  // 1. Check for cached document unless a refresh is forced.
-  if (!forceRefresh) {
-    try {
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        return (data.stories || []) as NewsStory[];
-      }
-    } catch (e) {
-      console.error("Error reading news cache from Firestore:", e);
-    }
-  }
-
-  // 2. If no cache exists for today (or refresh is forced), generate new stories.
-  try {
-    const rawNewsFromApi = await getGNewsMarketNews(20);
-
-    if (!rawNewsFromApi || rawNewsFromApi.length === 0) {
-      // Se a API não retornar nada, crie um cache vazio para evitar novas chamadas.
-      await setDoc(docRef, { generatedAt: new Date().toISOString(), stories: [], version: '1.2.0-empty-api' });
-      return [];
-    }
-
-    const cleanedNews = rawNewsFromApi
-      .map((article, index) => ({
-        id: article.url || `${article.title}-${index}`,
-        title: article.title,
-        summary_raw: article.description || article.content || '',
-        url: article.url,
-        source: article.source.name,
-        publishedAt: article.publishedAt,
-      }))
-      .filter(article => article.url && article.title && article.summary_raw.length > 20);
-
-    const uniqueNews = Array.from(new Map(cleanedNews.map(item => [item.url, item])).values());
-    
-    if (uniqueNews.length === 0) {
-      await setDoc(docRef, { generatedAt: new Date().toISOString(), stories: [], version: '1.2.0-no-valid-news' });
-      return [];
-    }
-
-    const input: GenerateStoriesInput = {
-      rawNews: uniqueNews.slice(0, 20),
-      userAssets: userAssets,
-    };
-    
-    const aiResult = await generateDailyNewsStories(input);
-    
-    // Mesmo que o resultado da IA seja nulo ou vazio, salve para evitar novas chamadas.
-    const stories = aiResult?.stories || [];
-    
-    const cachePayload = {
-      generatedAt: new Date().toISOString(),
-      stories: stories,
-      rawItemsUsedIds: aiResult?.rawItemsUsedIds || [],
-      version: '1.2.0-final'
-    };
-    await setDoc(docRef, cachePayload);
-    
-    return stories;
-
-  } catch (error) {
-    console.error("Error during news generation process:", error);
-    // Em caso de erro na geração, também criamos um cache vazio para bloquear novas tentativas.
-    try {
-      const docSnap = await getDoc(docRef);
-      if (!docSnap.exists()) {
-        await setDoc(docRef, { 
-          generatedAt: new Date().toISOString(), 
-          stories: [], 
-          version: '1.2.0-generation-failed' 
-        });
-      }
-    } catch (cacheError) {
-      console.error("CRITICAL: Failed to write empty cache after generation error:", cacheError);
-    }
-    // Retorna vazio para o cliente, mas a tentativa não será refeita.
-    return [];
-  }
-}
-
-
 export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput };
+
+    
