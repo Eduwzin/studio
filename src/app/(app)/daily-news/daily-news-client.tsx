@@ -15,7 +15,7 @@ import { format, formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Clock, ExternalLink, RefreshCw, Rss } from 'lucide-react';
 import Link from 'next/link';
-import type { NewsStory } from '@/lib/content';
+import type { NewsStory } from '@/ai/flows/generate-daily-news-stories';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getDailyNewsAction } from '@/lib/actions';
 import { Badge } from '@/components/ui/badge';
@@ -99,8 +99,13 @@ export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
 
   const fetchNews = useCallback(async (forceRefresh = false) => {
     // Wait for user and profile to be loaded
-    if (!user || isLoadingProfile || isUserLoading) {
+    if (isUserLoading || isLoadingProfile) {
       return;
+    }
+    // Although user is a dependency, we also need to explicitly check it's loaded.
+    if (!user) {
+        setIsLoading(false);
+        return;
     }
 
     setIsLoading(true);
@@ -122,8 +127,6 @@ export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
 
 
   useEffect(() => {
-    // This effect runs once when the component mounts and dependencies are ready.
-    // It will re-run if the user logs in/out, but the guards inside fetchNews prevent premature calls.
     fetchNews(false);
   }, [fetchNews]);
 
@@ -190,7 +193,7 @@ export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
                     <Card className="min-h-[450px] flex flex-col items-center justify-center text-center">
                       <CardHeader>
                         <CardTitle>Nenhuma notícia encontrada</CardTitle>
-                        <CardDescription>Não foi possível carregar o briefing de hoje. Tente atualizar.</CardDescription>
+                        <CardDescription>Não foi possível carregar o briefing de hoje. Tente atualizar amanhã.</CardDescription>
                       </CardHeader>
                     </Card>
                   </div>

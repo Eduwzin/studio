@@ -23,6 +23,7 @@ const StorySchema = z.object({
   publishedAt: z.string().describe("A data de publicação original no formato ISO."),
   relatedTickers: z.array(z.string()).describe("Lista de tickers de ativos (se houver) mencionados diretamente na notícia."),
   topics: z.array(z.string()).describe("Lista de tópicos macroeconômicos detectados (ex: 'SELIC', 'Câmbio')."),
+  imageUrl: z.string().url().optional().describe("A URL de uma imagem representativa da notícia (opcional).")
 });
 
 // 1. Schema for the input data to the flow
@@ -60,31 +61,18 @@ const newsAnalysisPrompt = ai.definePrompt({
   model: geminiPro,
   input: { schema: GenerateStoriesInputSchema },
   output: { schema: GenerateStoriesOutputSchema },
-  system: `Você é um editor-chefe de um portal de notícias financeiras para iniciantes, o SafeStart Invest. Sua missão é transformar uma lista de notícias brutas em um briefing diário de ATÉ 5 "stories" inteligentes, relevantes e fáceis de entender.
+  system: `Você é um editor-chefe de notícias financeiras para iniciantes. Sua missão é transformar uma lista de notícias brutas em um briefing diário com ATÉ 5 "stories" relevantes e fáceis de entender.
 
-Siga este processo rigorosamente:
-
-1.  **Análise de Relevância:**
-    *   Primeiro, analise a lista de 'rawNews'.
-    *   **Contexto do Usuário:** A string 'userAssets' contém os ativos da carteira do usuário. Notícias que mencionam diretamente esses tickers (ou nomes de empresas relacionadas) são MUITO importantes.
-    *   **Contexto Macro:** Identifique notícias que abordam temas macroeconômicos cruciais para o mercado brasileiro: 'SELIC', 'Juros', 'Copom', 'Inflação', 'IPCA', 'Dólar', 'Câmbio', 'PIB', 'Petróleo', 'Minério de Ferro', 'Política Econômica', 'Impostos'. Notícias sobre o Fed (EUA) e a economia da China também são importantes.
-    *   **Ranking:** Crie um ranking mental das notícias. O critério de maior peso é a menção direta a um ativo do usuário. O segundo maior peso são os temas macro. Recência é o terceiro critério.
-
-2.  **Seleção e Diversificação:**
-    *   Escolha as notícias mais importantes do seu ranking, ATÉ UM MÁXIMO DE 5.
-    *   **Regra de Diversidade:** Garanta que os stories não sejam todos sobre o mesmo assunto. Tente criar um mix equilibrado, como por exemplo: 1 sobre juros/inflação, 1 sobre câmbio/commodities, 1 sobre uma empresa específica (idealmente da carteira do usuário), e outras de insight geral.
-
-3.  **Geração dos Stories:**
-    *   Para cada uma das notícias selecionadas, gere um objeto 'Story' seguindo as regras abaixo.
-    *   **Título:** Crie um novo título, curto e impactante (máx 65 caracteres).
-    *   **Resumo:** Reescreva o conteúdo em 2-3 frases, usando linguagem 100% leiga. Zero "economês".
-    *   **"Por que isso importa?":** Escreva uma única frase explicando o impacto prático para um investidor iniciante. (campo 'whyItMatters')
-    *   **"Impacto Provável":** Resuma em uma frase quais áreas do mercado a notícia tende a afetar. (campo 'likelyImpact')
-    *   **Metadados:** Preencha 'relatedTickers' e 'topics' com os termos que você detectou. Mantenha os campos 'url', 'source' e 'publishedAt' da notícia original.
-
-4.  **Validação Final:**
-    *   Liste os IDs das notícias brutas originais que você usou no campo 'rawItemsUsedIds'.
-    *   NUNCA dê conselhos de investimento ou faça previsões certeiras. Use linguagem como "pode impactar", "tende a afetar", "investidores estão de olho em".`,
+REGRAS PRINCIPAIS:
+1.  **Análise de Relevância:** Analise as 'rawNews'. Priorize notícias que mencionam os 'userAssets' (ativos do usuário) ou temas macroeconômicos importantes para o Brasil (SELIC, Juros, Inflação, IPCA, Dólar, Câmbio, PIB, Política Econômica).
+2.  **Seleção e Diversificação:** Escolha as notícias mais importantes, até um máximo de 5. Tente criar um mix equilibrado de assuntos.
+3.  **Geração dos Stories:** Para cada notícia escolhida, gere um objeto 'Story' com:
+    *   **Título:** Um novo título, curto e impactante (máx 65 caracteres).
+    *   **Resumo:** Um resumo em 2-3 frases com linguagem 100% leiga.
+    *   **"Por que isso importa?" ('whyItMatters'):** Uma única frase sobre o impacto prático para um investidor iniciante.
+    *   **"Impacto Provável" ('likelyImpact'):** Uma frase resumindo quais áreas do mercado a notícia tende a afetar.
+    *   **Metadados:** Preencha 'relatedTickers' e 'topics' com os termos detectados, e mantenha 'url', 'source', e 'publishedAt' da notícia original.
+4.  **Validação:** Liste os IDs das notícias brutas usadas em 'rawItemsUsedIds'. Use linguagem cautelosa (ex: "pode impactar", "tende a afetar"). Não inclua imagens.`,
   prompt: `
 Contexto do Usuário:
 - Ativos na carteira: {{#if userAssets}}'{{userAssets}}'{{else}}Nenhum ativo informado.{{/if}}
@@ -107,8 +95,10 @@ const newsAnalysisFlow = ai.defineFlow(
   },
   async (input) => {
     const { output } = await newsAnalysisPrompt(input);
-    if (!output || output.stories.length === 0) {
-      throw new Error('A IA não conseguiu gerar o briefing de notícias.');
+    // If output is null or stories are empty, return a valid but empty response.
+    // This prevents throwing an error that would be caught by the action's generic catch block.
+    if (!output) {
+        return { stories: [], rawItemsUsedIds: [] };
     }
     return output;
   }

@@ -184,32 +184,23 @@ export async function getDailyNewsAction(payload: { userId: string; userAssets?:
     try {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        // A document for today already exists. Return its content, even if empty.
-        // This prevents re-fetching on every page load if generation failed earlier.
-        console.log("Returning cached news from Firestore for", dateId);
         const data = docSnap.data();
         return (data.stories || []) as NewsStory[];
       }
     } catch (e) {
       console.error("Error reading news cache from Firestore:", e);
-      // If cache read fails, proceed to generate.
     }
   }
 
   // 2. If no cache exists for today (or refresh is forced), generate new stories.
-  console.log(`Cache miss for ${dateId}. Generating new stories...`);
   try {
-    // Fetch raw news from GNews.
     const rawNewsFromApi = await getGNewsMarketNews(20);
 
     if (!rawNewsFromApi || rawNewsFromApi.length === 0) {
-      console.log("No articles returned from GNews API.");
-      // Cache an empty result to prevent re-fetching today.
       await setDoc(docRef, { generatedAt: new Date().toISOString(), stories: [], version: '1.2.0' });
       return [];
     }
 
-    // Normalize and clean news.
     const cleanedNews = rawNewsFromApi
       .map((article, index) => ({
         id: article.url || `${article.title}-${index}`,
@@ -224,13 +215,10 @@ export async function getDailyNewsAction(payload: { userId: string; userAssets?:
     const uniqueNews = Array.from(new Map(cleanedNews.map(item => [item.url, item])).values());
     
     if (uniqueNews.length === 0) {
-      console.warn("No high-quality news found after cleaning to generate a briefing.");
-      // Cache an empty result.
       await setDoc(docRef, { generatedAt: new Date().toISOString(), stories: [], version: '1.2.0' });
       return [];
     }
 
-    // Call the AI Flow to process the news.
     const input: GenerateStoriesInput = {
       rawNews: uniqueNews.slice(0, 20),
       userAssets: userAssets,
@@ -239,35 +227,28 @@ export async function getDailyNewsAction(payload: { userId: string; userAssets?:
     const aiResult = await generateDailyNewsStories(input);
     const stories = aiResult?.stories;
     
-    if (!stories) {
-      throw new Error("AI result did not contain a 'stories' array.");
-    }
-    
-    // Cache the new result in Firestore.
     const cachePayload = {
       generatedAt: new Date().toISOString(),
-      stories: stories,
+      stories: stories || [],
       rawItemsUsedIds: aiResult.rawItemsUsedIds || [],
       version: '1.2.0'
     };
     await setDoc(docRef, cachePayload);
-    console.log(`Successfully generated and cached ${stories.length} stories for ${dateId}.`);
-    return stories;
+    
+    return stories || [];
 
   } catch (error) {
     console.error("Error during news generation process:", error);
-    // On ANY error during generation, cache an empty result for the day to prevent retries.
     try {
       await setDoc(docRef, { 
         generatedAt: new Date().toISOString(), 
         stories: [], 
         version: '1.2.0-failed' 
       });
-      console.log(`Cached empty result for ${dateId} due to generation error.`);
     } catch (cacheError) {
       console.error("CRITICAL: Failed to write empty cache after generation error:", cacheError);
     }
-    return []; // Return empty array to the client.
+    return [];
   }
 }
 
