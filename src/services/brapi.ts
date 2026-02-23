@@ -52,21 +52,14 @@ export async function getStockInfo(ticker: string, range?: string, interval?: st
       throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
     }
 
-    // Utilizando a API v2 com o parâmetro 'modules' conforme exemplo do usuário
-    let url = `${BRAPI_API_BASE_URL}/v2/quote/${ticker}?modules=defaultKeyStatistics`;
+    let url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}&fundamental=true`;
 
     if (range && interval) {
-      url += `&range=${range}&interval=${interval}`;
+        url += `&range=${range}&interval=${interval}`;
     }
 
-    // Utilizando o Header de Autorização como no exemplo curl
-    const response = await fetch(url, { 
-      cache: 'no-store',
-      headers: {
-        'Authorization': `Bearer ${BRAPI_API_TOKEN}`
-      }
-    });
-    
+    const response = await fetch(url, { cache: 'no-store' });
+
     if (!response.ok) {
       const errorBody = await response.text();
       throw new Error(`Erro na API da Brapi: ${response.statusText}. Body: ${errorBody}`);
@@ -77,12 +70,9 @@ export async function getStockInfo(ticker: string, range?: string, interval?: st
       throw new Error(`Nenhuma informação encontrada para o ticker: ${ticker}`);
     }
 
-    // A API retorna um array, mesmo para uma única consulta de ticker.
     return data.results[0] as StockInfo;
   } catch (error) {
-    // Não loga o erro no console para evitar poluição com tickers não encontrados.
-    // O erro será tratado pelo chamador (que o ignora com .catch(e => null)).
-    throw error; // Re-lança o erro para ser tratado pelo chamador
+    throw error;
   }
 }
 
