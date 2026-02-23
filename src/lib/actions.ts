@@ -40,7 +40,7 @@ import {
     ChatInput,
     ChatOutput,
 } from '@/ai/flows/chat-with-market-analyst';
-import { getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo } from '@/services/brapi';
+import { getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, StockInfo } from '@/services/brapi';
 
 
 export async function analyzeUserProfile(input: AnalyzeUserProfileInput) {
@@ -87,8 +87,8 @@ export async function monitorPortfolio(input: MonitorPortfolioInput): Promise<Mo
     const projectedCurrentYearSelic = await getProjectedCurrentYearSelicRate().catch(() => selicRate);
     const projectedNextYearSelic = await getProjectedNextYearSelicRate().catch(() => projectedCurrentYearSelic);
     const projectedIpcaRate = await getProjectedIpcaRate().catch(() => 3.8);
-    const ifixData = await getStockInfo('IFIX').catch(() => null);
-    const ibovData = await getStockInfo('^BVSP', '1y', '1wk').catch(() => null);
+    const ifixData = await getStockInfoService('IFIX').catch(() => null);
+    const ibovData = await getStockInfoService('^BVSP', '1y', '1wk').catch(() => null);
     const dollarInfo = await getDollarRate().catch(() => ({ currentRate: 5.25, history: [] }));
 
     let ipcaTrend: 'alta' | 'queda' | 'estavel';
@@ -141,6 +141,16 @@ export async function suggestAssets(input: SuggestAssetsInput): Promise<SuggestA
 
 export async function chatWithMarketAnalyst(input: ChatInput): Promise<ChatOutput> {
     return chatWithMarketAnalystFlow(input);
+}
+
+export async function getStockInfo(ticker: string): Promise<StockInfo | null> {
+    try {
+        const stockInfo = await getStockInfoService(ticker);
+        return stockInfo;
+    } catch (error) {
+        console.error(`Failed to get stock info for ${ticker}:`, error);
+        return null;
+    }
 }
 
 

@@ -357,6 +357,7 @@ export interface AvailableTicker {
   name: string;
   logo: string;
   type: string;
+  sector?: string;
 }
 
 export interface AvailableTickersResponse {
@@ -389,6 +390,7 @@ export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
         stock: ticker.stock,
         name: ticker.name,
         logo: ticker.logo,
+        sector: ticker.sector,
         type: type,
       }));
     } catch (error) {

@@ -2,17 +2,8 @@
 
 import { useState } from 'react';
 import type { AvailableTicker, AvailableTickersResponse } from "@/services/brapi";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -21,8 +12,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { List, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import TickerDetails from '@/components/ativos/ticker-details';
 
-function TickerTable({
+function TickerList({
   tickers,
   filter,
 }: {
@@ -35,39 +27,36 @@ function TickerTable({
       (ticker.name && ticker.name.toLowerCase().includes(filter.toLowerCase()))
   );
 
+  if (filteredTickers.length === 0) {
+    return <div className="text-center text-muted-foreground py-10">Nenhum ativo encontrado para o filtro selecionado.</div>;
+  }
+
   return (
-    <Card>
-      <CardContent className="p-0">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[120px]">Ticker</TableHead>
-              <TableHead>Nome</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredTickers.map((ticker) => (
-              <TableRow key={ticker.stock}>
-                <TableCell className="font-medium">
-                    <div className="flex items-center gap-3">
-                        <Image 
-                            src={ticker.logo} 
-                            alt={`Logo de ${ticker.name}`} 
-                            width={24} 
-                            height={24} 
-                            className="rounded-full object-contain"
-                            unoptimized // Brapi URLs might not be on the allowed domains
-                        />
-                        <span>{ticker.stock}</span>
-                    </div>
-                </TableCell>
-                <TableCell>{ticker.name}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+    <Accordion type="single" collapsible className="w-full space-y-2">
+      {filteredTickers.map((ticker) => (
+        <AccordionItem value={ticker.stock} key={ticker.stock} className="border-b-0">
+          <AccordionTrigger className="p-4 bg-card rounded-lg border hover:no-underline hover:bg-muted/50 transition-colors data-[state=open]:rounded-b-none data-[state=open]:border-b-0">
+            <div className="flex items-center gap-4 w-full">
+              <Image 
+                src={ticker.logo} 
+                alt={`Logo de ${ticker.name}`} 
+                width={32} 
+                height={32} 
+                className="rounded-full object-contain bg-white"
+                unoptimized
+              />
+              <div className="text-left flex-1 overflow-hidden">
+                <p className="font-bold text-base">{ticker.stock}</p>
+                <p className="text-sm text-muted-foreground truncate">{ticker.name}</p>
+              </div>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="p-4 border border-t-0 rounded-b-lg bg-card">
+            <TickerDetails ticker={ticker.stock} sector={ticker.sector} />
+          </AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
   );
 }
 
@@ -89,8 +78,7 @@ export default function AtivosClient({ initialData }: AtivosClientProps) {
           Lista de Ativos Disponíveis
         </h1>
         <p className="text-muted-foreground">
-          Visualize os ativos (ações, FIIs, BDRs) que a API da Brapi nos
-          fornece. Usamos esses dados para alimentar nossa IA.
+          Visualize e explore os ativos (ações, FIIs, BDRs) disponíveis na B3. Clique em um ativo para ver mais detalhes.
         </p>
       </header>
 
@@ -112,43 +100,13 @@ export default function AtivosClient({ initialData }: AtivosClientProps) {
           <TabsTrigger value="bdrs">BDRs ({bdrs.length})</TabsTrigger>
         </TabsList>
         <TabsContent value="stocks">
-          <Card>
-            <CardHeader>
-              <CardTitle>Ações (B3)</CardTitle>
-              <CardDescription>
-                Listando todas as {stocks.length} ações disponíveis na Brapi.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <TickerTable tickers={stocks} filter={filter} />
-            </CardContent>
-          </Card>
+           <TickerList tickers={stocks} filter={filter} />
         </TabsContent>
         <TabsContent value="fiis">
-          <Card>
-            <CardHeader>
-              <CardTitle>Fundos Imobiliários (FIIs)</CardTitle>
-              <CardDescription>
-                Listando todos os {fiis.length} FIIs disponíveis.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <TickerTable tickers={fiis} filter={filter} />
-            </CardContent>
-          </Card>
+           <TickerList tickers={fiis} filter={filter} />
         </TabsContent>
         <TabsContent value="bdrs">
-          <Card>
-            <CardHeader>
-              <CardTitle>BDRs</CardTitle>
-              <CardDescription>
-                Listando todos os {bdrs.length} BDRs disponíveis.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <TickerTable tickers={bdrs} filter={filter} />
-            </CardContent>
-          </Card>
+           <TickerList tickers={bdrs} filter={filter} />
         </TabsContent>
       </Tabs>
     </div>
