@@ -9,7 +9,7 @@
  * - GenerateStoriesOutput: The output type, containing the 5 summarized stories.
  */
 
-import { ai } from '@/ai/genkit';
+import { ai, geminiPro } from '@/ai/genkit';
 import { z } from 'genkit';
 
 // 2. Schema for the final, summarized story format
@@ -41,7 +41,7 @@ export type GenerateStoriesInput = z.infer<typeof GenerateStoriesInputSchema>;
 
 // 3. Schema for the final output of the flow
 const GenerateStoriesOutputSchema = z.object({
-  stories: z.array(StorySchema).length(5).describe("Uma lista de exatamente 5 stories de notícias, rankeadas e diversificadas."),
+  stories: z.array(StorySchema).describe("Uma lista de até 5 stories de notícias, rankeadas e diversificadas."),
   rawItemsUsedIds: z.array(z.string()).describe("Uma lista dos IDs dos itens de notícias brutas que foram usados para gerar os 5 stories."),
 });
 export type GenerateStoriesOutput = z.infer<typeof GenerateStoriesOutputSchema>;
@@ -57,7 +57,7 @@ export async function generateDailyNewsStories(input: GenerateStoriesInput): Pro
 // 5. The Genkit Prompt Definition
 const newsAnalysisPrompt = ai.definePrompt({
   name: 'dailyNewsAnalysisPrompt',
-  model: 'gemini-flash-latest',
+  model: geminiPro,
   input: { schema: GenerateStoriesInputSchema },
   output: { schema: GenerateStoriesOutputSchema },
   system: `Você é um editor-chefe de um portal de notícias financeiras para iniciantes, o SafeStart Invest. Sua missão é transformar uma lista de notícias brutas em um briefing diário de 5 "stories" inteligentes, relevantes e fáceis de entender.
@@ -108,8 +108,8 @@ const newsAnalysisFlow = ai.defineFlow(
   },
   async (input) => {
     const { output } = await newsAnalysisPrompt(input);
-    if (!output || output.stories.length !== 5) {
-      throw new Error('A IA não conseguiu gerar o briefing de 5 notícias.');
+    if (!output || output.stories.length === 0) {
+      throw new Error('A IA não conseguiu gerar o briefing de notícias.');
     }
     return output;
   }
