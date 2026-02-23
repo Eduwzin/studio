@@ -1,9 +1,18 @@
 import {genkit} from 'genkit';
-import {googleAI} from '@genkit-ai/googleai';
+import {googleAI} from '@genkit-ai/google-genai';
 
-// Use a stable, modern model with the -latest suffix as recommended to resolve the "Not Found" error with the v1beta API.
-export const geminiModel = googleAI.model('gemini-1.5-flash-latest');
+// By pointing to the Vertex AI endpoint, we align with Firebase Studio's
+// infrastructure, resolving the 'Not Found' error.
+const vertexGoogleAI = googleAI({
+  clientOptions: {
+    apiEndpoint: 'us-central1-aiplatform.googleapis.com',
+  },
+});
 
+// We define the model using the configured plugin.
+export const geminiModel = vertexGoogleAI.model('gemini-1.5-flash');
+
+// Initialize genkit with the correctly configured plugin.
 export const ai = genkit({
-  plugins: [googleAI()],
+  plugins: [vertexGoogleAI],
 });
