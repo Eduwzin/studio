@@ -36,12 +36,7 @@ export async function getMarketNews(limit: number = 25): Promise<GNewsArticle[]>
   const country = 'br';
   const query = 'mercado financeiro OR bolsa de valores OR investimentos OR economia';
 
-  // Add date range and sorting to get the most recent news
-  const fromDate = new Date();
-  fromDate.setDate(fromDate.getDate() - 2); // Get news from the last 2 days
-  const from = fromDate.toISOString();
-  
-  const url = `${GNEWS_API_BASE_URL}/search?q=${encodeURIComponent(query)}&category=${category}&lang=${lang}&country=${country}&max=${limit}&from=${from}&sortby=publishedAt&apikey=${GNEWS_API_KEY}`;
+  const url = `${GNEWS_API_BASE_URL}/search?q=${encodeURIComponent(query)}&category=${category}&lang=${lang}&country=${country}&max=${limit}&apikey=${GNEWS_API_KEY}`;
 
   try {
     const response = await fetch(url, { next: { revalidate: 1800 } }); // 30 min cache
