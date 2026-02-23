@@ -9,8 +9,7 @@
  * - GenerateStoriesOutput: The output type, containing the summarized stories.
  */
 
-import { ai } from '@/ai/genkit';
-import { googleAI } from '@genkit-ai/google-genai';
+import { ai, geminiPro } from '@/ai/genkit';
 import { z } from 'genkit';
 
 // 2. Schema for the final, summarized story format
@@ -59,7 +58,7 @@ export async function generateDailyNewsStories(input: GenerateStoriesInput): Pro
 // 5. The Genkit Prompt Definition
 const newsAnalysisPrompt = ai.definePrompt({
   name: 'dailyNewsAnalysisPrompt',
-  model: googleAI.model('gemini-1.5-flash-latest'),
+  model: geminiPro,
   input: { schema: GenerateStoriesInputSchema },
   output: { schema: GenerateStoriesOutputSchema },
   system: `Você é um editor-chefe de notícias financeiras para iniciantes. Sua missão é transformar uma lista de notícias brutas em um briefing diário com ATÉ 5 "stories" relevantes e fáceis de entender.
