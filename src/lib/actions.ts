@@ -40,7 +40,8 @@ import {
     ChatInput,
     ChatOutput,
 } from '@/ai/flows/chat-with-market-analyst';
-import { getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, StockInfo, getMarketNews as getMarketNewsService, type BrapiNewsArticle } from '@/services/brapi';
+import { getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, StockInfo } from '@/services/brapi';
+import { getMarketNews as getGNewsMarketNews, type GNewsArticle } from '@/services/gnews';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import type { DailyNewsArticle } from './content';
@@ -148,7 +149,7 @@ export async function chatWithMarketAnalyst(input: ChatInput): Promise<ChatOutpu
 
 export async function getStockInfo(ticker: string): Promise<StockInfo | null> {
     try {
-        const stockInfo = await getStockInfoService(ticker, '1y', '1d');
+        const stockInfo = await getStockInfoService(ticker, '1y', '1wk');
         return stockInfo;
     } catch (error) {
         console.error(`Failed to get stock info for ${ticker}:`, error);
@@ -157,20 +158,20 @@ export async function getStockInfo(ticker: string): Promise<StockInfo | null> {
 }
 
 export async function getDailyNewsAction(): Promise<DailyNewsArticle[]> {
-  const rawNews = await getMarketNewsService(5);
+  const rawNews = await getGNewsMarketNews(5);
 
   if (!rawNews || rawNews.length === 0) {
     return [];
   }
 
-  const processedNews: DailyNewsArticle[] = rawNews.map((article: BrapiNewsArticle) => ({
-    id: String(article.id),
+  const processedNews: DailyNewsArticle[] = rawNews.map((article: GNewsArticle) => ({
+    id: article.url,
     title: article.title,
-    summary: 'Acesse a notícia para ver o conteúdo completo.',
-    source: article.source,
-    time: formatDistanceToNow(new Date(article.published_at), { addSuffix: true, locale: ptBR }),
+    summary: article.description,
+    source: article.source.name,
+    time: formatDistanceToNow(new Date(article.publishedAt), { addSuffix: true, locale: ptBR }),
     link: article.url,
-    imageUrl: article.image
+    imageUrl: article.image,
   }));
 
   return processedNews;
