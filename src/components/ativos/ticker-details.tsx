@@ -18,24 +18,38 @@ const DetailItem = ({ label, value, subValue }: { label: string; value: React.Re
     </div>
 );
 
-const formatCurrency = (value: number | null | undefined) => {
+const formatCurrency = (value: any) => {
     if (value === null || value === undefined) return 'N/A';
-    return `R$ ${value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    const num = Number(value);
+    if (isNaN(num)) return 'N/A';
+    return `R$ ${num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
-const formatBigNumber = (value: number | null | undefined) => {
+const formatBigNumber = (value: any) => {
     if (value === null || value === undefined) return 'N/A';
-    if (value >= 1e12) return `R$ ${(value / 1e12).toFixed(2)}T`;
-    if (value >= 1e9) return `R$ ${(value / 1e9).toFixed(2)}B`;
-    if (value >= 1e6) return `R$ ${(value / 1e6).toFixed(2)}M`;
-    return `R$ ${value.toLocaleString('pt-BR')}`;
+    const num = Number(value);
+    if (isNaN(num)) return 'N/A';
+    if (num >= 1e12) return `R$ ${(num / 1e12).toFixed(2)}T`;
+    if (num >= 1e9) return `R$ ${(num / 1e9).toFixed(2)}B`;
+    if (num >= 1e6) return `R$ ${(num / 1e6).toFixed(2)}M`;
+    return `R$ ${num.toLocaleString('pt-BR')}`;
 }
 
-const formatPercentage = (value: number | null | undefined) => {
+const formatPercentage = (value: any) => {
     if (value === null || value === undefined) return 'N/A';
+    const num = Number(value);
+    if (isNaN(num)) return 'N/A';
     // A API da Brapi para dividendYield retorna um número (e.g. 8.64 para 8.64%), então não multiplicamos por 100
-    return `${value.toFixed(2)}%`;
+    return `${num.toFixed(2)}%`;
 }
+
+const formatSimpleNumber = (value: any) => {
+    if (value === null || value === undefined) return 'N/A';
+    const num = Number(value);
+    if (isNaN(num)) return 'N/A';
+    return num.toFixed(2);
+};
+
 
 export default function TickerDetails({ ticker, sector }: { ticker: string; sector?: string }) {
   const [data, setData] = useState<StockInfo | null>(null);
@@ -59,7 +73,7 @@ export default function TickerDetails({ ticker, sector }: { ticker: string; sect
     return <Alert variant="destructive"><AlertTitle>Erro</AlertTitle><AlertDescription>Não foi possível carregar os detalhes para {ticker}. Tente novamente mais tarde.</AlertDescription></Alert>;
   }
   
-  const isPositiveChange = (data.regularMarketChangePercent ?? 0) >= 0;
+  const isPositiveChange = Number(data.regularMarketChangePercent ?? 0) >= 0;
 
   return (
     <div className="space-y-6">
@@ -67,16 +81,16 @@ export default function TickerDetails({ ticker, sector }: { ticker: string; sect
             <div>
                 <p className="text-sm text-muted-foreground">Preço Atual</p>
                 <p className="text-3xl font-bold">
-                    {data.currency} {data.regularMarketPrice?.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    {data.currency} {Number(data.regularMarketPrice)?.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) ?? 'N/A'}
                 </p>
             </div>
             <div className={cn('text-right', isPositiveChange ? 'text-green-600' : 'text-red-600')}>
                 <p className="font-semibold text-lg">
                     {isPositiveChange ? '▲' : '▼'} 
-                    {(data.regularMarketChangePercent ?? 0).toFixed(2)}%
+                    {Number(data.regularMarketChangePercent ?? 0).toFixed(2)}%
                 </p>
                 <p className="text-sm">
-                    {isPositiveChange ? '+' : ''}{data.regularMarketChange?.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    {isPositiveChange ? '+' : ''}{Number(data.regularMarketChange)?.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) ?? 'N/A'}
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">
                     Atualizado em {new Date(data.regularMarketTime).toLocaleString('pt-BR')}
@@ -101,8 +115,8 @@ export default function TickerDetails({ ticker, sector }: { ticker: string; sect
                     <CardTitle className="text-lg">Indicadores Chave</CardTitle>
                 </CardHeader>
                 <CardContent className="text-sm">
-                    <DetailItem label="P/L" value={data.priceEarnings?.toFixed(2) ?? 'N/A'} subValue="TTM" />
-                    <DetailItem label="P/VP" value={typeof data.priceToBook === 'number' ? data.priceToBook.toFixed(2) : 'N/A'} subValue="TTM" />
+                    <DetailItem label="P/L" value={formatSimpleNumber(data.priceEarnings)} subValue="TTM" />
+                    <DetailItem label="P/VP" value={formatSimpleNumber(data.priceToBook)} subValue="TTM" />
                     <DetailItem label="Dividend Yield" value={formatPercentage(data.dividendYield)} subValue="TTM" />
                     <DetailItem label="LPA" value={formatCurrency(data.earningsPerShare)} subValue="TTM" />
                     <DetailItem label="VPA" value={formatCurrency(data.bookValue)} subValue="Atual" />
