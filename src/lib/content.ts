@@ -93,3 +93,55 @@ export const educationalContent: EduTopic[] = [
         content: "Diversificação é a prática de distribuir seus investimentos por vários ativos para reduzir o risco. A ideia é que, se um investimento tiver um desempenho ruim, outros podem ter um bom desempenho, equilibrando seu portfólio geral. Uma frase comum que você ouvirá é 'Não coloque todos os seus ovos na mesma cesta'. Um portfólio bem diversificado pode incluir uma mistura de ações, títulos e outras classes de ativos."
     }
 ];
+
+export type DailyNewsArticle = {
+  id: string;
+  title: string;
+  summary: string;
+  source: string;
+  time: string;
+  link: string;
+};
+
+export const dailyNews: DailyNewsArticle[] = [
+  {
+    id: '1',
+    title: 'Taxa Selic: COPOM mantém em 10,50%',
+    summary: 'O Comitê de Política Monetária (COPOM) decidiu por unanimidade manter a taxa básica de juros, a Selic, em 10,50% ao ano. A decisão reflete a preocupação com o cenário inflacionário global e a necessidade de cautela.',
+    source: 'Valor Econômico',
+    time: 'Há 15 minutos',
+    link: '#',
+  },
+  {
+    id: '2',
+    title: 'Ibovespa opera em leve alta nesta manhã',
+    summary: 'O principal índice da bolsa brasileira, o Ibovespa, abriu o dia com uma leve valorização, impulsionado pelas ações do setor de commodities. Investidores aguardam dados de emprego nos EUA que podem influenciar o mercado.',
+    source: 'InfoMoney',
+    time: 'Há 30 minutos',
+    link: '#',
+  },
+  {
+    id: '3',
+    title: 'Setor de Varejo mostra sinais de recuperação',
+    summary: 'Dados do IBGE mostram que as vendas no varejo cresceram no último mês, superando as expectativas do mercado. O resultado pode indicar uma retomada do consumo das famílias.',
+    source: 'G1 Economia',
+    time: 'Há 1 hora',
+    link: '#',
+  },
+  {
+    id: '4',
+    title: 'Dólar tem dia de volatilidade e fecha próximo da estabilidade',
+    summary: 'A moeda norte-americana oscilou bastante durante o pregão, influenciada pelo cenário externo, mas encerrou o dia com uma pequena variação. O mercado de câmbio segue atento às políticas dos bancos centrais.',
+    source: 'UOL Economia',
+    time: 'Há 2 horas',
+    link: '#',
+  },
+  {
+    id: '5',
+    title: 'IA no mercado financeiro: Como a tecnologia está mudando os investimentos',
+    summary: 'Um novo relatório destaca como a Inteligência Artificial está sendo usada para otimizar carteiras, analisar riscos e identificar oportunidades de investimento, tornando o mercado mais eficiente.',
+    source: 'Exame',
+    time: 'Há 4 horas',
+    link: '#',
+  },
+];
