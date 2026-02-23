@@ -1,3 +1,4 @@
+'use server';
 import {genkit} from 'genkit';
 import {googleAI} from '@genkit-ai/google-genai';
 
@@ -9,8 +10,9 @@ const vertexGoogleAI = googleAI({
   },
 });
 
-// We define the model using the configured plugin.
-export const geminiModel = vertexGoogleAI.model('gemini-1.5-flash');
+// We define the model using the main googleAI import, not the plugin instance.
+// The instance is used to configure genkit, which should make this work.
+export const geminiModel = googleAI.model('gemini-1.5-flash');
 
 // Initialize genkit with the correctly configured plugin.
 export const ai = genkit({
