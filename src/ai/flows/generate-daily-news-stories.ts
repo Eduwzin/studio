@@ -9,7 +9,7 @@
  * - GenerateStoriesOutput: The output type, containing the 5 summarized stories.
  */
 
-import { ai, geminiPro } from '@/ai/genkit';
+import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
 // 2. Schema for the final, summarized story format
@@ -23,7 +23,6 @@ const StorySchema = z.object({
   publishedAt: z.string().describe("A data de publicação original no formato ISO."),
   relatedTickers: z.array(z.string()).describe("Lista de tickers de ativos (se houver) mencionados diretamente na notícia."),
   topics: z.array(z.string()).describe("Lista de tópicos macroeconômicos detectados (ex: 'SELIC', 'Câmbio')."),
-  imageUrl: z.string().url().optional().describe("A URL da imagem da notícia, se disponível."),
 });
 
 // 1. Schema for the input data to the flow
@@ -35,7 +34,6 @@ const GenerateStoriesInputSchema = z.object({
     url: z.string().url(),
     source: z.string(),
     publishedAt: z.string(),
-    imageUrl: z.string().url().optional(),
   })).describe("Uma lista de notícias brutas, já pré-filtradas e normalizadas."),
   userAssets: z.string().describe("Uma string separada por vírgulas com os tickers dos ativos da carteira do usuário (ex: 'PETR4,VALE3,MXRF11'). Pode ser vazia."),
 });
@@ -59,7 +57,7 @@ export async function generateDailyNewsStories(input: GenerateStoriesInput): Pro
 // 5. The Genkit Prompt Definition
 const newsAnalysisPrompt = ai.definePrompt({
   name: 'dailyNewsAnalysisPrompt',
-  model: geminiPro,
+  model: 'gemini-flash-latest',
   input: { schema: GenerateStoriesInputSchema },
   output: { schema: GenerateStoriesOutputSchema },
   system: `Você é um editor-chefe de um portal de notícias financeiras para iniciantes, o SafeStart Invest. Sua missão é transformar uma lista de notícias brutas em um briefing diário de 5 "stories" inteligentes, relevantes e fáceis de entender.
@@ -82,7 +80,7 @@ Siga este processo rigorosamente:
     *   **Resumo:** Reescreva o conteúdo em 2-3 frases, usando linguagem 100% leiga. Zero "economês".
     *   **"Por que isso importa?":** Escreva uma única frase explicando o impacto prático para um investidor iniciante. (campo 'whyItMatters')
     *   **"Impacto Provável":** Resuma em uma frase quais áreas do mercado a notícia tende a afetar. (campo 'likelyImpact')
-    *   **Metadados:** Preencha 'relatedTickers' e 'topics' com os termos que você detectou. Mantenha os campos 'url', 'source', 'publishedAt' e 'imageUrl' da notícia original.
+    *   **Metadados:** Preencha 'relatedTickers' e 'topics' com os termos que você detectou. Mantenha os campos 'url', 'source' e 'publishedAt' da notícia original.
 
 4.  **Validação Final:**
     *   Certifique-se de que a saída contém exatamente 5 stories.

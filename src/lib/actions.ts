@@ -175,7 +175,6 @@ export async function getDailyNewsAction(): Promise<NewsStory[]> {
       url: article.url,
       source: article.source.name,
       publishedAt: article.publishedAt,
-      imageUrl: article.image,
     }))
     .filter(article => 
       article.url && article.title && article.summary_raw.length > 20

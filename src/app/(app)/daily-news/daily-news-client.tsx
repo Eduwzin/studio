@@ -18,7 +18,6 @@ import Link from 'next/link';
 import type { NewsStory } from '@/lib/content';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getDailyNewsAction } from '@/lib/actions';
-import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 
 type DailyNewsClientProps = {
@@ -28,19 +27,7 @@ type DailyNewsClientProps = {
 function NewsStoryCard({ story }: { story: NewsStory }) {
   return (
     <Card className="h-full flex flex-col overflow-hidden">
-      {story.imageUrl && (
-        <div className="relative aspect-video w-full">
-          <Image
-            src={story.imageUrl}
-            alt={story.title}
-            fill
-            className="object-cover"
-            unoptimized // External images might not be standard sizes
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-        </div>
-      )}
-      <CardHeader className={!story.imageUrl ? 'pt-6' : ''}>
+      <CardHeader className="pt-6">
         <CardTitle>{story.title}</CardTitle>
         {story.relatedTickers && story.relatedTickers.length > 0 && (
           <div className="flex flex-wrap gap-1 pt-1">
@@ -131,18 +118,23 @@ export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
 
       <div className="relative">
         {isLoading ? (
-          <Card className="h-[600px]">
-            <Skeleton className="h-[200px] w-full" />
+          <Card className="min-h-[450px] flex flex-col justify-between">
             <CardHeader>
               <Skeleton className="h-8 w-3/4" />
+               <Skeleton className="h-4 w-1/4 mt-2" />
             </CardHeader>
-            <CardContent className="space-y-4 pt-2">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-4/5" />
-              <div className="pt-12">
-                <Skeleton className="h-10 w-full" />
+            <CardContent className="space-y-6 pt-2">
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-4/5" />
               </div>
+              <div className="space-y-2">
+                 <Skeleton className="h-4 w-1/3" />
+                 <Skeleton className="h-4 w-full" />
+                 <Skeleton className="h-4 w-5/6" />
+              </div>
+               <Skeleton className="h-10 w-full mt-6" />
             </CardContent>
           </Card>
         ) : (
@@ -150,14 +142,14 @@ export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
             <CarouselContent>
               {news.length > 0 ? news.map((story, index) => (
                 <CarouselItem key={index}>
-                  <div className="p-1 h-[600px]">
+                  <div className="p-1">
                     <NewsStoryCard story={story} />
                   </div>
                 </CarouselItem>
               )) : (
                 <CarouselItem>
-                  <div className="p-1 h-[600px]">
-                    <Card className="h-full flex flex-col items-center justify-center text-center">
+                  <div className="p-1">
+                    <Card className="min-h-[450px] flex flex-col items-center justify-center text-center">
                       <CardHeader>
                         <CardTitle>Nenhuma notícia encontrada</CardTitle>
                         <CardDescription>Não foi possível carregar o briefing de hoje. Tente atualizar.</CardDescription>
