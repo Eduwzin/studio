@@ -59,8 +59,6 @@ export default function MonitoramentoClient({
   const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-  const ifixChange = ifixData?.regularMarketChangePercent ?? 0;
-  
   const handleAnalyzeClick = async () => {
     if (!userProfile) {
       setError('Seu perfil de investidor não foi encontrado. Por favor, preencha o onboarding primeiro.');
@@ -78,10 +76,6 @@ export default function MonitoramentoClient({
           investmentHorizon: userProfile.perfilDeInvestimento?.horizonteDeInvestimento ?? 'longo prazo',
           riskTolerance: userProfile.perfilDeInvestimento?.experienciaDeInvestimento ?? 'média',
         },
-        macroContext: {} as any, 
-        projectedCurrentYearSelic: projectedCurrentYearSelic,
-        projectedNextYearSelic: projectedNextYearSelic,
-        projectedIpca: projectedIpcaRate,
       });
       setAnalysis(result);
     } catch (err) {

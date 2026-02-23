@@ -44,12 +44,6 @@ export default function OportunidadesClient() {
           investmentHorizon: userProfile.perfilDeInvestimento.horizonteDeInvestimento,
           riskTolerance: userProfile.perfilDeInvestimento.experienciaDeInvestimento,
         },
-        // A action/flow busca os dados, então podemos passar valores vazios ou dummy.
-        // O importante é que a estrutura do objeto esteja correta para a tipagem.
-        macroContext: {} as any,
-        projectedCurrentYearSelic: 0,
-        projectedNextYearSelic: 0,
-        projectedIpca: 0,
       });
 
       // Passo 2: Usar a análise de mercado para gerar sugestões de ativos

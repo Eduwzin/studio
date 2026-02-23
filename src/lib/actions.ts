@@ -99,7 +99,16 @@ export async function generateLesson(input: GenerateLessonInput) {
   return result;
 }
 
-export async function monitorPortfolio(input: MonitorPortfolioInput): Promise<MonitorPortfolioOutput> {
+// Define um tipo de entrada simplificado para a chamada do lado do cliente
+export type MonitorPortfolioClientInput = {
+  userProfile: {
+    riskProfile: string;
+    investmentHorizon: string;
+    riskTolerance: string;
+  };
+};
+
+export async function monitorPortfolio(input: MonitorPortfolioClientInput): Promise<MonitorPortfolioOutput> {
     const selicRate = await getSelicRate().catch(() => 10.50);
     const ipcaRate = await getIpcaRate().catch(() => 3.9);
     const projectedCurrentYearSelic = await getProjectedCurrentYearSelicRate().catch(() => selicRate);
@@ -131,14 +140,15 @@ export async function monitorPortfolio(input: MonitorPortfolioInput): Promise<Mo
         }
     }
     
+    // Constrói o input completo para o fluxo de IA internamente
     const fullInput: MonitorPortfolioInput = {
-        ...input,
+        userProfile: input.userProfile,
         projectedCurrentYearSelic: projectedCurrentYearSelic,
         projectedNextYearSelic: projectedNextYearSelic,
         projectedIpca: projectedIpcaRate,
         macroContext: {
             selicRate,
-            selicTrend: 'estavel',
+            selicTrend: 'estavel', // A IA deve inferir a tendência
             ipca12m: ipcaRate,
             ipcaTrend,
             ifixChange: ifixData?.regularMarketChangePercent ?? 0,
@@ -146,7 +156,7 @@ export async function monitorPortfolio(input: MonitorPortfolioInput): Promise<Mo
             ibovChange30d,
             ibovChange365d,
             dollarRate: dollarInfo.currentRate,
-            marketSentiment: 'neutro'
+            marketSentiment: 'neutro' // A IA deve inferir o sentimento
         }
     };
     
@@ -197,7 +207,8 @@ export async function getDailyNewsAction(payload: { userId: string; userAssets?:
     const rawNewsFromApi = await getGNewsMarketNews(20);
 
     if (!rawNewsFromApi || rawNewsFromApi.length === 0) {
-      await setDoc(docRef, { generatedAt: new Date().toISOString(), stories: [], version: '1.2.0' });
+      // Se a API não retornar nada, crie um cache vazio para evitar novas chamadas.
+      await setDoc(docRef, { generatedAt: new Date().toISOString(), stories: [], version: '1.2.0-empty-api' });
       return [];
     }
 
@@ -215,7 +226,7 @@ export async function getDailyNewsAction(payload: { userId: string; userAssets?:
     const uniqueNews = Array.from(new Map(cleanedNews.map(item => [item.url, item])).values());
     
     if (uniqueNews.length === 0) {
-      await setDoc(docRef, { generatedAt: new Date().toISOString(), stories: [], version: '1.2.0' });
+      await setDoc(docRef, { generatedAt: new Date().toISOString(), stories: [], version: '1.2.0-no-valid-news' });
       return [];
     }
 
@@ -225,32 +236,39 @@ export async function getDailyNewsAction(payload: { userId: string; userAssets?:
     };
     
     const aiResult = await generateDailyNewsStories(input);
-    const stories = aiResult?.stories;
+    
+    // Mesmo que o resultado da IA seja nulo ou vazio, salve para evitar novas chamadas.
+    const stories = aiResult?.stories || [];
     
     const cachePayload = {
       generatedAt: new Date().toISOString(),
-      stories: stories || [],
-      rawItemsUsedIds: aiResult.rawItemsUsedIds || [],
-      version: '1.2.0'
+      stories: stories,
+      rawItemsUsedIds: aiResult?.rawItemsUsedIds || [],
+      version: '1.2.0-final'
     };
     await setDoc(docRef, cachePayload);
     
-    return stories || [];
+    return stories;
 
   } catch (error) {
     console.error("Error during news generation process:", error);
+    // Em caso de erro na geração, também criamos um cache vazio para bloquear novas tentativas.
     try {
-      await setDoc(docRef, { 
-        generatedAt: new Date().toISOString(), 
-        stories: [], 
-        version: '1.2.0-failed' 
-      });
+      const docSnap = await getDoc(docRef);
+      if (!docSnap.exists()) {
+        await setDoc(docRef, { 
+          generatedAt: new Date().toISOString(), 
+          stories: [], 
+          version: '1.2.0-generation-failed' 
+        });
+      }
     } catch (cacheError) {
       console.error("CRITICAL: Failed to write empty cache after generation error:", cacheError);
     }
+    // Retorna vazio para o cliente, mas a tentativa não será refeita.
     return [];
   }
 }
 
 
-export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioInput, MonitorPortfolioOutput };
+export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput };
