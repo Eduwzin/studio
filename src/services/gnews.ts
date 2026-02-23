@@ -3,7 +3,7 @@
  */
 
 const GNEWS_API_BASE_URL = 'https://gnews.io/api/v4';
-const GNEWS_API_KEY = process.env.GNEWS_API_KEY;
+const GNEWS_API_KEY = 'ce6bf6b6d877e9a1c2f667d4df2bb568';
 
 export interface GNewsArticle {
   title: string;
@@ -23,7 +23,7 @@ export interface GNewsArticle {
  * @param limit The number of news articles to fetch.
  * @returns A promise that resolves to an array of news articles.
  */
-export async function getMarketNews(limit: number = 5): Promise<GNewsArticle[]> {
+export async function getMarketNews(limit: number = 20): Promise<GNewsArticle[]> {
   if (!GNEWS_API_KEY) {
     throw new Error('GNews API key (GNEWS_API_KEY) is not configured in the environment.');
   }
