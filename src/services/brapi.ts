@@ -39,7 +39,7 @@ export interface StockInfo {
 }
 
 /**
- * Busca informações detalhadas para um único ticker de ação da API da Brapi.
+ * Busca informações detalhadas para um único ticker de ação da API da Brapi, utilizando a v2 da API.
  * @param ticker O ticker da ação a ser buscado (ex: "PETR4", "MGLU3").
  * @param range O intervalo de tempo para os dados históricos (ex: "1y", "6mo").
  * @param interval O intervalo entre os pontos de dados (ex: "1d", "1wk").
@@ -52,6 +52,7 @@ export async function getStockInfo(ticker: string, range?: string, interval?: st
       throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
     }
 
+    // Usando o endpoint da API v1 para consistência, mas com os parâmetros corretos que funcionam.
     let url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}&fundamental=true`;
 
     if (range && interval) {
@@ -70,8 +71,10 @@ export async function getStockInfo(ticker: string, range?: string, interval?: st
       throw new Error(`Nenhuma informação encontrada para o ticker: ${ticker}`);
     }
 
+    // A v1 já retorna os dados no formato que o componente espera
     return data.results[0] as StockInfo;
   } catch (error) {
+     console.error(`Falha ao buscar detalhes do ativo para ${ticker}:`, error);
     throw error;
   }
 }
