@@ -1,8 +1,9 @@
 import DailyNewsClient from './daily-news-client';
 import { getDailyNewsAction } from '@/lib/actions';
+import type { NewsStory } from '@/lib/content';
 
 export default async function DailyNewsPage() {
-  const news = await getDailyNewsAction();
+  const stories: NewsStory[] = await getDailyNewsAction();
 
-  return <DailyNewsClient initialNews={news} />;
+  return <DailyNewsClient initialNews={stories} />;
 }

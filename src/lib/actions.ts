@@ -40,12 +40,13 @@ import {
     ChatInput,
     ChatOutput,
 } from '@/ai/flows/chat-with-market-analyst';
+import {
+  generateDailyNewsStories,
+  GenerateStoriesInput,
+  NewsStory,
+} from '@/ai/flows/generate-daily-news-stories';
 import { getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, StockInfo } from '@/services/brapi';
 import { getMarketNews as getGNewsMarketNews, type GNewsArticle } from '@/services/gnews';
-import { formatDistanceToNow } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
-import type { DailyNewsArticle } from './content';
-
 
 export async function analyzeUserProfile(input: AnalyzeUserProfileInput) {
   const result = await analyzeUserProfileFlow(input);
@@ -157,24 +158,59 @@ export async function getStockInfo(ticker: string): Promise<StockInfo | null> {
     }
 }
 
-export async function getDailyNewsAction(): Promise<DailyNewsArticle[]> {
-  const rawNews = await getGNewsMarketNews(5);
+export async function getDailyNewsAction(): Promise<NewsStory[]> {
+  // 1. Fetch raw news from GNews, fetching more to have a good selection.
+  const rawNewsFromApi = await getGNewsMarketNews(20);
 
-  if (!rawNews || rawNews.length === 0) {
+  if (!rawNewsFromApi || rawNewsFromApi.length === 0) {
     return [];
   }
 
-  const processedNews: DailyNewsArticle[] = rawNews.map((article: GNewsArticle) => ({
-    id: article.url,
-    title: article.title,
-    summary: article.description,
-    source: article.source.name,
-    time: formatDistanceToNow(new Date(article.publishedAt), { addSuffix: true, locale: ptBR }),
-    link: article.url,
-    imageUrl: article.image,
-  }));
+  // 2. Normalize, validate, and deduplicate the news.
+  const cleanedNews = rawNewsFromApi
+    .map((article, index) => ({
+      id: article.url || `${article.title}-${index}`,
+      title: article.title,
+      summary_raw: article.description || article.content || '',
+      url: article.url,
+      source: article.source.name,
+      publishedAt: article.publishedAt,
+      imageUrl: article.image,
+    }))
+    .filter(article => 
+      article.url && article.title && article.summary_raw.length > 20
+    );
 
-  return processedNews;
+  const uniqueNews = Array.from(new Map(cleanedNews.map(item => [item.url, item])).values());
+
+  if (uniqueNews.length < 5) {
+      console.warn("Not enough high-quality news to generate a briefing.");
+      return [];
+  }
+  
+  // 3. Get user's assets context (for now, this is static).
+  // In a real implementation, this would be fetched from Firestore based on the logged-in user.
+  const userAssets = ''; // e.g., "PETR4,VALE3,MGLU3"
+
+  // 4. Call the AI Flow to process the news.
+  const input: GenerateStoriesInput = {
+    rawNews: uniqueNews.slice(0, 20), // Limit to 20 to avoid large payloads.
+    userAssets: userAssets,
+  };
+  
+  try {
+    const { stories, rawItemsUsedIds } = await generateDailyNewsStories(input);
+    
+    // 5. Cache the result in Firestore (future enhancement).
+    // The logic for this would go here, using the user's ID and the current date.
+
+    return stories;
+
+  } catch (error) {
+    console.error("Error generating daily news stories:", error);
+    // On error, return an empty array to prevent the UI from crashing.
+    return [];
+  }
 }
 
 

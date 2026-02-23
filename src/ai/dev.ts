@@ -12,4 +12,6 @@ import '@/ai/flows/generate-lesson-content.ts';
 import '@/ai/flows/monitor-portfolio-flow.ts';
 import '@/ai/flows/suggest-assets-flow.ts';
 import '@/ai/flows/chat-with-market-analyst.ts';
+import '@/ai/flows/generate-daily-news-stories.ts';
+
 

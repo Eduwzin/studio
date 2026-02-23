@@ -17,6 +17,7 @@
  * - /users/{userId}/investmentPortfolios/{portfolioId} -> Private user investment portfolios.
  * - /users/{userId}/investmentPortfolios/{portfolioId}/nextStepRecommendations/{recommendationId} -> Private, AI-generated recommendations for a specific portfolio.
  * - /users/{userId}/trilha/progress -> Private user progress data for the educational trail.
+ * - /users/{userId}/dailyNews/{dateId} -> Private, AI-generated daily news summaries.
  * - /educationalTrails/{trailId} -> Public, read-only educational content.
  * - /blogArticles/{articleId} -> Public, read-only blog content.
  *
@@ -175,6 +176,17 @@ service cloud.firestore {
         // Generally, progress should not be deleted by the user.
         allow delete: if false; 
         allow list: if false;
+    }
+
+    /**
+     * @description Secures a user's daily news summaries. Only the owner can manage them.
+     * @path /users/{userId}/dailyNews/{dateId}
+     * @allow (get, list, create, update) A user (auth.uid=`user_abc`) manages their own news at `/users/user_abc/dailyNews/2024-07-26`.
+     * @deny (get) A user (auth.uid=`user_xyz`) tries to read news at `/users/user_abc/dailyNews/2024-07-26`.
+     * @principle Restricts access to a user's own data tree for personalized content.
+     */
+    match /users/{userId}/dailyNews/{dateId} {
+      allow read, write: if isOwner(userId);
     }
 
     /**
