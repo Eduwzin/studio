@@ -19,10 +19,21 @@ import type { NewsStory } from '@/lib/content';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getDailyNewsAction } from '@/lib/actions';
 import { Badge } from '@/components/ui/badge';
+import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
 
 type DailyNewsClientProps = {
   initialNews: NewsStory[];
 };
+
+const extractTickersFromString = (allocationString: string | undefined): string => {
+  if (!allocationString) return '';
+  // Regex to find patterns like ABCD11 or ABC1
+  const tickerRegex = /[A-Z]{4}\d{1,2}/g;
+  const matches = allocationString.match(tickerRegex);
+  return matches ? matches.join(',') : '';
+};
+
 
 function NewsStoryCard({ story }: { story: NewsStory }) {
   return (
@@ -71,23 +82,35 @@ function NewsStoryCard({ story }: { story: NewsStory }) {
 
 export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
   const [news, setNews] = useState(initialNews);
-  const [isLoading, setIsLoading] = useState(initialNews.length === 0);
+  const [isLoading, setIsLoading] = useState(true);
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
 
-  const handleRefresh = useCallback(async () => {
+  const { user } = useUser();
+  const firestore = useFirestore();
+
+  const userProfileRef = useMemoFirebase(() => {
+    if (!user) return null;
+    return doc(firestore, `users/${user.uid}/userProfiles/${user.uid}`);
+  }, [user, firestore]);
+
+  const { data: userProfile, isLoading: isLoadingProfile } = useDoc<any>(userProfileRef);
+
+  const fetchNews = useCallback(async () => {
+    if (isLoadingProfile) return; // Aguarda o perfil do usuário ser carregado
+
     setIsLoading(true);
-    const refreshedNews = await getDailyNewsAction();
+    const assets = extractTickersFromString(userProfile?.perfilDeInvestimento?.alocacaoDeAtivos);
+    const refreshedNews = await getDailyNewsAction(assets);
     setNews(refreshedNews);
     setIsLoading(false);
-  }, []);
+  }, [userProfile, isLoadingProfile]);
+
 
   useEffect(() => {
-    if (initialNews.length === 0 && !isLoading) {
-      handleRefresh();
-    }
-  }, [initialNews, handleRefresh, isLoading]);
+    fetchNews();
+  }, [fetchNews]);
 
   useEffect(() => {
     if (!api) {
@@ -165,7 +188,7 @@ export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
         )}
 
         <div className="flex items-center justify-center gap-4 mt-6">
-          <Button onClick={handleRefresh} disabled={isLoading} variant="outline">
+          <Button onClick={fetchNews} disabled={isLoading} variant="outline">
             <RefreshCw className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
             Atualizar
           </Button>

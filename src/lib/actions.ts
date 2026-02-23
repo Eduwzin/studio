@@ -158,7 +158,7 @@ export async function getStockInfo(ticker: string): Promise<StockInfo | null> {
     }
 }
 
-export async function getDailyNewsAction(): Promise<NewsStory[]> {
+export async function getDailyNewsAction(userAssets: string = ''): Promise<NewsStory[]> {
   // 1. Fetch raw news from GNews, fetching more to have a good selection.
   const rawNewsFromApi = await getGNewsMarketNews(20);
 
@@ -187,18 +187,14 @@ export async function getDailyNewsAction(): Promise<NewsStory[]> {
       return [];
   }
   
-  // 3. Get user's assets context (for now, this is static).
-  // In a real implementation, this would be fetched from Firestore based on the logged-in user.
-  const userAssets = ''; // e.g., "PETR4,VALE3,MGLU3"
-
-  // 4. Call the AI Flow to process the news.
+  // 3. Call the AI Flow to process the news.
   const input: GenerateStoriesInput = {
     rawNews: uniqueNews.slice(0, 20), // Limit to 20 to avoid large payloads.
     userAssets: userAssets,
   };
   
   try {
-    const { stories, rawItemsUsedIds } = await generateDailyNewsStories(input);
+    const { stories } = await generateDailyNewsStories(input);
     
     // 5. Cache the result in Firestore (future enhancement).
     // The logic for this would go here, using the user's ID and the current date.
