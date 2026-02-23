@@ -47,7 +47,7 @@ export async function getMarketNews(limit: number = 20): Promise<GNewsArticle[]>
     return data.articles || [];
   } catch (error) {
     console.error("Failed to fetch news from GNews:", error);
-    // In case of error, return an empty array to avoid breaking the UI
-    return [];
+    // Re-throw the error so the calling action can handle it appropriately.
+    throw error;
   }
 }
