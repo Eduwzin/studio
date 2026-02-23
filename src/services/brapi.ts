@@ -84,6 +84,7 @@ export async function getStockInfo(ticker: string, range: string = "1y", interva
       priceToBook: result.priceToBook,
       dividendYield: result.dividendYield,
       bookValue: result.bookValue,
+      historicalDataPrice: result.historicalDataPrice,
     };
 
     return stockInfo;
