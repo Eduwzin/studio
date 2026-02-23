@@ -102,8 +102,8 @@ export default function TickerDetails({ ticker, sector }: { ticker: string; sect
                 </CardHeader>
                 <CardContent className="text-sm">
                     <DetailItem label="P/L" value={data.priceEarnings?.toFixed(2) ?? 'N/A'} subValue="TTM" />
-                    <DetailItem label="P/VP" value={data.priceToBook?.toFixed(2) ?? 'N/A'} subValue="TTM" />
-                    <DetailItem label="Dividend Yield" value={data.dividendYield ? formatPercentage(data.dividendYield) : 'N/A'} subValue="TTM" />
+                    <DetailItem label="P/VP" value={typeof data.priceToBook === 'number' ? data.priceToBook.toFixed(2) : 'N/A'} subValue="TTM" />
+                    <DetailItem label="Dividend Yield" value={formatPercentage(data.dividendYield)} subValue="TTM" />
                     <DetailItem label="LPA" value={formatCurrency(data.earningsPerShare)} subValue="TTM" />
                     <DetailItem label="VPA" value={formatCurrency(data.bookValue)} subValue="Atual" />
                 </CardContent>
