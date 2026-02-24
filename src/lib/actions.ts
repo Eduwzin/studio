@@ -206,7 +206,7 @@ export async function getDailyNewsAction(
         }
     }
 
-    const rawArticles = await getMarketNews(25);
+    const rawArticles = await getMarketNews(10);
     if (rawArticles.length === 0) {
         return []; // Return empty if no news is fetched
     }

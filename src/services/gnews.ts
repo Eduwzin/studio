@@ -25,18 +25,17 @@ export interface GNewsArticle {
  * @param limit The number of news articles to fetch.
  * @returns A promise that resolves to an array of news articles.
  */
-export async function getMarketNews(limit: number = 25): Promise<GNewsArticle[]> {
+export async function getMarketNews(limit: number = 10): Promise<GNewsArticle[]> {
   if (!GNEWS_API_KEY) {
     throw new Error('GNews API key is not configured.');
   }
   
-  // Parameters for financial news in Brazil
-  const category = 'business';
+  // Parameters for top business headlines in Brazil
+  const topic = 'business';
   const lang = 'pt';
   const country = 'br';
-  const query = 'mercado financeiro OR bolsa de valores OR investimentos OR economia';
 
-  const url = `${GNEWS_API_BASE_URL}/search?q=${encodeURIComponent(query)}&category=${category}&lang=${lang}&country=${country}&max=${limit}&apikey=${GNEWS_API_KEY}`;
+  const url = `${GNEWS_API_BASE_URL}/top-headlines?topic=${topic}&lang=${lang}&country=${country}&max=${limit}&apikey=${GNEWS_API_KEY}`;
 
   try {
     const response = await fetch(url, { next: { revalidate: 1800 } }); // 30 min cache
