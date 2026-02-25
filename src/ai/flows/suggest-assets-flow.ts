@@ -33,7 +33,7 @@ const AssetSuggestionSchema = z.object({
 
 // Esquema de saída, uma lista de ativos
 const SuggestAssetsOutputSchema = z.object({
-    suggestions: z.array(AssetSuggestionSchema).describe("Uma lista de 3 a 5 sugestões de ativos."),
+    suggestions: z.array(AssetSuggestionSchema).describe("Uma lista de até 6 sugestões de ativos, priorizando qualidade sobre quantidade."),
 });
 export type SuggestAssetsOutput = z.infer<typeof SuggestAssetsOutputSchema>;
 
@@ -64,13 +64,13 @@ REGRAS OBRIGATÓRIAS:
 3.  **Use a Ferramenta:** Para cada ticker que você selecionar da lista, você DEVE usar a ferramenta 'getStockInfoFromBrapi' para buscar dados atualizados. Use os dados retornados (preço, variação, etc.) para fortalecer sua recomendação.
 4.  **Foco no Perfil:** Adapte a agressividade das suas sugestões ao 'riskProfile'. Não sugira uma ação de altíssimo risco para um perfil conservador, mesmo que o cenário seja favorável. Para perfis conservadores, mesmo em cenários de risco, sugira ações mais consolidadas ou ETFs da lista.
 5.  **Justifique a Escolha:** Para cada ativo, explique em uma frase curta POR QUE ele é uma boa escolha para o cenário E para o perfil atuais. Exemplo: "Com a queda da SELIC, o setor de varejo se beneficia, e MGLU3 é uma opção de maior crescimento para um perfil moderado/arrojado."
-6.  **Diversifique as Sugestões:** Forneça de 3 a 5 sugestões, tentando variar entre Ações, FIIs e ETFs da lista, se a estratégia permitir.
+6.  **Diversifique as Sugestões:** Forneça até 6 sugestões, tentando variar entre Ações, FIIs e ETFs da lista, se a estratégia permitir. A qualidade é mais importante que a quantidade.
 
 Análise estratégica recebida:
 - **Perfil do Investidor:** {{riskProfile}}
 - **Diretriz do Radar de Mercado:** "{{marketAnalysis}}"
 
-Com base nisso, escolha os ativos mais adequados da lista, use a ferramenta para buscar dados atuais e gere uma lista de 3 a 5 oportunidades de investimento.
+Com base nisso, escolha os ativos mais adequados da lista, use a ferramenta para buscar dados atuais e gere uma lista de até 6 oportunidades de investimento, focando em qualidade.
 `,
 });
 
