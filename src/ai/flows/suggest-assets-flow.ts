@@ -12,12 +12,14 @@
 import { ai, geminiModel } from '@/ai/genkit';
 import { getStockInfoFromBrapi } from '@/ai/tools/get-stock-info-from-brapi';
 import { z } from 'genkit';
-import { STOCK_TICKERS, FII_TICKERS, ETF_TICKERS } from '@/lib/stocks';
 
 // Esquema de entrada que combina o perfil do usuário e a análise de mercado
 const SuggestAssetsInputSchema = z.object({
   riskProfile: z.string().describe("O perfil de risco do investidor (ex: Conservador, Moderado, Arrojado)."),
   marketAnalysis: z.string().describe("A análise macroeconômica e a recomendação de alocação de aporte (ex: 'Cenário detectado: Pró-juros em queda. Justificativa: Com a inflação controlada e a Selic projetada para baixar, o momento é favorável para ativos de risco, especialmente no setor de varejo e construção.')"),
+  availableStocks: z.array(z.string()).describe("A lista de tickers de ações disponíveis para sugestão."),
+  availableFiis: z.array(z.string()).describe("A lista de tickers de FIIs disponíveis para sugestão."),
+  availableEtfs: z.array(z.string()).describe("A lista de tickers de ETFs/BDRs disponíveis para sugestão."),
 });
 export type SuggestAssetsInput = z.infer<typeof SuggestAssetsInputSchema>;
 
@@ -52,9 +54,9 @@ const suggestAssetsPrompt = ai.definePrompt({
 Sua tarefa é analisar o perfil do investidor e a recomendação estratégica do "Radar de Mercado" para sugerir ATIVOS ESPECÍFICOS a partir de uma lista pré-definida.
 
 LISTA DE ATIVOS DISPONÍVEIS PARA SUGESTÃO:
-- Ações: ${STOCK_TICKERS.join(', ')}
-- FIIs: ${FII_TICKERS.join(', ')}
-- ETFs: ${ETF_TICKERS.join(', ')}
+- Ações: {{ availableStocks.join(', ') }}
+- FIIs: {{ availableFiis.join(', ') }}
+- ETFs/BDRs: {{ availableEtfs.join(', ') }}
 
 REGRAS OBRIGATÓRIAS:
 1.  **Escolha da Lista:** Você DEVE escolher suas sugestões EXCLUSIVAMENTE da lista de ativos fornecida acima.

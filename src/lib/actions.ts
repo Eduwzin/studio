@@ -47,7 +47,7 @@ import {
   type NewsStory,
 } from '@/ai/flows/generate-daily-news-stories';
 import { getMarketNews } from '@/services/gnews';
-import { getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, StockInfo } from '@/services/brapi';
+import { getAvailableTickers, getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, StockInfo } from '@/services/brapi';
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { firebaseConfig } from '@/firebase/config';
@@ -165,8 +165,16 @@ export async function monitorPortfolio(input: MonitorPortfolioClientInput): Prom
     return monitorPortfolioFlow(fullInput);
 }
 
-export async function suggestAssets(input: SuggestAssetsInput): Promise<SuggestAssetsOutput> {
-    return suggestAssetsFlow(input);
+export async function suggestAssets(clientInput: Omit<SuggestAssetsInput, 'availableStocks' | 'availableFiis' | 'availableEtfs'>): Promise<SuggestAssetsOutput> {
+    const { stocks, fiis, bdrs } = await getAvailableTickers();
+
+    const flowInput: SuggestAssetsInput = {
+        ...clientInput,
+        availableStocks: stocks.map(s => s.stock),
+        availableFiis: fiis.map(f => f.stock),
+        availableEtfs: bdrs.map(b => b.stock),
+    };
+    return suggestAssetsFlow(flowInput);
 }
 
 export async function chatWithMarketAnalyst(input: ChatInput): Promise<ChatOutput> {
