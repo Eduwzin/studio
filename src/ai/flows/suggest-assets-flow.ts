@@ -54,9 +54,9 @@ const suggestAssetsPrompt = ai.definePrompt({
 Sua tarefa é analisar o perfil do investidor e a recomendação estratégica do "Radar de Mercado" para sugerir ATIVOS ESPECÍFICOS a partir de uma lista pré-definida.
 
 LISTA DE ATIVOS DISPONÍVEIS PARA SUGESTÃO:
-- Ações: {{ availableStocks.join(', ') }}
-- FIIs: {{ availableFiis.join(', ') }}
-- ETFs/BDRs: {{ availableEtfs.join(', ') }}
+- Ações: {{availableStocks}}
+- FIIs: {{availableFiis}}
+- ETFs/BDRs: {{availableEtfs}}
 
 REGRAS OBRIGATÓRIAS:
 1.  **Escolha da Lista:** Você DEVE escolher suas sugestões EXCLUSIVAMENTE da lista de ativos fornecida acima.
