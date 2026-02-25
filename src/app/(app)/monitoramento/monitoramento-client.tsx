@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
-import { Loader2, Zap, BrainCircuit, TrendingUp, Shield, BarChart, FilePieChart, Beaker } from 'lucide-react';
+import { Loader2, Zap, BrainCircuit, TrendingUp, Shield, BarChart, FilePieChart, Beaker, ShieldCheck } from 'lucide-react';
 import { monitorPortfolio } from '@/lib/actions';
 import type { MonitorPortfolioOutput } from '@/lib/actions';
 import { cn } from '@/lib/utils';
@@ -146,8 +146,8 @@ export default function MonitoramentoClient({
     <div className="max-w-4xl mx-auto">
       <header className="mb-8">
         <h1 className="text-3xl font-bold font-headline mb-2 flex items-center gap-3">
-          <Zap className="text-primary" />
-          Radar de Mercado
+          <ShieldCheck className="text-primary" />
+          Minha Carteira
         </h1>
         <p className="text-muted-foreground">
           Analise o cenário macroeconômico atual e receba orientações personalizadas da nossa IA para manter sua carteira de investimentos saudável e alinhada.

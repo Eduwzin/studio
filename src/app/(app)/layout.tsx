@@ -42,7 +42,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const navItems = [
   { href: "/onboarding", icon: User, label: "Meu Perfil" },
-  { href: "/monitoramento", icon: ShieldCheck, label: "Monitoramento" },
+  { href: "/monitoramento", icon: ShieldCheck, label: "Minha Carteira" },
   { href: "/oportunidades", icon: TrendingUp, label: "Oportunidades" },
   { href: "/ativos", icon: List, label: "Ativos" },
   { href: "/learn", icon: BookOpen, label: "Aprender" },
