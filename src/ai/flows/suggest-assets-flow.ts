@@ -28,8 +28,11 @@ const AssetSuggestionSchema = z.object({
     ticker: z.string().describe("O ticker do ativo (ex: 'PETR4', 'MXRF11')."),
     type: z.enum(["Ação", "FII", "ETF"]).describe("O tipo de ativo."),
     name: z.string().describe("O nome do ativo ou da empresa."),
+    logoUrl: z.string().url().describe("A URL para o logo do ativo. DEVE ser o valor do campo 'logourl' retornado pela ferramenta."),
+    price: z.number().describe("O preço atual do ativo. DEVE ser o valor do campo 'regularMarketPrice' retornado pela ferramenta."),
     rationale: z.string().describe("Uma explicação curta e convincente de por que este ativo é uma boa oportunidade para este perfil e cenário."),
 });
+export type AssetSuggestion = z.infer<typeof AssetSuggestionSchema>;
 
 // Esquema de saída, uma lista de ativos
 const SuggestAssetsOutputSchema = z.object({
@@ -54,23 +57,23 @@ const suggestAssetsPrompt = ai.definePrompt({
 Sua tarefa é analisar o perfil do investidor e a recomendação estratégica do "Radar de Mercado" para sugerir ATIVOS ESPECÍFICOS a partir de uma lista pré-definida.
 
 LISTA DE ATIVOS DISPONÍVEIS PARA SUGESTÃO:
-- Ações: {{availableStocks}}
-- FIIs: {{availableFiis}}
-- ETFs/BDRs: {{availableEtfs}}
+- Ações: {{ availableStocks }}
+- FIIs: {{ availableFiis }}
+- ETFs/BDRs: {{ availableEtfs }}
 
 REGRAS OBRIGATÓRIAS:
 1.  **Escolha da Lista:** Você DEVE escolher suas sugestões EXCLUSIVAMENTE da lista de ativos fornecida acima.
 2.  **Analise o Cenário:** A 'marketAnalysis' contém a conclusão do Radar de Mercado. Use essa diretriz como sua principal fonte de estratégia. Por exemplo, se a análise indica "Pró-juros em queda", foque em ações de setores que se beneficiam disso (varejo, construção) e FIIs de tijolo da lista.
-3.  **Use a Ferramenta:** Para cada ticker que você selecionar da lista, você DEVE usar a ferramenta 'getStockInfoFromBrapi' para buscar dados atualizados. Use os dados retornados (preço, variação, etc.) para fortalecer sua recomendação.
+3.  **Use a Ferramenta e Retorne os Dados:** Para cada ticker que você selecionar da lista, você DEVE usar a ferramenta 'getStockInfoFromBrapi' para buscar dados atualizados. **Use os dados retornados \`logourl\` e \`regularMarketPrice\` para preencher os campos \`logoUrl\` e \`price\` na sua resposta.** Use os outros dados retornados (variação, etc.) para fortalecer sua recomendação no campo \`rationale\`.
 4.  **Foco no Perfil:** Adapte a agressividade das suas sugestões ao 'riskProfile'. Não sugira uma ação de altíssimo risco para um perfil conservador, mesmo que o cenário seja favorável. Para perfis conservadores, mesmo em cenários de risco, sugira ações mais consolidadas ou ETFs da lista.
 5.  **Justifique a Escolha:** Para cada ativo, explique em uma frase curta POR QUE ele é uma boa escolha para o cenário E para o perfil atuais. Exemplo: "Com a queda da SELIC, o setor de varejo se beneficia, e MGLU3 é uma opção de maior crescimento para um perfil moderado/arrojado."
-6.  **Diversifique as Sugestões:** Forneça até 6 sugestões, tentando variar entre Ações, FIIs e ETFs da lista, se a estratégia permitir. A qualidade é mais importante que a quantidade.
+6.  **Qualidade sobre Quantidade:** Forneça até 6 sugestões, tentando variar entre Ações, FIIs e ETFs da lista, se a estratégia permitir. A qualidade é mais importante que a quantidade. Se encontrar poucas oportunidades boas, retorne apenas elas.
 
 Análise estratégica recebida:
 - **Perfil do Investidor:** {{riskProfile}}
 - **Diretriz do Radar de Mercado:** "{{marketAnalysis}}"
 
-Com base nisso, escolha os ativos mais adequados da lista, use a ferramenta para buscar dados atuais e gere uma lista de até 6 oportunidades de investimento, focando em qualidade.
+Com base nisso, escolha os ativos mais adequados da lista, use a ferramenta para buscar dados atuais e gere sua lista de oportunidades de investimento.
 `,
 });
 

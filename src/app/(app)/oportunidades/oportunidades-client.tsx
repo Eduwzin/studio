@@ -6,11 +6,12 @@ import { doc } from 'firebase/firestore';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Loader2, Lightbulb, BrainCircuit, TrendingUp, Shield, BarChart, FileText } from 'lucide-react';
+import { Loader2, Lightbulb, BrainCircuit } from 'lucide-react';
 import { suggestAssets, monitorPortfolio } from '@/lib/actions';
-import type { SuggestAssetsOutput } from '@/ai/flows/suggest-assets-flow';
+import type { SuggestAssetsOutput, AssetSuggestion } from '@/lib/actions';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import Image from 'next/image';
 
 export default function OportunidadesClient() {
   const { user } = useUser();
@@ -58,15 +59,6 @@ export default function OportunidadesClient() {
       setError('Ocorreu um erro ao gerar as sugestões. A IA pode estar ocupada, por favor, tente novamente em alguns instantes.');
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const getAssetTypeIcon = (type: string) => {
-    switch (type) {
-      case 'Ação': return <TrendingUp className="h-5 w-5 text-blue-500" />;
-      case 'FII': return <Shield className="h-5 w-5 text-green-500" />;
-      case 'ETF': return <BarChart className="h-5 w-5 text-purple-500" />;
-      default: return <FileText className="h-5 w-5 text-gray-500" />;
     }
   };
 
@@ -130,17 +122,31 @@ export default function OportunidadesClient() {
             {suggestions.suggestions.map((suggestion, index) => (
               <Card key={index} className="flex flex-col">
                 <CardHeader>
-                    <div className="flex items-center justify-between gap-4">
-                        <div className="flex items-center gap-3">
-                            {getAssetTypeIcon(suggestion.type)}
-                            <CardTitle>{suggestion.ticker}</CardTitle>
+                    <div className="flex items-start justify-between gap-4">
+                        <div className="flex items-center gap-3 flex-1 overflow-hidden">
+                            <Image
+                                src={suggestion.logoUrl}
+                                alt={`Logo de ${suggestion.name}`}
+                                width={40}
+                                height={40}
+                                className="rounded-full object-contain bg-white border"
+                                unoptimized
+                            />
+                            <div className="flex-1 overflow-hidden">
+                                <CardTitle className="truncate">{suggestion.ticker}</CardTitle>
+                                <CardDescription className="pt-1 truncate">{suggestion.name}</CardDescription>
+                            </div>
                         </div>
-                        <Badge variant="secondary">{suggestion.type}</Badge>
+                        <div className="text-right flex-shrink-0">
+                            <p className="font-bold text-lg">
+                                {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(suggestion.price)}
+                            </p>
+                            <Badge variant="secondary" className="mt-1">{suggestion.type}</Badge>
+                        </div>
                     </div>
-                  <CardDescription className="pt-1">{suggestion.name}</CardDescription>
                 </CardHeader>
-                <CardContent className="flex-grow">
-                    <Separator className="my-2"/>
+                <CardContent className="flex-grow flex flex-col justify-end pt-0">
+                  <Separator className="mb-4" />
                   <p className="text-sm text-muted-foreground italic">"{suggestion.rationale}"</p>
                 </CardContent>
               </Card>

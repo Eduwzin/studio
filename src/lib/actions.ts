@@ -35,6 +35,7 @@ import {
     suggestAssets as suggestAssetsFlow,
     SuggestAssetsInput,
     SuggestAssetsOutput,
+    AssetSuggestion,
 } from '@/ai/flows/suggest-assets-flow';
 import {
     chatWithMarketAnalyst as chatWithMarketAnalystFlow,
@@ -251,4 +252,4 @@ export async function getDailyNewsAction(
 }
 
 
-export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory };
+export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory, SuggestAssetsOutput, AssetSuggestion };
