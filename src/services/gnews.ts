@@ -38,7 +38,7 @@ export async function getMarketNews(limit: number = 10): Promise<GNewsArticle[]>
   const url = `${GNEWS_API_BASE_URL}/top-headlines?topic=${topic}&lang=${lang}&country=${country}&max=${limit}&apikey=${GNEWS_API_KEY}`;
 
   try {
-    const response = await fetch(url, { next: { revalidate: 1800 } }); // 30 min cache
+    const response = await fetch(url, { cache: 'no-store' }); // Always fetch fresh data
 
     if (!response.ok) {
       const errorData = await response.json();
