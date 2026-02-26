@@ -25,7 +25,7 @@ export interface GNewsArticle {
  * @param limit The number of news articles to fetch.
  * @returns A promise that resolves to an array of news articles.
  */
-export async function getMarketNews(limit: number = 10): Promise<GNewsArticle[]> {
+export async function getMarketNews(limit: number = 25): Promise<GNewsArticle[]> {
   if (!GNEWS_API_KEY) {
     throw new Error('GNews API key is not configured.');
   }
