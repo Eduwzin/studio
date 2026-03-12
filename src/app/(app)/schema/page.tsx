@@ -3,9 +3,7 @@ import backendConfig from '../../../../docs/backend.json';
 import { Database, Table as TableIcon } from 'lucide-react';
 import SyncCvmClient from './sync-cvm-client';
 
-// Importações do Firebase Admin para buscar dados no lado do servidor
-import { initializeApp, getApps } from 'firebase-admin/app';
-import { getFirestore } from 'firebase-admin/firestore';
+// As importações do Firebase Admin foram movidas para dentro de `getRecentReports` para garantir que sejam executadas apenas no servidor em tempo de execução.
 
 // Importações dos componentes de Tabela do ShadCN
 import {
@@ -29,19 +27,20 @@ type FiiCvmReport = {
   rendimentosMes: number | null;
 };
 
-// Função auxiliar para inicializar o Firebase Admin e obter o Firestore
-const getDb = () => {
-    if (!getApps().length) {
-        // As credenciais são obtidas automaticamente do ambiente do Google Cloud
-        initializeApp();
-    }
-    return getFirestore();
-};
 
 // Função para buscar os relatórios mais recentes do Firestore
 async function getRecentReports(): Promise<FiiCvmReport[]> {
     try {
-        const db = getDb();
+        // Importa dinamicamente o SDK do Admin apenas quando necessário no servidor
+        const { initializeApp, getApps } = await import('firebase-admin/app');
+        const { getFirestore } = await import('firebase-admin/firestore');
+        
+        if (!getApps().length) {
+            // As credenciais são obtidas automaticamente do ambiente do Google Cloud
+            initializeApp();
+        }
+        const db = getFirestore();
+
         const reportsRef = db.collection('fii-reports-cvm');
         // Ordena por data de referência e limita a 20 resultados
         const snapshot = await reportsRef.orderBy('dataReferencia', 'desc').limit(20).get();
