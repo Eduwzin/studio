@@ -1,8 +1,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import backendConfig from '../../../../docs/backend.json';
-import { Database } from 'lucide-react';
+import { Database, Info } from 'lucide-react';
 import SyncCvmClient from './sync-cvm-client';
 import RecentReportsClient from './recent-reports-client';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 
 export default async function SchemaPage() {
@@ -18,6 +19,18 @@ export default async function SchemaPage() {
         </p>
       </header>
 
+      <Alert className="mb-8">
+        <Info className="h-4 w-4" />
+        <AlertTitle>Como a Sincronização Funciona</AlertTitle>
+        <AlertDescription>
+            <ol className="list-decimal list-inside space-y-1">
+                <li>Você faz o upload de um arquivo .zip da CVM usando o formulário abaixo.</li>
+                <li>O sistema processa este arquivo e salva cada registro como um documento no banco de dados <strong>Cloud Firestore</strong>, dentro de uma coleção chamada <code>fii-reports-cvm</code>.</li>
+                <li>A tabela "Relatórios Recentes" lê diretamente dessa coleção para exibir os dados que você acabou de enviar.</li>
+            </ol>
+        </AlertDescription>
+      </Alert>
+
       <SyncCvmClient />
 
       {/* Seção para exibir os relatórios do Firestore */}
@@ -27,7 +40,7 @@ export default async function SchemaPage() {
         <CardHeader>
             <CardTitle>Conteúdo de backend.json</CardTitle>
             <CardDescription>
-                A planta baixa que define a organização dos dados no Firestore.
+                A planta baixa que define a organização dos dados no Firestore, incluindo a coleção <code>fii-reports-cvm</code>.
             </CardDescription>
         </CardHeader>
         <CardContent>
