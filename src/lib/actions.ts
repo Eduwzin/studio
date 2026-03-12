@@ -260,5 +260,41 @@ export async function syncCvmDataAction(input: SyncCvmFiisInput): Promise<SyncCv
   return syncCvmFiisFlow(input);
 }
 
+// Tipo para os dados do relatório, espelhando o que é salvo no Firestore
+export type FiiCvmReport = {
+  id: string;
+  cnpj: string;
+  nomeFundo: string;
+  dataReferencia: string;
+  patrimonioLiquido: number;
+  valorPatrimonialCota: number;
+  quantidadeCotas: number;
+  rendimentosMes: number | null;
+};
 
-export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory, SuggestAssetsOutput, AssetSuggestion, SyncCvmFiisInput, SyncCvmFiisOutput };
+export async function getRecentReportsAction(): Promise<FiiCvmReport[]> {
+    try {
+        const { initializeApp, getApps } = await import('firebase-admin/app');
+        const { getFirestore } = await import('firebase-admin/firestore');
+        
+        if (!getApps().length) {
+            initializeApp();
+        }
+        const db = getFirestore();
+
+        const reportsRef = db.collection('fii-reports-cvm');
+        const snapshot = await reportsRef.orderBy('dataReferencia', 'desc').limit(20).get();
+
+        if (snapshot.empty) {
+            return [];
+        }
+
+        return snapshot.docs.map(doc => doc.data() as FiiCvmReport);
+    } catch (error) {
+        console.error("Falha ao buscar relatórios de FIIs do Firestore via action:", error);
+        return [];
+    }
+}
+
+
+export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory, SuggestAssetsOutput, AssetSuggestion, SyncCvmFiisInput, SyncCvmFiisOutput, FiiCvmReport };
