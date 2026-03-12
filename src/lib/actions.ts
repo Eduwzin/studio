@@ -47,6 +47,11 @@ import {
   type GenerateStoriesInput,
   type NewsStory,
 } from '@/ai/flows/generate-daily-news-stories';
+import {
+  syncCvmFiis as syncCvmFiisFlow,
+  SyncCvmFiisInput,
+  SyncCvmFiisOutput,
+} from '@/ai/flows/sync-cvm-fiis-flow';
 import { getMarketNews } from '@/services/gnews';
 import { getAvailableTickers, getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, StockInfo } from '@/services/brapi';
 import { initializeApp, getApps, getApp } from 'firebase/app';
@@ -251,5 +256,9 @@ export async function getDailyNewsAction(
     return result.stories;
 }
 
+export async function syncCvmDataAction(input: SyncCvmFiisInput): Promise<SyncCvmFiisOutput> {
+  return syncCvmFiisFlow(input);
+}
 
-export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory, SuggestAssetsOutput, AssetSuggestion };
+
+export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory, SuggestAssetsOutput, AssetSuggestion, SyncCvmFiisInput, SyncCvmFiisOutput };

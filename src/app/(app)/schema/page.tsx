@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import backendConfig from '../../../../docs/backend.json';
-import { Database } from 'lucide-react';
+import { Database, RefreshCw } from 'lucide-react';
+import SyncCvmClient from './sync-cvm-client';
 
 export default function SchemaPage() {
   return (
@@ -8,14 +9,16 @@ export default function SchemaPage() {
       <header className="mb-8">
         <h1 className="text-3xl font-bold font-headline mb-2 flex items-center gap-3">
             <Database className="text-primary" />
-            Estrutura do Banco de Dados
+            Área de Administração
         </h1>
         <p className="text-muted-foreground">
-            Este é o "mapa" do nosso banco de dados Firestore. Ele define as entidades (objetos de dados) e onde elas são armazenadas. Este é um arquivo de desenvolvimento (`docs/backend.json`) e não os dados reais.
+            Esta área é para tarefas de desenvolvimento e administração, como visualizar a estrutura do banco de dados e executar rotinas de importação de dados.
         </p>
       </header>
 
-      <Card>
+      <SyncCvmClient />
+
+      <Card className="mt-8">
         <CardHeader>
             <CardTitle>Conteúdo de backend.json</CardTitle>
             <CardDescription>
