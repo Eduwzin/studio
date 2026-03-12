@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table as TableIcon, Loader2 } from 'lucide-react';
 import {
@@ -11,31 +11,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getRecentReportsAction, type FiiCvmReport } from '@/lib/actions';
+import { type FiiCvmReport } from '@/lib/actions';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
+import { collection, query, orderBy, limit } from 'firebase/firestore';
 
 export default function RecentReportsClient() {
-  const [recentReports, setRecentReports] = useState<FiiCvmReport[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const firestore = useFirestore();
 
-  useEffect(() => {
-    const fetchReports = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const reports = await getRecentReportsAction();
-        setRecentReports(reports);
-      } catch (e) {
-        setError('Não foi possível carregar os relatórios recentes. Tente atualizar a página.');
-        console.error(e);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const reportsQuery = useMemoFirebase(() => {
+    // Firestore might not be available on first render, so we guard against it.
+    if (!firestore) return null;
+    const reportsRef = collection(firestore, 'fii-reports-cvm');
+    return query(reportsRef, orderBy('dataReferencia', 'desc'), limit(20));
+  }, [firestore]);
 
-    fetchReports();
-  }, []);
+  const { data: recentReports, isLoading, error } = useCollection<FiiCvmReport>(reportsQuery);
 
   return (
     <Card className="mt-8">
@@ -58,10 +49,10 @@ export default function RecentReportsClient() {
         {error && !isLoading && (
             <Alert variant="destructive">
                 <AlertTitle>Erro ao carregar</AlertTitle>
-                <AlertDescription>{error}</AlertDescription>
+                <AlertDescription>Não foi possível carregar os relatórios. Verifique as permissões do Firestore.</AlertDescription>
             </Alert>
         )}
-        {!isLoading && !error && recentReports.length > 0 && (
+        {!isLoading && !error && recentReports && recentReports.length > 0 && (
           <Table>
             <TableHeader>
               <TableRow>
@@ -81,7 +72,7 @@ export default function RecentReportsClient() {
             </TableBody>
           </Table>
         )}
-        {!isLoading && !error && recentReports.length === 0 && (
+        {!isLoading && !error && (!recentReports || recentReports.length === 0) && (
            <p className="text-sm text-muted-foreground text-center py-8">Nenhum relatório encontrado. Sincronize um arquivo acima para ver os dados aqui.</p>
         )}
       </CardContent>
