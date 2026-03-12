@@ -15,14 +15,14 @@ import fetch from 'node-fetch';
 import JSZip from 'jszip';
 import Papa from 'papaparse';
 
-// Definição dos Schemas de Entrada e Saída com Zod
-export const SyncCvmFiisInputSchema = z.object({
+// Definição dos Schemas de Entrada e Saída com Zod (não exportados)
+const SyncCvmFiisInputSchema = z.object({
   year: z.number().describe('O ano para o qual os dados devem ser importados.'),
   sourceUrl: z.string().url().describe('A URL completa para o arquivo ZIP da CVM.'),
 });
 export type SyncCvmFiisInput = z.infer<typeof SyncCvmFiisInputSchema>;
 
-export const SyncCvmFiisOutputSchema = z.object({
+const SyncCvmFiisOutputSchema = z.object({
   status: z.enum(['SUCCESS', 'FAILED', 'EMPTY']).describe('O status final da importação.'),
   message: z.string().describe('Uma mensagem descrevendo o resultado.'),
   importedCount: z.number().describe('A quantidade de registros de FIIs importados.'),
