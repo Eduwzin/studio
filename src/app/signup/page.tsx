@@ -29,8 +29,14 @@ import { cn } from '@/lib/utils';
 const formSchema = z.object({
   fullName: z.string().min(3, { message: 'O nome completo deve ter pelo menos 3 caracteres.' }),
   email: z.string().email({ message: 'Por favor, insira um e-mail válido.' }),
+  phone: z.string().min(10, { message: 'Por favor, insira um número de celular com DDD válido.' }),
   password: z.string().min(6, { message: 'A senha deve ter pelo menos 6 caracteres.' }),
+  confirmPassword: z.string().min(6, { message: 'A confirmação de senha é necessária.' }),
+}).refine(data => data.password === data.confirmPassword, {
+  message: "As senhas não coincidem.",
+  path: ["confirmPassword"],
 });
+
 
 export default function SignupPage() {
   const auth = useAuth();
@@ -44,7 +50,9 @@ export default function SignupPage() {
     defaultValues: {
       fullName: '',
       email: '',
+      phone: '',
       password: '',
+      confirmPassword: '',
     },
   });
 
@@ -125,7 +133,7 @@ export default function SignupPage() {
                   <FormItem>
                     <FormLabel>Nome Completo</FormLabel>
                     <FormControl>
-                      <Input placeholder="Seu Nome" {...field} />
+                      <Input placeholder="Seu Nome Completo" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -144,12 +152,38 @@ export default function SignupPage() {
                   </FormItem>
                 )}
               />
+               <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Celular</FormLabel>
+                    <FormControl>
+                      <Input type="tel" placeholder="(XX) XXXXX-XXXX" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Senha</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="********" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+               <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirmar Senha</FormLabel>
                     <FormControl>
                       <Input type="password" placeholder="********" {...field} />
                     </FormControl>

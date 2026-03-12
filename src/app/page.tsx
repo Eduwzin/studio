@@ -21,7 +21,7 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button asChild size="lg">
-                  <Link href="/onboarding">Comece de Graça</Link>
+                  <Link href="/signup">Comece de Graça</Link>
                 </Button>
                 <Button asChild size="lg" variant="outline">
                     <Link href="/login">Já tenho conta</Link>
