@@ -31,6 +31,7 @@ import {
   ShieldCheck,
   List,
   Rss,
+  Database,
 } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { usePathname, useRouter } from "next/navigation";
@@ -48,6 +49,7 @@ const navItems = [
   { href: "/learn", icon: BookOpen, label: "Aprender" },
   { href: "/blog", icon: Newspaper, label: "Blog" },
   { href: "/daily-news", icon: Rss, label: "Notícias do Dia" },
+  { href: "/schema", icon: Database, label: "Estrutura do BD" },
 ];
 
 function AppLayoutClient({ children }: { children: React.ReactNode }) {
