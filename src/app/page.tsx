@@ -3,27 +3,36 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PublicHeader } from "@/components/public-header";
 import { BookOpen, Bot, LineChart, Target } from "lucide-react";
 import Link from "next/link";
-import Image from 'next/image';
-import { placeholderImages } from "@/lib/content";
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <PublicHeader />
       <main className="flex-grow">
-        <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center">
-          <div className="max-w-3xl mx-auto">
-            <h1 className="text-4xl md:text-6xl font-headline font-bold text-foreground mb-4">
+        <section className="relative h-[70vh] flex items-center justify-center text-center text-white overflow-hidden">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover"
+          >
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-stock-market-graphics-on-a-computer-screen-4235-large.mp4" type="video/mp4" />
+            Seu navegador não suporta a tag de vídeo.
+          </video>
+          <div className="absolute inset-0 bg-black/60 z-10"></div>
+          <div className="relative z-20 max-w-3xl mx-auto px-4">
+            <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
               Invista com confiança.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-8">
+            <p className="text-lg md:text-xl text-gray-200 mb-8">
               Seu guia de crescimento financeiro com inteligência artificial. O SafeStart Invest ajuda iniciantes a navegar no mundo dos investimentos com estratégias personalizadas, recursos educacionais e suporte contínuo.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button asChild size="lg">
                   <Link href="/signup">Comece de Graça</Link>
                 </Button>
-                <Button asChild size="lg" variant="outline">
+                <Button asChild size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-black transition-colors">
                     <Link href="/login">Já tenho conta</Link>
                 </Button>
             </div>

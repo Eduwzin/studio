@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import backendConfig from '@/docs/backend.json';
+import backendConfig from '../../../../docs/backend.json';
 import { Database } from 'lucide-react';
 
 export default function SchemaPage() {
