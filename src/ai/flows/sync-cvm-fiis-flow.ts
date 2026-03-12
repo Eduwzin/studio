@@ -15,17 +15,6 @@ import fetch from 'node-fetch';
 import JSZip from 'jszip';
 import Papa from 'papaparse';
 
-// Inicialização do Firebase Admin (evita múltiplas inicializações)
-if (!admin.apps.length) {
-  admin.initializeApp({
-    // As credenciais são obtidas automaticamente no ambiente do Google Cloud
-  });
-}
-const db = admin.firestore();
-const storage = new Storage();
-const BUCKET_NAME = process.env.GCLOUD_STORAGE_BUCKET || `${process.env.GCP_PROJECT}-bucket`;
-
-
 // Definição dos Schemas de Entrada e Saída com Zod
 export const SyncCvmFiisInputSchema = z.object({
   year: z.number().describe('O ano para o qual os dados devem ser importados.'),
@@ -65,10 +54,10 @@ async function downloadZipFile(url: string): Promise<Buffer> {
 }
 
 // Função para salvar no Cloud Storage
-async function saveToStorage(buffer: Buffer, year: number): Promise<string> {
+async function saveToStorage(buffer: Buffer, year: number, storage: Storage, bucketName: string): Promise<string> {
   const fileName = `cvm-fii-reports-${year}-${new Date().toISOString()}.zip`;
   const filePath = `raw-cvm-data/${fileName}`;
-  const file = storage.bucket(BUCKET_NAME).file(filePath);
+  const file = storage.bucket(bucketName).file(filePath);
   
   await file.save(buffer, {
     metadata: {
@@ -76,7 +65,7 @@ async function saveToStorage(buffer: Buffer, year: number): Promise<string> {
     },
   });
   
-  return `gs://${BUCKET_NAME}/${filePath}`;
+  return `gs://${bucketName}/${filePath}`;
 }
 
 // Função de extração do ZIP
@@ -145,7 +134,7 @@ function normalizeFiisData(records: any[]): FiiCvmData[] {
 }
 
 // Função de persistência no Firestore
-async function saveFiisToFirestore(fiis: FiiCvmData[]): Promise<number> {
+async function saveFiisToFirestore(fiis: FiiCvmData[], db: admin.firestore.Firestore): Promise<number> {
     if (fiis.length === 0) return 0;
 
     const collectionRef = db.collection('fii-reports-cvm');
@@ -179,6 +168,14 @@ const syncCvmFiisFlow = ai.defineFlow(
     outputSchema: SyncCvmFiisOutputSchema,
   },
   async ({ year, sourceUrl }) => {
+    // Inicialização do Firebase Admin (evita múltiplas inicializações)
+    if (!admin.apps.length) {
+      admin.initializeApp();
+    }
+    const db = admin.firestore();
+    const storage = new Storage();
+    const BUCKET_NAME = process.env.GCLOUD_STORAGE_BUCKET || `${process.env.GCP_PROJECT}-bucket`;
+
     try {
       console.log(`Iniciando importação da CVM para o ano ${year}...`);
 
@@ -187,7 +184,7 @@ const syncCvmFiisFlow = ai.defineFlow(
       console.log('Download do ZIP concluído.');
 
       // 2. Salvar no Storage
-      const storagePath = await saveToStorage(zipBuffer, year);
+      const storagePath = await saveToStorage(zipBuffer, year, storage, BUCKET_NAME);
       console.log(`ZIP salvo em: ${storagePath}`);
 
       // 3. Extrair CSV
@@ -211,7 +208,7 @@ const syncCvmFiisFlow = ai.defineFlow(
       console.log(`${normalizedData.length} registros padronizados.`);
 
       // 6. Salvar no Firestore
-      const importedCount = await saveFiisToFirestore(normalizedData);
+      const importedCount = await saveFiisToFirestore(normalizedData, db);
       console.log(`${importedCount} registros salvos no Firestore.`);
 
       // 7. Retornar resultado
