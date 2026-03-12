@@ -253,5 +253,21 @@ service cloud.firestore {
       allow update: if false;
       allow delete: if false;
     }
+    
+    // --------------------------------------------------------------------
+    // Public CVM Data Rules
+    // --------------------------------------------------------------------
+    /**
+     * @description Allows public, read-only access to all CVM FII reports.
+     * @path /fii-reports-cvm/{reportId}
+     * @allow (get, list) Any user, including unauthenticated ones, can read the reports.
+     * @deny (create, update, delete) No client can modify the CVM data. This must be done via the admin sync flow.
+     * @principle Provides public read access to global data while preventing all client-side modifications for security.
+     */
+    match /fii-reports-cvm/{reportId} {
+      allow get: if true;
+      allow list: if true;
+      allow write: if false;
+    }
   }
 }
