@@ -28,10 +28,8 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { useUser } from '@/firebase';
+import { useUser, useFirestore, updateDocumentNonBlocking } from '@/firebase';
 import { doc } from 'firebase/firestore';
-import { useFirestore } from '@/firebase';
-import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { Progress } from '@/components/ui/progress';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
@@ -242,15 +240,8 @@ export default function OnboardingForm({ onProfileSaved }: OnboardingFormProps) 
 
       if (user) {
         const userProfileRef = doc(firestore, `users/${user.uid}/userProfiles/${user.uid}`);
-        const profileData = {
-          id: user.uid,
-          informacoesPessoais: {
-            email: user.email,
-            nome: user.displayName?.split(' ')[0] ?? '',
-            sobrenome: user.displayName?.split(' ')[1] ?? '',
-            idade: values.idade,
-            renda: 0,
-          },
+        const dataToUpdate = {
+          'informacoesPessoais.idade': values.idade,
           perfilDeInvestimento: {
             valorInvestimento: 0,
             avaliacaoDeRisco: result.avaliacaoDeRisco,
@@ -260,9 +251,9 @@ export default function OnboardingForm({ onProfileSaved }: OnboardingFormProps) 
             metasFinanceiras: values.objetivo_investimento,
             experienciaDeInvestimento: values.experiencia_investimento,
             respostasQuestionario: respostasQuestionario,
-          }
+          },
         };
-        setDocumentNonBlocking(userProfileRef, profileData, { merge: true });
+        updateDocumentNonBlocking(userProfileRef, dataToUpdate);
       }
 
       toast({
@@ -462,5 +453,3 @@ export default function OnboardingForm({ onProfileSaved }: OnboardingFormProps) 
     </div>
   );
 }
-
-    
