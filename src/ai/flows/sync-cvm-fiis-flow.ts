@@ -1,81 +1,48 @@
 'use server';
 /**
- * @fileoverview Fluxo para importar dados de informes mensais de FIIs da CVM.
+ * @fileoverview Fluxo para importar dados de FIIs da CVM a partir de um arquivo CSV local.
  *
  * - syncCvmFiis - Função principal que orquestra o processo de importação.
- * - SyncCvmFiisInput - O tipo de entrada para o fluxo.
- * - SyncCvmFiisOutput - O tipo de retorno para o fluxo.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-// Admin SDK and Storage will be imported dynamically
-import type { Storage } from '@google-cloud/storage';
-import fetch from 'node-fetch';
-import JSZip from 'jszip';
+import fs from 'fs';
+import path from 'path';
 import Papa from 'papaparse';
+import type { FieldValue } from 'firebase-admin/firestore';
 
-// Schema definition remains internal to the server file
 const SyncCvmFiisInputSchema = z.object({
-  year: z.number().describe('O ano para o qual os dados devem ser importados.'),
-  sourceUrl: z.string().url().describe('A URL completa para o arquivo ZIP da CVM.'),
+  filename: z.string().describe('O nome do arquivo CSV a ser importado da pasta `src/data/cvm-reports`.'),
 });
 
 const SyncCvmFiisOutputSchema = z.object({
   status: z.enum(['SUCCESS', 'FAILED', 'EMPTY']).describe('O status final da importação.'),
   message: z.string().describe('Uma mensagem descrevendo o resultado.'),
   importedCount: z.number().describe('A quantidade de registros de FIIs importados.'),
-  storagePath: z.string().optional().describe('O caminho para o arquivo ZIP salvo no Cloud Storage.'),
 });
 
 export type SyncCvmFiisInput = z.infer<typeof SyncCvmFiisInputSchema>;
 export type SyncCvmFiisOutput = z.infer<typeof SyncCvmFiisOutputSchema>;
 
 type FiiCvmData = {
-    id: string;
-    cnpj: string;
-    nomeFundo: string;
-    dataReferencia: string;
-    patrimonioLiquido: number;
-    valorPatrimonialCota: number;
-    quantidadeCotas: number;
-    rendimentosMes: number | null;
-    lastUpdated: any; // Firestore FieldValue
+  id: string;
+  cnpj: string;
+  nomeFundo: string;
+  dataReferencia: string;
+  patrimonioLiquido: number;
+  valorPatrimonialCota: number;
+  quantidadeCotas: number;
+  rendimentosMes: number | null;
+  lastUpdated: FieldValue; // Firestore FieldValue
 };
 
-async function downloadZipFile(url: string): Promise<Buffer> {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Falha no download do arquivo (${response.status}): ${response.statusText}`);
+function readLocalCsvFile(filename: string): string {
+  const filePath = path.join(process.cwd(), 'src/data/cvm-reports', filename);
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`Arquivo não encontrado: ${filename}. Certifique-se de que ele está na pasta 'src/data/cvm-reports'.`);
   }
-  const arrayBuffer = await response.arrayBuffer();
-  return Buffer.from(arrayBuffer);
-}
-
-async function saveToStorage(buffer: Buffer, year: number, storage: Storage, bucketName: string): Promise<string> {
-  const fileName = `cvm-fii-reports-${year}-${new Date().toISOString()}.zip`;
-  const filePath = `raw-cvm-data/${fileName}`;
-  const file = storage.bucket(bucketName).file(filePath);
-  
-  await file.save(buffer, {
-    metadata: {
-      contentType: 'application/zip',
-    },
-  });
-  
-  return `gs://${bucketName}/${filePath}`;
-}
-
-async function extractCsvFromZip(buffer: Buffer): Promise<string> {
-  const zip = await JSZip.loadAsync(buffer);
-  const csvFile = Object.keys(zip.files).find(name => name.startsWith('inf_mensal_fii_geral_') && name.endsWith('.csv'));
-
-  if (!csvFile) {
-    throw new Error('Nenhum arquivo CSV de informe mensal encontrado no ZIP.');
-  }
-
-  const csvContent = await zip.files[csvFile].async('string');
-  return csvContent;
+  return fs.readFileSync(filePath, 'latin1'); // CVM files use latin1 encoding
 }
 
 function parseCsvContent(csvContent: string): any[] {
@@ -93,7 +60,7 @@ function parseCsvContent(csvContent: string): any[] {
   return data;
 }
 
-function normalizeFiisData(records: any[], serverTimestamp: any): FiiCvmData[] {
+function normalizeFiisData(records: any[], serverTimestamp: FieldValue): FiiCvmData[] {
   const normalizedData: FiiCvmData[] = [];
 
   for (const record of records) {
@@ -158,32 +125,22 @@ const syncCvmFiisFlow = ai.defineFlow(
     inputSchema: SyncCvmFiisInputSchema,
     outputSchema: SyncCvmFiisOutputSchema,
   },
-  async ({ year, sourceUrl }) => {
+  async ({ filename }) => {
     try {
-      console.log(`Iniciando importação da CVM para o ano ${year}...`);
+      console.log(`Iniciando importação do arquivo local: ${filename}...`);
 
-      const zipBuffer = await downloadZipFile(sourceUrl);
-      console.log('Download do ZIP concluído.');
-
-      // Dynamically import admin SDK and Storage only after successful download
-      const { initializeApp, getApps, cert } = await import('firebase-admin/app');
+      // Dynamically import admin SDK
+      const { initializeApp, getApps } = await import('firebase-admin/app');
       const { getFirestore, FieldValue } = await import('firebase-admin/firestore');
-      const { Storage } = await import('@google-cloud/storage');
       
       if (!getApps().length) {
-        // initializeApp will automatically use environment variables on Google Cloud
-        initializeApp();
+        initializeApp(); // Automatically uses env vars on Google Cloud
       }
 
       const db = getFirestore();
-      const storage = new Storage();
-      const BUCKET_NAME = process.env.GCLOUD_STORAGE_BUCKET || `${process.env.GCP_PROJECT}-bucket`;
-
-      const storagePath = await saveToStorage(zipBuffer, year, storage, BUCKET_NAME);
-      console.log(`ZIP salvo em: ${storagePath}`);
-
-      const csvContent = await extractCsvFromZip(zipBuffer);
-      console.log('Extração do CSV concluída.');
+      
+      const csvContent = readLocalCsvFile(filename);
+      console.log('Leitura do arquivo CSV local concluída.');
 
       const records = parseCsvContent(csvContent);
       if (records.length === 0) {
@@ -191,7 +148,6 @@ const syncCvmFiisFlow = ai.defineFlow(
           status: 'EMPTY',
           message: 'O arquivo CSV estava vazio ou não pôde ser lido.',
           importedCount: 0,
-          storagePath,
         };
       }
       console.log(`${records.length} registros lidos do CSV.`);
@@ -204,9 +160,8 @@ const syncCvmFiisFlow = ai.defineFlow(
 
       return {
         status: 'SUCCESS',
-        message: `Importação concluída com sucesso para o ano ${year}.`,
+        message: `Importação do arquivo '${filename}' concluída com sucesso.`,
         importedCount,
-        storagePath,
       };
 
     } catch (error: any) {

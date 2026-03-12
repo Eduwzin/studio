@@ -1,49 +1,41 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { syncCvmDataAction } from '@/lib/actions';
 import { Loader2, AlertCircle, CheckCircle, RefreshCw } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import type { SyncCvmFiisOutput } from '@/lib/actions';
 
 const formSchema = z.object({
-  year: z.coerce.number().min(2020, "O ano deve ser 2020 ou mais recente.").max(new Date().getFullYear()),
-  sourceUrl: z.string().url("Por favor, insira uma URL válida."),
+  filename: z.string({ required_error: "Por favor, selecione um arquivo para importar." }),
 });
 
-// Helper to generate URL based on year
-const getCvmUrlForYear = (year: number) => `https://dados.cvm.gov.br/dados/FII/DOC/INF_MENSAL/DADOS/inf_mensal_fii_${year}.zip`;
+type SyncCvmClientProps = {
+    availableFiles: string[];
+}
 
-export default function SyncCvmClient() {
-  const currentYear = new Date().getFullYear();
+export default function SyncCvmClient({ availableFiles }: SyncCvmClientProps) {
   const [result, setResult] = useState<SyncCvmFiisOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      year: currentYear,
-      sourceUrl: getCvmUrlForYear(currentYear),
-    },
   });
   
-  const yearValue = form.watch('year');
-  
-  useEffect(() => {
-     if (yearValue >= 2020) {
-        form.setValue('sourceUrl', getCvmUrlForYear(yearValue));
-     }
-  }, [yearValue, form]);
-
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     setError(null);
@@ -67,10 +59,10 @@ export default function SyncCvmClient() {
       <CardHeader>
         <CardTitle className="flex items-center gap-3">
             <RefreshCw />
-            Sincronizar Dados de FIIs da CVM
+            Sincronizar Dados de FIIs da CVM (Manual)
         </CardTitle>
         <CardDescription>
-          Execute o fluxo para baixar, tratar e salvar os informes mensais de Fundos de Investimento Imobiliário diretamente do site da CVM.
+          Selecione um arquivo CSV da pasta <code>src/data/cvm-reports</code> para importar os dados para o Firestore.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -78,31 +70,29 @@ export default function SyncCvmClient() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
-              name="year"
+              name="filename"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Ano</FormLabel>
-                  <FormControl>
-                    <Input type="number" placeholder="Ex: 2024" {...field} />
-                  </FormControl>
+                  <FormLabel>Arquivo CSV</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione um arquivo..." />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                        {availableFiles.length > 0 ? availableFiles.map(file => (
+                            <SelectItem key={file} value={file}>{file}</SelectItem>
+                        )) : (
+                            <div className="p-4 text-sm text-muted-foreground">Nenhum arquivo CSV encontrado.</div>
+                        )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="sourceUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>URL do Arquivo ZIP</FormLabel>
-                  <FormControl>
-                    <Input placeholder="https://dados.cvm.gov.br/..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full" disabled={isLoading || availableFiles.length === 0}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -132,11 +122,9 @@ export default function SyncCvmClient() {
             <AlertDescription>
               <p>{result.message}</p>
               <p>Registros importados: {result.importedCount}</p>
-              {result.storagePath && <p className="text-xs mt-2">Arquivo salvo em: {result.storagePath}</p>}
             </AlertDescription>
           </Alert>
         )}
-
       </CardContent>
     </Card>
   );
