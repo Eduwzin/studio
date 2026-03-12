@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getStockInfo } from '@/lib/actions';
+import { getStockInfo, getFiiCvmReportByCnpj } from '@/lib/actions';
 import type { StockInfo } from '@/services/brapi';
+import type { FiiCvmReport } from '@/lib/actions'; // Import type
 import { Loader2 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'; // Add CardDescription
 import { cn } from '@/lib/utils';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 
@@ -51,19 +52,28 @@ const formatSimpleNumber = (value: any) => {
 };
 
 
-export default function TickerDetails({ ticker, sector }: { ticker: string; sector?: string }) {
+export default function TickerDetails({ ticker, sector, type }: { ticker: string; sector?: string, type: string }) {
   const [data, setData] = useState<StockInfo | null>(null);
+  const [cvmData, setCvmData] = useState<FiiCvmReport | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
+      setCvmData(null); // Reset CVM data on new ticker fetch
       const stockData = await getStockInfo(ticker);
       setData(stockData);
+      
+      // If it's a FII (type 'fund') and we received a CNPJ, fetch the CVM report
+      if (type === 'fund' && stockData?.cnpj) {
+        const report = await getFiiCvmReportByCnpj(stockData.cnpj);
+        setCvmData(report);
+      }
+      
       setLoading(false);
     }
     fetchData();
-  }, [ticker]);
+  }, [ticker, type]);
 
   if (loading) {
     return <div className="flex justify-center items-center p-8"><Loader2 className="animate-spin text-primary h-8 w-8" /></div>;
@@ -98,7 +108,7 @@ export default function TickerDetails({ ticker, sector }: { ticker: string; sect
             </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card>
                 <CardHeader>
                     <CardTitle className="text-lg">Dados da Empresa</CardTitle>
@@ -107,6 +117,7 @@ export default function TickerDetails({ ticker, sector }: { ticker: string; sect
                     <DetailItem label="Razão Social" value={data.longName} />
                     <DetailItem label="Valor de Mercado" value={formatBigNumber(data.marketCap)} />
                     {sector && <DetailItem label="Setor" value={sector} />}
+                    {data.cnpj && <DetailItem label="CNPJ" value={data.cnpj} />}
                 </CardContent>
             </Card>
 
@@ -122,6 +133,21 @@ export default function TickerDetails({ ticker, sector }: { ticker: string; sect
                     <DetailItem label="VPA" value={formatCurrency(data.bookValue)} subValue="Atual" />
                 </CardContent>
             </Card>
+
+            {cvmData && (
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-lg">Dados do Relatório CVM</CardTitle>
+                        <CardDescription>Último informe ({cvmData.dataReferencia})</CardDescription>
+                    </CardHeader>
+                    <CardContent className="text-sm">
+                        <DetailItem label="Patrimônio Líquido" value={formatBigNumber(cvmData.patrimonioLiquido)} />
+                        <DetailItem label="Valor Patrimonial/Cota" value={formatCurrency(cvmData.valorPatrimonialCota)} />
+                        <DetailItem label="Rendimento/Cota (mês)" value={formatCurrency(cvmData.rendimentosMes)} />
+                        <DetailItem label="Total de Cotas" value={cvmData.quantidadeCotas.toLocaleString('pt-BR')} />
+                    </CardContent>
+                </Card>
+            )}
         </div>
     </div>
   );

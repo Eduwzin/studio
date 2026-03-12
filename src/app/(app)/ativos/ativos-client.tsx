@@ -52,7 +52,7 @@ function TickerList({
             </div>
           </AccordionTrigger>
           <AccordionContent className="p-4 border border-t-0 rounded-b-lg bg-card">
-            <TickerDetails ticker={ticker.stock} sector={ticker.sector} />
+            <TickerDetails ticker={ticker.stock} sector={ticker.sector} type={ticker.type} />
           </AccordionContent>
         </AccordionItem>
       ))}

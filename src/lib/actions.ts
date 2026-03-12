@@ -296,5 +296,31 @@ export async function getRecentReportsAction(): Promise<FiiCvmReport[]> {
     }
 }
 
+export async function getFiiCvmReportByCnpj(cnpj: string): Promise<FiiCvmReport | null> {
+    if (!cnpj) return null;
+    try {
+        const { initializeApp, getApps } = await import('firebase-admin/app');
+        const { getFirestore } = await import('firebase-admin/firestore');
+        
+        if (!getApps().length) {
+            initializeApp();
+        }
+        const db = getFirestore();
+
+        const reportsRef = db.collection('fii-reports-cvm');
+        // Query for the most recent report for a given CNPJ
+        const snapshot = await reportsRef.where('cnpj', '==', cnpj).orderBy('dataReferencia', 'desc').limit(1).get();
+
+        if (snapshot.empty) {
+            return null;
+        }
+
+        return snapshot.docs[0].data() as FiiCvmReport;
+    } catch (error) {
+        console.error(`Falha ao buscar relatório CVM para o CNPJ ${cnpj}:`, error);
+        return null;
+    }
+}
+
 
 export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory, SuggestAssetsOutput, AssetSuggestion, SyncCvmFiisInput, SyncCvmFiisOutput, FiiCvmReport };

@@ -35,6 +35,7 @@ export interface StockInfo {
   priceToBook?: number;
   dividendYield?: number;
   bookValue?: number;
+  cnpj?: string;
   historicalDataPrice?: { date: number; open: number; high: number; low: number; close: number; volume: number; adjustedClose: number; }[];
 }
 
@@ -84,6 +85,7 @@ export async function getStockInfo(ticker: string, range: string = "1y", interva
       priceToBook: result.priceToBook,
       dividendYield: result.dividendYield,
       bookValue: result.bookValue,
+      cnpj: result.cnpj,
       historicalDataPrice: result.historicalDataPrice,
     };
 
