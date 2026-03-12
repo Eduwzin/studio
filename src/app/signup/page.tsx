@@ -15,7 +15,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
-import { useAuth, useUser } from '@/firebase';
+import { useAuth, useUser, useFirestore, setDocumentNonBlocking } from '@/firebase';
+import { doc } from 'firebase/firestore';
 import { Briefcase, Loader2, UserPlus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -40,6 +41,7 @@ const formSchema = z.object({
 
 export default function SignupPage() {
   const auth = useAuth();
+  const firestore = useFirestore();
   const { user, isUserLoading } = useUser();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -66,12 +68,42 @@ export default function SignupPage() {
     setLoading(true);
     initiateEmailSignUp(auth, values.email, values.password)
         .then(async (userCredential) => {
+            const user = userCredential.user;
+            
+            // 1. Update Auth display name
             if (auth.currentUser) {
                 await updateProfile(auth.currentUser, {
                     displayName: values.fullName,
                 });
             }
-            // The onAuthStateChanged listener will handle redirection
+
+            // 2. Create user document in Firestore
+            const userProfileRef = doc(firestore, `users/${user.uid}/userProfiles/${user.uid}`);
+            
+            const nameParts = values.fullName.trim().split(' ');
+            const firstName = nameParts.shift() || '';
+            const lastName = nameParts.join(' ') || '';
+
+            const initialProfileData = {
+              id: user.uid,
+              informacoesPessoais: {
+                email: values.email,
+                nome: firstName,
+                sobrenome: lastName,
+                celular: values.phone,
+              },
+              perfilDeInvestimento: {
+                 // Preenche com valores vazios para evitar erros em componentes
+                avaliacaoDeRisco: '',
+                estrategiaDeInvestimento: '',
+                alocacaoDeAtivos: '',
+              }
+            };
+            
+            // Salva os dados iniciais sem bloquear a interface. A próxima página (onboarding) irá mesclar os dados do perfil.
+            setDocumentNonBlocking(userProfileRef, initialProfileData, { merge: true });
+            
+            // The onAuthStateChanged listener in the layout will handle redirection to /onboarding
         })
         .catch((e) => {
             setLoading(false);
@@ -208,3 +240,5 @@ export default function SignupPage() {
     </div>
   );
 }
+
+    
