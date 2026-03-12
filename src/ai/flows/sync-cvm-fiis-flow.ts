@@ -10,7 +10,7 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 // Admin SDK and Storage will be imported dynamically
-import { Storage } from '@google-cloud/storage';
+import type { Storage } from '@google-cloud/storage';
 import fetch from 'node-fetch';
 import JSZip from 'jszip';
 import Papa from 'papaparse';
@@ -159,21 +159,25 @@ const syncCvmFiisFlow = ai.defineFlow(
     outputSchema: SyncCvmFiisOutputSchema,
   },
   async ({ year, sourceUrl }) => {
-    // Dynamically import admin SDK to ensure it's only loaded in a server environment
-    const admin = await import('firebase-admin');
-
-    if (!admin.apps.length) {
-      admin.initializeApp();
-    }
-    const db = admin.firestore();
-    const storage = new Storage();
-    const BUCKET_NAME = process.env.GCLOUD_STORAGE_BUCKET || `${process.env.GCP_PROJECT}-bucket`;
-
     try {
       console.log(`Iniciando importação da CVM para o ano ${year}...`);
 
       const zipBuffer = await downloadZipFile(sourceUrl);
       console.log('Download do ZIP concluído.');
+
+      // Dynamically import admin SDK and Storage only after successful download
+      const { initializeApp, getApps, cert } = await import('firebase-admin/app');
+      const { getFirestore, FieldValue } = await import('firebase-admin/firestore');
+      const { Storage } = await import('@google-cloud/storage');
+      
+      if (!getApps().length) {
+        // initializeApp will automatically use environment variables on Google Cloud
+        initializeApp();
+      }
+
+      const db = getFirestore();
+      const storage = new Storage();
+      const BUCKET_NAME = process.env.GCLOUD_STORAGE_BUCKET || `${process.env.GCP_PROJECT}-bucket`;
 
       const storagePath = await saveToStorage(zipBuffer, year, storage, BUCKET_NAME);
       console.log(`ZIP salvo em: ${storagePath}`);
@@ -192,7 +196,7 @@ const syncCvmFiisFlow = ai.defineFlow(
       }
       console.log(`${records.length} registros lidos do CSV.`);
 
-      const normalizedData = normalizeFiisData(records, admin.firestore.FieldValue.serverTimestamp());
+      const normalizedData = normalizeFiisData(records, FieldValue.serverTimestamp());
       console.log(`${normalizedData.length} registros padronizados.`);
 
       const importedCount = await saveFiisToFirestore(normalizedData, db);
