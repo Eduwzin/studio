@@ -2,20 +2,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import backendConfig from '../../../../docs/backend.json';
 import { Database } from 'lucide-react';
 import SyncCvmClient from './sync-cvm-client';
-import fs from 'fs';
-import path from 'path';
 
 export default function SchemaPage() {
-  const dataPath = path.join(process.cwd(), 'src/data/cvm-reports');
-  let availableFiles: string[] = [];
-  try {
-    if (fs.existsSync(dataPath)) {
-        availableFiles = fs.readdirSync(dataPath).filter(file => file.endsWith('.csv'));
-    }
-  } catch (error) {
-    console.error("Could not read CVM data directory:", error);
-  }
-
   return (
     <div className="max-w-4xl mx-auto">
       <header className="mb-8">
@@ -28,7 +16,7 @@ export default function SchemaPage() {
         </p>
       </header>
 
-      <SyncCvmClient availableFiles={availableFiles} />
+      <SyncCvmClient />
 
       <Card className="mt-8">
         <CardHeader>

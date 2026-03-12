@@ -23,24 +23,24 @@ import {
 } from '@/ai/flows/recommend-next-investment-steps';
 import {
   generateLesson as generateLessonFlow,
-  GenerateLessonInput,
-  GenerateLessonOutput
+  type GenerateLessonInput,
+  type GenerateLessonOutput
 } from '@/ai/flows/generate-lesson-content';
 import {
     monitorPortfolio as monitorPortfolioFlow,
-    MonitorPortfolioInput,
-    MonitorPortfolioOutput,
+    type MonitorPortfolioInput,
+    type MonitorPortfolioOutput,
 } from '@/ai/flows/monitor-portfolio-flow';
 import {
     suggestAssets as suggestAssetsFlow,
-    SuggestAssetsInput,
-    SuggestAssetsOutput,
-    AssetSuggestion,
+    type SuggestAssetsInput,
+    type SuggestAssetsOutput,
+    type AssetSuggestion,
 } from '@/ai/flows/suggest-assets-flow';
 import {
     chatWithMarketAnalyst as chatWithMarketAnalystFlow,
-    ChatInput,
-    ChatOutput,
+    type ChatInput,
+    type ChatOutput,
 } from '@/ai/flows/chat-with-market-analyst';
 import {
   generateDailyNewsStories as generateDailyNewsStoriesFlow,
@@ -49,11 +49,11 @@ import {
 } from '@/ai/flows/generate-daily-news-stories';
 import {
   syncCvmFiis as syncCvmFiisFlow,
-  SyncCvmFiisInput,
-  SyncCvmFiisOutput,
+  type SyncCvmFiisInput,
+  type SyncCvmFiisOutput,
 } from '@/ai/flows/sync-cvm-fiis-flow';
 import { getMarketNews } from '@/services/gnews';
-import { getAvailableTickers, getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, StockInfo } from '@/services/brapi';
+import { getAvailableTickers, getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, type StockInfo } from '@/services/brapi';
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { firebaseConfig } from '@/firebase/config';
@@ -256,22 +256,16 @@ export async function getDailyNewsAction(
     return result.stories;
 }
 
-// A ação do lado do cliente agora precisa de um input que corresponda ao fluxo.
-// Para fins de demonstração, podemos construir um input de teste aqui.
-// Em um aplicativo real, o cliente precisaria fornecer o bucket/arquivo correto.
-export async function syncCvmDataAction(input: { filename: string }): Promise<SyncCvmFiisOutput> {
-  
-  // AVISO: Isso é um mock para demonstração.
-  // Em produção, o 'input' viria do evento do GCS ou de uma configuração.
-  // O nome do bucket precisa ser criado no seu projeto Google Cloud.
-  const bucketName = 'seu-bucket-de-upload-aqui'; 
-
+export async function syncCvmDataAction(input: { bucket: string; file: string }): Promise<SyncCvmFiisOutput> {
+  // O input agora vem diretamente do cliente com o nome do bucket e do arquivo.
+  // Isso permite ao usuário acionar o fluxo para qualquer arquivo em qualquer bucket
+  // que ele tenha acesso.
   const flowInput: SyncCvmFiisInput = {
-    bucket: bucketName,
-    file: `inf_mensal_fii_geral_${input.filename}.zip`, // Assumindo um padrão de nomenclatura
+    bucket: input.bucket,
+    file: input.file,
   };
 
-  // Esta chamada irá falhar se o bucket/arquivo não existir.
+  // Chama o fluxo Genkit com os parâmetros fornecidos.
   return syncCvmFiisFlow(flowInput);
 }
 
