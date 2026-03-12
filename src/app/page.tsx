@@ -17,7 +17,7 @@ export default function Home() {
             playsInline
             className="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover"
           >
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-stock-market-graphics-on-a-computer-screen-4235-large.mp4" type="video/mp4" />
+            <source src="/grok-video-ae51d75e-d66a-4d0e-8235-44d4938470e8.mp4" type="video/mp4" />
             Seu navegador não suporta a tag de vídeo.
           </video>
           <div className="absolute inset-0 bg-black/60 z-10"></div>
