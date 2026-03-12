@@ -9,19 +9,8 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <PublicHeader />
       <main className="flex-grow">
-        <section className="relative h-[70vh] flex items-center justify-center text-center text-white overflow-hidden">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover"
-          >
-            <source src="/grok-video-ae51d75e-d66a-4d0e-8235-44d4938470e8.mp4" type="video/mp4" />
-            Seu navegador não suporta a tag de vídeo.
-          </video>
-          <div className="absolute inset-0 bg-black/60 z-10"></div>
-          <div className="relative z-20 max-w-3xl mx-auto px-4">
+        <section className="relative h-[70vh] flex items-center justify-center text-center text-white overflow-hidden bg-green-900">
+          <div className="relative z-10 max-w-3xl mx-auto px-4">
             <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
               Invista com confiança.
             </h1>
