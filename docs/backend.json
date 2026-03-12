@@ -302,6 +302,60 @@
         "completedLessons",
         "earnedBadges"
       ]
+    },
+    "FiiCvmReport": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "FiiCvmReport",
+      "type": "object",
+      "description": "Representa um informe mensal de um FII, padronizado a partir dos dados da CVM.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID único do relatório, formato CNPJ-YYYY-MM."
+        },
+        "cnpj": {
+          "type": "string",
+          "description": "CNPJ do fundo."
+        },
+        "nomeFundo": {
+          "type": "string",
+          "description": "Denominação social do fundo."
+        },
+        "dataReferencia": {
+          "type": "string",
+          "description": "Data de competência do informe (YYYY-MM-DD)."
+        },
+        "patrimonioLiquido": {
+          "type": "number",
+          "description": "Valor do patrimônio líquido do fundo."
+        },
+        "valorPatrimonialCota": {
+          "type": "number",
+          "description": "Valor patrimonial da cota."
+        },
+        "quantidadeCotas": {
+          "type": "number",
+          "description": "Número total de cotas emitidas."
+        },
+        "rendimentosMes": {
+          "type": "number",
+          "description": "Valor do rendimento distribuído por cota no mês."
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp da última atualização do registro."
+        }
+      },
+      "required": [
+        "id",
+        "cnpj",
+        "nomeFundo",
+        "dataReferencia",
+        "patrimonioLiquido",
+        "valorPatrimonialCota",
+        "quantidadeCotas"
+      ]
     }
   },
   "auth": {
@@ -423,10 +477,24 @@
             }
           ]
         }
+      },
+      {
+        "path": "/fii-reports-cvm/{reportId}",
+        "definition": {
+          "entityName": "FiiCvmReport",
+          "schema": {
+            "$ref": "#/backend/entities/FiiCvmReport"
+          },
+          "description": "Armazena relatórios mensais de FIIs, tratados e importados da CVM. O ID é composto por CNPJ-ANO-MÊS para garantir unicidade.",
+          "params": [
+            {
+              "name": "reportId",
+              "description": "O identificador único do relatório (ex: 12345678000190-2024-07)."
+            }
+          ]
+        }
       }
     ],
     "reasoning": "The Firestore data structure is designed to support the SafeStart Invest platform, focusing on user profiles, investment portfolios, educational content, and AI-driven recommendations. It prioritizes authorization independence, clear access patterns, and scalability.\n\n**Authorization Independence & QAPs:**\n\n*   User-owned data (UserProfile, InvestmentPortfolio, NextStepRecommendation) is stored under `/users/{userId}` collections. This leverages path-based authorization, eliminating the need for `get()` calls in security rules and enabling atomic operations. This structure inherently supports QAPs by allowing secure listing of user-specific data without complex filtering.\n*   EducationalTrail and BlogArticle collections are top-level, implying public read access. Segregation ensures different security postures are not mixed, simplifying security rules.\n\n**Structure Overview:**\n\n*   `/users/{userId}/userProfiles/{profileId}`: Stores user profile information. The `userId` in the path ensures that only the authenticated user can access their profile. Since the userId is available in the path there is no need to store it in the document itself.\n*   `/users/{userId}/investmentPortfolios/{portfolioId}`: Stores investment portfolios owned by a specific user. The `userId` in the path guarantees ownership, enabling secure listing. The `portfolioId` is used to uniquely identify each portfolio.\n*   `/users/{userId}/investmentPortfolios/{portfolioId}/nextStepRecommendations/{recommendationId}`: Stores AI-generated next-step recommendations for a specific portfolio. The nested structure under `/users/{userId}/investmentPortfolios/{portfolioId}` ensures that only the owner of the portfolio can access these recommendations. This maintains the hierarchical ownership and simplifies security rules.\n*   `/educationalTrails/{educationalTrailId}`: Stores educational trails available to all users. This is a top-level collection for globally accessible data.\n*   `/blogArticles/{blogArticleId}`: Stores blog articles accessible to all users. This is a top-level collection for globally accessible data."
   }
 }
-
-    
