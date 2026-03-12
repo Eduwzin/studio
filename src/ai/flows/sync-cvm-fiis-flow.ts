@@ -1,19 +1,21 @@
 'use server';
 /**
- * @fileoverview Fluxo para importar dados de FIIs da CVM a partir de um arquivo CSV local.
+ * @fileoverview Fluxo para importar dados de FIIs da CVM a partir de um arquivo ZIP no Cloud Storage.
  *
  * - syncCvmFiis - Função principal que orquestra o processo de importação.
+ * - SyncCvmFiisInput - O tipo de entrada para o fluxo (bucket e nome do arquivo).
+ * - SyncCvmFiisOutput - O tipo de saída, com o status da operação.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import fs from 'fs';
-import path from 'path';
 import Papa from 'papaparse';
 import type { FieldValue } from 'firebase-admin/firestore';
 
+// Define o novo schema de entrada, esperando o bucket e o nome do arquivo do GCS
 const SyncCvmFiisInputSchema = z.object({
-  filename: z.string().describe('O nome do arquivo CSV a ser importado da pasta `src/data/cvm-reports`.'),
+  bucket: z.string().describe('O nome do bucket do Cloud Storage onde o arquivo está.'),
+  file: z.string().describe('O caminho completo para o arquivo ZIP dentro do bucket.'),
 });
 
 const SyncCvmFiisOutputSchema = z.object({
@@ -37,12 +39,28 @@ type FiiCvmData = {
   lastUpdated: FieldValue; // Firestore FieldValue
 };
 
-function readLocalCsvFile(filename: string): string {
-  const filePath = path.join(process.cwd(), 'src/data/cvm-reports', filename);
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`Arquivo não encontrado: ${filename}. Certifique-se de que ele está na pasta 'src/data/cvm-reports'.`);
-  }
-  return fs.readFileSync(filePath, 'latin1'); // CVM files use latin1 encoding
+async function downloadAndExtractCsv(bucketName: string, filePath: string): Promise<string> {
+    const { Storage } = await import('@google-cloud/storage');
+    const storage = new Storage();
+    const JSZip = (await import('jszip')).default;
+
+    console.log(`Baixando arquivo ${filePath} do bucket ${bucketName}...`);
+    
+    // O download retorna um array com o Buffer
+    const [zipBuffer] = await storage.bucket(bucketName).file(filePath).download();
+    
+    console.log('Arquivo ZIP baixado. Extraindo conteúdo...');
+    const zip = await JSZip.loadAsync(zipBuffer);
+    
+    const csvFileName = Object.keys(zip.files).find(name => name.toLowerCase().endsWith('.csv'));
+    
+    if (!csvFileName) {
+        throw new Error('Nenhum arquivo CSV encontrado no ZIP.');
+    }
+    
+    console.log(`Arquivo CSV encontrado: ${csvFileName}. Lendo conteúdo...`);
+    const csvContent = await zip.files[csvFileName].async('string');
+    return csvContent;
 }
 
 function parseCsvContent(csvContent: string): any[] {
@@ -56,7 +74,6 @@ function parseCsvContent(csvContent: string): any[] {
   if (errors.length > 0) {
     console.warn('Erros de parsing no CSV:', errors);
   }
-
   return data;
 }
 
@@ -125,23 +142,13 @@ const syncCvmFiisFlow = ai.defineFlow(
     inputSchema: SyncCvmFiisInputSchema,
     outputSchema: SyncCvmFiisOutputSchema,
   },
-  async ({ filename }) => {
+  async ({ bucket, file }) => {
     try {
-      console.log(`Iniciando importação do arquivo local: ${filename}...`);
+      console.log(`Iniciando importação do arquivo: gs://${bucket}/${file}...`);
 
-      // Dynamically import admin SDK
-      const { initializeApp, getApps } = await import('firebase-admin/app');
-      const { getFirestore, FieldValue } = await import('firebase-admin/firestore');
+      const csvContent = await downloadAndExtractCsv(bucket, file);
+      console.log('Leitura e extração do arquivo CSV concluída.');
       
-      if (!getApps().length) {
-        initializeApp(); // Automatically uses env vars on Google Cloud
-      }
-
-      const db = getFirestore();
-      
-      const csvContent = readLocalCsvFile(filename);
-      console.log('Leitura do arquivo CSV local concluída.');
-
       const records = parseCsvContent(csvContent);
       if (records.length === 0) {
         return {
@@ -151,6 +158,15 @@ const syncCvmFiisFlow = ai.defineFlow(
         };
       }
       console.log(`${records.length} registros lidos do CSV.`);
+      
+      // Dynamically import admin SDK only when needed
+      const { initializeApp, getApps } = await import('firebase-admin/app');
+      const { getFirestore, FieldValue } = await import('firebase-admin/firestore');
+      
+      if (!getApps().length) {
+        initializeApp(); // Automatically uses env vars on Google Cloud
+      }
+      const db = getFirestore();
 
       const normalizedData = normalizeFiisData(records, FieldValue.serverTimestamp());
       console.log(`${normalizedData.length} registros padronizados.`);
@@ -160,7 +176,7 @@ const syncCvmFiisFlow = ai.defineFlow(
 
       return {
         status: 'SUCCESS',
-        message: `Importação do arquivo '${filename}' concluída com sucesso.`,
+        message: `Importação do arquivo '${file}' concluída com sucesso.`,
         importedCount,
       };
 

@@ -256,8 +256,23 @@ export async function getDailyNewsAction(
     return result.stories;
 }
 
-export async function syncCvmDataAction(input: SyncCvmFiisInput): Promise<SyncCvmFiisOutput> {
-  return syncCvmFiisFlow(input);
+// A ação do lado do cliente agora precisa de um input que corresponda ao fluxo.
+// Para fins de demonstração, podemos construir um input de teste aqui.
+// Em um aplicativo real, o cliente precisaria fornecer o bucket/arquivo correto.
+export async function syncCvmDataAction(input: { filename: string }): Promise<SyncCvmFiisOutput> {
+  
+  // AVISO: Isso é um mock para demonstração.
+  // Em produção, o 'input' viria do evento do GCS ou de uma configuração.
+  // O nome do bucket precisa ser criado no seu projeto Google Cloud.
+  const bucketName = 'seu-bucket-de-upload-aqui'; 
+
+  const flowInput: SyncCvmFiisInput = {
+    bucket: bucketName,
+    file: `inf_mensal_fii_geral_${input.filename}.zip`, // Assumindo um padrão de nomenclatura
+  };
+
+  // Esta chamada irá falhar se o bucket/arquivo não existir.
+  return syncCvmFiisFlow(flowInput);
 }
 
 
