@@ -233,7 +233,7 @@ export default function OnboardingPage() {
     );
   }
 
-  if (userProfile && userProfile.perfilDeInvestimento && !isEditing) {
+  if (userProfile && userProfile.perfilDeInvestimento?.avaliacaoDeRisco && !isEditing) {
     return (
       <div className="max-w-3xl mx-auto">
         <UserProfileDisplay profile={userProfile} onEdit={() => setIsEditing(true)} />
