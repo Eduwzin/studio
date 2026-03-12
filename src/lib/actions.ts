@@ -256,17 +256,8 @@ export async function getDailyNewsAction(
     return result.stories;
 }
 
-export async function syncCvmDataAction(input: { bucket: string; file: string }): Promise<SyncCvmFiisOutput> {
-  // O input agora vem diretamente do cliente com o nome do bucket e do arquivo.
-  // Isso permite ao usuário acionar o fluxo para qualquer arquivo em qualquer bucket
-  // que ele tenha acesso.
-  const flowInput: SyncCvmFiisInput = {
-    bucket: input.bucket,
-    file: input.file,
-  };
-
-  // Chama o fluxo Genkit com os parâmetros fornecidos.
-  return syncCvmFiisFlow(flowInput);
+export async function syncCvmDataAction(input: SyncCvmFiisInput): Promise<SyncCvmFiisOutput> {
+  return syncCvmFiisFlow(input);
 }
 
 

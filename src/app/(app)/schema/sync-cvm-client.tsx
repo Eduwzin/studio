@@ -9,14 +9,28 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { syncCvmDataAction } from '@/lib/actions';
-import { Loader2, AlertCircle, CheckCircle, RefreshCw } from 'lucide-react';
+import { Loader2, AlertCircle, CheckCircle, RefreshCw, Upload } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import type { SyncCvmFiisOutput } from '@/lib/actions';
 
 const formSchema = z.object({
-  bucket: z.string().min(3, { message: 'Por favor, insira um nome de bucket válido.' }),
-  file: z.string().min(5, { message: 'Por favor, insira um nome de arquivo válido (ex: nome.zip).' }).endsWith('.zip', { message: 'O arquivo deve ser um .zip' }),
+  file: z
+    .custom<FileList>()
+    .refine((files) => files?.length === 1, 'Por favor, selecione um arquivo.')
+    .refine((files) => files?.[0]?.type === 'application/zip' || files?.[0]?.type === 'application/x-zip-compressed', 'O arquivo deve ser um .zip.')
+    .refine((files) => files?.[0]?.size <= 10 * 1024 * 1024, 'O arquivo deve ter no máximo 10MB.'),
 });
+
+// Helper para ler o arquivo como Data URL (Base64)
+const readFileAsDataURL = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = (error) => reject(error);
+        reader.readAsDataURL(file);
+    });
+};
+
 
 export default function SyncCvmClient() {
   const [result, setResult] = useState<SyncCvmFiisOutput | null>(null);
@@ -25,23 +39,29 @@ export default function SyncCvmClient() {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-        bucket: '',
-        file: '',
-    }
   });
   
+  const fileRef = form.register("file");
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     setError(null);
     setResult(null);
 
     try {
-      const response = await syncCvmDataAction(values);
+      const file = values.file[0];
+      const fileContent = await readFileAsDataURL(file);
+
+      const response = await syncCvmDataAction({
+          fileName: file.name,
+          fileContent: fileContent,
+      });
+
       if (response.status === 'FAILED') {
         throw new Error(response.message);
       }
       setResult(response);
+      form.reset(); // Limpa o formulário após sucesso
     } catch (e: any) {
       setError(e.message || 'Ocorreu um erro desconhecido durante a sincronização.');
     } finally {
@@ -54,10 +74,10 @@ export default function SyncCvmClient() {
       <CardHeader>
         <CardTitle className="flex items-center gap-3">
             <RefreshCw />
-            Sincronizar Dados de FIIs da CVM (via GCS)
+            Sincronizar Dados de FIIs da CVM (via Upload)
         </CardTitle>
         <CardDescription>
-          Execute o fluxo de importação especificando o bucket do Google Cloud Storage e o nome do arquivo ZIP.
+          Faça o upload do arquivo .zip baixado do site da CVM para processar e salvar os dados no Firestore.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -65,25 +85,15 @@ export default function SyncCvmClient() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
-              name="bucket"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nome do Bucket no Cloud Storage</FormLabel>
-                  <FormControl>
-                    <Input placeholder="ex: meu-projeto-cvm-uploads" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name="file"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome do Arquivo .zip no Bucket</FormLabel>
+                  <FormLabel>Arquivo .zip da CVM</FormLabel>
                   <FormControl>
-                    <Input placeholder="ex: inf_mensal_fii_geral_202405.zip" {...field} />
+                    <div className="relative">
+                       <Input type="file" accept=".zip" {...fileRef} />
+                       <Upload className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

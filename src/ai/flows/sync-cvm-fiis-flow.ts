@@ -1,9 +1,9 @@
 'use server';
 /**
- * @fileoverview Fluxo para importar dados de FIIs da CVM a partir de um arquivo ZIP no Cloud Storage.
+ * @fileoverview Fluxo para importar dados de FIIs da CVM a partir de um arquivo ZIP enviado via upload.
  *
  * - syncCvmFiis - Função principal que orquestra o processo de importação.
- * - SyncCvmFiisInput - O tipo de entrada para o fluxo (bucket e nome do arquivo).
+ * - SyncCvmFiisInput - O tipo de entrada para o fluxo (nome do arquivo e conteúdo em Base64).
  * - SyncCvmFiisOutput - O tipo de saída, com o status da operação.
  */
 
@@ -12,10 +12,10 @@ import { z } from 'genkit';
 import Papa from 'papaparse';
 import type { FieldValue } from 'firebase-admin/firestore';
 
-// Define o novo schema de entrada, esperando o bucket e o nome do arquivo do GCS
+// Define o novo schema de entrada, esperando o conteúdo do arquivo
 const SyncCvmFiisInputSchema = z.object({
-  bucket: z.string().describe('O nome do bucket do Cloud Storage onde o arquivo está.'),
-  file: z.string().describe('O caminho completo para o arquivo ZIP dentro do bucket.'),
+  fileName: z.string().describe('O nome original do arquivo ZIP enviado.'),
+  fileContent: z.string().describe('O conteúdo do arquivo ZIP como uma string Data URL (Base64).'),
 });
 
 const SyncCvmFiisOutputSchema = z.object({
@@ -39,17 +39,13 @@ type FiiCvmData = {
   lastUpdated: FieldValue; // Firestore FieldValue
 };
 
-async function downloadAndExtractCsv(bucketName: string, filePath: string): Promise<string> {
-    const { Storage } = await import('@google-cloud/storage');
-    const storage = new Storage();
+async function extractCsvFromZip(fileContent: string): Promise<string> {
     const JSZip = (await import('jszip')).default;
 
-    console.log(`Baixando arquivo ${filePath} do bucket ${bucketName}...`);
+    // Converte a string Data URL (Base64) para um Buffer
+    const zipBuffer = Buffer.from(fileContent.substring(fileContent.indexOf(',') + 1), 'base64');
     
-    // O download retorna um array com o Buffer
-    const [zipBuffer] = await storage.bucket(bucketName).file(filePath).download();
-    
-    console.log('Arquivo ZIP baixado. Extraindo conteúdo...');
+    console.log('Arquivo ZIP carregado em memória. Extraindo conteúdo...');
     const zip = await JSZip.loadAsync(zipBuffer);
     
     const csvFileName = Object.keys(zip.files).find(name => name.toLowerCase().endsWith('.csv'));
@@ -142,12 +138,12 @@ const syncCvmFiisFlow = ai.defineFlow(
     inputSchema: SyncCvmFiisInputSchema,
     outputSchema: SyncCvmFiisOutputSchema,
   },
-  async ({ bucket, file }) => {
+  async ({ fileName, fileContent }) => {
     try {
-      console.log(`Iniciando importação do arquivo: gs://${bucket}/${file}...`);
+      console.log(`Iniciando importação do arquivo '${fileName}' via upload...`);
 
-      const csvContent = await downloadAndExtractCsv(bucket, file);
-      console.log('Leitura e extração do arquivo CSV concluída.');
+      const csvContent = await extractCsvFromZip(fileContent);
+      console.log('Extração do arquivo CSV do ZIP concluída.');
       
       const records = parseCsvContent(csvContent);
       if (records.length === 0) {
@@ -176,7 +172,7 @@ const syncCvmFiisFlow = ai.defineFlow(
 
       return {
         status: 'SUCCESS',
-        message: `Importação do arquivo '${file}' concluída com sucesso.`,
+        message: `Importação do arquivo '${fileName}' concluída com sucesso.`,
         importedCount,
       };
 
