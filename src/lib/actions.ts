@@ -322,5 +322,35 @@ export async function getFiiCvmReportByCnpj(cnpj: string): Promise<FiiCvmReport 
     }
 }
 
+export async function getWatchlistDetailsAction(tickers: string[]): Promise<StockInfo[]> {
+    if (!tickers || tickers.length === 0) {
+        return [];
+    }
+    
+    try {
+        // Use allSettled to prevent one failed ticker from rejecting the whole promise
+        const results = await Promise.allSettled(
+            tickers.map(ticker => getStockInfoService(ticker))
+        );
+        
+        const successfulResults: StockInfo[] = [];
+        results.forEach(result => {
+            if (result.status === 'fulfilled' && result.value) {
+                successfulResults.push(result.value);
+            } else if (result.status === 'rejected') {
+                console.warn(`Failed to fetch details for a ticker in watchlist:`, result.reason);
+            }
+        });
+
+        return successfulResults;
+
+    } catch (error) {
+        console.error("Failed to fetch watchlist details:", error);
+        return [];
+    }
+}
+
 
 export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory, SuggestAssetsOutput, AssetSuggestion, SyncCvmFiisInput, SyncCvmFiisOutput, FiiCvmReport };
+
+    

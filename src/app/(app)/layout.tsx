@@ -32,6 +32,7 @@ import {
   List,
   Rss,
   Database,
+  Star,
 } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { usePathname, useRouter } from "next/navigation";
@@ -43,6 +44,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const navItems = [
   { href: "/onboarding", icon: User, label: "Meu Perfil" },
+  { href: "/watchlist", icon: Star, label: "Watchlist" },
   { href: "/monitoramento", icon: ShieldCheck, label: "Minha Carteira" },
   { href: "/oportunidades", icon: TrendingUp, label: "Oportunidades" },
   { href: "/ativos", icon: List, label: "Ativos" },
@@ -167,3 +169,5 @@ function UserNav() {
     </DropdownMenu>
   );
 }
+
+    

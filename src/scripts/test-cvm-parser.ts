@@ -4,7 +4,7 @@ async function runTest() {
   console.log('Iniciando o teste de leitura do arquivo CVM...');
 
   // O caminho para o arquivo CSV, relativo à raiz do projeto.
-  const filePath = 'src/data/cvm-reports/inf_mensal_fii_complemento_2026.csv';
+  const filePath = 'src/data/cvm-reports/inf_mensal_fii_geral_2026.csv';
 
   try {
     const jsonData = await processCvmFiiFile(filePath);

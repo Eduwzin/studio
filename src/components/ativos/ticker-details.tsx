@@ -8,6 +8,7 @@ import { Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'; // Add CardDescription
 import { cn } from '@/lib/utils';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
+import WatchlistButton from '@/components/watchlist/WatchlistButton';
 
 const DetailItem = ({ label, value, subValue }: { label: string; value: React.ReactNode, subValue?: string }) => (
     <div className="flex justify-between items-center border-b py-3 last:border-none">
@@ -110,8 +111,11 @@ export default function TickerDetails({ ticker, sector, type }: { ticker: string
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card>
-                <CardHeader>
-                    <CardTitle className="text-lg">Dados da Empresa</CardTitle>
+                <CardHeader className="flex flex-row items-start justify-between">
+                    <div>
+                        <CardTitle className="text-lg">Dados da Empresa</CardTitle>
+                    </div>
+                    <WatchlistButton ticker={data.symbol} />
                 </CardHeader>
                 <CardContent className="text-sm">
                     <DetailItem label="Razão Social" value={data.longName} />
@@ -152,3 +156,5 @@ export default function TickerDetails({ ticker, sector, type }: { ticker: string
     </div>
   );
 }
+
+    
