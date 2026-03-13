@@ -207,32 +207,12 @@ export async function getStockInfo(ticker: string): Promise<StockInfo | null> {
     }
 }
 
-export async function getDailyNewsAction(
-    { userId, userAssets, forceRefresh = false }: { userId: string; userAssets: string; forceRefresh?: boolean }
+export async function generateNewsStoriesAction(
+    input: { userAssets: string }
 ): Promise<NewsStory[]> {
-    const db = getDb();
-    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-    const cacheRef = doc(db, 'users', userId, 'dailyNewsCache', today);
-
-    if (!forceRefresh) {
-        try {
-            const cacheSnap = await getDoc(cacheRef);
-            if (cacheSnap.exists()) {
-                const data = cacheSnap.data();
-                // Also check if the assets used for caching match the current user assets
-                if (data.stories && data.stories.length > 0 && data.userAssets === userAssets) {
-                     return data.stories;
-                }
-            }
-        } catch (error) {
-            console.error("Error reading from daily news cache:", error);
-            // Don't block, proceed to fetch fresh news
-        }
-    }
-
     const rawArticles = await getMarketNews(25);
     if (rawArticles.length === 0) {
-        return []; // Return empty if no news is fetched
+        return [];
     }
 
     const generateStoriesInput: GenerateStoriesInput = {
@@ -244,27 +224,14 @@ export async function getDailyNewsAction(
             source: a.source.name,
             publishedAt: a.publishedAt,
         })),
-        userAssets: userAssets,
+        userAssets: input.userAssets,
     };
 
     const result = await generateDailyNewsStoriesFlow(generateStoriesInput);
 
-    // Cache the result in Firestore for future requests
-    if (result.stories.length > 0) {
-        try {
-            await setDoc(cacheRef, { 
-                stories: result.stories, 
-                userAssets: userAssets, // Store the assets used for this cache
-                createdAt: new Date().toISOString() 
-            });
-        } catch(error) {
-             console.error("Error writing to daily news cache:", error);
-             // Don't block the user, just log the error
-        }
-    }
-
     return result.stories;
 }
+
 
 export async function syncCvmDataAction(input: SyncCvmFiisInput): Promise<SyncCvmFiisOutput> {
   // Client-side processing logic
@@ -432,51 +399,13 @@ export async function summarizeAssetPerformanceAction(input: SummarizeAssetPerfo
     return summarizeAssetPerformanceFlow(sortedInput);
 }
 
-export async function getWeeklyNewsSummaryAction({ userId }: { userId: string }): Promise<string> {
-    const db = getDb();
-    const allStories: NewsStory[] = [];
-    const today = new Date();
-
-    // Loop through the last 7 days
-    for (let i = 0; i < 7; i++) {
-        const date = new Date(today);
-        date.setDate(today.getDate() - i);
-        const dateString = date.toISOString().split('T')[0]; // YYYY-MM-DD
-        const cacheRef = doc(db, 'users', userId, 'dailyNewsCache', dateString);
-
-        try {
-            const cacheSnap = await getDoc(cacheRef);
-            if (cacheSnap.exists()) {
-                const data = cacheSnap.data();
-                if (data.stories && data.stories.length > 0) {
-                    allStories.push(...data.stories);
-                }
-            }
-        } catch (error) {
-            // Ignore errors for single day fetches, we just won't have news for that day
-            console.warn(`Could not fetch news for ${dateString}:`, error);
-        }
-    }
-
-    if (allStories.length === 0) {
+export async function generateWeeklySummaryAction(input: SummarizeWeeklyNewsInput): Promise<string> {
+    if (input.stories.length === 0) {
         return "Não foram encontradas notícias suficientes na última semana para gerar um resumo.";
     }
-
-    // Deduplicate stories based on URL, in case the same story appeared on different days
-    const uniqueStories = Array.from(new Map(allStories.map(story => [story.url, story])).values());
-
-    const inputForFlow: SummarizeWeeklyNewsInput = {
-        stories: uniqueStories.map(s => ({
-            title: s.title,
-            summary: s.summary,
-            whyItMatters: s.whyItMatters,
-            likelyImpact: s.likelyImpact,
-            topics: s.topics,
-        }))
-    };
     
     try {
-        const result = await summarizeWeeklyNewsFlow(inputForFlow);
+        const result = await summarizeWeeklyNewsFlow(input);
         return result.weeklySummary;
     } catch(e) {
         console.error("Failed to generate weekly summary:", e);

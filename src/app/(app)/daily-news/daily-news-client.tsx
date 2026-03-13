@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -17,10 +18,10 @@ import { CalendarRange, Clock, ExternalLink, RefreshCw, Rss, Sparkles } from 'lu
 import Link from 'next/link';
 import type { NewsStory } from '@/ai/flows/generate-daily-news-stories';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getDailyNewsAction, getWeeklyNewsSummaryAction } from '@/lib/actions';
+import { generateNewsStoriesAction, generateWeeklySummaryAction } from '@/lib/actions';
 import { Badge } from '@/components/ui/badge';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
-import { doc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, type Firestore } from 'firebase/firestore';
 
 const extractTickersFromString = (allocationString: string | undefined): string => {
   if (!allocationString) return '';
@@ -76,23 +77,57 @@ function NewsStoryCard({ story }: { story: NewsStory }) {
   );
 }
 
-function WeeklySummaryCard({ userId }: { userId: string | undefined }) {
+function WeeklySummaryCard({ userId, firestore }: { userId: string | undefined, firestore: Firestore | null }) {
   const [summary, setSummary] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!userId) {
+    if (!userId || !firestore) {
       setIsLoading(false);
       return;
     }
 
     const fetchSummary = async () => {
       setIsLoading(true);
+      const allStories: NewsStory[] = [];
+      const today = new Date();
+
+      const promises = [];
+      for (let i = 0; i < 7; i++) {
+        const date = new Date(today);
+        date.setDate(today.getDate() - i);
+        const dateString = date.toISOString().split('T')[0];
+        const cacheRef = doc(firestore, 'users', userId, 'dailyNewsCache', dateString);
+        promises.push(getDoc(cacheRef));
+      }
+
       try {
-        const result = await getWeeklyNewsSummaryAction({ userId });
+        const snapshots = await Promise.all(promises);
+        snapshots.forEach(snap => {
+          if (snap.exists()) {
+            const data = snap.data();
+            if (data.stories && data.stories.length > 0) {
+              allStories.push(...data.stories);
+            }
+          }
+        });
+
+        const uniqueStories = Array.from(new Map(allStories.map(story => [story.url, story])).values());
+
+        const inputForFlow = {
+            stories: uniqueStories.map(s => ({
+                title: s.title,
+                summary: s.summary,
+                whyItMatters: s.whyItMatters,
+                likelyImpact: s.likelyImpact,
+                topics: s.topics,
+            }))
+        };
+        
+        const result = await generateWeeklySummaryAction(inputForFlow);
         setSummary(result);
       } catch (e) {
-        console.error("Failed to fetch weekly summary:", e);
+        console.error("Failed to fetch or generate weekly summary:", e);
         setSummary("Não foi possível carregar o resumo da semana. Tente novamente mais tarde.");
       } finally {
         setIsLoading(false);
@@ -100,7 +135,7 @@ function WeeklySummaryCard({ userId }: { userId: string | undefined }) {
     };
 
     fetchSummary();
-  }, [userId]);
+  }, [userId, firestore]);
 
   return (
     <Card className="mt-12">
@@ -143,39 +178,65 @@ export default function DailyNewsClient({ initialNews }: {initialNews: NewsStory
   const firestore = useFirestore();
 
   const userProfileRef = useMemoFirebase(() => {
-    if (!user) return null;
+    if (!user || !firestore) return null;
     return doc(firestore, `users/${user.uid}/userProfiles/${user.uid}`);
   }, [user, firestore]);
 
   const { data: userProfile, isLoading: isLoadingProfile } = useDoc<any>(userProfileRef);
 
   const fetchNews = useCallback(async (forceRefresh = false) => {
-    // Wait for user and profile to be loaded
-    if (isUserLoading || isLoadingProfile) {
-      return;
-    }
-    // Although user is a dependency, we also need to explicitly check it's loaded.
-    if (!user) {
-        setIsLoading(false);
+    if (isUserLoading || isLoadingProfile || !user || !firestore) {
+        if (!user && !isUserLoading) {
+            setIsLoading(false);
+        }
         return;
     }
 
     setIsLoading(true);
+    const today = new Date().toISOString().split('T')[0];
+    const cacheRef = doc(firestore, 'users', user.uid, 'dailyNewsCache', today);
     const assets = extractTickersFromString(userProfile?.perfilDeInvestimento?.alocacaoDeAtivos);
-    try {
-      const refreshedNews = await getDailyNewsAction({
-        userId: user.uid,
-        userAssets: assets,
-        forceRefresh: forceRefresh,
-      });
-      setNews(refreshedNews);
-    } catch (e) {
-      console.error("Failed to fetch news:", e);
-      setNews([]); // Set to empty on error
-    } finally {
-      setIsLoading(false);
+
+    if (!forceRefresh) {
+        try {
+            const cacheSnap = await getDoc(cacheRef);
+            if (cacheSnap.exists()) {
+                const data = cacheSnap.data();
+                if (data.stories && data.stories.length > 0 && data.userAssets === assets) {
+                    setNews(data.stories);
+                    setIsLoading(false);
+                    return;
+                }
+            }
+        } catch (e) {
+            console.error("Error reading from news cache, fetching fresh news.", e);
+        }
     }
-  }, [user, userProfile, isLoadingProfile, isUserLoading]);
+
+    try {
+        const refreshedNews = await generateNewsStoriesAction({
+            userAssets: assets,
+        });
+        setNews(refreshedNews);
+
+        if (refreshedNews.length > 0) {
+            try {
+                await setDoc(cacheRef, {
+                    stories: refreshedNews,
+                    userAssets: assets,
+                    createdAt: new Date().toISOString()
+                });
+            } catch (e) {
+                console.error("Failed to write to news cache:", e);
+            }
+        }
+    } catch (e) {
+        console.error("Failed to fetch news:", e);
+        setNews([]);
+    } finally {
+        setIsLoading(false);
+    }
+  }, [user, firestore, userProfile, isLoadingProfile, isUserLoading]);
 
 
   useEffect(() => {
@@ -267,7 +328,7 @@ export default function DailyNewsClient({ initialNews }: {initialNews: NewsStory
           </div>
         </div>
       </div>
-      {user && <WeeklySummaryCard userId={user.uid} />}
+      {user && <WeeklySummaryCard userId={user.uid} firestore={firestore} />}
     </div>
   );
 }
