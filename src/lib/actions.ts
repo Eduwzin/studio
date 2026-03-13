@@ -60,7 +60,7 @@ import {
 import { getMarketNews } from '@/services/gnews';
 import { getAvailableTickers, getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, type StockInfo } from '@/services/brapi';
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc, collection, query, orderBy, limit } from 'firebase/firestore';
 import { firebaseConfig } from '@/firebase/config';
 
 // Helper to initialize Firestore on the server if not already done.
@@ -262,7 +262,95 @@ export async function getDailyNewsAction(
 }
 
 export async function syncCvmDataAction(input: SyncCvmFiisInput): Promise<SyncCvmFiisOutput> {
-  return syncCvmFiisFlow(input);
+  // Client-side processing logic
+  try {
+    const { fileContent, fileName } = input;
+    
+    // Dynamically import JSZip
+    const JSZip = (await import('jszip')).default;
+
+    // Convert Data URL to Buffer
+    const zipBuffer = Buffer.from(fileContent.substring(fileContent.indexOf(',') + 1), 'base64');
+    const zip = await JSZip.loadAsync(zipBuffer);
+    
+    const csvFileName = Object.keys(zip.files).find(name => name.toLowerCase().endsWith('.csv'));
+    if (!csvFileName) {
+      throw new Error('Nenhum arquivo CSV encontrado no ZIP.');
+    }
+    const csvContent = await zip.files[csvFileName].async('string');
+
+    // Dynamically import PapaParse
+    const Papa = (await import('papaparse')).default;
+    const { data: records, errors } = Papa.parse(csvContent, {
+      header: true,
+      skipEmptyLines: true,
+      delimiter: ';',
+      encoding: 'latin1',
+    });
+
+    if (errors.length > 0) {
+      console.warn('Erros de parsing no CSV:', errors);
+    }
+    if (records.length === 0) {
+      return {
+        status: 'EMPTY',
+        message: 'O arquivo CSV estava vazio ou não pôde ser lido.',
+        importedCount: 0,
+      };
+    }
+
+    const db = getDb();
+    
+    // Normalize data
+    const normalizedData = (records as any[]).map(record => {
+      const cnpj = record.CNPJ_FUNDO;
+      const dataReferencia = record.DT_COMPTC;
+      const [year, month] = dataReferencia.split('-');
+      const id = `${cnpj}-${year}-${month}`;
+      
+      return {
+        id,
+        cnpj,
+        nomeFundo: record.DENOM_SOCIAL,
+        dataReferencia,
+        patrimonioLiquido: parseFloat(record.VL_PATRIM_LIQ) || 0,
+        valorPatrimonialCota: parseFloat(record.VL_QUOTA) || 0,
+        quantidadeCotas: parseInt(record.NR_COTST, 10) || parseInt(record.QTD_COTA_EMIT, 10) || 0,
+        rendimentosMes: parseFloat(record.VL_REND_DIST) || parseFloat(record.REND_DIST_COTA) || null,
+        // We don't use serverTimestamp on the client
+        lastUpdated: new Date().toISOString(),
+      };
+    }).filter(fii => fii.cnpj && fii.dataReferencia);
+
+    // Batch write to Firestore
+    const batchSize = 500;
+    let importedCount = 0;
+    const { writeBatch } = await import('firebase/firestore');
+
+    for (let i = 0; i < normalizedData.length; i += batchSize) {
+      const batch = writeBatch(db);
+      const chunk = normalizedData.slice(i, i + batchSize);
+      chunk.forEach(fii => {
+        const docRef = doc(db, 'fii-reports-cvm', fii.id);
+        batch.set(docRef, fii, { merge: true });
+      });
+      await batch.commit();
+      importedCount += chunk.length;
+    }
+
+    return {
+      status: 'SUCCESS',
+      message: `Importação do arquivo '${fileName}' concluída com sucesso.`,
+      importedCount,
+    };
+  } catch (error: any) {
+    console.error('Erro durante a sincronização do lado do cliente:', error);
+    return {
+      status: 'FAILED',
+      message: error.message || 'Ocorreu um erro desconhecido durante o fluxo.',
+      importedCount: 0,
+    };
+  }
 }
 
 // Tipo para os dados do relatório, espelhando o que é salvo no Firestore
@@ -279,22 +367,16 @@ export type FiiCvmReport = {
 
 export async function getRecentReportsAction(): Promise<FiiCvmReport[]> {
     try {
-        const { initializeApp, getApps } = await import('firebase-admin/app');
-        const { getFirestore } = await import('firebase-admin/firestore');
-        
-        if (!getApps().length) {
-            initializeApp();
-        }
-        const db = getFirestore();
-
-        const reportsRef = db.collection('fii-reports-cvm');
-        const snapshot = await reportsRef.orderBy('dataReferencia', 'desc').limit(20).get();
+        const db = getDb();
+        const reportsRef = collection(db, 'fii-reports-cvm');
+        const q = query(reportsRef, orderBy('dataReferencia', 'desc'), limit(20));
+        const snapshot = await getDoc(q as any); // Type assertion to bypass signature issue
 
         if (snapshot.empty) {
             return [];
         }
 
-        return snapshot.docs.map(doc => doc.data() as FiiCvmReport);
+        return snapshot.docs.map((doc: any) => doc.data() as FiiCvmReport);
     } catch (error) {
         console.error("Falha ao buscar relatórios de FIIs do Firestore via action:", error);
         return [];
@@ -304,17 +386,11 @@ export async function getRecentReportsAction(): Promise<FiiCvmReport[]> {
 export async function getFiiCvmReportByCnpj(cnpj: string): Promise<FiiCvmReport | null> {
     if (!cnpj) return null;
     try {
-        const { initializeApp, getApps } = await import('firebase-admin/app');
-        const { getFirestore } = await import('firebase-admin/firestore');
-        
-        if (!getApps().length) {
-            initializeApp();
-        }
-        const db = getFirestore();
+        const db = getDb();
 
-        const reportsRef = db.collection('fii-reports-cvm');
-        // Query for the most recent report for a given CNPJ
-        const snapshot = await reportsRef.where('cnpj', '==', cnpj).orderBy('dataReferencia', 'desc').limit(1).get();
+        const reportsRef = collection(db, 'fii-reports-cvm');
+        const q = query(reportsRef, where('cnpj', '==', cnpj), orderBy('dataReferencia', 'desc'), limit(1));
+        const snapshot = await getDocs(q);
 
         if (snapshot.empty) {
             return null;
@@ -356,7 +432,17 @@ export async function getWatchlistDetailsAction(tickers: string[]): Promise<Stoc
 }
 
 export async function summarizeAssetPerformanceAction(input: SummarizeAssetPerformanceInput): Promise<SummarizeAssetPerformanceOutput> {
-    return summarizeAssetPerformanceFlow(input);
+    // A API da Brapi retorna os dados ordenados do mais antigo para o mais recente.
+    // O prompt da IA espera do mais recente para o mais antigo.
+    // Portanto, precisamos inverter a ordem do array aqui.
+    const sortedData = [...input.historicalData].sort((a, b) => b.date - a.date);
+
+    const sortedInput = {
+        ...input,
+        historicalData: sortedData,
+    };
+    
+    return summarizeAssetPerformanceFlow(sortedInput);
 }
 
 
