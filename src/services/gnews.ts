@@ -30,12 +30,14 @@ export async function getMarketNews(limit: number = 25): Promise<GNewsArticle[]>
     throw new Error('GNews API key is not configured.');
   }
   
-  // Parameters for top business headlines in Brazil
-  const topic = 'business';
+  // Query for relevant financial news in Brazil, sorted by most recent.
+  // Using the 'search' endpoint instead of 'top-headlines' for fresher results.
+  const query = encodeURIComponent('"mercado financeiro" OR "ibovespa" OR "ações" OR "economia" OR "selic" OR "inflação"');
   const lang = 'pt';
   const country = 'br';
+  const sortby = 'publishedAt'; // Sort by newest first
 
-  const url = `${GNEWS_API_BASE_URL}/top-headlines?topic=${topic}&lang=${lang}&country=${country}&max=${limit}&apikey=${GNEWS_API_KEY}`;
+  const url = `${GNEWS_API_BASE_URL}/search?q=${query}&lang=${lang}&country=${country}&max=${limit}&sortby=${sortby}&apikey=${GNEWS_API_KEY}`;
 
   try {
     const response = await fetch(url, { cache: 'no-store' }); // Always fetch fresh data
