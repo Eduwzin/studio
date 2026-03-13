@@ -63,9 +63,6 @@ const weeklyNewsSummaryFlow = ai.defineFlow(
     outputSchema: SummarizeWeeklyNewsOutputSchema,
   },
   async (input) => {
-    if (input.stories.length === 0) {
-        return { weeklySummary: "Não houve notícias suficientes na última semana para gerar um resumo." };
-    }
     const { output } = await weeklyNewsSummaryPrompt(input);
     if (!output) {
       throw new Error('A IA não conseguiu gerar um resumo semanal.');
@@ -73,3 +70,5 @@ const weeklyNewsSummaryFlow = ai.defineFlow(
     return output;
   }
 );
+
+    

@@ -77,23 +77,42 @@ function NewsStoryCard({ story }: { story: NewsStory }) {
   );
 }
 
-function WeeklySummaryCard({ userId, firestore }: { userId: string | undefined, firestore: Firestore | null }) {
+function WeeklySummaryCard({
+  userId,
+  firestore,
+  todaysNews,
+  isTodaysNewsLoading,
+}: {
+  userId: string | undefined;
+  firestore: Firestore | null;
+  todaysNews: NewsStory[];
+  isTodaysNewsLoading: boolean;
+}) {
   const [summary, setSummary] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isSummaryLoading, setIsSummaryLoading] = useState(true);
+
+  const overallIsLoading = isTodaysNewsLoading || isSummaryLoading;
 
   useEffect(() => {
     if (!userId || !firestore) {
-      setIsLoading(false);
+      setIsSummaryLoading(false);
+      return;
+    }
+    
+    // Don't start fetching summary until the daily news loading is complete.
+    if (isTodaysNewsLoading) {
       return;
     }
 
     const fetchSummary = async () => {
-      setIsLoading(true);
-      const allStories: NewsStory[] = [];
+      setIsSummaryLoading(true);
+      // Start with today's news, which is already provided as a prop
+      const allStories: NewsStory[] = [...todaysNews];
       const today = new Date();
 
       const promises = [];
-      for (let i = 0; i < 7; i++) {
+      // Fetch news for the previous 6 days from cache
+      for (let i = 1; i < 7; i++) {
         const date = new Date(today);
         date.setDate(today.getDate() - i);
         const dateString = date.toISOString().split('T')[0];
@@ -111,31 +130,38 @@ function WeeklySummaryCard({ userId, firestore }: { userId: string | undefined, 
             }
           }
         });
-
+        
+        // Remove duplicate stories based on URL
         const uniqueStories = Array.from(new Map(allStories.map(story => [story.url, story])).values());
+        
+        if (uniqueStories.length === 0) {
+          setSummary("Ainda não há notícias para gerar o resumo. Volte amanhã!");
+          setIsSummaryLoading(false);
+          return;
+        }
 
         const inputForFlow = {
-            stories: uniqueStories.map(s => ({
-                title: s.title,
-                summary: s.summary,
-                whyItMatters: s.whyItMatters,
-                likelyImpact: s.likelyImpact,
-                topics: s.topics,
-            }))
+          stories: uniqueStories.map(s => ({
+            title: s.title,
+            summary: s.summary,
+            whyItMatters: s.whyItMatters,
+            likelyImpact: s.likelyImpact,
+            topics: s.topics,
+          })),
         };
-        
+
         const result = await generateWeeklySummaryAction(inputForFlow);
         setSummary(result);
       } catch (e) {
         console.error("Failed to fetch or generate weekly summary:", e);
         setSummary("Não foi possível carregar o resumo da semana. Tente novamente mais tarde.");
       } finally {
-        setIsLoading(false);
+        setIsSummaryLoading(false);
       }
     };
 
     fetchSummary();
-  }, [userId, firestore]);
+  }, [userId, firestore, todaysNews, isTodaysNewsLoading]);
 
   return (
     <Card className="mt-12">
@@ -149,7 +175,7 @@ function WeeklySummaryCard({ userId, firestore }: { userId: string | undefined, 
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {isLoading ? (
+        {overallIsLoading ? (
           <div className="space-y-3">
             <Skeleton className="h-4 w-full" />
             <Skeleton className="h-4 w-full" />
@@ -328,7 +354,16 @@ export default function DailyNewsClient({ initialNews }: {initialNews: NewsStory
           </div>
         </div>
       </div>
-      {user && <WeeklySummaryCard userId={user.uid} firestore={firestore} />}
+      {user && (
+        <WeeklySummaryCard
+          userId={user.uid}
+          firestore={firestore}
+          todaysNews={news}
+          isTodaysNewsLoading={isLoading}
+        />
+      )}
     </div>
   );
 }
+
+    

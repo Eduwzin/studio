@@ -400,10 +400,6 @@ export async function summarizeAssetPerformanceAction(input: SummarizeAssetPerfo
 }
 
 export async function generateWeeklySummaryAction(input: SummarizeWeeklyNewsInput): Promise<string> {
-    if (input.stories.length === 0) {
-        return "Não foram encontradas notícias suficientes na última semana para gerar um resumo.";
-    }
-    
     try {
         const result = await summarizeWeeklyNewsFlow(input);
         return result.weeklySummary;
@@ -415,3 +411,5 @@ export async function generateWeeklySummaryAction(input: SummarizeWeeklyNewsInpu
 
 
 export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory, SuggestAssetsOutput, AssetSuggestion, SyncCvmFiisInput, SyncCvmFiisOutput, FiiCvmReport, SummarizeAssetPerformanceInput, SummarizeAssetPerformanceOutput, SummarizeWeeklyNewsInput, SummarizeWeeklyNewsOutput };
+
+    
