@@ -5,60 +5,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
-import { getWatchlistDetailsAction, summarizeAssetPerformanceAction } from '@/lib/actions';
+import { getWatchlistDetailsAction } from '@/lib/actions';
 import type { StockInfo } from '@/services/brapi';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Loader2, Star, TrendingUp, TrendingDown, Info } from 'lucide-react';
 import WatchlistButton from '@/components/watchlist/WatchlistButton';
 import { cn } from '@/lib/utils';
-import { Skeleton } from '@/components/ui/skeleton';
-
-function AssetSummary({ asset }: { asset: StockInfo }) {
-  const [summary, setSummary] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const generateSummary = async () => {
-      if (!asset.historicalDataPrice || asset.historicalDataPrice.length === 0) {
-        setSummary('Dados históricos não disponíveis.');
-        setLoading(false);
-        return;
-      }
-      
-      setLoading(true);
-      try {
-        const result = await summarizeAssetPerformanceAction({
-          ticker: asset.symbol,
-          historicalData: asset.historicalDataPrice.map(p => ({ date: p.date, close: p.close })),
-        });
-        setSummary(result.summary);
-      } catch (e) {
-        console.error("Failed to generate summary for", asset.symbol, e);
-        setSummary('Não foi possível gerar o resumo.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    generateSummary();
-  }, [asset]);
-
-  if (loading) {
-    return <Skeleton className="h-4 w-full mt-2" />;
-  }
-  
-  if (!summary) {
-    return null;
-  }
-
-  return (
-    <p className="text-sm text-muted-foreground mt-2 italic">
-      <span className="font-bold not-italic text-primary">IA:</span> "{summary}"
-    </p>
-  );
-}
-
 
 function WatchlistItemCard({ asset }: { asset: StockInfo }) {
   const isPositive = (asset.regularMarketChangePercent ?? 0) >= 0;
@@ -95,7 +48,6 @@ function WatchlistItemCard({ asset }: { asset: StockInfo }) {
                 </p>
             </div>
         </div>
-        <AssetSummary asset={asset} />
       </CardContent>
     </Card>
   );
