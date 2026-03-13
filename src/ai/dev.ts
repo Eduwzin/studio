@@ -1,4 +1,4 @@
-
+'
 import { config } from 'dotenv';
 config();
 
@@ -15,3 +15,4 @@ import '@/ai/flows/chat-with-market-analyst.ts';
 import '@/ai/flows/generate-daily-news-stories.ts';
 import '@/ai/flows/sync-cvm-fiis-flow.ts';
 import '@/ai/flows/summarize-asset-performance.ts';
+import '@/ai/flows/summarize-weekly-news.ts';

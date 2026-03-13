@@ -48,6 +48,11 @@ import {
   type NewsStory,
 } from '@/ai/flows/generate-daily-news-stories';
 import {
+  summarizeWeeklyNews as summarizeWeeklyNewsFlow,
+  type SummarizeWeeklyNewsInput,
+  type SummarizeWeeklyNewsOutput,
+} from '@/ai/flows/summarize-weekly-news';
+import {
   syncCvmFiis as syncCvmFiisFlow,
   type SyncCvmFiisInput,
   type SyncCvmFiisOutput,
@@ -60,7 +65,7 @@ import {
 import { getMarketNews } from '@/services/gnews';
 import { getAvailableTickers, getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, type StockInfo } from '@/services/brapi';
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore, doc, getDoc, setDoc, collection, query, orderBy, limit } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc, collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 import { firebaseConfig } from '@/firebase/config';
 
 // Helper to initialize Firestore on the server if not already done.
@@ -365,24 +370,6 @@ export type FiiCvmReport = {
   rendimentosMes: number | null;
 };
 
-export async function getRecentReportsAction(): Promise<FiiCvmReport[]> {
-    try {
-        const db = getDb();
-        const reportsRef = collection(db, 'fii-reports-cvm');
-        const q = query(reportsRef, orderBy('dataReferencia', 'desc'), limit(20));
-        const snapshot = await getDoc(q as any); // Type assertion to bypass signature issue
-
-        if (snapshot.empty) {
-            return [];
-        }
-
-        return snapshot.docs.map((doc: any) => doc.data() as FiiCvmReport);
-    } catch (error) {
-        console.error("Falha ao buscar relatórios de FIIs do Firestore via action:", error);
-        return [];
-    }
-}
-
 export async function getFiiCvmReportByCnpj(cnpj: string): Promise<FiiCvmReport | null> {
     if (!cnpj) return null;
     try {
@@ -445,7 +432,57 @@ export async function summarizeAssetPerformanceAction(input: SummarizeAssetPerfo
     return summarizeAssetPerformanceFlow(sortedInput);
 }
 
+export async function getWeeklyNewsSummaryAction({ userId }: { userId: string }): Promise<string> {
+    const db = getDb();
+    const allStories: NewsStory[] = [];
+    const today = new Date();
 
-export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory, SuggestAssetsOutput, AssetSuggestion, SyncCvmFiisInput, SyncCvmFiisOutput, FiiCvmReport, SummarizeAssetPerformanceInput, SummarizeAssetPerformanceOutput };
+    // Loop through the last 7 days
+    for (let i = 0; i < 7; i++) {
+        const date = new Date(today);
+        date.setDate(today.getDate() - i);
+        const dateString = date.toISOString().split('T')[0]; // YYYY-MM-DD
+        const cacheRef = doc(db, 'users', userId, 'dailyNewsCache', dateString);
 
+        try {
+            const cacheSnap = await getDoc(cacheRef);
+            if (cacheSnap.exists()) {
+                const data = cacheSnap.data();
+                if (data.stories && data.stories.length > 0) {
+                    allStories.push(...data.stories);
+                }
+            }
+        } catch (error) {
+            // Ignore errors for single day fetches, we just won't have news for that day
+            console.warn(`Could not fetch news for ${dateString}:`, error);
+        }
+    }
+
+    if (allStories.length === 0) {
+        return "Não foram encontradas notícias suficientes na última semana para gerar um resumo.";
+    }
+
+    // Deduplicate stories based on URL, in case the same story appeared on different days
+    const uniqueStories = Array.from(new Map(allStories.map(story => [story.url, story])).values());
+
+    const inputForFlow: SummarizeWeeklyNewsInput = {
+        stories: uniqueStories.map(s => ({
+            title: s.title,
+            summary: s.summary,
+            whyItMatters: s.whyItMatters,
+            likelyImpact: s.likelyImpact,
+            topics: s.topics,
+        }))
+    };
     
+    try {
+        const result = await summarizeWeeklyNewsFlow(inputForFlow);
+        return result.weeklySummary;
+    } catch(e) {
+        console.error("Failed to generate weekly summary:", e);
+        return "Ocorreu um erro ao gerar o resumo da semana. Tente novamente mais tarde.";
+    }
+}
+
+
+export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory, SuggestAssetsOutput, AssetSuggestion, SyncCvmFiisInput, SyncCvmFiisOutput, FiiCvmReport, SummarizeAssetPerformanceInput, SummarizeAssetPerformanceOutput, SummarizeWeeklyNewsInput, SummarizeWeeklyNewsOutput };

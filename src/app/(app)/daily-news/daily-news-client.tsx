@@ -1,4 +1,4 @@
-'use client';
+''use client';
 
 import { useState, useEffect, useCallback } from 'react';
 import {
@@ -13,18 +13,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { format, formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Clock, ExternalLink, RefreshCw, Rss } from 'lucide-react';
+import { CalendarRange, Clock, ExternalLink, RefreshCw, Rss, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import type { NewsStory } from '@/ai/flows/generate-daily-news-stories';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getDailyNewsAction } from '@/lib/actions';
+import { getDailyNewsAction, getWeeklyNewsSummaryAction } from '@/lib/actions';
 import { Badge } from '@/components/ui/badge';
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
-
-type DailyNewsClientProps = {
-  initialNews: NewsStory[];
-};
 
 const extractTickersFromString = (allocationString: string | undefined): string => {
   if (!allocationString) return '';
@@ -79,6 +75,62 @@ function NewsStoryCard({ story }: { story: NewsStory }) {
     </Card>
   );
 }
+
+function WeeklySummaryCard({ userId }: { userId: string | undefined }) {
+  const [summary, setSummary] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!userId) {
+      setIsLoading(false);
+      return;
+    }
+
+    const fetchSummary = async () => {
+      setIsLoading(true);
+      try {
+        const result = await getWeeklyNewsSummaryAction({ userId });
+        setSummary(result);
+      } catch (e) {
+        console.error("Failed to fetch weekly summary:", e);
+        setSummary("Não foi possível carregar o resumo da semana. Tente novamente mais tarde.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchSummary();
+  }, [userId]);
+
+  return (
+    <Card className="mt-12">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-3">
+          <CalendarRange className="text-primary" />
+          Resumo da Semana
+        </CardTitle>
+        <CardDescription>
+          Uma análise dos principais acontecimentos dos últimos 7 dias, gerada por IA.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        {isLoading ? (
+          <div className="space-y-3">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-5/6" />
+          </div>
+        ) : (
+          <div className="flex items-start gap-3 text-muted-foreground">
+            <Sparkles className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+            <p className="text-sm whitespace-pre-line">{summary}</p>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
 
 export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
   const [news, setNews] = useState(initialNews);
@@ -215,6 +267,7 @@ export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
           </div>
         </div>
       </div>
+      {user && <WeeklySummaryCard userId={user.uid} />}
     </div>
   );
 }
