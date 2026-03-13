@@ -1,4 +1,4 @@
-''use client';
+'use client';
 
 import { useState, useEffect, useCallback } from 'react';
 import {
@@ -132,7 +132,7 @@ function WeeklySummaryCard({ userId }: { userId: string | undefined }) {
 }
 
 
-export default function DailyNewsClient({ initialNews }: DailyNewsClientProps) {
+export default function DailyNewsClient({ initialNews }: {initialNews: NewsStory[]}) {
   const [news, setNews] = useState(initialNews);
   const [isLoading, setIsLoading] = useState(true);
   const [api, setApi] = useState<CarouselApi>();

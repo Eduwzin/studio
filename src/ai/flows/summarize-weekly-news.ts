@@ -1,4 +1,4 @@
-''use server';
+'use server';
 /**
  * @fileOverview This file defines a Genkit flow that analyzes a week's worth of
  * news stories and generates a concise weekly summary for an investor.
