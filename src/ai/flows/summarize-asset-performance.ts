@@ -40,9 +40,9 @@ Sua tarefa é analisar o histórico de preços de fechamento de um ativo e gerar
 
 REGRAS:
 1.  **Seja Conciso:** Crie uma única frase.
-2.  **Foco no Recente:** Analise a tendência geral do último mês (últimos 21 pregões) e a tendência mais imediata (últimos 2-3 pregões).
-3.  **Use Linguagem Natural:** Exemplo: "Em alta de 5% no mês, mas perdeu força nos últimos 2 dias." ou "Estável no mês, com leve queda hoje." ou "Em forte queda de 10% nas últimas semanas.".
-4.  **Calcule as Variações:** Baseie sua análise em cálculos percentuais a partir dos dados fornecidos. O primeiro item da lista é o mais recente.
+2.  **Foco no Desempenho:** Analise a tendência geral dos últimos 30 dias e a tendência mais recente dos últimos 5 dias. Não mencione o número de pregões ou dias exatos, foque nos períodos (mês/semana).
+3.  **Use Linguagem Natural e Simplificada:** Exemplo: "Em alta de 21% no mês, com leve crescimento nos últimos dias." ou "Estável no último mês, mas com queda recente." ou "Em forte queda de 10% no mês.".
+4.  **Calcule as Variações:** Baseie sua análise em cálculos percentuais a partir dos dados fornecidos. O primeiro item da lista é o mais recente. O histórico contém dados diários. Para o mês, compare o preço atual com o de ~30 dias atrás. Para a semana, com o de ~5 dias atrás.
 
 Dados do Ativo:
 - Ticker: {{ticker}}
