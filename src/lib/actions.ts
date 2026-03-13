@@ -52,6 +52,11 @@ import {
   type SyncCvmFiisInput,
   type SyncCvmFiisOutput,
 } from '@/ai/flows/sync-cvm-fiis-flow';
+import {
+  summarizeAssetPerformance as summarizeAssetPerformanceFlow,
+  type SummarizeAssetPerformanceInput,
+  type SummarizeAssetPerformanceOutput,
+} from '@/ai/flows/summarize-asset-performance';
 import { getMarketNews } from '@/services/gnews';
 import { getAvailableTickers, getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, type StockInfo } from '@/services/brapi';
 import { initializeApp, getApps, getApp } from 'firebase/app';
@@ -350,7 +355,11 @@ export async function getWatchlistDetailsAction(tickers: string[]): Promise<Stoc
     }
 }
 
+export async function summarizeAssetPerformanceAction(input: SummarizeAssetPerformanceInput): Promise<SummarizeAssetPerformanceOutput> {
+    return summarizeAssetPerformanceFlow(input);
+}
 
-export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory, SuggestAssetsOutput, AssetSuggestion, SyncCvmFiisInput, SyncCvmFiisOutput, FiiCvmReport };
+
+export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory, SuggestAssetsOutput, AssetSuggestion, SyncCvmFiisInput, SyncCvmFiisOutput, FiiCvmReport, SummarizeAssetPerformanceInput, SummarizeAssetPerformanceOutput };
 
     
