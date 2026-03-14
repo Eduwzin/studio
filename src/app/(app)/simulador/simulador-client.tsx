@@ -22,6 +22,7 @@ import {
   ResponsiveContainer,
   ComposedChart,
   Area,
+  CartesianGrid,
 } from 'recharts';
 import { cn } from '@/lib/utils';
 import { Calculator } from 'lucide-react';
