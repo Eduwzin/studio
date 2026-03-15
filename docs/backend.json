@@ -10,6 +10,18 @@
           "type": "string",
           "description": "Identificador único para o perfil do usuário, correspondente ao UID do Firebase Auth."
         },
+        "plan": {
+          "type": "string",
+          "description": "O plano de assinatura do usuário.",
+          "enum": ["starter", "pro", "enterprise"],
+          "default": "starter"
+        },
+        "accountType": {
+          "type": "string",
+          "description": "O tipo de conta do usuário.",
+          "enum": ["user", "company"],
+          "default": "user"
+        },
         "informacoesPessoais": {
           "type": "object",
           "description": "Informações pessoais do usuário.",
@@ -80,12 +92,7 @@
               "type": "object",
               "description": "Um resumo das respostas do usuário ao questionário de onboarding."
             }
-          },
-          "required": [
-            "avaliacaoDeRisco",
-            "estrategiaDeInvestimento",
-            "alocacaoDeAtivos"
-          ]
+          }
         },
         "watchlist": {
           "type": "array",
@@ -97,8 +104,9 @@
       },
       "required": [
         "id",
-        "informacoesPessoais",
-        "perfilDeInvestimento"
+        "plan",
+        "accountType",
+        "informacoesPessoais"
       ]
     },
     "InvestmentPortfolio": {
@@ -363,6 +371,82 @@
         "valorPatrimonialCota",
         "quantidadeCotas"
       ]
+    },
+    "Company": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Company",
+      "type": "object",
+      "description": "Represents a B2B company account on the platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the company."
+        },
+        "companyName": {
+          "type": "string",
+          "description": "The name of the company."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Contact email for the company."
+        },
+        "plan": {
+          "type": "string",
+          "enum": [
+            "enterprise"
+          ],
+          "description": "Subscription plan, always 'enterprise'."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date of company account creation."
+        }
+      },
+      "required": [
+        "id",
+        "companyName",
+        "email",
+        "plan",
+        "createdAt"
+      ]
+    },
+    "ClientPortfolioLink": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ClientPortfolioLink",
+      "type": "object",
+      "description": "Links a company to a client user's portfolio.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the link."
+        },
+        "companyId": {
+          "type": "string",
+          "description": "Reference to the Company."
+        },
+        "clientUserId": {
+          "type": "string",
+          "description": "Reference to the UserProfile."
+        },
+        "portfolioId": {
+          "type": "string",
+          "description": "Reference to the InvestmentPortfolio."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date when the link was created."
+        }
+      },
+      "required": [
+        "id",
+        "companyId",
+        "clientUserId",
+        "portfolioId",
+        "createdAt"
+      ]
     }
   },
   "auth": {
@@ -500,10 +584,44 @@
             }
           ]
         }
+      },
+      {
+        "path": "/companies/{companyId}",
+        "definition": {
+          "entityName": "Company",
+          "schema": {
+            "$ref": "#/backend/entities/Company"
+          },
+          "description": "Stores B2B company accounts.",
+          "params": [
+            {
+              "name": "companyId",
+              "description": "The unique identifier of the company."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/companies/{companyId}/clientLinks/{linkId}",
+        "definition": {
+          "entityName": "ClientPortfolioLink",
+          "schema": {
+            "$ref": "#/backend/entities/ClientPortfolioLink"
+          },
+          "description": "Stores links between companies and their clients' portfolios.",
+          "params": [
+            {
+              "name": "companyId",
+              "description": "The unique identifier of the company."
+            },
+            {
+              "name": "linkId",
+              "description": "The unique identifier of the client link."
+            }
+          ]
+        }
       }
     ],
     "reasoning": "The Firestore data structure is designed to support the SafeStart Invest platform, focusing on user profiles, investment portfolios, educational content, and AI-driven recommendations. It prioritizes authorization independence, clear access patterns, and scalability.\n\n**Authorization Independence & QAPs:**\n\n*   User-owned data (UserProfile, InvestmentPortfolio, NextStepRecommendation) is stored under `/users/{userId}` collections. This leverages path-based authorization, eliminating the need for `get()` calls in security rules and enabling atomic operations. This structure inherently supports QAPs by allowing secure listing of user-specific data without complex filtering.\n*   EducationalTrail and BlogArticle collections are top-level, implying public read access. Segregation ensures different security postures are not mixed, simplifying security rules.\n\n**Structure Overview:**\n\n*   `/users/{userId}/userProfiles/{profileId}`: Stores user profile information. The `userId` in the path ensures that only the authenticated user can access their profile. Since the userId is available in the path there is no need to store it in the document itself.\n*   `/users/{userId}/investmentPortfolios/{portfolioId}`: Stores investment portfolios owned by a specific user. The `userId` in the path guarantees ownership, enabling secure listing. The `portfolioId` is used to uniquely identify each portfolio.\n*   `/users/{userId}/investmentPortfolios/{portfolioId}/nextStepRecommendations/{recommendationId}`: Stores AI-generated next-step recommendations for a specific portfolio. The nested structure under `/users/{userId}/investmentPortfolios/{portfolioId}` ensures that only the owner of the portfolio can access these recommendations. This maintains the hierarchical ownership and simplifies security rules.\n*   `/educationalTrails/{educationalTrailId}`: Stores educational trails available to all users. This is a top-level collection for globally accessible data.\n*   `/blogArticles/{blogArticleId}`: Stores blog articles accessible to all users. This is a top-level collection for globally accessible data."
   }
 }
-
-    

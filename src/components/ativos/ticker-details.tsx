@@ -64,7 +64,7 @@ export default function TickerDetails({ ticker, sector, type }: { ticker: string
       setCvmData(null); // Reset CVM data on new ticker fetch
       const stockData = await getStockInfo(ticker);
       setData(stockData);
-      
+      console.log("STOCKDATA:", stockData)
       // If it's a FII (type 'fund') and we received a CNPJ, fetch the CVM report
       if (type === 'fund' && stockData?.cnpj) {
         const report = await getFiiCvmReportByCnpj(stockData.cnpj);

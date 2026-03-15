@@ -86,6 +86,8 @@ export default function SignupPage() {
 
             const initialProfileData = {
               id: user.uid,
+              plan: 'starter',
+              accountType: 'user',
               informacoesPessoais: {
                 email: values.email,
                 nome: firstName,
@@ -97,7 +99,8 @@ export default function SignupPage() {
                 avaliacaoDeRisco: '',
                 estrategiaDeInvestimento: '',
                 alocacaoDeAtivos: '',
-              }
+              },
+              createdAt: new Date().toISOString(),
             };
             
             // Salva os dados iniciais sem bloquear a interface. A próxima página (onboarding) irá mesclar os dados do perfil.
@@ -240,5 +243,3 @@ export default function SignupPage() {
     </div>
   );
 }
-
-    

@@ -34,6 +34,7 @@ import {
   Database,
   Star,
   Calculator,
+  CreditCard,
 } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { usePathname, useRouter } from "next/navigation";
@@ -53,6 +54,7 @@ const navItems = [
   { href: "/simulador", icon: Calculator, label: "Simulador" },
   { href: "/learn", icon: BookOpen, label: "Aprender" },
   { href: "/blog", icon: Newspaper, label: "Blog" },
+  { href: "/pricing", icon: CreditCard, label: "Planos" },
   { href: "/schema", icon: Database, label: "Estrutura do BD" },
 ];
 

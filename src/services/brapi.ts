@@ -1,5 +1,3 @@
-
-
 /**
  * @fileOverview Serviço para interagir com a API da Brapi para obter dados do mercado de ações.
  *
@@ -50,7 +48,7 @@ export async function getStockInfo(ticker: string, range: string = "1y", interva
     if (!BRAPI_API_TOKEN) {
       throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
     }
-    const url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}&range=${range}&interval=${interval}&fundamental=true&includeHistoricalData=true`;
+    const url = `${BRAPI_API_BASE_URL}/quote/${ticker}?token=${BRAPI_API_TOKEN}&range=${range}&interval=${interval}&fundamental=true&includeHistoricalData=true&modules=summaryProfile,financialData,defaultKeyStatistics`;
     const response = await fetch(url, { cache: 'no-store' });
 
     if (!response.ok) {
@@ -60,7 +58,7 @@ export async function getStockInfo(ticker: string, range: string = "1y", interva
     if (!data.results || data.results.length === 0) {
       throw new Error(`Nenhuma informação encontrada para o ticker: ${ticker}`);
     }
-
+    console.log("RESULT:", data.results)
     const result = data.results[0];
 
     const stockInfo: StockInfo = {
@@ -82,13 +80,13 @@ export async function getStockInfo(ticker: string, range: string = "1y", interva
       priceEarnings: result.priceEarnings,
       earningsPerShare: result.earningsPerShare,
       logourl: result.logourl,
-      priceToBook: result.priceToBook,
+      priceToBook: result.defaultKeyStatistics?.priceToBook,
       dividendYield: result.dividendYield,
-      bookValue: result.bookValue,
-      cnpj: result.cnpj,
+      bookValue: result.defaultKeyStatistics?.bookValue,
+      cnpj: result.summaryProfile?.cnpj,
       historicalDataPrice: result.historicalDataPrice,
     };
-
+    console.log("LOGANDO STOCKINFO:", stockInfo)
     return stockInfo;
   } catch (error) {
     console.error(`Falha ao buscar detalhes do ativo para ${ticker}:`, error);

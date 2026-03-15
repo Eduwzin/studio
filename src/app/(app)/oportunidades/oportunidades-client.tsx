@@ -12,6 +12,7 @@ import type { SuggestAssetsOutput, AssetSuggestion } from '@/lib/actions';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
+import ProFeatureGate from '@/components/pro-feature-gate';
 
 export default function OportunidadesClient() {
   const { user } = useUser();
@@ -21,7 +22,7 @@ export default function OportunidadesClient() {
     if (!user) return null;
     return doc(firestore, `users/${user.uid}/userProfiles/${user.uid}`);
   }, [user, firestore]);
-  const { data: userProfile, isLoading: isLoadingProfile } = useDoc(userProfileRef);
+  const { data: userProfile, isLoading: isLoadingProfile } = useDoc<any>(userProfileRef);
 
   const [suggestions, setSuggestions] = useState<SuggestAssetsOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -61,6 +62,21 @@ export default function OportunidadesClient() {
       setIsLoading(false);
     }
   };
+
+  if (isLoadingProfile) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (userProfile && userProfile.plan === 'starter') {
+    return <ProFeatureGate 
+              title="Oportunidades com IA"
+              description="Faça upgrade para o plano Pro para receber sugestões de ativos personalizadas, geradas por nossa IA com base no cenário de mercado e no seu perfil."
+           />;
+  }
 
   return (
     <div className="max-w-4xl mx-auto">

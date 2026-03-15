@@ -156,7 +156,10 @@ service cloud.firestore {
         allow get: if isOwner(userId);
         allow list: if isOwner(userId);
         allow create: if isOwner(userId) && hasValidUserProfileDataOnCreate(userId);
-        allow update: if isExistingOwner(userId) && hasValidUserProfileDataOnUpdate();
+        allow update: if isOwner(userId)
+                    && hasValidUserProfileDataOnUpdate()
+                    && request.resource.data.accountType == resource.data.accountType
+                    && (request.resource.data.plan == resource.data.plan || (resource.data.plan == 'starter' && request.resource.data.plan == 'pro'));
         allow delete: if isExistingOwner(userId);
       }
       
@@ -268,6 +271,27 @@ service cloud.firestore {
       allow get: if true;
       allow list: if true;
       allow write: if false;
+    }
+
+    // --------------------------------------------------------------------
+    // Company Data Rules (B2B)
+    // --------------------------------------------------------------------
+    /**
+     * @description Secures B2B company data. For now, all client access is disabled.
+     * @path /companies/{companyId}
+     * @principle Disables all client-side access to company data until the B2B dashboard is implemented with proper server-side authorization.
+     */
+    match /companies/{companyId} {
+      allow read, write: if false; 
+      
+      /**
+       * @description Secures links between companies and clients.
+       * @path /companies/{companyId}/clientLinks/{linkId}
+       * @principle Disables all client-side access.
+       */
+      match /clientLinks/{linkId} {
+        allow read, write: if false;
+      }
     }
   }
 }
