@@ -436,13 +436,14 @@ export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
         if (!BRAPI_API_TOKEN) {
             throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
         }
-        const url = `https://brapi.dev/api/v2/crypto/available?token=${BRAPI_API_TOKEN}`;
+        const url = `${BRAPI_API_BASE_URL}/v2/crypto/available?token=${BRAPI_API_TOKEN}`;
         const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache 24h
 
         if (!response.ok) {
             console.error(`Erro na API da Brapi para crypto: ${response.statusText}`);
             return [];
         }
+        
         const data = await response.json();
         
         return (data.coins || []).map((crypto: any) => ({
@@ -494,7 +495,7 @@ export async function getCryptoInfo(coin: string, currency: string = 'BRL'): Pro
         if (!BRAPI_API_TOKEN) {
             throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
         }
-        const url = `https://brapi.dev/api/v2/crypto?coin=${coin}&currency=${currency}&token=${BRAPI_API_TOKEN}`;
+        const url = `${BRAPI_API_BASE_URL}/v2/crypto?coin=${coin}&currency=${currency}&token=${BRAPI_API_TOKEN}`;
         const response = await fetch(url, { cache: 'no-store' });
 
         if (!response.ok) {
