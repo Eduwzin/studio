@@ -436,7 +436,7 @@ export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
         if (!BRAPI_API_TOKEN) {
             throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
         }
-        const url = `${BRAPI_API_BASE_URL}/v2/crypto/available?token=${BRAPI_API_TOKEN}`;
+        const url = `${BRAPI_API_BASE_URL}/v2/crypto?token=${BRAPI_API_TOKEN}`;
         const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache 24h
 
         if (!response.ok) {

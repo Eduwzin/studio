@@ -23,8 +23,8 @@ function TickerList({
 }) {
   const filteredTickers = tickers.filter(
     (ticker) =>
-      ticker.stock.toLowerCase().includes(filter.toLowerCase()) ||
-      (ticker.name && ticker.name.toLowerCase().includes(filter.toLowerCase()))
+      (ticker?.stock && ticker.stock.toLowerCase().includes(filter.toLowerCase())) ||
+      (ticker?.name && ticker.name.toLowerCase().includes(filter.toLowerCase()))
   );
 
   if (filteredTickers.length === 0) {
