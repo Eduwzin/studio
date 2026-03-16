@@ -68,6 +68,7 @@ export default function AtivosClient({ initialData }: AtivosClientProps) {
   const [stocks] = useState<AvailableTicker[]>(initialData.stocks);
   const [fiis] = useState<AvailableTicker[]>(initialData.fiis);
   const [bdrs] = useState<AvailableTicker[]>(initialData.bdrs);
+  const [cryptos] = useState<AvailableTicker[]>(initialData.cryptos || []);
   const [filter, setFilter] = useState("");
 
   return (
@@ -78,7 +79,7 @@ export default function AtivosClient({ initialData }: AtivosClientProps) {
           Lista de Ativos Disponíveis
         </h1>
         <p className="text-muted-foreground">
-          Visualize e explore os ativos (ações, FIIs, BDRs) disponíveis na B3. Clique em um ativo para ver mais detalhes.
+          Visualize e explore os ativos (ações, FIIs, BDRs e Criptomoedas) disponíveis. Clique em um ativo para ver mais detalhes.
         </p>
       </header>
 
@@ -94,10 +95,11 @@ export default function AtivosClient({ initialData }: AtivosClientProps) {
       </div>
 
       <Tabs defaultValue="stocks" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="stocks">Ações ({stocks.length})</TabsTrigger>
           <TabsTrigger value="fiis">FIIs ({fiis.length})</TabsTrigger>
           <TabsTrigger value="bdrs">BDRs ({bdrs.length})</TabsTrigger>
+          <TabsTrigger value="cryptos">Criptos ({cryptos.length})</TabsTrigger>
         </TabsList>
         <TabsContent value="stocks">
            <TickerList tickers={stocks} filter={filter} />
@@ -107,6 +109,9 @@ export default function AtivosClient({ initialData }: AtivosClientProps) {
         </TabsContent>
         <TabsContent value="bdrs">
            <TickerList tickers={bdrs} filter={filter} />
+        </TabsContent>
+        <TabsContent value="cryptos">
+           <TickerList tickers={cryptos} filter={filter} />
         </TabsContent>
       </Tabs>
     </div>

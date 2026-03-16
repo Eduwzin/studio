@@ -63,7 +63,7 @@ import {
   type SummarizeAssetPerformanceOutput,
 } from '@/ai/flows/summarize-asset-performance';
 import { getMarketNews } from '@/services/gnews';
-import { getAvailableTickers, getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, type StockInfo } from '@/services/brapi';
+import { getAvailableTickers, getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, type StockInfo, getCryptoInfo as getCryptoInfoService, type CryptoInfo } from '@/services/brapi';
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore, doc, getDoc, setDoc, collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 import { firebaseConfig } from '@/firebase/config';
@@ -203,6 +203,16 @@ export async function getStockInfo(ticker: string): Promise<StockInfo | null> {
         return stockInfo;
     } catch (error) {
         console.error(`Failed to get stock info for ${ticker}:`, error);
+        return null;
+    }
+}
+
+export async function getCryptoInfo(coin: string): Promise<CryptoInfo | null> {
+    try {
+        const cryptoInfo = await getCryptoInfoService(coin);
+        return cryptoInfo;
+    } catch (error) {
+        console.error(`Failed to get crypto info for ${coin}:`, error);
         return null;
     }
 }
@@ -410,6 +420,4 @@ export async function generateWeeklySummaryAction(input: SummarizeWeeklyNewsInpu
 }
 
 
-export type { GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory, SuggestAssetsOutput, AssetSuggestion, SyncCvmFiisInput, SyncCvmFiisOutput, FiiCvmReport, SummarizeAssetPerformanceInput, SummarizeAssetPerformanceOutput, SummarizeWeeklyNewsInput, SummarizeWeeklyNewsOutput };
-
-    
+export type { CryptoInfo, GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory, SuggestAssetsOutput, AssetSuggestion, SyncCvmFiisInput, SyncCvmFiisOutput, FiiCvmReport, SummarizeAssetPerformanceInput, SummarizeAssetPerformanceOutput, SummarizeWeeklyNewsInput, SummarizeWeeklyNewsOutput };

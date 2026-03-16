@@ -395,6 +395,7 @@ export interface AvailableTickersResponse {
   stocks: AvailableTicker[];
   fiis: AvailableTicker[];
   bdrs: AvailableTicker[];
+  cryptos: AvailableTicker[];
 }
 
 /**
@@ -430,16 +431,82 @@ export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
     }
   };
 
+  const fetchCryptoTickers = async (): Promise<AvailableTicker[]> => {
+    try {
+        if (!BRAPI_API_TOKEN) {
+            throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
+        }
+        const url = `https://brapi.dev/api/v2/crypto/available?token=${BRAPI_API_TOKEN}`;
+        const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache 24h
+
+        if (!response.ok) {
+            console.error(`Erro na API da Brapi para crypto: ${response.statusText}`);
+            return [];
+        }
+        const data = await response.json();
+        
+        return (data.coins || []).map((crypto: any) => ({
+            stock: crypto.coin,
+            name: crypto.coinName,
+            logo: crypto.coinImageUrl,
+            type: 'crypto',
+        }));
+    } catch (error) {
+        console.error(`Falha ao buscar tickers de crypto:`, error);
+        return [];
+    }
+  };
+
   try {
-    const [stocks, fiis, bdrs] = await Promise.all([
+    const [stocks, fiis, bdrs, cryptos] = await Promise.all([
       fetchTickers('stock'),
       fetchTickers('fund'), // 'fund' na API da Brapi corresponde a FIIs
-      fetchTickers('bdr')
+      fetchTickers('bdr'),
+      fetchCryptoTickers()
     ]);
 
-    return { stocks, fiis, bdrs };
+    return { stocks, fiis, bdrs, cryptos };
   } catch (error) {
     console.error("Falha geral ao buscar listas de tickers da Brapi:", error);
-    return { stocks: [], fiis: [], bdrs: [] };
+    return { stocks: [], fiis: [], bdrs: [], cryptos: [] };
   }
+}
+
+export interface CryptoInfo {
+    currency: string;
+    currencyRateFromUSD: number;
+    coinName: string;
+    coinImageUrl: string;
+    coin: string;
+    regularMarketChange: number;
+    regularMarketPrice: number;
+    regularMarketChangePercent: number;
+    regularMarketDayLow: number;
+    regularMarketDayHigh: number;
+    regularMarketDayRange: string;
+    regularMarketVolume: number;
+    marketCap: number;
+    regularMarketTime: string;
+}
+
+export async function getCryptoInfo(coin: string, currency: string = 'BRL'): Promise<CryptoInfo> {
+    try {
+        if (!BRAPI_API_TOKEN) {
+            throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
+        }
+        const url = `https://brapi.dev/api/v2/crypto?coin=${coin}&currency=${currency}&token=${BRAPI_API_TOKEN}`;
+        const response = await fetch(url, { cache: 'no-store' });
+
+        if (!response.ok) {
+            throw new Error(`Erro na API da Brapi Crypto: ${response.statusText}`);
+        }
+        const data = await response.json();
+        if (!data.coins || data.coins.length === 0) {
+            throw new Error(`Nenhuma informação encontrada para a criptomoeda: ${coin}`);
+        }
+        return data.coins[0];
+    } catch (error) {
+        console.error(`Falha ao buscar detalhes da criptomoeda ${coin}:`, error);
+        throw error;
+    }
 }
