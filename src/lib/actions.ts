@@ -62,6 +62,10 @@ import {
   type SummarizeAssetPerformanceInput,
   type SummarizeAssetPerformanceOutput,
 } from '@/ai/flows/summarize-asset-performance';
+import {
+    analyzeAssetForPage as analyzeAssetForPageFlow,
+    type AnalyzeAssetForPageOutput,
+} from '@/ai/flows/analyze-asset-for-page';
 import { getMarketNews } from '@/services/gnews';
 import { getAvailableTickers, getDollarRate, getIpcaRate, getProjectedIpcaRate, getProjectedCurrentYearSelicRate, getProjectedNextYearSelicRate, getSelicRate, getStockInfo as getStockInfoService, type StockInfo, getCryptoInfo as getCryptoInfoService, type CryptoInfo } from '@/services/brapi';
 import { initializeApp, getApps, getApp } from 'firebase/app';
@@ -419,5 +423,16 @@ export async function generateWeeklySummaryAction(input: SummarizeWeeklyNewsInpu
     }
 }
 
+export async function analyzeAssetForPageAction(ticker: string): Promise<AnalyzeAssetForPageOutput> {
+    const stockInfo = await getStockInfoService(ticker);
+    // Para o contexto macro, podemos buscar os dados reais aqui
+    const selicRate = await getSelicRate().catch(() => 10.50);
+    const ipcaRate = await getIpcaRate().catch(() => 3.9);
+    const macroContext = `Cenário macroeconômico com taxa SELIC em ${selicRate.toFixed(2)}% e inflação (IPCA) acumulada de ${ipcaRate.toFixed(2)}% nos últimos 12 meses.`;
 
-export type { CryptoInfo, GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory, SuggestAssetsOutput, AssetSuggestion, SyncCvmFiisInput, SyncCvmFiisOutput, FiiCvmReport, SummarizeAssetPerformanceInput, SummarizeAssetPerformanceOutput, SummarizeWeeklyNewsInput, SummarizeWeeklyNewsOutput };
+    const result = await analyzeAssetForPageFlow(stockInfo, macroContext);
+    return result;
+}
+
+
+export type { AnalyzeAssetForPageOutput, CryptoInfo, GenerateLessonInput, GenerateLessonOutput, MonitorPortfolioOutput, NewsStory, SuggestAssetsOutput, AssetSuggestion, SyncCvmFiisInput, SyncCvmFiisOutput, FiiCvmReport, SummarizeAssetPerformanceInput, SummarizeAssetPerformanceOutput, SummarizeWeeklyNewsInput, SummarizeWeeklyNewsOutput };

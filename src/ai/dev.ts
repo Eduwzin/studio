@@ -16,3 +16,4 @@ import '@/ai/flows/generate-daily-news-stories.ts';
 import '@/ai/flows/sync-cvm-fiis-flow.ts';
 import '@/ai/flows/summarize-asset-performance.ts';
 import '@/ai/flows/summarize-weekly-news.ts';
+import '@/ai/flows/analyze-asset-for-page.ts';

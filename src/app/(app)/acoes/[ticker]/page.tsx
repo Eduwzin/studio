@@ -2,6 +2,7 @@ import { getStockInfo } from "@/services/brapi";
 import { notFound } from "next/navigation";
 import { Metadata, ResolvingMetadata } from "next";
 import AnaliseAtivoClient from "./analise-ativo-client";
+import { analyzeAssetForPageAction } from "@/lib/actions";
 
 type Props = {
   params: { ticker: string };
@@ -31,14 +32,20 @@ export async function generateMetadata(
 // A página em si, que busca os dados e os passa para o componente cliente
 export default async function AcoesPage({ params }: Props) {
   const ticker = params.ticker.toUpperCase();
-  const stockInfo = await getStockInfo(ticker).catch(() => null);
+  
+  // Busca os dados do ativo e a análise da IA em paralelo
+  const [stockInfo, aiAnalysis] = await Promise.all([
+    getStockInfo(ticker).catch(() => null),
+    analyzeAssetForPageAction(ticker).catch((e) => {
+      console.error(`AI analysis failed for ${ticker}:`, e);
+      return null; // Retorna nulo se a análise da IA falhar, para não quebrar a página
+    })
+  ]);
 
   if (!stockInfo) {
     notFound();
   }
 
-  // Aqui poderíamos buscar mais dados, como notícias, dados macro, etc.
-  // e passar para o componente cliente.
-
-  return <AnaliseAtivoClient stockInfo={stockInfo} />;
+  // Passa tanto os dados brutos quanto a análise da IA para o componente cliente
+  return <AnaliseAtivoClient stockInfo={stockInfo} aiAnalysis={aiAnalysis} />;
 }

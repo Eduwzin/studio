@@ -34,6 +34,7 @@ export interface StockInfo {
   dividendYield?: number;
   bookValue?: number;
   cnpj?: string;
+  sector?: string;
   historicalDataPrice?: { date: number; open: number; high: number; low: number; close: number; volume: number; adjustedClose: number; }[];
 }
 
@@ -101,6 +102,7 @@ export async function getStockInfo(ticker: string, range: string = "1y", interva
       dividendYield: dividendYield,
       bookValue: result.defaultKeyStatistics?.bookValue,
       cnpj: result.summaryProfile?.cnpj,
+      sector: result.summaryProfile?.sector,
       historicalDataPrice: result.historicalDataPrice,
     };
     return stockInfo;
@@ -412,7 +414,6 @@ export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
         // Ajuste na URL: Se for bdr, usamos type=stock na API
         const apiType = type === 'bdr' ? 'stock' : type;
         const url = `${BRAPI_API_BASE_URL}/quote/list?token=${BRAPI_API_TOKEN}&type=${apiType}`;
-        console.log("URL:", url)
         const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache 24h
         if (!response.ok) {
           console.error(`Erro na API da Brapi para o tipo ${type}: ${response.statusText}`);
@@ -420,7 +421,6 @@ export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
         }
   
         const data = await response.json();
-        console.log("response", response)
 
         let stocks = data.stocks || [];
   

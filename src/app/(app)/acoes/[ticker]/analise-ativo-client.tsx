@@ -16,15 +16,16 @@ import {
   Lightbulb,
   Newspaper,
   Shield,
-  Target,
   TrendingUp,
   ChevronRight,
   Info
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import type { AnalyzeAssetForPageOutput } from '@/lib/actions';
+import { Skeleton } from '@/components/ui/skeleton';
+
 
 // Componente para o Hero Section
 function HeroAtivo({ stock }: { stock: StockInfo }) {
@@ -59,66 +60,31 @@ function HeroAtivo({ stock }: { stock: StockInfo }) {
   );
 }
 
-// Componente para o Resumo Rápido
-function ResumoAtivo() {
+// Componente para o Resumo Rápido (agora dinâmico)
+function ResumoAtivo({ summary }: { summary?: string }) {
     return (
         <Card>
             <CardHeader>
                 <CardTitle>Resumo Executivo do Ativo</CardTitle>
             </CardHeader>
             <CardContent>
-                <p className="text-muted-foreground">
-                A PETR4 é a ação preferencial da Petrobras, a maior empresa de energia do Brasil e uma das maiores do mundo. Sua performance está intimamente ligada aos preços do petróleo, à política de dividendos da empresa e ao cenário macroeconômico e político do país. É frequentemente analisada tanto por investidores que buscam renda passiva através de dividendos quanto por aqueles que buscam ganhos com a volatilidade do setor de commodities.
-                </p>
+                {summary ? (
+                    <p className="text-muted-foreground">{summary}</p>
+                ) : (
+                    <div className="space-y-2">
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-5/6" />
+                    </div>
+                )}
             </CardContent>
         </Card>
     );
 }
 
-// Componente para as Personas
-function AnalisePersonas() {
-    const personas = [
-        {
-            icon: <Shield className="h-8 w-8 text-blue-500" />,
-            title: 'Beagle Conservador',
-            text: 'Observa a PETR4 com cautela. Reconhece o tamanho da empresa, mas se preocupa com a volatilidade causada pelos preços do petróleo e, principalmente, pela interferência política. Para este perfil, a imprevisibilidade é um grande ponto de atenção.'
-        },
-        {
-            icon: <BarChart className="h-8 w-8 text-green-500" />,
-            title: 'Beagle Moderado',
-            text: 'Vê a PETR4 como uma peça clássica no xadrez dos investimentos no Brasil. Tenta equilibrar o potencial de altos dividendos com o risco político e de mercado. Entende que a ação pode ser parte de uma carteira diversificada, mas exige acompanhamento constante.'
-        },
-        {
-            icon: <TrendingUp className="h-8 w-8 text-red-500" />,
-            title: 'Beagle Agressivo',
-            text: 'Enxerga a volatilidade da PETR4 como uma fonte de oportunidades. Está disposto a surfar os ciclos do petróleo e a assumir o risco político em troca de um potencial de valorização expressivo. Pode usar a ação para posições mais táticas.'
-        },
-        {
-            icon: <Lightbulb className="h-8 w-8 text-yellow-500" />,
-            title: 'Beagle Oportunista',
-            text: 'É um estrategista. Fica de olho em quedas exageradas por ruídos políticos para comprar, ou em notícias sobre dividendos para capturar valorizações. Para ele, PETR4 é um jogo de timing e informação, não necessariamente um ativo para manter a longo prazo.'
-        }
-    ];
 
-    return (
-        <div className="grid md:grid-cols-2 gap-6">
-            {personas.map(p => (
-                <Card key={p.title} className="flex flex-col">
-                    <CardHeader className="flex flex-row items-center gap-4 space-y-0">
-                        <div className="bg-muted p-3 rounded-full">{p.icon}</div>
-                        <CardTitle>{p.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="flex-grow">
-                        <p className="text-sm text-muted-foreground">{p.text}</p>
-                    </CardContent>
-                </Card>
-            ))}
-        </div>
-    );
-}
-
-// Componente para a Análise da IA
-function AnaliseContextualIA() {
+// Componente para a Análise da IA (agora dinâmico)
+function AnaliseContextualIA({ analysis }: { analysis?: string }) {
     return (
         <Card className="bg-primary/5 border-primary/20">
              <CardHeader>
@@ -126,7 +92,15 @@ function AnaliseContextualIA() {
                 <CardDescription>Combinando dados fundamentalistas, macroeconomia e notícias.</CardDescription>
             </CardHeader>
             <CardContent>
-                <p className="text-muted-foreground italic">"No cenário atual, a PETR4 combina a atratividade de seu Dividend Yield, sustentado pelos recentes lucros da companhia, com a sensibilidade aos debates sobre a política de preços dos combustíveis e a intervenção governamental. Fatores como a cotação do dólar e as decisões da OPEP+ são pontos de monitoramento constante, enquanto notícias sobre a transição energética da empresa adicionam uma camada de análise para o longo prazo."</p>
+                 {analysis ? (
+                    <p className="text-muted-foreground italic">"{analysis}"</p>
+                 ) : (
+                    <div className="space-y-2">
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-4/5" />
+                    </div>
+                 )}
             </CardContent>
         </Card>
     );
@@ -239,7 +213,19 @@ function BlocoPersonalizacao() {
 }
 
 // Componente principal do lado do cliente
-export default function AnaliseAtivoClient({ stockInfo }: { stockInfo: StockInfo }) {
+export default function AnaliseAtivoClient({ stockInfo, aiAnalysis }: { stockInfo: StockInfo; aiAnalysis: AnalyzeAssetForPageOutput | null }) {
+  const personaIcons = {
+    'Beagle Conservador': <Shield className="h-8 w-8 text-blue-500" />,
+    'Beagle Moderado': <BarChart className="h-8 w-8 text-green-500" />,
+    'Beagle Agressivo': <TrendingUp className="h-8 w-8 text-red-500" />,
+    'Beagle Oportunista': <Lightbulb className="h-8 w-8 text-yellow-500" />,
+  };
+  
+  const personaAnalysesWithIcons = aiAnalysis?.personaAnalyses.map(p => ({
+    ...p,
+    icon: personaIcons[p.title as keyof typeof personaIcons] || <Info />,
+  }));
+
   return (
     <div>
       <HeroAtivo stock={stockInfo} />
@@ -248,12 +234,42 @@ export default function AnaliseAtivoClient({ stockInfo }: { stockInfo: StockInfo
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Coluna Principal */}
           <div className="lg:col-span-2 space-y-8">
-            <ResumoAtivo />
+            <ResumoAtivo summary={aiAnalysis?.executiveSummary} />
 
-            <h2 className="text-2xl font-bold font-headline">Como cada Beagle interpreta PETR4</h2>
-            <AnalisePersonas />
+            <h2 className="text-2xl font-bold font-headline">Como cada Beagle interpreta {stockInfo.symbol}</h2>
             
-            <AnaliseContextualIA />
+            <div className="grid md:grid-cols-2 gap-6">
+              {(personaAnalysesWithIcons || Array(4).fill(null)).map((p, index) => (
+                <Card key={p?.title || index} className="flex flex-col">
+                  <CardHeader className="flex flex-row items-center gap-4 space-y-0">
+                    {p ? (
+                      <>
+                        <div className="bg-muted p-3 rounded-full">{p.icon}</div>
+                        <CardTitle>{p.title}</CardTitle>
+                      </>
+                    ) : (
+                      <>
+                        <Skeleton className="h-14 w-14 rounded-full" />
+                        <Skeleton className="h-6 w-32" />
+                      </>
+                    )}
+                  </CardHeader>
+                  <CardContent className="flex-grow">
+                    {p ? (
+                      <p className="text-sm text-muted-foreground">{p.analysis}</p>
+                    ) : (
+                      <div className="space-y-2">
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-5/6" />
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            
+            <AnaliseContextualIA analysis={aiAnalysis?.contextualAIAnalysis} />
             
             <ContextosDeAnalise />
 
