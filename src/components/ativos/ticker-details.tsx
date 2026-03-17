@@ -4,11 +4,14 @@ import { useEffect, useState } from 'react';
 import { getStockInfo, getFiiCvmReportByCnpj, getCryptoInfo } from '@/lib/actions';
 import type { StockInfo, CryptoInfo } from '@/services/brapi';
 import type { FiiCvmReport } from '@/lib/actions'; // Import type
-import { Loader2 } from 'lucide-react';
+import { Loader2, ArrowRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'; // Add CardDescription
 import { cn } from '@/lib/utils';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import WatchlistButton from '@/components/watchlist/WatchlistButton';
+import { Button } from '../ui/button';
+import Link from 'next/link';
+
 
 const DetailItem = ({ label, value, subValue }: { label: string; value: React.ReactNode, subValue?: string }) => (
     <div className="flex justify-between items-center border-b py-3 last:border-none">
@@ -67,19 +70,23 @@ export default function TickerDetails({ ticker, sector, type }: { ticker: string
       setCvmData(null);
       setCryptoData(null);
 
-      if (type === 'crypto') {
-        const cryptoInfo = await getCryptoInfo(ticker);
-        setCryptoData(cryptoInfo);
-      } else {
-        const stockData = await getStockInfo(ticker);
-        setData(stockData);
-        if (type === 'fund' && stockData?.cnpj) {
-            const report = await getFiiCvmReportByCnpj(stockData.cnpj);
-            setCvmData(report);
+      try {
+        if (type === 'crypto') {
+            const cryptoInfo = await getCryptoInfo(ticker);
+            setCryptoData(cryptoInfo);
+        } else {
+            const stockData = await getStockInfo(ticker);
+            setData(stockData);
+            if (type === 'fund' && stockData?.cnpj) {
+                const report = await getFiiCvmReportByCnpj(stockData.cnpj);
+                setCvmData(report);
+            }
         }
+      } catch (error) {
+        console.error(`Erro ao buscar detalhes para ${ticker}:`, error);
+      } finally {
+        setLoading(false);
       }
-      
-      setLoading(false);
     }
     fetchData();
   }, [ticker, type]);
@@ -116,6 +123,12 @@ export default function TickerDetails({ ticker, sector, type }: { ticker: string
                     </p>
                 </div>
             </div>
+
+             <Button asChild className="w-full" variant="outline">
+                <Link href={`/acoes/${ticker}`}>
+                    Análise Completa & Perfis de Investidor <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+            </Button>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <Card>
@@ -161,6 +174,12 @@ export default function TickerDetails({ ticker, sector, type }: { ticker: string
                 </p>
             </div>
         </div>
+
+        <Button asChild className="w-full" variant="outline">
+            <Link href={`/acoes/${ticker}`}>
+                Análise Completa & Perfis de Investidor <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+        </Button>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card>

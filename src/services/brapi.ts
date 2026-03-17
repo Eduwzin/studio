@@ -403,40 +403,55 @@ export interface AvailableTickersResponse {
  * @returns Uma promessa que resolve para um objeto contendo arrays de tickers.
  */
 export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
-  const fetchTickers = async (type: 'stock' | 'fund' | 'bdr') => {
-    try {
+    const fetchTickers = async (type: 'stock' | 'fund' | 'bdr') => {
+      try {
         if (!BRAPI_API_TOKEN) {
-            throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
+          throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
         }
-      const url = `${BRAPI_API_BASE_URL}/quote/list?token=${BRAPI_API_TOKEN}&type=${type}`;
-      const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache 24h
+  
+        // Ajuste na URL: Se for bdr, usamos type=stock na API
+        const apiType = type === 'bdr' ? 'stock' : type;
+        const url = `${BRAPI_API_BASE_URL}/quote/list?token=${BRAPI_API_TOKEN}&type=${apiType}`;
+        console.log("URL:", url)
+        const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache 24h
+        if (!response.ok) {
+          console.error(`Erro na API da Brapi para o tipo ${type}: ${response.statusText}`);
+          return [];
+        }
+  
+        const data = await response.json();
+        console.log("response", response)
 
-      if (!response.ok) {
-        console.error(`Erro na API da Brapi para o tipo ${type}: ${response.statusText}`);
+        let stocks = data.stocks || [];
+  
+        // Filtro específico para BDRs:
+        // A API retorna BDRs com ticker.type === 'dr' dentro da listagem de stocks
+        if (type === 'bdr') {
+          stocks = stocks.filter((ticker: any) => ticker.type === 'dr');
+        } else if (type === 'stock') {
+          // Opcional: Garantir que na lista de 'stock' não venham os BDRs (dr)
+          stocks = stocks.filter((ticker: any) => ticker.type !== 'dr');
+        }
+  
+        return stocks.map((ticker: any) => ({
+          stock: ticker.stock,
+          name: ticker.name,
+          logo: ticker.logo,
+          sector: ticker.sector,
+          type: type, // Mantemos o tipo original solicitado ('stock', 'fund' ou 'bdr')
+        }));
+      } catch (error) {
+        console.error(`Erro ao buscar tickers do tipo ${type}:`, error);
         return [];
       }
-      const data = await response.json();
-      // A API /quote/list retorna uma chave 'stocks' para todos os tipos.
-      // Nós adicionamos o campo 'type' manualmente para uso no frontend.
-      return (data.stocks || []).map((ticker: any) => ({
-        stock: ticker.stock,
-        name: ticker.name,
-        logo: ticker.logo,
-        sector: ticker.sector,
-        type: type,
-      }));
-    } catch (error) {
-      console.error(`Falha ao buscar tickers do tipo ${type}:`, error);
-      return []; // Retorna array vazio em caso de erro para este tipo
-    }
-  };
+    };
 
   const fetchCryptoTickers = async (): Promise<AvailableTicker[]> => {
     try {
         if (!BRAPI_API_TOKEN) {
             throw new Error('A chave da API da Brapi (BRAPI_API_TOKEN) não está configurada no ambiente.');
         }
-        const url = `${BRAPI_API_BASE_URL}/v2/crypto?token=${BRAPI_API_TOKEN}`;
+        const url = `${BRAPI_API_BASE_URL}/v2/crypto/available?token=${BRAPI_API_TOKEN}`;
         const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache 24h
 
         if (!response.ok) {
@@ -445,11 +460,12 @@ export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
         }
         
         const data = await response.json();
-        
+        // Exemplo: Usando o CryptoIcons ou TrustWallet Assets
+  
         return (data.coins || []).map((crypto: any) => ({
-            stock: crypto.coin,
-            name: crypto.coinName,
-            logo: crypto.coinImageUrl,
+            stock: crypto,
+            name: crypto,
+            logo: `https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/svg/color/generic.svg`,
             type: 'crypto',
         }));
     } catch (error) {

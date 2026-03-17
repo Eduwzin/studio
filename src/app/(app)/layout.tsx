@@ -35,6 +35,7 @@ import {
   Star,
   Calculator,
   CreditCard,
+  Target,
 } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { usePathname, useRouter } from "next/navigation";
@@ -51,6 +52,7 @@ const navItems = [
   { href: "/oportunidades", icon: TrendingUp, label: "Oportunidades" },
   { href: "/watchlist", icon: Star, label: "Watchlist" },
   { href: "/ativos", icon: List, label: "Ativos" },
+  { href: "/acoes", icon: Target, label: "Análise de Ações" },
   { href: "/simulador", icon: Calculator, label: "Simulador" },
   { href: "/learn", icon: BookOpen, label: "Aprender" },
   { href: "/blog", icon: Newspaper, label: "Blog" },
@@ -109,7 +111,7 @@ function AppLayoutClient({ children }: { children: React.ReactNode }) {
           <div className="flex-1" />
           <UserNav />
         </header>
-        <main className="flex-1 p-4 sm:p-6 lg:p-8">
+        <main className="flex-1">
             {children}
         </main>
       </SidebarInset>
