@@ -135,39 +135,36 @@ function DadosFundamentalistas({ stock }: { stock: StockInfo }) {
   );
 }
 
-// Componente para Contextos
-function ContextosDeAnalise() {
-    const contextos = [
-        "Geração de renda com dividendos",
-        "Exposição ao setor de energia e commodities",
-        "Estratégias com maior tolerância à volatilidade",
-        "Análises ligadas ao ciclo de preços do petróleo"
-    ];
+// Componente para Contextos (dinâmico)
+function ContextosDeAnalise({ contextos }: { contextos?: string[] }) {
     return (
         <Card>
             <CardHeader>
                 <CardTitle>Em quais contextos este ativo costuma ser analisado</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-                {contextos.map(ctx => (
-                    <div key={ctx} className="flex items-center gap-3">
-                        <ChevronRight className="h-5 w-5 text-primary" />
-                        <span className="text-muted-foreground">{ctx}</span>
-                    </div>
-                ))}
+                {contextos ? (
+                    contextos.map(ctx => (
+                        <div key={ctx} className="flex items-center gap-3">
+                            <ChevronRight className="h-5 w-5 text-primary" />
+                            <span className="text-muted-foreground">{ctx}</span>
+                        </div>
+                    ))
+                ) : (
+                    Array.from({ length: 4 }).map((_, index) => (
+                         <div key={index} className="flex items-center gap-3">
+                            <Skeleton className="h-5 w-5" />
+                            <Skeleton className="h-4 w-5/6" />
+                        </div>
+                    ))
+                )}
             </CardContent>
         </Card>
     );
 }
 
-// Componente para Riscos
-function RiscosEAtencao() {
-    const riscos = [
-        { title: "Influência Política", desc: "Decisões governamentais podem impactar a estratégia e os preços da empresa." },
-        { title: "Volatilidade do Petróleo", desc: "O preço da ação é sensível às flutuações globais do preço do barril de petróleo." },
-        { title: "Política de Dividendos", desc: "A distribuição de lucros pode ser alterada, afetando o retorno para o acionista." },
-        { title: "Riscos Regulatórios", desc: "Mudanças nas regulações do setor de óleo e gás podem afetar a operação." },
-    ];
+// Componente para Riscos (dinâmico)
+function RiscosEAtencao({ riscos }: { riscos?: { title: string, desc: string }[] }) {
     return (
         <Card className="border-destructive/50 bg-destructive/5">
             <CardHeader>
@@ -177,28 +174,30 @@ function RiscosEAtencao() {
                 </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                {riscos.map(r => (
-                    <div key={r.title}>
-                        <h4 className="font-semibold">{r.title}</h4>
-                        <p className="text-sm text-muted-foreground">{r.desc}</p>
-                    </div>
-                ))}
+                {riscos ? (
+                    riscos.map(r => (
+                        <div key={r.title}>
+                            <h4 className="font-semibold">{r.title}</h4>
+                            <p className="text-sm text-muted-foreground">{r.desc}</p>
+                        </div>
+                    ))
+                ) : (
+                    Array.from({ length: 4 }).map((_, index) => (
+                        <div key={index} className="space-y-1">
+                            <Skeleton className="h-5 w-1/2" />
+                            <Skeleton className="h-4 w-full" />
+                        </div>
+                    ))
+                )}
             </CardContent>
         </Card>
     );
 }
 
-// Componente para Bloco de Personalização
-function BlocoPersonalizacao() {
-    const { user } = useUser();
-    const firestore = useFirestore();
-    const userProfileRef = useMemoFirebase(() => {
-        if (!user) return null;
-        return doc(firestore, `users/${user.uid}/userProfiles/${user.uid}`);
-    }, [user, firestore]);
-    const { data: userProfile } = useDoc<any>(userProfileRef);
 
-    if (!userProfile?.perfilDeInvestimento?.avaliacaoDeRisco) return null;
+// Componente para Bloco de Personalização
+function BlocoPersonalizacao({ ticker, userRiskProfile }: { ticker: string; userRiskProfile?: string }) {
+    if (!userRiskProfile) return null;
 
     return (
         <Card className="text-center">
@@ -206,7 +205,7 @@ function BlocoPersonalizacao() {
                 <CardTitle>Análise para Seu Perfil</CardTitle>
             </CardHeader>
             <CardContent>
-                <p className="text-muted-foreground">Seu perfil se aproxima mais do <strong className="text-primary">{userProfile.perfilDeInvestimento.avaliacaoDeRisco}</strong>. Veja acima como essa persona tende a interpretar a PETR4.</p>
+                <p className="text-muted-foreground">Seu perfil se aproxima mais do <strong className="text-primary">{userRiskProfile}</strong>. Veja acima como essa persona tende a interpretar a {ticker}.</p>
             </CardContent>
         </Card>
     )
@@ -214,6 +213,15 @@ function BlocoPersonalizacao() {
 
 // Componente principal do lado do cliente
 export default function AnaliseAtivoClient({ stockInfo, aiAnalysis }: { stockInfo: StockInfo; aiAnalysis: AnalyzeAssetForPageOutput | null }) {
+  const { user } = useUser();
+  const firestore = useFirestore();
+
+  const userProfileRef = useMemoFirebase(() => {
+    if (!user) return null;
+    return doc(firestore, `users/${user.uid}/userProfiles/${user.uid}`);
+  }, [user, firestore]);
+  const { data: userProfile } = useDoc<any>(userProfileRef);
+
   const personaIcons = {
     'Beagle Conservador': <Shield className="h-8 w-8 text-blue-500" />,
     'Beagle Moderado': <BarChart className="h-8 w-8 text-green-500" />,
@@ -271,7 +279,7 @@ export default function AnaliseAtivoClient({ stockInfo, aiAnalysis }: { stockInf
             
             <AnaliseContextualIA analysis={aiAnalysis?.contextualAIAnalysis} />
             
-            <ContextosDeAnalise />
+            <ContextosDeAnalise contextos={aiAnalysis?.analysisContexts} />
 
             {/* Seção de Notícias (Placeholder) */}
             <Card>
@@ -289,8 +297,11 @@ export default function AnaliseAtivoClient({ stockInfo, aiAnalysis }: { stockInf
           {/* Coluna Lateral */}
           <div className="space-y-8">
             <DadosFundamentalistas stock={stockInfo} />
-            <RiscosEAtencao />
-            <BlocoPersonalizacao />
+            <RiscosEAtencao riscos={aiAnalysis?.risks} />
+            <BlocoPersonalizacao 
+                ticker={stockInfo.symbol} 
+                userRiskProfile={userProfile?.perfilDeInvestimento?.avaliacaoDeRisco} 
+            />
           </div>
         </div>
 
