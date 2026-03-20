@@ -77,6 +77,12 @@
       "description": "Comparação de CDBs",
       "imageUrl": "https://picsum.photos/seed/melhorcdb/1200/630",
       "imageHint": "cdb comparison"
+    },
+    {
+      "id": "blog-cdb-liquidez",
+      "description": "CDB liquidez diária",
+      "imageUrl": "https://picsum.photos/seed/cdbliquidez/1200/630",
+      "imageHint": "cdb liquidity"
     }
   ]
 }
