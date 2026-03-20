@@ -71,6 +71,12 @@
       "description": "Simulação de rendimento Tesouro Selic",
       "imageUrl": "https://picsum.photos/seed/tesouro10000/1200/630",
       "imageHint": "tesouro selic"
+    },
+    {
+      "id": "blog-melhor-cdb",
+      "description": "Comparação de CDBs",
+      "imageUrl": "https://picsum.photos/seed/melhorcdb/1200/630",
+      "imageHint": "cdb comparison"
     }
   ]
 }
