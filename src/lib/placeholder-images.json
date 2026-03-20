@@ -41,6 +41,12 @@
       "description": "Um gráfico de pizza mostrando a diversificação do portfólio.",
       "imageUrl": "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwaWUlMjBjaGFydHxlbnwwfHx8fDE3NjQzNjc0NTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "gráfico pizza"
+    },
+    {
+      "id": "blog-tesouro-cdb",
+      "description": "Comparação entre Tesouro Selic e CDB com gráfico financeiro",
+      "imageUrl": "https://picsum.photos/seed/tesourocdb/1200/630",
+      "imageHint": "investment comparison"
     }
   ]
 }
