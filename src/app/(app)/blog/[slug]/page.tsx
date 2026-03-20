@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { getSelicRate } from "@/services/brapi"; 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Metadata, ResolvingMetadata } from "next";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 
 type Props = {
   params: { slug: string };
@@ -105,6 +106,13 @@ export default async function BlogPostPage({ params }: Props) {
   const baseUrl = 'https://safestart-invest.com';
   const canonicalUrl = `${baseUrl}/blog/${article.slug}`;
 
+  // Breadcrumb items
+  const breadcrumbItems = [
+    { label: 'Home', href: '/dashboard' },
+    { label: 'Blog', href: '/blog' },
+    { label: article.title, href: canonicalUrl },
+  ];
+
   // JSON-LD Schema
   const jsonLdSchema = {
       "@context": "https://schema.org",
@@ -148,7 +156,7 @@ export default async function BlogPostPage({ params }: Props) {
                     "@type": "ListItem",
                     "position": 1,
                     "name": "Home",
-                    "item": baseUrl
+                    "item": `${baseUrl}/dashboard`
                 },
                 {
                     "@type": "ListItem",
@@ -174,6 +182,7 @@ export default async function BlogPostPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
     />
     <article className="max-w-3xl mx-auto">
+        <Breadcrumb items={breadcrumbItems} className="mb-6" />
         <header className="mb-8">
             <h1 className="text-4xl font-bold font-headline mb-2">{article.title}</h1>
             <Badge variant="outline">{new Date(article.date).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' })}</Badge>
