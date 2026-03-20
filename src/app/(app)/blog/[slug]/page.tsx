@@ -1,3 +1,4 @@
+
 import { notFound } from "next/navigation";
 import { blogArticles, placeholderImages } from "@/lib/content";
 import Image from "next/image";
@@ -6,6 +7,8 @@ import { getSelicRate } from "@/services/brapi";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Metadata, ResolvingMetadata } from "next";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Info } from "lucide-react";
 
 type Props = {
   params: { slug: string };
@@ -77,6 +80,21 @@ function FaqSection({ faq }: { faq: { question: string; answer: string }[] }) {
         ))}
       </Accordion>
     </section>
+  );
+}
+
+// Componente para o Disclaimer
+function DisclaimerSection({ text }: { text?: string }) {
+  if (!text) return null;
+
+  return (
+    <Alert className="mt-12 bg-muted/50">
+      <Info className="h-4 w-4" />
+      <AlertTitle>Aviso Legal</AlertTitle>
+      <AlertDescription>
+        {text}
+      </AlertDescription>
+    </Alert>
   );
 }
 
@@ -214,6 +232,8 @@ export default async function BlogPostPage({ params }: Props) {
             dangerouslySetInnerHTML={{ __html: article.conclusion }}
           />
         )}
+
+        <DisclaimerSection text={article.disclaimer} />
     </article>
     </>
   );
