@@ -235,14 +235,51 @@ export const blogArticles: Article[] = [
     disclaimer: defaultDisclaimer,
   },
   {
-    slug: 'quanto-rende-10-mil-tesouro-selic',
-    title: 'Quanto rende 10 mil no Tesouro Selic? Simulação real',
-    description: 'Descubra quanto rende R$10.000 no Tesouro Selic e se vale a pena investir.',
-    date: '2026-03-19',
+    slug: 'quanto-rende-10000-no-tesouro-selic',
+    title: 'Quanto rende R$ 10.000 no Tesouro Selic? Simulação atualizada',
+    description: 'Veja quanto rende R$ 10.000 no Tesouro Selic em 1, 6, 12 e 24 meses. Simulação com rendimento bruto e líquido, comparação com poupança e CDB.',
+    date: '2026-03-20',
     imageId: 'blog-tesouro-10000',
-    content: `<p>Se você tem um valor maior guardado, pode se perguntar: <strong>quanto rende 10 mil no Tesouro Selic?</strong></p><h2>Resumo rápido</h2><ul><li>Rendimento acompanha a Selic</li><li>Baixo risco</li></ul><h2>Simulação</h2><p>Com Selic em ~10% ao ano:</p><ul><li>R$10.000 → cerca de R$1000 por ano</li></ul><h2>Comparação</h2><p>Veja também: <a href="/blog/tesouro-selic-ou-cdb">Tesouro Selic ou CDB</a></p><h2>Conclusão</h2><p>É um investimento seguro e previsível.</p>`,
-    conclusion: '',
-    disclaimer: defaultDisclaimer,
+    content: `<h1>Quanto rende R$ 10.000 no Tesouro Selic? Simulação com rendimento líquido</h1><div class='resumo-rapido'><ul><li>Com Selic a 13,75% a.a. (março de 2026), R$ 10.000 rendem aproximadamente R$ 112 líquidos em 1 mês</li><li>Em 12 meses, o rendimento líquido é de aproximadamente R$ 1.093</li><li>O Tesouro Selic rende mais que a poupança em todos os cenários com Selic acima de 8,5% a.a.</li><li>A simulação abaixo considera IR, taxa de custódia da B3 e CDI como referência</li><li>Taxas variam — use este conteúdo como referência, não como promessa de retorno</li></ul></div><p>Antes de investir, é natural querer saber exatamente quanto o dinheiro vai render. Com o Tesouro Selic, o cálculo é mais simples do que parece — mas tem alguns detalhes importantes sobre IR e taxa de custódia que fazem diferença no resultado final.</p><p>Esta simulação mostra o rendimento de R$ 10.000 no Tesouro Selic em diferentes prazos, com os descontos reais aplicados.</p><h2>Premissas da simulação</h2><p>Para os cálculos abaixo, foram usadas as seguintes referências:</p><ul><li><strong>Taxa Selic:</strong> 13,75% ao ano (Bacen/SGS, março de 2026)</li><li><strong>CDI:</strong> 13,65% ao ano (próximo à Selic, como de costume)</li><li><strong>Taxa de custódia B3:</strong> 0,20% ao ano (isenta para até R$ 10.000 no Tesouro Selic — neste caso, sem cobrança)</li><li><strong>IR:</strong> tabela regressiva da Receita Federal (22,5% até 180 dias; 20% de 181 a 360 dias; 17,5% de 361 a 720 dias; 15% acima de 720 dias)</li><li><strong>IOF:</strong> zero (aplicações mantidas por mais de 30 dias)</li></ul><p><strong>Importante:</strong> estas simulações assumem taxa Selic constante ao longo do período, apenas para fins ilustrativos. Na prática, a Selic pode mudar a cada reunião do Copom (a cada 45 dias aproximadamente). O rendimento real pode ser diferente.</p><h2>Simulação: quanto rende R$ 10.000 no Tesouro Selic</h2><table><thead><tr><th>Prazo</th><th>Rendimento bruto</th><th>IR</th><th>Rendimento líquido</th><th>Saldo final líquido</th></tr></thead><tbody><tr><td>1 mês</td><td>R$ 107,90</td><td>22,5% = R$ 24,28</td><td>R$ 83,62</td><td>R$ 10.083,62</td></tr><tr><td>3 meses</td><td>R$ 328,50</td><td>22,5% = R$ 73,91</td><td>R$ 254,59</td><td>R$ 10.254,59</td></tr><tr><td>6 meses</td><td>R$ 668,20</td><td>22,5% = R$ 150,35</td><td>R$ 517,85</td><td>R$ 10.517,85</td></tr><tr><td>12 meses</td><td>R$ 1.375,00</td><td>20% = R$ 275,00</td><td>R$ 1.100,00</td><td>R$ 11.100,00</td></tr><tr><td>24 meses</td><td>R$ 2.932,50</td><td>17,5% = R$ 513,19</td><td>R$ 2.419,31</td><td>R$ 12.419,31</td></tr><tr><td>36 meses</td><td>R$ 4.706,25</td><td>15% = R$ 705,94</td><td>R$ 4.000,31</td><td>R$ 14.000,31</td></tr></tbody></table><p><em>Simulação com Selic de 13,75% a.a. (Bacen/SGS, março de 2026), taxa constante para fins ilustrativos. IR calculado sobre o rendimento bruto conforme tabela regressiva da Receita Federal. Taxa de custódia da B3 isenta para até R$ 10.000 no Tesouro Selic. Valores arredondados.</em></p><h2>Como o IR afeta o rendimento do Tesouro Selic</h2><p>O Imposto de Renda é o principal fator que reduz o rendimento líquido — especialmente em prazos curtos.</p><p>Nos primeiros 180 dias, a alíquota é de 22,5% sobre o rendimento. Isso significa que quase um quarto dos seus juros vai para o governo. Quanto mais tempo você mantém o investimento, menor a alíquota — chegando a 15% após 720 dias.</p><p>Por isso, para objetivos de longo prazo, o Tesouro Selic fica mais eficiente com o tempo — mas continua sendo o melhor produto para reserva de emergência mesmo no curto prazo, pela segurança e liquidez.</p><h2>Quanto rende a poupança no mesmo período?</h2><p>Com a Selic acima de 8,5% ao ano, a poupança rende 0,5% ao mês mais TR (Taxa Referencial). Na prática, isso equivale a aproximadamente 6,17% ao ano — sem IR.</p><table><thead><tr><th>Prazo</th><th>Tesouro Selic líquido</th><th>Poupança (est.)</th><th>Diferença</th></tr></thead><tbody><tr><td>6 meses</td><td>R$ 517,85</td><td>R$ 305,00</td><td>+R$ 212,85</td></tr><tr><td>12 meses</td><td>R$ 1.100,00</td><td>R$ 617,00</td><td>+R$ 483,00</td></tr><tr><td>24 meses</td><td>R$ 2.419,31</td><td>R$ 1.270,00</td><td>+R$ 1.149,31</td></tr><tr><td>36 meses</td><td>R$ 4.000,31</td><td>R$ 1.963,00</td><td>+R$ 2.037,31</td></tr></tbody></table><p><em>Poupança estimada com rendimento de 6,17% a.a., sem IR. Tesouro Selic com Selic de 13,75% a.a. após IR. Valores aproximados para fins comparativos.</em></p><p>Em todos os prazos, o Tesouro Selic supera a poupança com folga — mesmo após o desconto do IR. Em 36 meses, a diferença é de mais de R$ 2.000 para cada R$ 10.000 investidos.</p><h2>Tesouro Selic vs CDB de liquidez diária: qual rende mais?</h2><p>O Tesouro Selic e um CDB de liquidez diária a 100% do CDI têm rendimentos muito próximos — o CDI acompanha a Selic com uma pequena diferença.</p><table><thead><tr><th>Prazo</th><th>Tesouro Selic líquido</th><th>CDB 100% CDI líquido</th><th>CDB 110% CDI líquido</th></tr></thead><tbody><tr><td>6 meses</td><td>R$ 517,85</td><td>R$ 513,20</td><td>R$ 564,52</td></tr><tr><td>12 meses</td><td>R$ 1.100,00</td><td>R$ 1.092,00</td><td>R$ 1.201,20</td></tr><tr><td>24 meses</td><td>R$ 2.419,31</td><td>R$ 2.401,50</td><td>R$ 2.641,65</td></tr></tbody></table><p><em>CDB calculado com CDI de 13,65% a.a. após IR (tabela regressiva). Valores aproximados para fins comparativos.</em></p><p>A diferença entre Tesouro Selic e CDB 100% CDI é pequena em qualquer prazo. Para R$ 10.000, a diferença em 12 meses é de apenas R$ 8. A escolha entre os dois geralmente depende da corretora e das condições disponíveis.</p><p>Para CDB acima de 100% do CDI, o rendimento é maior — mas pode exigir prazo mínimo ou valor mínimo mais alto. <a href='/tesouro-selic-ou-cdb'>Veja a comparação completa entre Tesouro Selic e CDB.</a></p><h2>Vale a pena investir R$ 10.000 no Tesouro Selic?</h2><p>Depende do objetivo.</p><p><strong>Para reserva de emergência:</strong> sim, com segurança. O Tesouro Selic é o produto mais indicado para guardar dinheiro que você pode precisar a qualquer momento. Tem liquidez diária, risco mínimo e rendimento acima da poupança.</p><p><strong>Para objetivos de médio e longo prazo:</strong> o Tesouro Selic é uma boa base, mas outros produtos podem oferecer rendimento maior — como CDBs de prazo mais longo, LCI/LCA ou Tesouro IPCA+. Depende do seu perfil e do momento do mercado.</p><p><strong>Para quem está começando:</strong> o Tesouro Selic é ideal como primeiro investimento. Seguro, simples, acessível a partir de R$ 30 e com rendimento muito superior à poupança.</p><h2>Como investir R$ 10.000 no Tesouro Selic agora</h2><p><strong>Passo 1:</strong> abra conta em corretora ou banco digital habilitado pelo Tesouro Nacional.</p><p><strong>Passo 2:</strong> acesse a área de Tesouro Direto e selecione o Tesouro Selic disponível.</p><p><strong>Passo 3:</strong> informe o valor (R$ 10.000) e confirme a compra.</p><p><strong>Passo 4:</strong> o título aparece na sua carteira em até 1 dia útil.</p>`,
+    conclusion: `<h2>Conclusão</h2><p>R$ 10.000 no Tesouro Selic rendem aproximadamente R$ 1.100 líquidos em 12 meses com a Selic a 13,75% ao ano — quase o dobro do que a poupança pagaria no mesmo período.</p><p>Para reserva de emergência e objetivos de curto prazo, o Tesouro Selic segue sendo a referência de segurança e liquidez no mercado brasileiro.</p><p>Quer entender melhor como funciona? <a href='/o-que-e-tesouro-direto'>Leia o guia completo sobre o Tesouro Direto.</a></p>`,
+    seoTitle: "Quanto rende R$ 10.000 no Tesouro Selic? Simulação 2026",
+    seoDescription: "Simule quanto rende R$ 10.000 no Tesouro Selic em 1, 6, 12 e 24 meses. Veja o rendimento líquido após IR, comparação com poupança e CDB atualizado.",
+    faq: [
+      {
+        question: "Quanto rende R$ 10.000 no Tesouro Selic em 12 meses?",
+        answer: "Com a Selic a 13,75% ao ano (março de 2026), R$ 10.000 no Tesouro Selic rendem aproximadamente R$ 1.100 líquidos em 12 meses, após o desconto do IR de 20%. O saldo final seria de cerca de R$ 11.100."
+      },
+      {
+        question: "Quanto rende R$ 10.000 no Tesouro Selic por mês?",
+        answer: "Com a Selic a 13,75% ao ano, R$ 10.000 rendem aproximadamente R$ 84 líquidos por mês (após IR de 22,5% nos primeiros 180 dias). O rendimento mensal aumenta conforme a alíquota de IR diminui com o tempo."
+      },
+      {
+        question: "Tesouro Selic rende mais que a poupança?",
+        answer: "Sim, em todos os cenários com Selic acima de 8,5% ao ano. Com a Selic atual, o Tesouro Selic rende aproximadamente o dobro da poupança no líquido — mesmo após o desconto do IR."
+      },
+      {
+        question: "Tesouro Selic tem Imposto de Renda?",
+        answer: "Sim. O IR incide sobre o rendimento com alíquota regressiva: 22,5% para resgates em até 180 dias, chegando a 15% para resgates após 720 dias. O imposto é retido automaticamente na fonte."
+      },
+      {
+        question: "Tesouro Selic tem taxa de custódia?",
+        answer: "Sim. A B3 cobra 0,20% ao ano sobre o valor investido. Porém, investimentos de até R$ 10.000 no Tesouro Selic são isentos dessa taxa. Acima de R$ 10.000, a taxa se aplica ao valor total."
+      },
+      {
+        question: "Qual a diferença entre Tesouro Selic e CDB de liquidez diária?",
+        answer: "O rendimento é muito próximo — a diferença em 12 meses para R$ 10.000 é de aproximadamente R$ 8. A principal diferença é a garantia: Tesouro é garantido pelo Governo Federal, CDB pelo FGC até R$ 250.000."
+      },
+      {
+        question: "Posso perder dinheiro no Tesouro Selic?",
+        answer: "Praticamente não. O Tesouro Selic tem variação de preço mínima — o título sobe todos os dias acompanhando a Selic. Mesmo em resgates antecipados, a chance de perda é extremamente baixa."
+      }
+    ],
+    category: 'renda-fixa',
+    subcategory: 'tesouro-direto',
+    pillar: 'pillar-2-renda-fixa',
+    cluster: 'tesouro-direto',
+    tags: ["quanto rende Tesouro Selic", "simulação Tesouro Selic", "rendimento Tesouro Selic", "Tesouro Selic 10000", "renda fixa"],
+    disclaimer: "Este conteúdo é educativo e não constitui recomendação de investimento. As simulações assumem taxa Selic constante para fins ilustrativos — o rendimento real pode variar. Consulte um profissional certificado para orientação personalizada.",
   },
   {
     slug: 'quanto-rende-5000-no-cdb',

@@ -86,7 +86,7 @@
     },
     {
       "id": "blog-tesouro-10000",
-      "description": "Simulação de rendimento Tesouro Selic",
+      "description": "simulação de rendimento de R$ 10.000 no Tesouro Selic",
       "imageUrl": "https://picsum.photos/seed/tesouro10000/1200/630",
       "imageHint": "tesouro selic"
     },
