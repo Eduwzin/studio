@@ -65,6 +65,12 @@
       "description": "Simulação de rendimento de 5000 reais no CDB",
       "imageUrl": "https://picsum.photos/seed/cdb5000/1200/630",
       "imageHint": "cdb simulation"
+    },
+    {
+      "id": "blog-tesouro-10000",
+      "description": "Simulação de rendimento Tesouro Selic",
+      "imageUrl": "https://picsum.photos/seed/tesouro10000/1200/630",
+      "imageHint": "tesouro selic"
     }
   ]
 }
