@@ -9,6 +9,8 @@ import { Check, Loader2, CreditCard } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { Separator } from '@/components/ui/separator';
 
 const plans = {
     starter: {
@@ -22,7 +24,7 @@ const plans = {
             'Acesso à watchlist de ativos',
             'Portal de notícias do mercado',
             'Acesso ao blog e aulas básicas',
-            'Atualização mensal da carteira',
+            '5 análises com IA por mês',
         ]
     },
     pro: {
@@ -31,12 +33,12 @@ const plans = {
         priceDescription: 'por mês',
         description: 'Desbloqueie todo o poder da IA para otimizar seus investimentos.',
         features: [
-            'Tudo do plano Starter',
-            'Recomendações de ativos com IA',
+            'Tudo do plano Starter, e mais:',
+            'Análises e recomendações com IA ilimitadas',
             'Análise de mercado personalizada',
             'Recomendações baseadas na sua carteira',
-            'Acesso a todas as aulas',
-            'Atualização semanal da carteira',
+            'Acesso a todas as aulas da Trilha',
+            'Atualização de carteira em tempo real',
         ],
         popular: true,
     },
@@ -136,6 +138,16 @@ export default function PricingClient() {
                                     ))}
                                 </ul>
                             </CardContent>
+                            {key === 'starter' && isCurrent && (
+                                <CardContent className="pt-0">
+                                    <Separator className="my-4" />
+                                    <div className="text-center">
+                                        <p className="text-sm font-semibold">Uso de Análises com IA</p>
+                                        <p className="text-xs text-muted-foreground">Você usou 3 de 5 análises este mês.</p>
+                                        <Progress value={(3/5)*100} className="mt-2 h-2" />
+                                    </div>
+                                </CardContent>
+                            )}
                             <CardContent>
                                 {key === 'starter' && (
                                     <Button variant="outline" className="w-full" disabled>
