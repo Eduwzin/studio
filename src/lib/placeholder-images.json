@@ -1,6 +1,12 @@
 {
   "placeholderImages": [
     {
+      "id": "blog-o-que-e-cdb",
+      "description": "Pessoa investindo em CDB pelo celular",
+      "imageUrl": "https://picsum.photos/seed/whatiscdb/1200/630",
+      "imageHint": "cdb investimento"
+    },
+    {
       "id": "blog-comecar-investir",
       "description": "Pessoa olhando para gráfico de investimentos no celular",
       "imageUrl": "https://picsum.photos/seed/startinvesting/1200/630",
