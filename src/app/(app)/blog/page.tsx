@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { blogArticles, placeholderImages } from "@/lib/content";
 import Image from "next/image";
@@ -31,7 +32,7 @@ export default function BlogPage() {
                 )}
                 <CardHeader>
                   <CardTitle className="leading-snug group-hover:text-primary transition-colors">{article.title}</CardTitle>
-                  <Badge variant="secondary" className="w-fit">{article.date}</Badge>
+                  <Badge variant="secondary" className="w-fit">{new Date(article.date).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' })}</Badge>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">{article.description}</p>
