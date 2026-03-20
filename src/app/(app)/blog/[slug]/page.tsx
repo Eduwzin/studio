@@ -30,24 +30,29 @@ export async function generateMetadata(
   }
 
   const title = article.seoTitle || article.title;
-  const description = article.seoDescription || article.description;
+  const excerpt = article.description; // Short description for social sharing
+  const seoDescription = article.seoDescription || article.description; // Longer description for meta tag
   const image = placeholderImages.find(p => p.id === article.imageId);
+  const canonicalUrl = `https://safestart-invest.com/blog/${article.slug}`;
 
   return {
     title,
-    description,
+    description: seoDescription,
+    alternates: {
+        canonical: canonicalUrl,
+    },
     openGraph: {
-      title,
-      description,
-      type: 'article',
-      publishedTime: new Date(article.date).toISOString(),
-      url: `/blog/${article.slug}`,
-      images: image ? [{
-        url: image.imageUrl,
-        width: 1200,
-        height: 630,
-        alt: title,
-      }] : [],
+        title,
+        description: excerpt,
+        type: 'article',
+        publishedTime: new Date(article.date).toISOString(),
+        url: canonicalUrl,
+        images: image ? [{
+            url: image.imageUrl,
+            width: 1200,
+            height: 630,
+            alt: title,
+        }] : [],
     },
   };
 }
@@ -100,36 +105,39 @@ export default async function BlogPostPage({ params }: Props) {
   // JSON-LD Schema
   const jsonLdSchema = {
       "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": article.seoTitle || article.title,
-      "description": article.seoDescription || article.description,
-      "image": image?.imageUrl,
-      "datePublished": new Date(article.date).toISOString(),
-      "author": {
-          "@type": "Organization",
-          "name": "SafeStart Invest"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "SafeStart Invest",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "/logo.png" // Placeholder, replace with actual logo URL
-        }
-      },
-      ...(article.faq && {
-        mainEntity: {
-            '@type': 'FAQPage',
-            mainEntity: article.faq.map(item => ({
-                '@type': 'Question',
-                name: item.question,
-                acceptedAnswer: {
-                    '@type': 'Answer',
-                    text: item.answer,
+      "@graph": [
+        {
+          "@type": "Article",
+          "headline": article.seoTitle || article.title,
+          "description": article.seoDescription || article.description,
+          "image": image?.imageUrl,
+          "datePublished": new Date(article.date).toISOString(),
+          "dateModified": new Date(article.date).toISOString(), // Assuming date is last updated
+          "author": {
+              "@type": "Organization",
+              "name": "SafeStart Invest"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "SafeStart Invest",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "/logo.png" // Placeholder, replace with actual logo URL
+            }
+          },
+        },
+        ...(article.faq ? [{
+            "@type": "FAQPage",
+            "mainEntity": article.faq.map(item => ({
+                "@type": "Question",
+                "name": item.question,
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": item.answer,
                 },
             })),
-        },
-      }),
+        }] : [])
+      ]
     };
 
   return (
