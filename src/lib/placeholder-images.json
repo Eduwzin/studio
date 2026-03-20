@@ -95,6 +95,12 @@
       "description": "CDB liquidez diária",
       "imageUrl": "https://picsum.photos/seed/cdbliquidez/1200/630",
       "imageHint": "cdb liquidity"
+    },
+    {
+      "id": "blog-o-que-e-tesouro-direto",
+      "description": "Pessoa investindo no Tesouro Direto pelo celular",
+      "imageUrl": "https://picsum.photos/seed/tesourodireto/1200/630",
+      "imageHint": "tesouro direto"
     }
   ]
 }
