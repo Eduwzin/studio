@@ -59,6 +59,12 @@
       "description": "Comparação entre CDB e poupança com gráfico financeiro",
       "imageUrl": "https://picsum.photos/seed/cdbpoupanca/1200/630",
       "imageHint": "investment comparison"
+    },
+    {
+      "id": "blog-cdb-5000",
+      "description": "Simulação de rendimento de 5000 reais no CDB",
+      "imageUrl": "https://picsum.photos/seed/cdb5000/1200/630",
+      "imageHint": "cdb simulation"
     }
   ]
 }
