@@ -11,10 +11,14 @@ export type Article = {
   date: string;
   imageId: string;
   content: string;
-  // Adicionando novos campos de SEO
   seoTitle?: string;
   seoDescription?: string;
   faq?: { question: string; answer: string }[];
+  category?: string;
+  subcategory?: string;
+  pillar?: string;
+  cluster?: string;
+  tags?: string[];
 };
 
 export const blogArticles: Article[] = [
@@ -40,7 +44,12 @@ export const blogArticles: Article[] = [
           question: "Preciso abrir conta em corretora ou posso investir pelo banco?",
           answer: "Você pode investir pelo banco, mas corretoras independentes costumam oferecer mais variedade de produtos e melhores condições. Abrir conta em corretora é gratuito e rápido — geralmente 100% digital."
         }
-      ]
+      ],
+      category: "investimentos",
+      subcategory: "para-iniciantes",
+      pillar: "pillar-1-investimentos",
+      cluster: "comecar-a-investir",
+      tags: ["como começar a investir", "iniciantes", "renda fixa", "reserva de emergência", "tesouro direto", "CDB"],
   },
   {
     slug: 'cdb-liquidez-diaria-vale-a-pena',
