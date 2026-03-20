@@ -102,6 +102,9 @@ export default async function BlogPostPage({ params }: Props) {
   dynamicContent = dynamicContent.replace(/{{selicRate}}/g, selicRate.toFixed(2));
   dynamicContent = dynamicContent.replace(/{{cdbExampleRate}}/g, cdbExampleRate.toFixed(2));
   
+  const baseUrl = 'https://safestart-invest.com';
+  const canonicalUrl = `${baseUrl}/blog/${article.slug}`;
+
   // JSON-LD Schema
   const jsonLdSchema = {
       "@context": "https://schema.org",
@@ -122,9 +125,10 @@ export default async function BlogPostPage({ params }: Props) {
             "name": "SafeStart Invest",
             "logo": {
               "@type": "ImageObject",
-              "url": "/logo.png" // Placeholder, replace with actual logo URL
+              "url": `${baseUrl}/logo.png`
             }
           },
+          "inLanguage": "pt-BR"
         },
         ...(article.faq ? [{
             "@type": "FAQPage",
@@ -136,7 +140,30 @@ export default async function BlogPostPage({ params }: Props) {
                     "text": item.answer,
                 },
             })),
-        }] : [])
+        }] : []),
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": baseUrl
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Blog",
+                    "item": `${baseUrl}/blog`
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": article.title,
+                    "item": canonicalUrl
+                }
+            ]
+        }
       ]
     };
 
