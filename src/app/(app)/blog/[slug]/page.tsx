@@ -207,6 +207,13 @@ export default async function BlogPostPage({ params }: Props) {
         />
 
         <FaqSection faq={article.faq || []} />
+        
+        {article.conclusion && (
+          <div 
+            className="prose prose-lg max-w-none prose-h3:font-headline prose-h3:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-foreground mt-8"
+            dangerouslySetInnerHTML={{ __html: article.conclusion }}
+          />
+        )}
     </article>
     </>
   );
