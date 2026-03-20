@@ -53,6 +53,12 @@
       "description": "Simulação de rendimento de CDB com gráfico financeiro",
       "imageUrl": "https://picsum.photos/seed/cdbrendimento/1200/630",
       "imageHint": "cdb simulation"
+    },
+    {
+      "id": "blog-cdb-poupanca",
+      "description": "Comparação entre CDB e poupança com gráfico financeiro",
+      "imageUrl": "https://picsum.photos/seed/cdbpoupanca/1200/630",
+      "imageHint": "investment comparison"
     }
   ]
 }
