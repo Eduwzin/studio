@@ -1,6 +1,12 @@
 {
   "placeholderImages": [
     {
+      "id": "blog-onde-investir",
+      "description": "pessoa descobrindo onde investir dinheiro no Brasil",
+      "imageUrl": "https://picsum.photos/seed/ondeinvestir/1200/630",
+      "imageHint": "onde investir"
+    },
+    {
       "id": "blog-melhores-investimentos-iniciantes",
       "description": "melhores investimentos para iniciantes em renda fixa",
       "imageUrl": "https://picsum.photos/seed/investiniciante/1200/630",
