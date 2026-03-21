@@ -131,6 +131,12 @@
       "description": "pessoa organizando reserva de emergência em investimentos de liquidez diária",
       "imageUrl": "https://picsum.photos/seed/reservaemergencia/1200/630",
       "imageHint": "reserva emergencia"
+    },
+    {
+      "id": "blog-calculadora-juros-compostos",
+      "description": "calculadora de juros compostos com simulação de crescimento patrimonial",
+      "imageUrl": "https://picsum.photos/seed/calculadorajuros/1200/630",
+      "imageHint": "calculadora juros"
     }
   ]
 }
