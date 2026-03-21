@@ -1,6 +1,12 @@
 {
   "placeholderImages": [
     {
+      "id": "blog-guia-renda-fixa",
+      "description": "guia completo de investimentos em renda fixa para iniciantes",
+      "imageUrl": "https://picsum.photos/seed/guiarendafixa/1200/630",
+      "imageHint": "renda fixa"
+    },
+    {
       "id": "blog-cdb-ou-lci",
       "description": "comparativo entre CDB e LCI em investimentos de renda fixa",
       "imageUrl": "https://picsum.photos/seed/cdblci/1200/630",
