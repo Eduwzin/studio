@@ -1,4 +1,5 @@
 
+
 import type { ImagePlaceholder } from './placeholder-images';
 import data from './placeholder-images.json';
 
@@ -149,7 +150,7 @@ export const blogArticles: Article[] = [
       },
       {
         question: "LCI tem carência? Quando posso resgatar?",
-        answer: "Sim. Por regulamentação do Banco Central, a LCI tem prazo mínimo de 90 dias. A maioria das LCIs só permite resgate no vencimento. Verifique as condições antes de aplicar."
+        answer: "Sim. Por regulamentação do Banco Central, a LCI tem prazo mínimo de 90 dias. A maioria das LCIs disponíveis tem liquidez apenas no vencimento. Verifique as condições antes de aplicar."
       },
       {
         question: "LCI rende mais que CDB?",
@@ -166,11 +167,11 @@ export const blogArticles: Article[] = [
     cluster: 'lci-lca',
     tags: ["o que é LCI", "LCI", "renda fixa", "letra de crédito imobiliário", "isento IR", "FGC"],
     disclaimer: defaultDisclaimer,
-    },
+  },
     {
     slug: 'o-que-e-tesouro-direto',
     title: 'O que é Tesouro Direto? Como funciona e como investir',
-    description: 'Tesouro Direto é o programa do governo federal para venda de títulos públicos a pessoas físicas. Entenda como funciona, quais os tipos e como começar a investir.',
+    description: 'Tesouro Direto é o programa do governo federal para venda de títulos públicos a pessoas físicas. Entenda como funciona, quais os tipos e como investir.',
     seoTitle: 'O que é Tesouro Direto? Como funciona e como investir',
     seoDescription: 'Tesouro Direto é o investimento garantido pelo governo federal. Veja como funciona, quais os tipos de título, custos, IR e se vale mais que CDB e poupança.',
     date: '2026-03-20',
@@ -214,7 +215,7 @@ export const blogArticles: Article[] = [
     tags: ["o que é Tesouro Direto", "Tesouro Direto", "renda fixa", "Tesouro Selic", "títulos públicos"],
     disclaimer: defaultDisclaimer,
   },
-    {
+  {
     slug: 'o-que-e-cdb',
     title: 'O que é CDB? Como funciona e se vale a pena',
     description: 'CDB é um título de renda fixa emitido por bancos. Entenda como funciona, quais os tipos (pré, pós e IPCA+), como é o IR e se vale mais que a poupança.',
@@ -260,6 +261,53 @@ export const blogArticles: Article[] = [
     cluster: 'cdb',
     tags: ["o que é CDB", "CDB", "renda fixa", "certificado de depósito bancário", "CDI", "FGC"],
     disclaimer: defaultDisclaimer,
+  },
+  {
+    slug: 'quanto-rende-10000-no-tesouro-selic',
+    title: 'Quanto rende R$ 10.000 no Tesouro Selic? Simulação atualizada',
+    description: 'Veja quanto rende R$ 10.000 no Tesouro Selic em 1, 6, 12 e 24 meses. Simulação com rendimento bruto e líquido, comparação com poupança e CDB.',
+    seoTitle: 'Quanto rende R$ 10.000 no Tesouro Selic? Simulação 2026',
+    seoDescription: 'Simule quanto rende R$ 10.000 no Tesouro Selic em 1, 6, 12 e 24 meses. Veja o rendimento líquido após IR, comparação com poupança e CDB atualizado.',
+    date: '2026-03-20',
+    imageId: 'blog-tesouro-10000',
+    content: "<h1>Quanto rende R$ 10.000 no Tesouro Selic? Simulação com rendimento líquido</h1><div class='resumo-rapido'><ul><li>Com Selic a 13,75% a.a. (março de 2026), R$ 10.000 rendem aproximadamente R$ 112 líquidos em 1 mês</li><li>Em 12 meses, o rendimento líquido é de aproximadamente R$ 1.093</li><li>O Tesouro Selic rende mais que a poupança em todos os cenários com Selic acima de 8,5% a.a.</li><li>A simulação abaixo considera IR, taxa de custódia da B3 e CDI como referência</li><li>Taxas variam — use este conteúdo como referência, não como promessa de retorno</li></ul></div><p>Antes de investir, é natural querer saber exatamente quanto o dinheiro vai render. Com o Tesouro Selic, o cálculo é mais simples do que parece — mas tem alguns detalhes importantes sobre IR e taxa de custódia que fazem diferença no resultado final.</p><p>Esta simulação mostra o rendimento de R$ 10.000 no Tesouro Selic em diferentes prazos, com os descontos reais aplicados.</p><h2>Premissas da simulação</h2><p>Para os cálculos abaixo, foram usadas as seguintes referências:</p><ul><li><strong>Taxa Selic:</strong> 13,75% ao ano (Bacen/SGS, março de 2026)</li><li><strong>CDI:</strong> 13,65% ao ano (próximo à Selic, como de costume)</li><li><strong>Taxa de custódia B3:</strong> 0,20% ao ano (isenta para até R$ 10.000 no Tesouro Selic — neste caso, sem cobrança)</li><li><strong>IR:</strong> tabela regressiva da Receita Federal (22,5% até 180 dias; 20% de 181 a 360 dias; 17,5% de 361 a 720 dias; 15% acima de 720 dias)</li><li><strong>IOF:</strong> zero (aplicações mantidas por mais de 30 dias)</li></ul><p><strong>Importante:</strong> estas simulações assumem taxa Selic constante ao longo do período, apenas para fins ilustrativos. Na prática, a Selic pode mudar a cada reunião do Copom (a cada 45 dias aproximadamente). O rendimento real pode ser diferente.</p><h2>Simulação: quanto rende R$ 10.000 no Tesouro Selic</h2><table><thead><tr><th>Prazo</th><th>Rendimento bruto</th><th>IR</th><th>Rendimento líquido</th><th>Saldo final líquido</th></tr></thead><tbody><tr><td>1 mês</td><td>R$ 107,90</td><td>22,5% = R$ 24,28</td><td>R$ 83,62</td><td>R$ 10.083,62</td></tr><tr><td>3 meses</td><td>R$ 328,50</td><td>22,5% = R$ 73,91</td><td>R$ 254,59</td><td>R$ 10.254,59</td></tr><tr><td>6 meses</td><td>R$ 668,20</td><td>22,5% = R$ 150,35</td><td>R$ 517,85</td><td>R$ 10.517,85</td></tr><tr><td>12 meses</td><td>R$ 1.375,00</td><td>20% = R$ 275,00</td><td>R$ 1.100,00</td><td>R$ 11.100,00</td></tr><tr><td>24 meses</td><td>R$ 2.932,50</td><td>17,5% = R$ 513,19</td><td>R$ 2.419,31</td><td>R$ 12.419,31</td></tr><tr><td>36 meses</td><td>R$ 4.706,25</td><td>15% = R$ 705,94</td><td>R$ 4.000,31</td><td>R$ 14.000,31</td></tr></tbody></table><p><em>Simulação com Selic de 13,75% a.a. (Bacen/SGS, março de 2026), taxa constante para fins ilustrativos. IR calculado sobre o rendimento bruto conforme tabela regressiva da Receita Federal. Taxa de custódia da B3 isenta para até R$ 10.000 no Tesouro Selic. Valores arredondados.</em></p><h2>Como o IR afeta o rendimento do Tesouro Selic</h2><p>O Imposto de Renda é o principal fator que reduz o rendimento líquido — especialmente em prazos curtos.</p><p>Nos primeiros 180 dias, a alíquota é de 22,5% sobre o rendimento. Isso significa que quase um quarto dos seus juros vai para o governo. Quanto mais tempo você mantém o investimento, menor a alíquota — chegando a 15% após 720 dias.</p><p>Por isso, para objetivos de longo prazo, o Tesouro Selic fica mais eficiente com o tempo — mas continua sendo o melhor produto para reserva de emergência mesmo no curto prazo, pela segurança e liquidez.</p><h2>Quanto rende a poupança no mesmo período?</h2><p>Com a Selic acima de 8,5% ao ano, a poupança rende 0,5% ao mês mais TR (Taxa Referencial). Na prática, isso equivale a aproximadamente 6,17% ao ano — sem IR.</p><table><thead><tr><th>Prazo</th><th>Tesouro Selic líquido</th><th>Poupança (est.)</th><th>Diferença</th></tr></thead><tbody><tr><td>6 meses</td><td>R$ 517,85</td><td>R$ 305,00</td><td>+R$ 212,85</td></tr><tr><td>12 meses</td><td>R$ 1.100,00</td><td>R$ 617,00</td><td>+R$ 483,00</td></tr><tr><td>24 meses</td><td>R$ 2.419,31</td><td>R$ 1.270,00</td><td>+R$ 1.149,31</td></tr><tr><td>36 meses</td><td>R$ 4.000,31</td><td>R$ 1.963,00</td><td>+R$ 2.037,31</td></tr></tbody></table><p><em>Poupança estimada com rendimento de 6,17% a.a., sem IR. Tesouro Selic com Selic de 13,75% a.a. após IR. Valores aproximados para fins comparativos.</em></p><p>Em todos os prazos, o Tesouro Selic supera a poupança com folga — mesmo após o desconto do IR. Em 36 meses, a diferença é de mais de R$ 2.000 para cada R$ 10.000 investidos.</p><h2>Tesouro Selic vs CDB de liquidez diária: qual rende mais?</h2><p>O Tesouro Selic e um CDB de liquidez diária a 100% do CDI têm rendimentos muito próximos — o CDI acompanha a Selic com uma pequena diferença.</p><table><thead><tr><th>Prazo</th><th>Tesouro Selic líquido</th><th>CDB 100% CDI líquido</th><th>CDB 110% CDI líquido</th></tr></thead><tbody><tr><td>6 meses</td><td>R$ 517,85</td><td>R$ 513,20</td><td>R$ 564,52</td></tr><tr><td>12 meses</td><td>R$ 1.100,00</td><td>R$ 1.092,00</td><td>R$ 1.201,20</td></tr><tr><td>24 meses</td><td>R$ 2.419,31</td><td>R$ 2.401,50</td><td>R$ 2.641,65</td></tr></tbody></table><p><em>CDB calculado com CDI de 13,65% a.a. após IR (tabela regressiva). Valores aproximados para fins comparativos.</em></p><p>A diferença entre Tesouro Selic e CDB 100% CDI é pequena em qualquer prazo. Para R$ 10.000, a diferença em 12 meses é de apenas R$ 8. A escolha entre os dois geralmente depende da corretora e das condições disponíveis.</p><p>Para CDB acima de 100% do CDI, o rendimento é maior — mas pode exigir prazo mínimo ou valor mínimo mais alto. <a href='/tesouro-selic-ou-cdb'>Veja a comparação completa entre Tesouro Selic e CDB.</a></p><h2>Vale a pena investir R$ 10.000 no Tesouro Selic?</h2><p>Depende do objetivo.</p><p><strong>Para reserva de emergência:</strong> sim, com segurança. O Tesouro Selic é o produto mais indicado para guardar dinheiro que você pode precisar a qualquer momento. Tem liquidez diária, risco mínimo e rendimento acima da poupança.</p><p><strong>Para objetivos de médio e longo prazo:</strong> o Tesouro Selic é uma boa base, mas outros produtos podem oferecer rendimento maior — como CDBs de prazo mais longo, LCI/LCA ou Tesouro IPCA+. Depende do seu perfil e do momento do mercado.</p><p><strong>Para quem está começando:</strong> o Tesouro Selic é ideal como primeiro investimento. Seguro, simples, acessível a partir de R$ 30 e com rendimento muito superior à poupança.</p><h2>Como investir R$ 10.000 no Tesouro Selic agora</h2><p><strong>Passo 1:</strong> abra conta em corretora ou banco digital habilitado pelo Tesouro Nacional.</p><p><strong>Passo 2:</strong> acesse a área de Tesouro Direto e selecione o Tesouro Selic disponível.</p><p><strong>Passo 3:</strong> informe o valor (R$ 10.000) e confirme a compra.</p><p><strong>Passo 4:</strong> o título aparece na sua carteira em até 1 dia útil.</p>",
+    conclusion: "<h2>Conclusão</h2><p>R$ 10.000 no Tesouro Selic rendem aproximadamente R$ 1.100 líquidos em 12 meses com a Selic a 13,75% ao ano — quase o dobro do que a poupança pagaria no mesmo período.</p><p>Para reserva de emergência e objetivos de curto prazo, o Tesouro Selic segue sendo a referência de segurança e liquidez no mercado brasileiro.</p><p>Quer entender melhor como funciona? <a href='/o-que-e-tesouro-direto'>Leia o guia completo sobre o Tesouro Direto.</a></p>",
+    faq: [
+      {
+        question: "Quanto rende R$ 10.000 no Tesouro Selic em 12 meses?",
+        answer: "Com a Selic a 13,75% ao ano (março de 2026), R$ 10.000 no Tesouro Selic rendem aproximadamente R$ 1.100 líquidos em 12 meses, após o desconto do IR de 20%. O saldo final seria de cerca de R$ 11.100."
+      },
+      {
+        question: "Quanto rende R$ 10.000 no Tesouro Selic por mês?",
+        answer: "Com a Selic a 13,75% ao ano, R$ 10.000 rendem aproximadamente R$ 84 líquidos por mês (após IR de 22,5% nos primeiros 180 dias). O rendimento mensal aumenta conforme a alíquota de IR diminui com o tempo."
+      },
+      {
+        question: "Tesouro Selic rende mais que a poupança?",
+        answer: "Sim, em todos os cenários com Selic acima de 8,5% ao ano. Com a Selic atual, o Tesouro Selic rende aproximadamente o dobro da poupança no líquido — mesmo após o desconto do IR."
+      },
+      {
+        question: "Tesouro Selic tem Imposto de Renda?",
+        answer: "Sim. O IR incide sobre o rendimento com alíquota regressiva: 22,5% para resgates em até 180 dias, chegando a 15% para resgates após 720 dias. O imposto é retido automaticamente na fonte."
+      },
+      {
+        question: "Tesouro Selic tem taxa de custódia?",
+        answer: "Sim. A B3 cobra 0,20% ao ano sobre o valor investido. Porém, investimentos de até R$ 10.000 no Tesouro Selic são isentos dessa taxa. Acima de R$ 10.000, a taxa se aplica ao valor total."
+      },
+      {
+        question: "Qual a diferença entre Tesouro Selic e CDB de liquidez diária?",
+        answer: "O rendimento é muito próximo — a diferença em 12 meses para R$ 10.000 é de aproximadamente R$ 8. A principal diferença é a garantia: Tesouro é garantido pelo Governo Federal, CDB pelo FGC até R$ 250.000."
+      },
+      {
+        question: "Posso perder dinheiro no Tesouro Selic?",
+        answer: "Praticamente não. O Tesouro Selic tem variação de preço mínima — o título sobe todos os dias acompanhando a Selic. Mesmo em resgates antecipados, a chance de perda é extremamente baixa."
+      }
+    ],
+    category: 'renda-fixa',
+    subcategory: 'tesouro-direto',
+    pillar: 'pillar-2-renda-fixa',
+    cluster: 'tesouro-direto',
+    tags: ["quanto rende Tesouro Selic", "simulação Tesouro Selic", "rendimento Tesouro Selic", "Tesouro Selic 10000", "renda fixa"],
+    disclaimer: "Este conteúdo é educativo e não constitui recomendação de investimento. As simulações assumem taxa Selic constante para fins ilustrativos — o rendimento real pode variar. Consulte um profissional certificado para orientação personalizada.",
   },
   {
     slug: 'como-comecar-a-investir',
@@ -308,54 +356,48 @@ export const blogArticles: Article[] = [
       tags: ["como começar a investir", "iniciantes", "renda fixa", "reserva de emergência", "tesouro direto", "CDB"],
       disclaimer: defaultDisclaimer,
   },
-  {
-    slug: 'quanto-rende-10000-no-tesouro-selic',
-    title: 'Quanto rende R$ 10.000 no Tesouro Selic? Simulação atualizada',
-    description: 'Veja quanto rende R$ 10.000 no Tesouro Selic em 1, 6, 12 e 24 meses. Simulação com rendimento bruto e líquido, comparação com poupança e CDB.',
-    seoTitle: 'Quanto rende R$ 10.000 no Tesouro Selic? Simulação 2026',
-    seoDescription: 'Simule quanto rende R$ 10.000 no Tesouro Selic em 1, 6, 12 e 24 meses. Veja o rendimento líquido após IR, comparação com poupança e CDB atualizado.',
+    {
+    slug: 'reserva-de-emergencia',
+    title: 'Reserva de Emergência: quanto guardar e onde deixar o dinheiro',
+    description: 'Reserva de emergência é o dinheiro guardado para imprevistos. Veja quanto guardar, onde deixar e quais produtos têm liquidez e segurança para esse fim.',
+    seoTitle: 'Reserva de Emergência: quanto guardar e onde investir',
+    seoDescription: 'Saiba quanto guardar na reserva de emergência, onde deixar o dinheiro com liquidez e segurança, e por que ela deve vir antes de qualquer investimento.',
     date: '2026-03-20',
-    imageId: 'blog-tesouro-10000',
-    content: `<h1>Quanto rende R$ 10.000 no Tesouro Selic? Simulação com rendimento líquido</h1><div class='resumo-rapido'><ul><li>Com Selic a 13,75% a.a. (março de 2026), R$ 10.000 rendem aproximadamente R$ 112 líquidos em 1 mês</li><li>Em 12 meses, o rendimento líquido é de aproximadamente R$ 1.093</li><li>O Tesouro Selic rende mais que a poupança em todos os cenários com Selic acima de 8,5% a.a.</li><li>A simulação abaixo considera IR, taxa de custódia da B3 e CDI como referência</li><li>Taxas variam — use este conteúdo como referência, não como promessa de retorno</li></ul></div><p>Antes de investir, é natural querer saber exatamente quanto o dinheiro vai render. Com o Tesouro Selic, o cálculo é mais simples do que parece — mas tem alguns detalhes importantes sobre IR e taxa de custódia que fazem diferença no resultado final.</p><p>Esta simulação mostra o rendimento de R$ 10.000 no Tesouro Selic em diferentes prazos, com os descontos reais aplicados.</p><h2>Premissas da simulação</h2><p>Para os cálculos abaixo, foram usadas as seguintes referências:</p><ul><li><strong>Taxa Selic:</strong> 13,75% ao ano (Bacen/SGS, março de 2026)</li><li><strong>CDI:</strong> 13,65% ao ano (próximo à Selic, como de costume)</li><li><strong>Taxa de custódia B3:</strong> 0,20% ao ano (isenta para até R$ 10.000 no Tesouro Selic — neste caso, sem cobrança)</li><li><strong>IR:</strong> tabela regressiva da Receita Federal (22,5% até 180 dias; 20% de 181 a 360 dias; 17,5% de 361 a 720 dias; 15% acima de 720 dias)</li><li><strong>IOF:</strong> zero (aplicações mantidas por mais de 30 dias)</li></ul><p><strong>Importante:</strong> estas simulações assumem taxa Selic constante ao longo do período, apenas para fins ilustrativos. Na prática, a Selic pode mudar a cada reunião do Copom (a cada 45 dias aproximadamente). O rendimento real pode ser diferente.</p><h2>Simulação: quanto rende R$ 10.000 no Tesouro Selic</h2><table><thead><tr><th>Prazo</th><th>Rendimento bruto</th><th>IR</th><th>Rendimento líquido</th><th>Saldo final líquido</th></tr></thead><tbody><tr><td>1 mês</td><td>R$ 107,90</td><td>22,5% = R$ 24,28</td><td>R$ 83,62</td><td>R$ 10.083,62</td></tr><tr><td>3 meses</td><td>R$ 328,50</td><td>22,5% = R$ 73,91</td><td>R$ 254,59</td><td>R$ 10.254,59</td></tr><tr><td>6 meses</td><td>R$ 668,20</td><td>22,5% = R$ 150,35</td><td>R$ 517,85</td><td>R$ 10.517,85</td></tr><tr><td>12 meses</td><td>R$ 1.375,00</td><td>20% = R$ 275,00</td><td>R$ 1.100,00</td><td>R$ 11.100,00</td></tr><tr><td>24 meses</td><td>R$ 2.932,50</td><td>17,5% = R$ 513,19</td><td>R$ 2.419,31</td><td>R$ 12.419,31</td></tr><tr><td>36 meses</td><td>R$ 4.706,25</td><td>15% = R$ 705,94</td><td>R$ 4.000,31</td><td>R$ 14.000,31</td></tr></tbody></table><p><em>Simulação com Selic de 13,75% a.a. (Bacen/SGS, março de 2026), taxa constante para fins ilustrativos. IR calculado sobre o rendimento bruto conforme tabela regressiva da Receita Federal. Taxa de custódia da B3 isenta para até R$ 10.000 no Tesouro Selic. Valores arredondados.</em></p><h2>Como o IR afeta o rendimento do Tesouro Selic</h2><p>O Imposto de Renda é o principal fator que reduz o rendimento líquido — especialmente em prazos curtos.</p><p>Nos primeiros 180 dias, a alíquota é de 22,5% sobre o rendimento. Isso significa que quase um quarto dos seus juros vai para o governo. Quanto mais tempo você mantém o investimento, menor a alíquota — chegando a 15% após 720 dias.</p><p>Por isso, para objetivos de longo prazo, o Tesouro Selic fica mais eficiente com o tempo — mas continua sendo o melhor produto para reserva de emergência mesmo no curto prazo, pela segurança e liquidez.</p><h2>Quanto rende a poupança no mesmo período?</h2><p>Com a Selic acima de 8,5% ao ano, a poupança rende 0,5% ao mês mais TR (Taxa Referencial). Na prática, isso equivale a aproximadamente 6,17% ao ano — sem IR.</p><table><thead><tr><th>Prazo</th><th>Tesouro Selic líquido</th><th>Poupança (est.)</th><th>Diferença</th></tr></thead><tbody><tr><td>6 meses</td><td>R$ 517,85</td><td>R$ 305,00</td><td>+R$ 212,85</td></tr><tr><td>12 meses</td><td>R$ 1.100,00</td><td>R$ 617,00</td><td>+R$ 483,00</td></tr><tr><td>24 meses</td><td>R$ 2.419,31</td><td>R$ 1.270,00</td><td>+R$ 1.149,31</td></tr><tr><td>36 meses</td><td>R$ 4.000,31</td><td>R$ 1.963,00</td><td>+R$ 2.037,31</td></tr></tbody></table><p><em>Poupança estimada com rendimento de 6,17% a.a., sem IR. Tesouro Selic com Selic de 13,75% a.a. após IR. Valores aproximados para fins comparativos.</em></p><p>Em todos os prazos, o Tesouro Selic supera a poupança com folga — mesmo após o desconto do IR. Em 36 meses, a diferença é de mais de R$ 2.000 para cada R$ 10.000 investidos.</p><h2>Tesouro Selic vs CDB de liquidez diária: qual rende mais?</h2><p>O Tesouro Selic e um CDB de liquidez diária a 100% do CDI têm rendimentos muito próximos — o CDI acompanha a Selic com uma pequena diferença.</p><table><thead><tr><th>Prazo</th><th>Tesouro Selic líquido</th><th>CDB 100% CDI líquido</th><th>CDB 110% CDI líquido</th></tr></thead><tbody><tr><td>6 meses</td><td>R$ 517,85</td><td>R$ 513,20</td><td>R$ 564,52</td></tr><tr><td>12 meses</td><td>R$ 1.100,00</td><td>R$ 1.092,00</td><td>R$ 1.201,20</td></tr><tr><td>24 meses</td><td>R$ 2.419,31</td><td>R$ 2.401,50</td><td>R$ 2.641,65</td></tr></tbody></table><p><em>CDB calculado com CDI de 13,65% a.a. após IR (tabela regressiva). Valores aproximados para fins comparativos.</em></p><p>A diferença entre Tesouro Selic e CDB 100% CDI é pequena em qualquer prazo. Para R$ 10.000, a diferença em 12 meses é de apenas R$ 8. A escolha entre os dois geralmente depende da corretora e das condições disponíveis.</p><p>Para CDB acima de 100% do CDI, o rendimento é maior — mas pode exigir prazo mínimo ou valor mínimo mais alto. <a href='/tesouro-selic-ou-cdb'>Veja a comparação completa entre Tesouro Selic e CDB.</a></p><h2>Vale a pena investir R$ 10.000 no Tesouro Selic?</h2><p>Depende do objetivo.</p><p><strong>Para reserva de emergência:</strong> sim, com segurança. O Tesouro Selic é o produto mais indicado para guardar dinheiro que você pode precisar a qualquer momento. Tem liquidez diária, risco mínimo e rendimento acima da poupança.</p><p><strong>Para objetivos de médio e longo prazo:</strong> o Tesouro Selic é uma boa base, mas outros produtos podem oferecer rendimento maior — como CDBs de prazo mais longo, LCI/LCA ou Tesouro IPCA+. Depende do seu perfil e do momento do mercado.</p><p><strong>Para quem está começando:</strong> o Tesouro Selic é ideal como primeiro investimento. Seguro, simples, acessível a partir de R$ 30 e com rendimento muito superior à poupança.</p><h2>Como investir R$ 10.000 no Tesouro Selic agora</h2><p><strong>Passo 1:</strong> abra conta em corretora ou banco digital habilitado pelo Tesouro Nacional.</p><p><strong>Passo 2:</strong> acesse a área de Tesouro Direto e selecione o Tesouro Selic disponível.</p><p><strong>Passo 3:</strong> informe o valor (R$ 10.000) e confirme a compra.</p><p><strong>Passo 4:</strong> o título aparece na sua carteira em até 1 dia útil.</p>`,
-    conclusion: `<h2>Conclusão</h2><p>R$ 10.000 no Tesouro Selic rendem aproximadamente R$ 1.100 líquidos em 12 meses com a Selic a 13,75% ao ano — quase o dobro do que a poupança pagaria no mesmo período.</p><p>Para reserva de emergência e objetivos de curto prazo, o Tesouro Selic segue sendo a referência de segurança e liquidez no mercado brasileiro.</p><p>Quer entender melhor como funciona? <a href='/o-que-e-tesouro-direto'>Leia o guia completo sobre o Tesouro Direto.</a></p>`,
+    imageId: 'blog-reserva-emergencia',
+    content: "<h1>Reserva de emergência: quanto guardar, onde deixar e como montar a sua</h1><div class='resumo-rapido'><ul><li>Reserva de emergência é o dinheiro separado para imprevistos — não para investir, mas para proteger</li><li>O valor ideal é de 3 a 6 meses de despesas mensais (6 a 12 meses para autônomos e MEIs)</li><li>Precisa ter liquidez imediata — você deve conseguir resgatar em até 1 dia útil</li><li>Os melhores produtos: Tesouro Selic, CDB de liquidez diária e conta remunerada</li><li>Monte a reserva antes de qualquer outro investimento — sem exceção</li></ul></div><p>Reserva de emergência é o alicerce de qualquer vida financeira saudável. Sem ela, qualquer imprevisto — demissão, problema de saúde, carro quebrado — pode destruir um planejamento financeiro que levou anos para construir.</p><p>Este guia explica quanto guardar, onde deixar e como montar a sua reserva do zero.</p><h2>O que é reserva de emergência</h2><p>Reserva de emergência é um dinheiro separado, de fácil acesso, destinado exclusivamente a cobrir imprevistos ou períodos de perda de renda.</p><p>Não é investimento para crescer patrimônio. Não é dinheiro para aproveitar oportunidades. É proteção — como um seguro financeiro que você mesmo cria.</p><p>A prioridade aqui não é rentabilidade máxima. É segurança e liquidez: você precisa conseguir acessar esse dinheiro rapidamente, sem risco de perda e sem depender da sorte do mercado.</p><h2>Por que a reserva de emergência vem antes de qualquer investimento</h2><p>Sem reserva de emergência, qualquer imprevisto vai te forçar a resgatar investimentos no pior momento — possivelmente com perda, penalidade de resgate antecipado ou venda de ativos em queda.</p><p>Exemplos de situações que a reserva cobre:</p><ul><li>Demissão ou redução de renda</li><li>Despesa médica inesperada</li><li>Conserto de carro ou imóvel</li><li>Necessidade familiar urgente</li><li>Período de transição de emprego</li></ul><p>Com a reserva formada, você consegue enfrentar essas situações sem mexer nos seus investimentos de longo prazo — e sem se endividar.</p><h2>Quanto guardar na reserva de emergência</h2><p>A recomendação mais comum é de <strong>3 a 6 meses de despesas mensais</strong>. Mas o número ideal depende da sua situação:</p><table><thead><tr><th>Perfil</th><th>Reserva recomendada</th><th>Motivo</th></tr></thead><tbody><tr><td>CLT com renda estável</td><td>3 a 6 meses de despesas</td><td>Tem FGTS e seguro-desemprego como proteção adicional</td></tr><tr><td>Autônomo ou freelancer</td><td>6 a 12 meses de despesas</td><td>Renda variável e sem proteções trabalhistas</td></tr><tr><td>MEI ou empresário</td><td>6 a 12 meses de despesas</td><td>Receita incerta e responsabilidades maiores</td></tr><tr><td>Com dependentes financeiros</td><td>6 meses ou mais</td><td>Maior responsabilidade e menos margem para erro</td></tr></tbody></table><p>Como calcular o seu número:</p><p><strong>Reserva ideal = despesas mensais × número de meses recomendado</strong></p><p>Exemplo: se você gasta R$ 4.000 por mês e é CLT, sua reserva ideal fica entre R$ 12.000 e R$ 24.000.</p><h2>Onde deixar a reserva de emergência</h2><p>O produto ideal para reserva de emergência precisa ter três características obrigatórias:</p><ul><li><strong>Liquidez diária:</strong> você precisa resgatar em até 1 dia útil</li><li><strong>Segurança:</strong> sem risco de perda do principal</li><li><strong>Rendimento acima da poupança:</strong> o dinheiro deve pelo menos se proteger da inflação</li></ul><p>Os melhores produtos para reserva de emergência:</p><table><thead><tr><th>Produto</th><th>Liquidez</th><th>Segurança</th><th>Rendimento bruto (mar/2026)</th><th>IR</th></tr></thead><tbody><tr><td>Tesouro Selic</td><td>D+1 (1 dia útil)</td><td>Governo Federal</td><td>~13,75% a.a.</td><td>Sim (regressivo)</td></tr><tr><td>CDB liquidez diária</td><td>D+0 ou D+1</td><td>FGC até R$ 250k</td><td>~100% CDI (13,65% a.a.)</td><td>Sim (regressivo)</td></tr><tr><td>Conta remunerada (corretora)</td><td>D+0</td><td>FGC até R$ 250k</td><td>~100% CDI</td><td>Sim (regressivo)</td></tr><tr><td>Poupança</td><td>Diária</td><td>FGC até R$ 250k</td><td>~6,17% a.a. + TR</td><td>Isento</td></tr></tbody></table><p><em>Rendimentos com base na Selic de 13,75% a.a. e CDI de 13,65% a.a. (Bacen/SGS, março de 2026).</em></p><p><strong>A poupança não é recomendada para reserva de emergência.</strong> Com a Selic acima de 8,5% ao ano, a poupança rende muito menos que o Tesouro Selic ou um CDB de liquidez diária — e o dinheiro perde poder de compra com o tempo.</p><h2>Tesouro Selic ou CDB de liquidez diária: qual usar na reserva?</h2><p>Os dois são excelentes para reserva de emergência. A diferença prática é pequena:</p><table><thead><tr><th>Critério</th><th>Tesouro Selic</th><th>CDB liquidez diária</th></tr></thead><tbody><tr><td>Garantia</td><td>Governo Federal</td><td>FGC até R$ 250k por instituição</td></tr><tr><td>Resgate</td><td>D+1 (1 dia útil)</td><td>D+0 ou D+1</td></tr><tr><td>Rendimento</td><td>~100% Selic</td><td>~100% CDI (próximo à Selic)</td></tr><tr><td>Valor mínimo</td><td>~R$ 30</td><td>A partir de R$ 1 em algumas corretoras</td></tr><tr><td>Isenção taxa custódia</td><td>Sim, até R$ 10.000</td><td>Não se aplica</td></tr></tbody></table><p>Para reservas acima de R$ 250.000, o Tesouro Selic é mais seguro — não tem limite de cobertura. Para reservas menores, os dois são equivalentes em termos de segurança.</p><h2>Como montar a reserva de emergência do zero</h2><p><strong>Passo 1 — Calcule o seu número</strong><br>Multiplique suas despesas mensais pelo número de meses recomendado para o seu perfil. Esse é o seu objetivo.</p><p><strong>Passo 2 — Abra uma conta em corretora ou banco digital</strong><br>Escolha uma instituição que ofereça Tesouro Selic ou CDB de liquidez diária sem taxa. A maioria das corretoras digitais tem processo 100% online.</p><p><strong>Passo 3 — Defina um valor mensal para aportar</strong><br>Não precisa ser muito. R$ 200, R$ 300, R$ 500 por mês — o que couber no orçamento. O importante é a consistência.</p><p><strong>Passo 4 — Automatize o aporte</strong><br>Configure uma transferência automática no dia do pagamento do salário. Dinheiro que sai antes de você ver raramente faz falta.</p><p><strong>Passo 5 — Não mexa até precisar de verdade</strong><br>Reserva de emergência não é para oportunidade de investimento, viagem ou compra planejada. É para emergências — situações imprevistas que afetam sua renda ou geram despesas urgentes.</p><h2>Quanto tempo leva para montar a reserva</h2><p>Depende do valor da reserva e do quanto você consegue poupar por mês:</p><table><thead><tr><th>Meta da reserva</th><th>Aporte mensal de R$ 300</th><th>Aporte mensal de R$ 500</th><th>Aporte mensal de R$ 1.000</th></tr></thead><tbody><tr><td>R$ 6.000</td><td>20 meses</td><td>12 meses</td><td>6 meses</td></tr><tr><td>R$ 12.000</td><td>40 meses</td><td>24 meses</td><td>12 meses</td></tr><tr><td>R$ 24.000</td><td>80 meses</td><td>48 meses</td><td>24 meses</td></tr></tbody></table><p><em>Valores aproximados sem considerar rendimento dos aportes, apenas para fins de planejamento.</em></p><p>Se o prazo parecer longo, não desanime. Comece com o que tiver. Uma reserva parcial já é melhor que nenhuma — e cada mês ela cresce um pouco mais.</p><h2>O que fazer depois de montar a reserva</h2><p>Com a reserva de emergência completa, você tem liberdade para investir o restante com mais tranquilidade — sem precisar resgatar em momentos ruins.</p><p>O próximo passo natural é:</p><ul><li>Investir objetivos de médio prazo em renda fixa (CDB, LCI, Tesouro Prefixado)</li><li>Explorar renda variável para o longo prazo, se o seu perfil permitir</li><li>Considerar previdência privada para aposentadoria</li></ul><p>Quer saber por onde continuar? <a href='/como-comecar-a-investir'>Leia o guia completo de como começar a investir do zero.</a></p><h2>Conclusão</h2><p>Reserva de emergência não é opcional — é o primeiro passo de qualquer planejamento financeiro sério. Sem ela, você está sempre a um imprevisto de distância do endividamento.</p><p>Monte a sua antes de qualquer outro investimento. Use Tesouro Selic ou CDB de liquidez diária. E não mexa nela a não ser em emergências reais.</p>",
     faq: [
       {
-        question: "Quanto rende R$ 10.000 no Tesouro Selic em 12 meses?",
-        answer: "Com a Selic a 13,75% ao ano (março de 2026), R$ 10.000 no Tesouro Selic rendem aproximadamente R$ 1.100 líquidos em 12 meses, após o desconto do IR de 20%. O saldo final seria de cerca de R$ 11.100."
+        question: "Quanto devo ter de reserva de emergência?",
+        answer: "O recomendado é de 3 a 6 meses de despesas mensais para quem tem renda estável (CLT). Para autônomos, MEIs e quem tem dependentes, o ideal é de 6 a 12 meses. Calcule: despesas mensais × número de meses recomendado."
       },
       {
-        question: "Quanto rende R$ 10.000 no Tesouro Selic por mês?",
-        answer: "Com a Selic a 13,75% ao ano, R$ 10.000 rendem aproximadamente R$ 84 líquidos por mês (após IR de 22,5% nos primeiros 180 dias). O rendimento mensal aumenta conforme a alíquota de IR diminui com o tempo."
+        question: "Onde deixar a reserva de emergência?",
+        answer: "Os melhores produtos são Tesouro Selic e CDB de liquidez diária. Os dois têm liquidez em até 1 dia útil, segurança alta e rendimento muito acima da poupança. Evite deixar a reserva na poupança — ela rende pouco com a Selic atual."
       },
       {
-        question: "Tesouro Selic rende mais que a poupança?",
-        answer: "Sim, em todos os cenários com Selic acima de 8,5% ao ano. Com a Selic atual, o Tesouro Selic rende aproximadamente o dobro da poupança no líquido — mesmo após o desconto do IR."
+        question: "Posso investir a reserva de emergência em ações ou FIIs?",
+        answer: "Não. Renda variável tem oscilação de preço — você pode ser forçado a vender em queda justamente quando precisar do dinheiro. A reserva de emergência deve estar em produtos de renda fixa com liquidez diária e sem risco de perda do principal."
       },
       {
-        question: "Tesouro Selic tem Imposto de Renda?",
-        answer: "Sim. O IR incide sobre o rendimento com alíquota regressiva: 22,5% para resgates em até 180 dias, chegando a 15% para resgates após 720 dias. O imposto é retido automaticamente na fonte."
+        question: "Tesouro Selic ou CDB para reserva de emergência?",
+        answer: "Os dois são ótimas opções. O Tesouro Selic é garantido pelo Governo Federal (sem limite). O CDB de liquidez diária tem cobertura do FGC até R$ 250.000 por instituição. Para reservas abaixo desse valor, os dois são equivalentes em segurança."
       },
       {
-        question: "Tesouro Selic tem taxa de custódia?",
-        answer: "Sim. A B3 cobra 0,20% ao ano sobre o valor investido. Porém, investimentos de até R$ 10.000 no Tesouro Selic são isentos dessa taxa. Acima de R$ 10.000, a taxa se aplica ao valor total."
+        question: "Devo montar a reserva antes de pagar dívidas?",
+        answer: "Depende. Dívidas com juros muito altos (cartão de crédito, cheque especial) devem ser quitadas antes. Para dívidas de juros baixos (financiamento imobiliário), é possível montar a reserva e pagar simultaneamente. Uma reserva mínima de 1 a 2 meses já ajuda a evitar novos endividamentos."
       },
       {
-        question: "Qual a diferença entre Tesouro Selic e CDB de liquidez diária?",
-        answer: "O rendimento é muito próximo — a diferença em 12 meses para R$ 10.000 é de aproximadamente R$ 8. A principal diferença é a garantia: Tesouro é garantido pelo Governo Federal, CDB pelo FGC até R$ 250.000."
+        question: "Posso usar a reserva de emergência para aproveitar uma oportunidade de investimento?",
+        answer: "Não. Reserva de emergência é para imprevistos — não para oportunidades. Usar esse dinheiro para investir deixa você desprotegido. Se quiser investir em oportunidades, crie um segundo objetivo separado da reserva."
       },
       {
-        question: "Posso perder dinheiro no Tesouro Selic?",
-        answer: "Praticamente não. O Tesouro Selic tem variação de preço mínima — o título sobe todos os dias acompanhando a Selic. Mesmo em resgates antecipados, a chance de perda é extremamente baixa."
+        question: "Quanto tempo leva para montar uma reserva de emergência?",
+        answer: "Depende do valor da reserva e do quanto você poupa por mês. Com R$ 500 mensais, uma reserva de R$ 12.000 leva cerca de 24 meses. O importante é começar com o que tiver e manter consistência — uma reserva parcial já oferece proteção."
       }
     ],
-    category: 'renda-fixa',
-    subcategory: 'tesouro-direto',
-    pillar: 'pillar-2-renda-fixa',
-    cluster: 'tesouro-direto',
-    tags: ["quanto rende Tesouro Selic", "simulação Tesouro Selic", "rendimento Tesouro Selic", "Tesouro Selic 10000", "renda fixa"],
-    disclaimer: "Este conteúdo é educativo e não constitui recomendação de investimento. As simulações assumem taxa Selic constante para fins ilustrativos — o rendimento real pode variar. Consulte um profissional certificado para orientação personalizada.",
-  },
-];
+    disclaimer: "Este conteúdo é educativo e não constitui recomendação de investimento. Os valores e prazos são referências gerais — a situação ideal varia conforme o perfil e objetivo de cada pessoa. Consulte um profissional certificado para orientação personalizada.",
+  }
+]
 
 export type EduTopic = {
   id: string;
@@ -386,6 +428,10 @@ export const educationalContent: EduTopic[] = [
 ];
 
     
+
+
+
+
 
 
 

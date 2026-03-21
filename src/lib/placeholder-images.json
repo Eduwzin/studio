@@ -119,6 +119,12 @@
       "description": "comparativo entre renda fixa e renda variável para investidores",
       "imageUrl": "https://picsum.photos/seed/fixavariavel/1200/630",
       "imageHint": "renda fixa variavel"
+    },
+    {
+      "id": "blog-reserva-emergencia",
+      "description": "pessoa organizando reserva de emergência em investimentos de liquidez diária",
+      "imageUrl": "https://picsum.photos/seed/reservaemergencia/1200/630",
+      "imageHint": "reserva emergencia"
     }
   ]
 }
