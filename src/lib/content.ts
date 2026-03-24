@@ -193,7 +193,7 @@ export const blogArticles: Article[] = [
       },
       {
         question: "LCI tem carência? Posso resgatar quando quiser?",
-        answer: "Não. LCI tem carência mínima de 90 dias por regulamentação do Banco Central. A maioria das LCIs só permite resgate no vencimento. Não é indicada para reserva de emergência."
+        answer: "Não. LCI tem carência mínima de 90 dias por regulamentação do Banco Central. A maioria das LCIs disponíveis só permite resgate no vencimento. Não é indicada para reserva de emergência."
       },
       {
         question: "Como calcular o ponto de equivalência entre CDB e LCI?",
@@ -415,32 +415,32 @@ export const blogArticles: Article[] = [
     conclusion: "<h2>Conclusão</h2><p>Reserva de emergência não é opcional — é o primeiro passo de qualquer planejamento financeiro sério. Sem ela, você está sempre a um imprevisto de distância do endividamento.</p><p>Monte a sua antes de qualquer outro investimento. Use Tesouro Selic ou CDB de liquidez diária. E não mexa nela a não ser em emergências reais.</p>",
     faq: [
       {
-        question: 'Quanto devo ter de reserva de emergência?',
-        answer: 'O recomendado é de 3 a 6 meses de despesas mensais para quem tem renda estável (CLT). Para autônomos, MEIs e quem tem dependentes, o ideal é de 6 a 12 meses. Calcule: despesas mensais × número de meses recomendado.'
+        question: "Quanto devo ter de reserva de emergência?",
+        answer: "O recomendado é de 3 a 6 meses de despesas mensais para quem tem renda estável (CLT). Para autônomos, MEIs e quem tem dependentes, o ideal é de 6 a 12 meses. Calcule: despesas mensais × número de meses recomendado."
       },
       {
-        question: 'Onde deixar a reserva de emergência?',
-        answer: 'Os melhores produtos são Tesouro Selic e CDB de liquidez diária. Os dois têm liquidez em até 1 dia útil, segurança alta e rendimento muito acima da poupança. Evite deixar a reserva na poupança — ela rende pouco com a Selic atual.'
+        question: "Onde deixar a reserva de emergência?",
+        answer: "Os melhores produtos são Tesouro Selic e CDB de liquidez diária. Os dois têm liquidez em até 1 dia útil, segurança alta e rendimento muito acima da poupança. Evite deixar a reserva na poupança — ela rende pouco com a Selic atual."
       },
       {
-        question: 'Posso investir a reserva de emergência em ações ou FIIs?',
-        answer: 'Não. Renda variável tem oscilação de preço — você pode ser forçado a vender em queda justamente quando precisar do dinheiro. A reserva de emergência deve estar em produtos de renda fixa com liquidez diária e sem risco de perda do principal.'
+        question: "Posso investir a reserva de emergência em ações ou FIIs?",
+        answer: "Não. Renda variável tem oscilação de preço — você pode ser forçado a vender em queda justamente quando precisar do dinheiro. A reserva de emergência deve estar em produtos de renda fixa com liquidez diária e sem risco de perda do principal."
       },
       {
-        question: 'Tesouro Selic ou CDB para reserva de emergência?',
-        answer: 'Os dois são ótimas opções. O Tesouro Selic é garantido pelo Governo Federal (sem limite). O CDB de liquidez diária tem cobertura do FGC até R$ 250.000 por instituição. Para reservas abaixo desse valor, os dois são equivalentes em segurança.'
+        question: "Tesouro Selic ou CDB para reserva de emergência?",
+        answer: "Os dois são ótimas opções. O Tesouro Selic é garantido pelo Governo Federal (sem limite). O CDB de liquidez diária tem cobertura do FGC até R$ 250.000 por instituição. Para reservas abaixo desse valor, os dois são equivalentes em segurança."
       },
       {
-        question: 'Devo montar a reserva antes de pagar dívidas?',
-        answer: 'Depende. Dívidas com juros muito altos (cartão de crédito, cheque especial) devem ser quitadas antes. Para dívidas de juros baixos (financiamento imobiliário), é possível montar a reserva e pagar simultaneamente. Uma reserva mínima de 1 a 2 meses já ajuda a evitar novos endividamentos.'
+        question: "Devo montar a reserva antes de pagar dívidas?",
+        answer: "Depende. Dívidas com juros muito altos (cartão de crédito, cheque especial) devem ser quitadas antes. Para dívidas de juros baixos (financiamento imobiliário), é possível montar a reserva e pagar simultaneamente. Uma reserva mínima de 1 a 2 meses já ajuda a evitar novos endividamentos."
       },
       {
-        question: 'Posso usar a reserva de emergência para aproveitar uma oportunidade de investimento?',
-        answer: 'Não. Reserva de emergência é para imprevistos — não para oportunidades. Usar esse dinheiro para investir deixa você desprotegido. Se quiser investir em oportunidades, crie um segundo objetivo separado da reserva.'
+        question: "Posso usar a reserva de emergência para aproveitar uma oportunidade de investimento?",
+        answer: "Não. Reserva de emergência é para imprevistos — não para oportunidades. Usar esse dinheiro para investir deixa você desprotegido. Se quiser investir em oportunidades, crie um segundo objetivo separado da reserva."
       },
       {
-        question: 'Quanto tempo leva para montar uma reserva de emergência?',
-        answer: 'Depende do valor da reserva e do quanto você poupa por mês. Com R$ 500 mensais, uma reserva de R$ 12.000 leva cerca de 24 meses. O importante é começar com o que tiver e manter consistência — uma reserva parcial já oferece proteção.'
+        question: "Quanto tempo leva para montar uma reserva de emergência?",
+        answer: "Depende do valor da reserva e do quanto você poupa por mês. Com R$ 500 mensais, uma reserva de R$ 12.000 leva cerca de 24 meses. O importante é começar com o que tiver e manter consistência — uma reserva parcial já oferece proteção."
       }
     ],
     category: 'educacao-financeira',
@@ -545,4 +545,3 @@ export const blogArticles: Article[] = [
     disclaimer: defaultDisclaimer,
   }
 ]
-```
