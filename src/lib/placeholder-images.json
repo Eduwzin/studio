@@ -161,6 +161,12 @@
       "description": "fundos de investimento imobiliário FIIs negociados na bolsa",
       "imageUrl": "https://picsum.photos/seed/oquesaofiis/1200/630",
       "imageHint": "fundos imobiliarios"
+    },
+    {
+      "id": "blog-o-que-sao-etfs",
+      "description": "ETFs fundos de índice negociados na bolsa brasileira B3",
+      "imageUrl": "https://picsum.photos/seed/oquesaoetfs/1200/630",
+      "imageHint": "etf bovespa"
     }
   ]
 }
