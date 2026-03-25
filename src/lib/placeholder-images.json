@@ -149,6 +149,12 @@
       "description": "calculadora de juros compostos com simulação de crescimento patrimonial",
       "imageUrl": "https://picsum.photos/seed/calculadorajuros/1200/630",
       "imageHint": "calculadora juros"
+    },
+    {
+      "id": "blog-cdb-1000",
+      "description": "simulação de rendimento de R$ 1.000 no CDB",
+      "imageUrl": "https://picsum.photos/seed/cdb1000/1200/630",
+      "imageHint": "cdb simulation"
     }
   ]
 }
