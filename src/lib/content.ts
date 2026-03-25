@@ -28,6 +28,53 @@ const defaultDisclaimer = "Este conteúdo é educativo e não constitui recomend
 
 export const blogArticles: Article[] = [
   {
+    slug: 'cdb-ou-poupanca',
+    title: 'CDB ou Poupança: qual rende mais e qual escolher?',
+    description: 'CDB ou poupança: veja qual rende mais, as diferenças em segurança e liquidez, e por que o CDB supera a poupança na maioria dos cenários.',
+    date: '2026-03-20',
+    imageId: 'blog-cdb-poupanca',
+    content: "<h1>CDB ou poupança: qual rende mais e por que o CDB quase sempre vence</h1><div class='resumo-rapido'><ul><li>Com a Selic acima de 8,5% ao ano, o CDB rende mais que a poupança — sempre</li><li>A poupança rende apenas 6,17% ao ano + TR com a Selic atual de 13,75%</li><li>CDB de 100% do CDI rende aproximadamente 11,60% líquido ao ano — quase o dobro</li><li>Os dois têm FGC até R$ 250.000 — o nível de segurança é o mesmo</li><li>A única vantagem real da poupança é a isenção de IR — mas não compensa o rendimento menor</li></ul></div><p>A poupança ainda é o investimento mais popular do Brasil — mas não porque é o melhor. É porque é o mais conhecido. Para quem está avaliando onde deixar o dinheiro, a comparação com o CDB é inevitável.</p><p>A resposta direta: com a Selic acima de 8,5% ao ano, o CDB rende mais que a poupança em praticamente todos os cenários — mesmo após o desconto do Imposto de Renda.</p><h2>Como funciona o rendimento da poupança</h2><p>O rendimento da poupança segue uma regra definida pelo Banco Central:</p><ul><li><strong>Quando a Selic está acima de 8,5% ao ano:</strong> poupança rende 0,5% ao mês + TR (Taxa Referencial)</li><li><strong>Quando a Selic está igual ou abaixo de 8,5% ao ano:</strong> poupança rende 70% da Selic + TR</li></ul><p>Com a Selic a 13,75% ao ano (março de 2026, Bacen/SGS), a poupança rende 0,5% ao mês mais TR — o que equivale a aproximadamente <strong>6,17% ao ano</strong>. A TR está próxima de zero na maioria dos períodos recentes.</p><p>A poupança é isenta de Imposto de Renda para pessoa física — mas como veremos, isso não compensa o rendimento menor.</p><h2>Como funciona o rendimento do CDB</h2><p>O CDB rende um percentual do CDI (Certificado de Depósito Interbancário) ou uma taxa prefixada. Com CDI a 13,65% ao ano:</p><ul><li>CDB a 100% do CDI: 13,65% ao ano bruto</li><li>CDB a 110% do CDI: 15,02% ao ano bruto</li></ul><p>O CDB tem Imposto de Renda regressivo sobre o rendimento:</p><table><thead><tr><th>Prazo</th><th>Alíquota IR</th></tr></thead><tbody><tr><td>Até 180 dias</td><td>22,5%</td></tr><tr><td>181 a 360 dias</td><td>20%</td></tr><tr><td>361 a 720 dias</td><td>17,5%</td></tr><tr><td>Acima de 720 dias</td><td>15%</td></tr></tbody></table><p>Fonte: Receita Federal do Brasil.</p><h2>CDB ou poupança: comparativo direto</h2><table><thead><tr><th>Característica</th><th>Poupança</th><th>CDB 100% CDI</th><th>CDB 110% CDI</th></tr></thead><tbody><tr><td>Rendimento bruto (a.a.)</td><td>~6,17% + TR</td><td>~13,65%</td><td>~15,02%</td></tr><tr><td>IR</td><td>Isento</td><td>15% a 22,5%</td><td>15% a 22,5%</td></tr><tr><td>Rendimento líquido (acima 720 dias)</td><td>~6,17%</td><td>~11,60%</td><td>~12,77%</td></tr><tr><td>Cobertura FGC</td><td>Até R$ 250k</td><td>Até R$ 250k</td><td>Até R$ 250k</td></tr><tr><td>Liquidez</td><td>Diária</td><td>Varia por produto</td><td>Varia por produto</td></tr><tr><td>Risco</td><td>Muito baixo</td><td>Muito baixo</td><td>Muito baixo</td></tr></tbody></table><p><em>Rendimentos com Selic de 13,75% a.a. e CDI de 13,65% a.a. (Bacen/SGS, março de 2026).</em></p><h2>Simulação: R$ 10.000 em CDB vs poupança</h2><table><thead><tr><th>Prazo</th><th>Poupança</th><th>CDB 100% CDI líquido</th><th>CDB 110% CDI líquido</th><th>Diferença (CDB 100% vs Poupança)</th></tr></thead><tbody><tr><td>6 meses</td><td>R$ 303</td><td>R$ 514</td><td>R$ 565</td><td>+R$ 211</td></tr><tr><td>12 meses</td><td>R$ 617</td><td>R$ 1.092</td><td>R$ 1.201</td><td>+R$ 475</td></tr><tr><td>24 meses</td><td>R$ 1.270</td><td>R$ 2.330</td><td>R$ 2.563</td><td>+R$ 1.060</td></tr><tr><td>36 meses</td><td>R$ 1.963</td><td>R$ 3.758</td><td>R$ 4.134</td><td>+R$ 1.795</td></tr></tbody></table><p><em>Simulação com Selic de 13,75% a.a. e CDI de 13,65% a.a., taxa constante para fins ilustrativos. Poupança calculada a 6,17% a.a. sem TR adicional. IR do CDB: 22,5% até 6 meses, 20% em 12 meses, 17,5% em 24 meses, 15% em 36 meses. Valores aproximados.</em></p><p>Em 12 meses, o CDB a 100% do CDI rende R$ 475 a mais que a poupança para cada R$ 10.000 investidos. Em 36 meses, a diferença é de quase R$ 1.800 — quase o dobro do rendimento da poupança.</p><h2>Por que a poupança ainda é tão popular?</h2><p>Apesar de render menos, a poupança ainda concentra trilhões de reais no Brasil. Os motivos são culturais e práticos:</p><ul><li><strong>Familiaridade:</strong> todo banco tem poupança — sem precisar abrir conta em corretora</li><li><strong>Simplicidade percebida:</strong> não tem IR, não tem prazo, não tem carência</li><li><strong>Inércia:</strong> quem tem poupança há anos raramente questiona se existe opção melhor</li></ul><p>Mas familiaridade não é sinônimo de melhor opção. Existem alternativas com o mesmo nível de segurança (FGC), a mesma liquidez e rendimento muito superior.</p><h2>A única vantagem real da poupança</h2><p>A poupança tem isenção de IR — e isso é uma vantagem real. Mas não suficiente para compensar o rendimento menor.</p><p>Exemplo: para que a poupança empatasse com um CDB a 100% do CDI em 12 meses, ela precisaria render 13,65% ao ano bruto — mais do que o dobro do que rende atualmente.</p><p>Mesmo com a isenção de IR, a poupança perde para qualquer CDB acima de aproximadamente 73% do CDI em prazos curtos e 85% do CDI em prazos longos. Na prática, quase todo CDB disponível no mercado está acima desses níveis.</p><h2>Existe algum cenário em que a poupança é melhor?</h2><p>Quando a Selic cai abaixo de 8,5% ao ano, o rendimento da poupança muda para 70% da Selic. Nesse cenário, CDBs muito próximos de 100% do CDI com IR alto (22,5% para prazos curtos) podem ter rendimento líquido próximo ao da poupança.</p><p>Mas mesmo nesses cenários, um CDB bem escolhido acima de 100% do CDI ainda tende a superar a poupança. Com a Selic atual de 13,75%, não há nenhum cenário razoável em que a poupança seja a melhor escolha.</p><h2>O que usar no lugar da poupança</h2><table><thead><tr><th>Uso da poupança</th><th>Alternativa mais eficiente</th></tr></thead><tbody><tr><td>Reserva de emergência</td><td>Tesouro Selic ou CDB de liquidez diária</td></tr><tr><td>Guardar dinheiro de curto prazo</td><td>CDB de liquidez diária ou Tesouro Selic</td></tr><tr><td>Objetivo de médio prazo</td><td>LCI, LCA ou CDB com prazo</td></tr><tr><td>Proteção da inflação</td><td>Tesouro IPCA+ ou CDB IPCA+</td></tr></tbody></table>",
+    conclusion: "<h2>Conclusão</h2><p>Com a Selic a 13,75% ao ano, o CDB supera a poupança em todos os prazos — mesmo após o desconto do IR. A diferença em 12 meses é de quase R$ 500 para cada R$ 10.000 investidos.</p><p>Se você ainda tem dinheiro na poupança, vale avaliar migrar para um CDB de liquidez diária ou Tesouro Selic — com o mesmo nível de segurança (FGC) e rendimento muito superior.</p><p>Quer entender melhor as opções? <a href='/melhores-investimentos-para-iniciantes'>Veja os melhores investimentos para iniciantes.</a></p>",
+    seoTitle: 'CDB ou Poupança: qual rende mais em 2026?',
+    seoDescription: 'CDB ou poupança: compare rendimento líquido, segurança e liquidez. Simulação com valores reais e checklist para escolher o melhor investimento.',
+    faq: [
+      {
+        question: 'CDB ou poupança: qual rende mais?',
+        answer: "Com a Selic acima de 8,5% ao ano, o CDB rende mais que a poupança em todos os cenários — mesmo após o desconto do IR. Com a Selic a 13,75% ao ano, um CDB a 100% do CDI rende aproximadamente 11,60% líquido ao ano contra 6,17% da poupança."
+      },
+      {
+        question: 'A poupança tem IR?',
+        answer: 'Não. A poupança é isenta de Imposto de Renda para pessoa física. Mas essa vantagem não compensa o rendimento muito menor — o CDB supera a poupança mesmo após pagar IR.'
+      },
+      {
+        question: 'CDB e poupança têm a mesma segurança?',
+        answer: 'Sim. Os dois têm cobertura do FGC até R$ 250.000 por CPF por instituição financeira. O nível de segurança é equivalente para valores dentro desse limite.'
+      },
+      {
+        question: 'Posso resgatar o CDB a qualquer momento como a poupança?',
+        answer: 'Depende do produto. CDB de liquidez diária permite resgate a qualquer momento, igual à poupança. CDB com prazo definido só permite resgate no vencimento. Verifique as condições antes de aplicar.'
+      },
+      {
+        question: 'Quanto rende mais o CDB do que a poupança?',
+        answer: 'Com a Selic a 13,75% ao ano, um CDB a 100% do CDI rende aproximadamente R$ 475 a mais do que a poupança em 12 meses para cada R$ 10.000 investidos. Em 36 meses, a diferença é de quase R$ 1.800.'
+      },
+      {
+        question: 'Vale a pena migrar da poupança para o CDB?',
+        answer: 'Sim, na maioria dos casos. Um CDB de liquidez diária tem o mesmo nível de segurança (FGC), a mesma praticidade de resgate e rende quase o dobro da poupança com a Selic atual.'
+      },
+      {
+        question: 'Existe algum cenário em que a poupança é melhor que o CDB?',
+        answer: 'Na prática, não com a Selic atual. Para a poupança empatar com um CDB a 100% do CDI, ela precisaria render mais do que o dobro do que rende hoje. Mesmo com Selic mais baixa, um CDB bem escolhido acima de 85% do CDI supera a poupança.'
+      }
+    ],
+    category: 'renda-fixa',
+    subcategory: 'comparativos',
+    pillar: 'pillar-2-renda-fixa',
+    cluster: 'comparativos-renda-fixa',
+    tags: ['CDB ou poupança', 'CDB vs poupança', 'poupança ou CDB', 'poupança rende menos', 'melhor que poupança'],
+    disclaimer: 'Este conteúdo é educativo e não constitui recomendação de investimento. As simulações assumem taxa constante para fins ilustrativos — o rendimento real pode variar. Consulte um profissional certificado para orientação personalizada.',
+  },
+  {
     slug: 'tesouro-selic-ou-cdb',
     title: 'Tesouro Selic ou CDB: qual é melhor para você?',
     description: 'Tesouro Selic ou CDB: descubra as diferenças em segurança, liquidez e rendimento. Comparativo completo com tabela, simulação e checklist de decisão.',
@@ -428,7 +475,7 @@ export const blogArticles: Article[] = [
       },
       {
         question: "Tesouro Selic ou CDB para reserva de emergência?",
-        answer: "Os dois são ótimas opções. O Tesouro Selic é garantido pelo Governo Federal (sem limite). O CDB de liquidez diária tem cobertura do FGC até R$ 250.000 por instituição. Para reservas abaixo desse valor, os dois são equivalentes em segurança."
+        answer: "Os dois são ótimas opções. O Tesouro Selic é garantido pelo Governo Federal (sem limite). O CDB de liquidez diária tem cobertura do FGC até R$ 250.000 por instituição. Para valores abaixo desse limite, os dois são equivalentes em segurança."
       },
       {
         question: "Devo montar a reserva antes de pagar dívidas?",
