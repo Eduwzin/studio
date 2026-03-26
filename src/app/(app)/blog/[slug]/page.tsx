@@ -1,4 +1,5 @@
 
+
 import { notFound } from "next/navigation";
 import { blogArticles, placeholderImages } from "@/lib/content";
 import Image from "next/image";
@@ -9,6 +10,8 @@ import { Metadata, ResolvingMetadata } from "next";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Info } from "lucide-react";
+import type { ArticleContent, HtmlContentBlock, SimulationTableBlock } from "@/lib/content";
+import SimulationTable from "@/components/blog/SimulationTable";
 
 type Props = {
   params: { slug: string };
@@ -63,7 +66,7 @@ export async function generateMetadata(
 
 
 // Componente da Seção de FAQ
-function FaqSection({ faq }: { faq: { question: string; answer: string }[] }) {
+function FaqSection({ faq, dynamicReplacers }: { faq: { question: string; answer: string }[], dynamicReplacers: (text: string) => string }) {
   if (!faq || faq.length === 0) return null;
 
   return (
@@ -72,9 +75,9 @@ function FaqSection({ faq }: { faq: { question: string; answer: string }[] }) {
       <Accordion type="single" collapsible className="w-full">
         {faq.map((item, index) => (
           <AccordionItem value={`item-${index}`} key={index}>
-            <AccordionTrigger className="text-left font-semibold">{item.question}</AccordionTrigger>
+            <AccordionTrigger className="text-left font-semibold">{dynamicReplacers(item.question)}</AccordionTrigger>
             <AccordionContent>
-              <p className="text-muted-foreground">{item.answer}</p>
+              <p className="text-muted-foreground">{dynamicReplacers(item.answer)}</p>
             </AccordionContent>
           </AccordionItem>
         ))}
@@ -98,6 +101,24 @@ function DisclaimerSection({ text }: { text?: string }) {
   );
 }
 
+const RenderContentBlock = ({ block, cdiRate, selicRate }: { block: ArticleContent[0], cdiRate: number, selicRate: number }) => {
+    switch (block.type) {
+        case 'html':
+            const htmlBlock = block as HtmlContentBlock;
+            return (
+                <div
+                    className="prose prose-lg max-w-none prose-h3:font-headline prose-h3:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-foreground"
+                    dangerouslySetInnerHTML={{ __html: htmlBlock.content }}
+                />
+            );
+        case 'simulationTable':
+            const tableBlock = block as SimulationTableBlock;
+            return <SimulationTable cdiRate={cdiRate} selicRate={selicRate} {...tableBlock} />;
+        default:
+            return null;
+    }
+};
+
 
 // Make the component async to fetch data
 export default async function BlogPostPage({ params }: Props) {
@@ -117,7 +138,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   // --- Calculate all dynamic variables ---
   const cdiRate = selicRate - 0.10;
-  const cdbExampleRate = cdiRate * 1.10; // Keep for compatibility, it's 110%
+  const cdbExampleRate = cdiRate * 1.10; // Mantido para compatibilidade
   const cdb90Rate = cdiRate * 0.90;
   const cdb95Rate = cdiRate * 0.95;
   const cdb100Rate = cdiRate;
@@ -145,8 +166,7 @@ export default async function BlogPostPage({ params }: Props) {
       .replace(/{{dataAtualizacao}}/g, dataAtualizacao);
   };
   
-  // --- Replace placeholders in content and conclusion ---
-  const dynamicContent = replacePlaceholders(article.content);
+  // --- Replace placeholders in conclusion ---
   const dynamicConclusion = replacePlaceholders(article.conclusion);
   
   const baseUrl = 'https://safestart-invest.com';
@@ -188,10 +208,10 @@ export default async function BlogPostPage({ params }: Props) {
             "@type": "FAQPage",
             "mainEntity": article.faq.map(item => ({
                 "@type": "Question",
-                "name": item.question,
+                "name": replacePlaceholders(item.question),
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": item.answer,
+                    "text": replacePlaceholders(item.answer),
                 },
             })),
         }] : []),
@@ -247,12 +267,23 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
         )}
 
-        <div 
-            className="prose prose-lg max-w-none prose-h3:font-headline prose-h3:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-foreground"
-            dangerouslySetInnerHTML={{ __html: dynamicContent }} // Use the dynamic content
-        />
+        {article.content.map((block, index) => {
+            if (block.type === 'html') {
+                return (
+                    <div
+                        key={index}
+                        className="prose prose-lg max-w-none prose-h3:font-headline prose-h3:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-foreground"
+                        dangerouslySetInnerHTML={{ __html: replacePlaceholders(block.content) }}
+                    />
+                );
+            }
+            if (block.type === 'simulationTable') {
+                return <RenderContentBlock key={index} block={block} cdiRate={cdiRate} selicRate={selicRate} />;
+            }
+            return null;
+        })}
 
-        <FaqSection faq={article.faq || []} />
+        <FaqSection faq={article.faq || []} dynamicReplacers={replacePlaceholders} />
         
         {article.conclusion && (
           <div 
@@ -266,3 +297,6 @@ export default async function BlogPostPage({ params }: Props) {
     </>
   );
 }
+
+
+  
