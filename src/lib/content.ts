@@ -19,8 +19,8 @@ export type SimulationTableBlock = {
   monthlyInvestment?: number;
   scenarios: {
     label: string;
-    rate: (cdi: number, selic: number) => number; // Função para calcular a taxa bruta
-    isTaxable: boolean; // True se o rendimento for tributável (CDB, Tesouro), false se for isento (LCI, LCA, Poupança)
+    rate: (cdi: number, selic: number) => number;
+    isTaxable: boolean;
   }[];
   terms: number[]; // Prazos em meses (ex: 6, 12, 24)
   showDifference?: boolean; // Se deve mostrar a coluna de diferença
@@ -383,7 +383,52 @@ export const blogArticles: Article[] = [
     seoDescription: 'Simule quanto rende R$ 10.000 no Tesouro Selic em 1, 6, 12 e 24 meses. Veja o rendimento líquido após IR, comparação com poupança e CDB atualizado.',
     date: '2026-03-20',
     imageId: 'blog-tesouro-10000',
-    content: [{type: 'html', content: "<h1>Quanto rende R$ 10.000 no Tesouro Selic? Simulação com rendimento líquido</h1><div class='resumo-rapido'><ul><li>Com Selic a {{selicRate}}% a.a., R$ 10.000 rendem aproximadamente R$ 84 líquidos em 1 mês</li><li>Em 12 meses, o rendimento líquido é de aproximadamente R$ 1.100</li><li>O Tesouro Selic rende mais que a poupança em todos os cenários com Selic acima de 8,5% a.a.</li><li>A simulação abaixo considera IR, taxa de custódia da B3 e CDI como referência</li><li>Taxas variam — use este conteúdo como referência, não como promessa de retorno</li></ul></div><p>Antes de investir, é natural querer saber exatamente quanto o dinheiro vai render. Com o Tesouro Selic, o cálculo é mais simples do que parece — mas tem alguns detalhes importantes sobre IR e taxa de custódia que fazem diferença no resultado final.</p><p>Esta simulação mostra o rendimento de R$ 10.000 no Tesouro Selic em diferentes prazos, com os descontos reais aplicados.</p>"}],
+    content: [
+      {
+        type: 'html',
+        content: "<h1>Quanto rende R$ 10.000 no Tesouro Selic? Simulação com rendimento líquido</h1><div class='resumo-rapido'><ul><li>Com Selic a {{selicRate}}% a.a., R$ 10.000 rendem aproximadamente R$ 84 líquidos em 1 mês</li><li>Em 12 meses, o rendimento líquido é de aproximadamente R$ 1.100</li><li>O Tesouro Selic rende mais que a poupança em todos os cenários com Selic acima de 8,5% a.a.</li><li>A simulação abaixo considera IR, taxa de custódia da B3 e CDI como referência</li><li>Taxas variam — use este conteúdo como referência, não como promessa de retorno</li></ul></div><p>Antes de investir, é natural querer saber exatamente quanto o dinheiro vai render. Com o Tesouro Selic, o cálculo é mais simples do que parece — mas tem alguns detalhes importantes sobre IR e taxa de custódia que fazem diferença no resultado final.</p><p>Esta simulação mostra o rendimento de R$ 10.000 no Tesouro Selic em diferentes prazos, com os descontos reais aplicados.</p><h2>Simulação: R$ 10.000 no Tesouro Selic por prazo</h2><p>Esta tabela mostra o rendimento líquido do Tesouro Selic em diferentes períodos, já descontando Imposto de Renda e a taxa de custódia da B3 (isenta para os primeiros R$ 10.000).</p>"
+      },
+      {
+        type: 'simulationTable',
+        initialInvestment: 10000,
+        terms: [1, 3, 6, 12, 24, 36],
+        scenarios: [
+          { label: 'Tesouro Selic ({{selicRate}}% a.a.)', rate: (cdi, selic) => selic / 100, isTaxable: true }
+        ]
+      },
+      {
+        type: 'html',
+        content: "<p><em>Simulação de rendimento líquido. (Referência: {{dataAtualizacao}})</em></p><h2>Tesouro Selic vs Poupança</h2><p>A poupança rende apenas {{poupancaRate}}% ao ano com a Selic atual, enquanto o Tesouro Selic rende {{selicRate}}% bruto. Veja a diferença no rendimento líquido ao longo do tempo:</p>"
+      },
+      {
+        type: 'simulationTable',
+        initialInvestment: 10000,
+        terms: [6, 12, 24, 36],
+        showDifference: true,
+        scenarios: [
+          { label: 'Poupança ({{poupancaRate}}% a.a.)', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, isTaxable: false },
+          { label: 'Tesouro Selic líquido', rate: (cdi, selic) => selic / 100, isTaxable: true }
+        ]
+      },
+      {
+        type: 'html',
+        content: "<p><em>Simulação de rendimento líquido. (Referência: {{dataAtualizacao}})</em></p><h2>Tesouro Selic vs CDB de liquidez diária</h2><p>Um CDB de liquidez diária rende um percentual do CDI, que é muito próximo da Selic. Para superar o Tesouro Selic, o CDB precisa render acima de 100% do CDI. Veja a simulação:</p>"
+      },
+      {
+        type: 'simulationTable',
+        initialInvestment: 10000,
+        terms: [6, 12, 24],
+        scenarios: [
+          { label: 'Tesouro Selic líquido', rate: (cdi, selic) => selic / 100, isTaxable: true },
+          { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
+          { label: 'CDB 110% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true }
+        ]
+      },
+       {
+        type: 'html',
+        content: "<p><em>Simulação de rendimento líquido. (Referência: {{dataAtualizacao}})</em></p>"
+      }
+    ],
     conclusion: "<h2>Conclusão</h2><p>R$ 10.000 no Tesouro Selic rendem aproximadamente R$ 1.100 líquidos em 12 meses com a Selic a {{selicRate}}% ao ano — quase o dobro do que a poupança pagaria no mesmo período.</p><p>Para reserva de emergência e objetivos de curto prazo, o Tesouro Selic segue sendo a referência de segurança e liquidez no mercado brasileiro.</p><p>Quer entender melhor como funciona? <a href='/o-que-e-tesouro-direto'>Leia o guia completo sobre o Tesouro Direto.</a></p>",
     faq: [
       {
@@ -748,7 +793,7 @@ export const blogArticles: Article[] = [
     imageId: 'blog-o-que-sao-etfs',
     content: [{
       type: 'html',
-      content: "<h1>O que são ETFs: como funcionam, tipos e como investir com diversificação automática</h1><div class='resumo-rapido'><ul><li>ETF é um fundo de índice negociado na bolsa — ele replica uma carteira diversificada de ativos</li><li>Com uma única cota, você investe em dezenas ou centenas de empresas ao mesmo tempo</li><li>Têm taxa de administração baixa — geralmente entre 0,05% e 0,5% ao ano</li><li>São renda variável — o preço oscila conforme o índice que replicam</li><li>Ideais para quem quer diversificação sem precisar escolher ações individualmente</li></ul></div><p>ETF é uma das formas mais eficientes de investir em renda variável com diversificação automática e custo baixo. Em vez de escolher ações individuais, você compra uma cota que já representa dezenas ou centenas de empresas de uma vez.</p><p>Este guia explica o que são, como funcionam, quais os tipos disponíveis no Brasil e como começar.</p>"
+      content: "<h1>O que são ETFs: como funcionam, tipos e como investir com diversificação automática</h1><div class='resumo-rapido'><ul><li>ETF é um fundo de índice negociado na bolsa — ele replica uma carteira diversificada de ativos</li><li>Com uma única cota, você investe em dezenas ou centenas de empresas ao mesmo tempo</li><li>Têm taxa de administração baixa — geralmente entre 0,05% e 0,5% ao ano</li><li>São renda variável — o preço oscila conforme o índice que replicam</li><li>Ideais para quem quer diversificação sem precisar escolher ações individualmente</li></ul></div><p>ETF é uma das formas mais eficientes de investir em renda variável com diversificação automática e custo baixo. Em vez de escolher ações individuais, você compra uma cota que já representa dezenas ou centenas de empresas de uma vez.</p><p>Este guia explica o que são, como funcionam, quais os tipos disponíveis no Brasil e como começar.</p><h2>O que é ETF</h2><p>ETF significa Exchange Traded Fund — fundo negociado em bolsa. É um fundo que replica um índice de mercado, como o Ibovespa, o S&P 500 ou um índice de renda fixa.</p><p>Quando você compra uma cota de ETF, está comprando uma fatia de todos os ativos que compõem aquele índice — na mesma proporção. Se o índice sobe, o ETF sobe. Se o índice cai, o ETF cai.</p><p>Os ETFs são negociados na B3 durante o horário de mercado, igual às ações e FIIs. Você compra e vende pelo home broker da sua corretora.</p><h2>Como os ETFs funcionam na prática</h2><h3>Replicação do índice</h3><p>Um ETF que replica o Ibovespa, por exemplo, compra as mesmas ações que compõem o índice, nas mesmas proporções. Se o Ibovespa tem 90 ações, o ETF tem as mesmas 90 ações na mesma distribuição.</p><p>Quando o índice é rebalanceado — empresas entram e saem conforme critérios de liquidez e representatividade — o ETF ajusta automaticamente sua carteira. Você não precisa fazer nada.</p><h3>Gestão passiva vs ativa</h3><p>A maioria dos ETFs usa gestão passiva — o objetivo é replicar o índice, não superá-lo. Isso reduz os custos operacionais e resulta em taxas de administração muito menores que fundos ativos.</p><p>Gestão ativa tenta superar o índice — mas historicamente, a maioria dos gestores ativos não consegue superar o índice consistentemente no longo prazo, especialmente depois das taxas.</p><h2>Principais ETFs disponíveis no Brasil</h2><h3>ETFs de ações brasileiras</h3><p>Replicam índices da bolsa brasileira:</p><ul><li><strong>BOVA11:</strong> replica o Ibovespa — as maiores e mais negociadas ações da B3</li><li><strong>IVVB11:</strong> replica o S&P 500 americano — as 500 maiores empresas dos EUA, em reais</li><li><strong>SMAL11:</strong> replica o índice de small caps — empresas menores da B3</li><li><strong>DIVO11:</strong> replica o índice de dividendos — empresas com histórico de bons dividendos</li></ul><h3>ETFs de renda fixa</h3><p>Replicam índices de títulos de renda fixa:</p><ul><li><strong>FIXA11:</strong> títulos prefixados do Tesouro</li><li><strong>IMAB11:</strong> títulos IPCA+ do Tesouro</li></ul><h3>ETFs internacionais</h3><p>Dão exposição a mercados internacionais sem precisar abrir conta no exterior:</p><ul><li><strong>IVVB11:</strong> S&P 500 (EUA)</li><li><strong>NASDAQ:</strong> empresas de tecnologia dos EUA</li><li><strong>EURP11:</strong> empresas europeias</li></ul><table><thead><tr><th>ETF</th><th>O que replica</th><th>Exposição</th><th>Taxa admin. aprox.</th></tr></thead><tbody><tr><td>BOVA11</td><td>Ibovespa</td><td>Ações brasileiras (top liquidez)</td><td>0,10% a.a.</td></tr><tr><td>IVVB11</td><td>S&P 500</td><td>500 maiores empresas dos EUA</td><td>0,23% a.a.</td></tr><tr><td>SMAL11</td><td>Small Caps</td><td>Empresas menores da B3</td><td>0,40% a.a.</td></tr><tr><td>DIVO11</td><td>Índice Dividendos</td><td>Ações pagadoras de dividendos</td><td>0,40% a.a.</td></tr><tr><td>IMAB11</td><td>IMA-B</td><td>Títulos IPCA+ do Tesouro</td><td>0,20% a.a.</td></tr></tbody></table><p><em>Taxas de administração aproximadas. Verifique as condições atuais na B3 ou na corretora antes de investir.</em></p><h2>ETF vs ação individual: qual é melhor?</h2><table><thead><tr><th>Critério</th><th>ETF</th><th>Ação individual</th></tr></thead><tbody><tr><td>Diversificação</td><td>Automática — dezenas ou centenas de empresas</td><td>Baixa — concentrado em uma empresa</td></tr><tr><td>Risco</td><td>Menor — diluído entre muitos ativos</td><td>Maior — depende de uma empresa</td></tr><tr><td>Custo</td><td>Taxa de administração baixa (0,05% a 0,5%)</td><td>Taxa de corretagem por operação</td></tr><tr><td>Gestão</td><td>Passiva — replica o índice automaticamente</td><td>Ativa — você decide quando comprar e vender</td></tr><tr><td>Conhecimento necessário</td><td>Baixo — não precisa analisar empresas</td><td>Alto — análise de balanços, setor, gestão</td></tr><tr><td>Potencial de retorno</td><td>Retorno do índice</td><td>Pode superar o índice (ou perder mais)</td></tr></tbody></table><h2>Imposto de Renda nos ETFs</h2><p>ETFs de ações têm tributação diferente de ações individuais:</p><ul><li><strong>Ganho de capital na venda:</strong> 15% sobre o lucro, independente do valor vendido — não há isenção de R$ 20.000 como nas ações</li><li><strong>Dividendos e juros sobre capital próprio:</strong> tributados conforme a tabela progressiva quando distribuídos</li><li><strong>Imposto retido na fonte:</strong> 0,005% sobre o valor da venda (come-cotas não se aplica a ETFs de ações)</li></ul><p>Para ETFs de renda fixa, a tributação segue a tabela regressiva de IR — igual aos títulos que compõem o fundo.</p><p>Fonte: Receita Federal do Brasil, março de 2026.</p><h2>Vantagens dos ETFs para iniciantes</h2><p><strong>Diversificação imediata com pouco dinheiro</strong><br>Com o preço de uma cota — que pode ser menos de R$ 100 — você já tem exposição a dezenas de empresas. Para replicar a mesma diversificação comprando ações individuais, precisaria de muito mais capital.</p><p><strong>Custo baixo</strong><br>A taxa de administração dos ETFs é muito menor que a dos fundos ativos. Essa diferença de custo tem impacto enorme no longo prazo — cada 0,5% ao ano a menos em taxas representa muito mais patrimônio em 20 anos.</p><p><strong>Simplicidade</strong><br>Não precisa analisar empresas individuais, acompanhar balanços ou decidir quando rebalancear. O ETF faz isso automaticamente.</p><p><strong>Liquidez diária</strong><br>Assim como ações e FIIs, você compra e vende cotas a qualquer momento durante o horário de mercado.</p><h2>Riscos dos ETFs</h2><p><strong>Risco de mercado:</strong> se o índice cair, o ETF cai na mesma proporção. Não há proteção contra quedas do mercado.</p><p><strong>Risco cambial:</strong> ETFs que replicam índices internacionais (como IVVB11) têm exposição à variação do dólar — que pode aumentar ou reduzir o rendimento em reais.</p><p><strong>Risco de liquidez:</strong> ETFs menos negociados podem ter spread alto entre o preço de compra e venda — o que reduz a eficiência da operação.</p><p><strong>Tracking error:</strong> diferença entre o retorno do ETF e o retorno do índice que ele replica — geralmente pequena, mas existe.</p><h2>Como começar a investir em ETFs</h2><p><strong>Passo 1:</strong> abra conta em corretora habilitada na B3.</p><p><strong>Passo 2:</strong> defina seu objetivo — exposição ao mercado brasileiro, internacional ou renda fixa.</p><p><strong>Passo 3:</strong> escolha o ETF adequado ao objetivo. Para começar, BOVA11 (Ibovespa) e IVVB11 (S&P 500) são os mais usados.</p><p><strong>Passo 4:</strong> compre cotas pelo home broker durante o horário de mercado.</p><p><strong>Passo 5:</strong> invista regularmente — aportes mensais são mais eficientes que tentativas de acertar o melhor momento.</p><h2>ETF ou FII: qual escolher?</h2><p>Dependendo do objetivo, os dois podem complementar uma carteira:</p><ul><li><strong>ETFs de ações:</strong> crescimento de patrimônio no longo prazo, exposição ao mercado acionário</li><li><strong>FIIs:</strong> renda passiva mensal, exposição ao mercado imobiliário com isenção de IR nos rendimentos</li></ul><p>Para iniciantes, uma combinação de renda fixa (base) com ETFs e FIIs (complemento de longo prazo) é uma estrutura eficiente e diversificada.</p>"
     }],
     conclusion: "<h2>Conclusão</h2><p>ETFs são a forma mais simples e eficiente de investir em renda variável com diversificação automática. Com uma única cota, você acessa dezenas de empresas, paga taxas baixas e não precisa analisar ações individuais.</p><p>Para quem está começando, ETFs de índice como BOVA11 e IVVB11 são excelentes pontos de partida para exposição à renda variável — depois de ter a reserva de emergência formada em renda fixa.</p><p>Quer entender a diferença? <a href='/etf-ou-acao'>Veja o comparativo entre ETF e ação individual.</a></p>",
     faq: [
@@ -822,6 +867,8 @@ export const blogArticles: Article[] = [
     disclaimer: defaultDisclaimer,
   }
 ];
+
+    
 
     
 
