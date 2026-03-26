@@ -62,6 +62,21 @@ export const blogArticles: Article[] = [
       {
         type: 'html',
         content: "<h1>CDB ou poupança: qual rende mais e por que o CDB quase sempre vence</h1><div class='resumo-rapido'><ul><li>Com a Selic acima de 8,5% ao ano, o CDB rende mais que a poupança — sempre</li><li>A poupança rende apenas {{poupancaRate}}% ao ano + TR com a Selic atual de {{selicRate}}%</li><li>CDB de 100% do CDI rende aproximadamente {{cdb100Rate}}% líquido ao ano — quase o dobro</li><li>Os dois têm FGC até R$ 250.000 — o nível de segurança é o mesmo</li><li>A única vantagem real da poupança é a isenção de IR — mas não compensa o rendimento menor</li></ul></div><p>A poupança ainda é o investimento mais popular do Brasil — mas não porque é o melhor. É porque é o mais conhecido. Para quem está avaliando onde deixar o dinheiro, a comparação com o CDB é inevitável.</p><p>A resposta direta: com a Selic acima de 8,5% ao ano, o CDB rende mais que a poupança em praticamente todos os cenários — mesmo após o desconto do Imposto de Renda.</p><h2>Como funciona o rendimento da poupança</h2><p>O rendimento da poupança segue uma regra definida pelo Banco Central:</p><ul><li><strong>Quando a Selic está acima de 8,5% ao ano:</strong> poupança rende 0,5% ao mês + TR (Taxa Referencial), o que equivale a aproximadamente {{poupancaRate}}% ao ano.</li><li><strong>Quando a Selic está igual ou abaixo de 8,5% ao ano:</strong> poupança rende 70% da Selic + TR</li></ul><p>A poupança é isenta de Imposto de Renda para pessoa física — mas como veremos, isso não compensa o rendimento menor.</p><h2>Como funciona o rendimento do CDB</h2><p>O CDB rende um percentual do CDI (Certificado de Depósito Interbancário). Com CDI a {{cdiRate}}% ao ano:</p><ul><li>CDB a 100% do CDI: {{cdb100Rate}}% ao ano bruto</li><li>CDB a 110% do CDI: {{cdb120Rate}}% ao ano bruto</li></ul><p>O CDB tem Imposto de Renda regressivo sobre o rendimento.</p><h2>Simulação: R$ 10.000 em CDB vs poupança</h2>"
+      },
+      {
+        type: 'simulationTable',
+        initialInvestment: 10000,
+        terms: [6, 12, 24, 36],
+        showDifference: true,
+        scenarios: [
+          { label: 'Poupança ({{poupancaRate}}% a.a.)', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, isTaxable: false },
+          { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
+          { label: 'CDB 110% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true }
+        ]
+      },
+      {
+        type: 'html',
+        content: "<p><em>Simulação de rendimento líquido com Selic a {{selicRate}}% e CDI a {{cdiRate}}%. (Referência: {{dataAtualizacao}})</em></p>"
       }
     ],
     conclusion: "<h2>Conclusão</h2><p>Com a Selic a {{selicRate}}% ao ano, o CDB supera a poupança em todos os prazos — mesmo após o desconto do IR.</p><p>Se você ainda tem dinheiro na poupança, vale avaliar migrar para um CDB de liquidez diária ou Tesouro Selic — com o mesmo nível de segurança (FGC) e rendimento muito superior.</p><p>Quer entender melhor as opções? <a href='/melhores-investimentos-para-iniciantes'>Veja os melhores investimentos para iniciantes.</a></p>",
@@ -611,10 +626,10 @@ export const blogArticles: Article[] = [
             initialInvestment: 1000,
             terms: [6, 12, 24, 36],
             scenarios: [
-                { label: 'CDB 90% CDI líquido', rate: (cdi) => cdi * 0.90, isTaxable: true },
-                { label: 'CDB 100% CDI líquido', rate: (cdi) => cdi, isTaxable: true },
-                { label: 'CDB 110% CDI líquido', rate: (cdi) => cdi * 1.10, isTaxable: true },
-                { label: 'CDB 120% CDI líquido', rate: (cdi) => cdi * 1.20, isTaxable: true },
+                { label: 'CDB 90% CDI líquido', rate: (cdi) => (cdi / 100) * 0.90, isTaxable: true },
+                { label: 'CDB 100% CDI líquido', rate: (cdi) => cdi / 100, isTaxable: true },
+                { label: 'CDB 110% CDI líquido', rate: (cdi) => (cdi / 100) * 1.10, isTaxable: true },
+                { label: 'CDB 120% CDI líquido', rate: (cdi) => (cdi / 100) * 1.20, isTaxable: true },
             ],
         },
         {
@@ -628,7 +643,7 @@ export const blogArticles: Article[] = [
             showDifference: true,
             scenarios: [
                 { label: 'Poupança ({{poupancaRate}}% a.a.)', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, isTaxable: false },
-                { label: 'CDB 100% CDI líquido', rate: (cdi) => cdi, isTaxable: true },
+                { label: 'CDB 100% CDI líquido', rate: (cdi) => cdi / 100, isTaxable: true },
             ]
         },
         {
@@ -785,3 +800,5 @@ export const blogArticles: Article[] = [
     disclaimer: defaultDisclaimer,
   }
 ];
+
+    
