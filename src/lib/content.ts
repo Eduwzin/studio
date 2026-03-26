@@ -20,7 +20,7 @@ export type SimulationTableBlock = {
   scenarios: {
     label: string;
     rate: (cdi: number, selic: number) => number; // Função para calcular a taxa bruta
-    type: 'cdb' | 'poupanca';
+    isTaxable: boolean; // True se o rendimento for tributável (CDB, Tesouro), false se for isento (LCI, LCA, Poupança)
   }[];
   terms: number[]; // Prazos em meses (ex: 6, 12, 24)
   showDifference?: boolean; // Se deve mostrar a coluna de diferença
@@ -416,7 +416,7 @@ export const blogArticles: Article[] = [
       },
       {
         question: "Qual a diferença entre Tesouro Selic e CDB para iniciantes?",
-        answer: "Os dois são excelentes para reserva de emergência e primeiro investimento. O Tesouro Selic é garantido pelo Governo Federal (sem limite). O CDB tem FGC até R$ 250.000 por instituição. Para valores abaixo desse limite, os dois são equivalentes em segurança."
+        answer: "Os dois são excelentes para reserva de emergência e primeiro investimento. O Tesouro Selic é garantido pelo Governo Federal (sem limite). O CDB tem cobertura do FGC até R$ 250.000 por instituição. Para valores abaixo desse limite, os dois são equivalentes em segurança."
       },
       {
         question: "Devo começar pela renda fixa ou renda variável?",
@@ -595,10 +595,10 @@ export const blogArticles: Article[] = [
             initialInvestment: 1000,
             terms: [6, 12, 24, 36],
             scenarios: [
-                { label: 'CDB 90% CDI líquido', rate: (cdi) => cdi * 0.90, type: 'cdb' },
-                { label: 'CDB 100% CDI líquido', rate: (cdi) => cdi, type: 'cdb' },
-                { label: 'CDB 110% CDI líquido', rate: (cdi) => cdi * 1.10, type: 'cdb' },
-                { label: 'CDB 120% CDI líquido', rate: (cdi) => cdi * 1.20, type: 'cdb' },
+                { label: 'CDB 90% CDI líquido', rate: (cdi) => cdi * 0.90, isTaxable: true },
+                { label: 'CDB 100% CDI líquido', rate: (cdi) => cdi, isTaxable: true },
+                { label: 'CDB 110% CDI líquido', rate: (cdi) => cdi * 1.10, isTaxable: true },
+                { label: 'CDB 120% CDI líquido', rate: (cdi) => cdi * 1.20, isTaxable: true },
             ],
         },
         {
@@ -611,8 +611,8 @@ export const blogArticles: Article[] = [
             terms: [6, 12, 24, 36],
             showDifference: true,
             scenarios: [
-                { label: 'Poupança ({{poupancaRate}}% a.a.)', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, type: 'poupanca' },
-                { label: 'CDB 100% CDI líquido', rate: (cdi) => cdi, type: 'cdb' },
+                { label: 'Poupança ({{poupancaRate}}% a.a.)', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, isTaxable: false },
+                { label: 'CDB 100% CDI líquido', rate: (cdi) => cdi, isTaxable: true },
             ]
         },
         {
@@ -718,8 +718,6 @@ export const blogArticles: Article[] = [
     slug: 'quanto-rende-fii-por-mes',
     title: 'Quanto Rende FII por Mês? Simulação com Dividend Yield',
     description: 'Veja quanto rende um FII por mês com simulações práticas. Entenda o Dividend Yield, como calcular a renda mensal e quanto investir para atingir sua meta.',
-    seoTitle: 'Quanto Rende FII por Mês? Simulação e Dividend Yield 2026',
-    seoDescription: 'Quanto rende FII por mês? Veja simulações com Dividend Yield de 0,7% a 1,2%, quanto investir para R$ 500 ou R$ 1.000 de renda mensal e como calcular.',
     date: '2026-03-20',
     imageId: 'blog-fii-rendimento',
     content: [{

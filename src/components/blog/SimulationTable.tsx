@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -14,7 +13,9 @@ import { Alert, AlertDescription } from "../ui/alert";
 type Scenario = {
   label: string;
   rate: (cdi: number, selic: number) => number;
-  type: 'cdb' | 'poupanca';
+  // Usamos um booleano para determinar se o imposto deve ser aplicado.
+  // true para CDB/Tesouro; false para LCI/LCA/Poupança.
+  isTaxable: boolean;
 };
 
 type SimulationTableProps = {
@@ -40,7 +41,8 @@ const formatCurrency = (value: number) => {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 };
 
-const calculateCdbYield = (
+// Calcula o rendimento bruto (Valor Futuro - Principal)
+const calculateGrossYield = (
     initial: number,
     monthly: number,
     termMonths: number,
@@ -48,23 +50,10 @@ const calculateCdbYield = (
 ) => {
     const monthlyRate = Math.pow(1 + annualRate, 1 / 12) - 1;
     const n = termMonths;
-    if (monthlyRate === 0) return initial + monthly * n;
-    const fv = initial * Math.pow(1 + monthlyRate, n) + monthly * ((Math.pow(1 + monthlyRate, n) - 1) / monthlyRate);
-    const totalInvestido = initial + monthly * n;
-    const ganho = fv - totalInvestido;
-    const ir = ganho * aliquotaIR(n);
-    return ganho - ir;
-};
-
-const calculatePoupancaYield = (
-    initial: number, 
-    monthly: number, 
-    termMonths: number,
-    annualRate: number
-) => {
-    // Rendimento da poupança é mais complexo com aportes, mas podemos aproximar
-    const monthlyRate = annualRate / 12;
-    const n = termMonths;
+    if (monthlyRate === 0) {
+        const fv = initial + monthly * n;
+        return fv - (initial + monthly * n); // 0
+    }
     const fv = initial * Math.pow(1 + monthlyRate, n) + monthly * ((Math.pow(1 + monthlyRate, n) - 1) / monthlyRate);
     return fv - (initial + monthly * n);
 }
@@ -83,13 +72,16 @@ export default function SimulationTable({
     const termYields: { [label: string]: number } = {};
     scenarios.forEach(scenario => {
       const annualRate = scenario.rate(cdiRate, selicRate);
-      let yieldValue = 0;
-      if (scenario.type === 'cdb') {
-        yieldValue = calculateCdbYield(initialInvestment, monthlyInvestment, term, annualRate);
-      } else if (scenario.type === 'poupanca') {
-        yieldValue = calculatePoupancaYield(initialInvestment, monthlyInvestment, term, annualRate);
+      
+      const grossYield = calculateGrossYield(initialInvestment, monthlyInvestment, term, annualRate);
+      
+      let finalYield = grossYield;
+      if (scenario.isTaxable) {
+        const ir = grossYield * aliquotaIR(term);
+        finalYield = grossYield - ir;
       }
-      termYields[scenario.label] = yieldValue;
+      
+      termYields[scenario.label] = finalYield;
     });
 
     if (showDifference && scenarios.length === 2) {
@@ -114,6 +106,10 @@ export default function SimulationTable({
         </Alert>
     )
   }
+  
+  const getPoupancaRateValue = (selic: number) => {
+      return selic > 8.5 ? 6.17 : selic * 0.70;
+  }
 
   return (
     <div className="overflow-x-auto my-6">
@@ -122,7 +118,7 @@ export default function SimulationTable({
           <TableRow>
             <TableHead>Prazo</TableHead>
             {headers.map(header => (
-              <TableHead key={header} className="text-right">{header.replace('{{poupancaRate}}', poupancaRate(selicRate).toFixed(2))}</TableHead>
+              <TableHead key={header} className="text-right">{header.replace('{{poupancaRate}}', getPoupancaRateValue(selicRate).toFixed(2))}</TableHead>
             ))}
           </TableRow>
         </TableHeader>
@@ -142,8 +138,3 @@ export default function SimulationTable({
     </div>
   );
 }
-
-const poupancaRate = (selic: number) => selic > 8.5 ? 0.0617 : selic * 0.70;
-
-
-  
