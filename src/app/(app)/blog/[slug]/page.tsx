@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { blogArticles, placeholderImages } from "@/lib/content";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { getSelicRate } from "@/services/brapi"; 
+import { getSelicRate, getIpcaRate } from "@/services/brapi"; 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Metadata, ResolvingMetadata } from "next";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
@@ -110,16 +110,44 @@ export default async function BlogPostPage({ params }: Props) {
   const image = placeholderImages.find(p => p.id === article.imageId);
 
   // --- Fetch real-time data ---
-  const selicRate = await getSelicRate().catch(() => 10.50); // Default value on error
-  // CDI is very close to Selic, so we can approximate.
-  // CDI = SELIC - 0.10
-  const cdiRate = selicRate - 0.10; 
-  const cdbExampleRate = cdiRate * 1.10; // For 110% of CDI
+  const [selicRate, ipcaRate] = await Promise.all([
+    getSelicRate().catch(() => 10.50), // Default value on error
+    getIpcaRate().catch(() => 3.90)   // Default value on error
+  ]);
 
-  // --- Replace placeholders in content ---
-  let dynamicContent = article.content;
-  dynamicContent = dynamicContent.replace(/{{selicRate}}/g, selicRate.toFixed(2));
-  dynamicContent = dynamicContent.replace(/{{cdbExampleRate}}/g, cdbExampleRate.toFixed(2));
+  // --- Calculate all dynamic variables ---
+  const cdiRate = selicRate - 0.10;
+  const cdbExampleRate = cdiRate * 1.10; // Keep for compatibility, it's 110%
+  const cdb90Rate = cdiRate * 0.90;
+  const cdb95Rate = cdiRate * 0.95;
+  const cdb100Rate = cdiRate;
+  const cdb120Rate = cdiRate * 1.20;
+  const lci90Rate = cdiRate * 0.90;
+  const lci95Rate = cdiRate * 0.95;
+  const poupancaRate = selicRate > 8.5 ? 6.17 : selicRate * 0.70;
+  const dataAtualizacao = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  
+  // --- Function to replace placeholders in any text ---
+  const replacePlaceholders = (text: string): string => {
+    if (!text) return '';
+    return text
+      .replace(/{{selicRate}}/g, selicRate.toFixed(2))
+      .replace(/{{cdiRate}}/g, cdiRate.toFixed(2))
+      .replace(/{{cdbExampleRate}}/g, cdbExampleRate.toFixed(2))
+      .replace(/{{cdb100Rate}}/g, cdb100Rate.toFixed(2))
+      .replace(/{{cdb90Rate}}/g, cdb90Rate.toFixed(2))
+      .replace(/{{cdb95Rate}}/g, cdb95Rate.toFixed(2))
+      .replace(/{{cdb120Rate}}/g, cdb120Rate.toFixed(2))
+      .replace(/{{lci90Rate}}/g, lci90Rate.toFixed(2))
+      .replace(/{{lci95Rate}}/g, lci95Rate.toFixed(2))
+      .replace(/{{ipcaRate}}/g, ipcaRate.toFixed(2))
+      .replace(/{{poupancaRate}}/g, poupancaRate.toFixed(2))
+      .replace(/{{dataAtualizacao}}/g, dataAtualizacao);
+  };
+  
+  // --- Replace placeholders in content and conclusion ---
+  const dynamicContent = replacePlaceholders(article.content);
+  const dynamicConclusion = replacePlaceholders(article.conclusion);
   
   const baseUrl = 'https://safestart-invest.com';
   const canonicalUrl = `${baseUrl}/blog/${article.slug}`;
@@ -229,7 +257,7 @@ export default async function BlogPostPage({ params }: Props) {
         {article.conclusion && (
           <div 
             className="prose prose-lg max-w-none prose-h3:font-headline prose-h3:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-foreground mt-8"
-            dangerouslySetInnerHTML={{ __html: article.conclusion }}
+            dangerouslySetInnerHTML={{ __html: dynamicConclusion }}
           />
         )}
 
