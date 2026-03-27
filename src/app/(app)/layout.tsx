@@ -52,7 +52,7 @@ const navItems = [
   { href: "/oportunidades", icon: TrendingUp, label: "Oportunidades" },
   { href: "/watchlist", icon: Star, label: "Watchlist" },
   { href: "/ativos", icon: List, label: "Ativos" },
-  { href: "/acoes", icon: Target, label: "Análise de Ações" },
+  { href: "/acoes/petr4", icon: Target, label: "Análise de Ações" },
   { href: "/simulador", icon: Calculator, label: "Simulador" },
   { href: "/learn", icon: BookOpen, label: "Aprender" },
   { href: "/blog", icon: Newspaper, label: "Blog" },
