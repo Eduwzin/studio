@@ -164,15 +164,21 @@
     },
     {
       "id": "blog-o-que-sao-etfs",
-      "description": "ETFs fundos de índice negociados na bolsa brasileira B3",
-      "imageUrl": "https://picsum.photos/seed/oquesaoetfs/1200/630",
-      "imageHint": "etf bovespa"
+      "description": "ETFs (fundos de índice) sendo exibidos em uma tela de computador.",
+      "imageUrl": "https://picsum.photos/seed/whatareetfs/1200/630",
+      "imageHint": "etf index"
     },
     {
-      "id": "blog-fii-rendimento",
-      "description": "simulação de rendimento mensal de fundos imobiliários FIIs",
-      "imageUrl": "https://picsum.photos/seed/fiirendimento/1200/630",
-      "imageHint": "fii rendimento"
+      "id": "blog-fii-ou-acao",
+      "description": "comparativo entre FIIs e ações para investidores iniciantes",
+      "imageUrl": "https://picsum.photos/seed/fii-ou-acao/1200/630",
+      "imageHint": "investment comparison"
+    },
+    {
+      "id": "blog-guia-renda-variavel",
+      "description": "guia completo de investimentos em renda variável para iniciantes",
+      "imageUrl": "https://picsum.photos/seed/guiarendavariavel/1200/630",
+      "imageHint": "renda variavel"
     },
     {
       "id": "blog-renda-1000",
