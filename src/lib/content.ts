@@ -506,25 +506,25 @@ export const blogArticles: Article[] = [
     date: '2026-03-20',
     imageId: 'blog-renda-1000',
     content: [
-      {
-          type: 'html',
-          content: `<h1>Quanto é preciso investir para ter uma renda de R$ 1.000 por mês?</h1><div class='resumo-rapido'><ul><li>Para gerar R$ 1.000 por mês, você precisa de <strong>~R$ 117.500</strong> investidos em um FII com DY de 0,85% ao mês.</li><li>Na renda fixa (Tesouro Selic a {{selicRate}}% a.a.), seria preciso <strong>~R$ 145.000</strong> para gerar o mesmo valor líquido.</li><li>Ações pagadoras de dividendos com DY de 6% a.a. exigiriam um patrimônio de <strong>R$ 200.000</strong>.</li><li>O segredo não é só o valor, mas o tempo e os aportes consistentes para chegar lá.</li></ul></div><p>Gerar uma renda passiva de R$ 1.000 por mês é um marco importante para muitos investidores. Mas quanto dinheiro é necessário para atingir esse objetivo? A resposta depende do tipo de investimento e do seu rendimento.</p><p>Este guia mostra o cálculo e o patrimônio necessário em diferentes produtos de investimento.</p><h2>Cálculo Básico da Renda Passiva</h2><p>A fórmula para estimar o patrimônio necessário é simples:</p><p><code>Patrimônio Necessário = (Renda Mensal Desejada / Rendimento Mensal do Investimento)</code></p><p>O desafio é definir o "Rendimento Mensal", que varia muito. Vamos analisar alguns cenários.</p><h2>Cenário 1: Renda Fixa (Tesouro Selic, CDBs)</h2><p>Investimentos de renda fixa atrelados à Selic ou ao CDI são os mais previsíveis. Com a Selic a <strong>{{selicRate}}% ao ano</strong>, temos um rendimento bruto de aproximadamente {{cdiRate}}% ao mês.</p><p>No entanto, é preciso descontar o Imposto de Renda (15% para o longo prazo). O rendimento líquido fica em torno de <strong>0,70% ao mês</strong>.</p><p><code>Patrimônio = R$ 1.000 / 0,0070 = <strong>R$ 142.857</strong></code></p><p>Para gerar R$ 1.000 líquidos por mês na renda fixa com a Selic atual, você precisaria de aproximadamente R$ 143 mil investidos.</p><h3>Patrimônio necessário por produto para R$ 1.000/mês</h3><p>Veja uma simulação de quanto renderia R$100.000 em 12 meses, para efeito de comparação de rentabilidade.</p><p><em>(Referência: {{dataAtualizacao}})</em></p>`,
-      },
-      {
-          type: 'simulationTable',
-          initialInvestment: 100000,
-          terms: [12],
-          scenarios: [
-              { label: 'Tesouro Selic líquido', rate: (cdi, selic) => selic / 100, isTaxable: true },
-              { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-              { label: 'LCI/LCA 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false },
-          ],
-      },
-      {
-          type: 'html',
-          content: `<h2>Cenário 2: Fundos Imobiliários (FIIs)</h2><p>FIIs são excelentes para gerar renda passiva, pois distribuem rendimentos mensais isentos de Imposto de Renda. O rendimento é medido pelo Dividend Yield (DY).</p><p>Um FII de boa qualidade hoje entrega um DY entre 0,7% e 0,9% ao mês. Vamos usar uma média de <strong>0,85% a.m.</strong></p><p><code>Patrimônio = R$ 1.000 / 0,0085 = <strong>R$ 117.647</strong></code></p><p>Para gerar R$ 1.000 por mês com FIIs, você precisaria de aproximadamente R$ 118 mil.</p><h2>Cenário 3: Ações Pagadoras de Dividendos</h2><p>Ações de empresas sólidas e lucrativas (como bancos, elétricas e seguradoras) também pagam dividendos. O Dividend Yield anual delas costuma variar entre 4% e 8%.</p><p>Vamos usar um DY médio de <strong>6% ao ano</strong>, o que equivale a 0,5% ao mês.</p><p><code>Patrimônio = R$ 1.000 / 0,005 = <strong>R$ 200.000</strong></code></p><p>Para gerar R$ 1.000 por mês com ações, você precisaria de R$ 200 mil investidos. A vantagem aqui é o potencial de valorização da ação no longo prazo, que pode aumentar tanto o seu patrimônio quanto os dividendos futuros.</p><h2>Resumo: Renda Fixa vs. FII vs. Ações</h2><p>Veja o patrimônio necessário em cada classe de ativo para gerar R$ 1.000 de renda mensal:</p><table><thead><tr><th>Classe de Ativo</th><th>Rendimento Médio Esperado</th><th>Patrimônio Necessário</th></tr></thead><tbody><tr><td>Renda Fixa (CDI)</td><td>~0,7% a.m. (líquido)</td><td><strong>~R$ 143.000</strong></td></tr><tr><td>Fundos Imobiliários</td><td>~0,85% a.m. (isento)</td><td><strong>~R$ 118.000</strong></td></tr><tr><td>Ações (Dividendos)</td><td>~0,5% a.m. (isento)</td><td><strong>~R$ 200.000</strong></td></tr></tbody></table><p><em>Valores aproximados para fins didáticos. (Referência: {{dataAtualizacao}})</em></p><h2>Como chegar lá? O poder dos aportes mensais</h2><p>Acumular mais de R$ 100 mil pode parecer distante, mas a consistência dos aportes mensais acelera muito o processo. Veja quanto tempo levaria para juntar R$ 100 mil, investindo a uma taxa de 10% ao ano:</p><table><thead><tr><th>Aporte Mensal</th><th>Tempo para Acumular R$ 100 mil</th></tr></thead><tbody><tr><td>R$ 300</td><td>~13 anos</td></tr><tr><td>R$ 500</td><td>~9 anos</td></tr><tr><td>R$ 1.000</td><td>~6 anos</td></tr><tr><td>R$ 1.500</td><td>~4,5 anos</td></tr></tbody></table><p><em>Cálculo aproximado, considerando juros compostos mensais. (Referência: {{dataAtualizacao}})</em></p>`,
-      },
-  ],
+        {
+            type: 'html',
+            content: `<h1>Quanto é preciso investir para ter uma renda de R$ 1.000 por mês?</h1><div class='resumo-rapido'><ul><li>Para gerar R$ 1.000 por mês, você precisa de <strong>~R$ 117.500</strong> investidos em um FII com DY de 0,85% ao mês.</li><li>Na renda fixa (Tesouro Selic a {{selicRate}}% a.a.), seria preciso <strong>~R$ 145.000</strong> para gerar o mesmo valor líquido.</li><li>Ações pagadoras de dividendos com DY de 6% a.a. exigiriam um patrimônio de <strong>R$ 200.000</strong>.</li><li>O segredo não é só o valor, mas o tempo e os aportes consistentes para chegar lá.</li></ul></div><p>Gerar uma renda passiva de R$ 1.000 por mês é um marco importante para muitos investidores. Mas quanto dinheiro é necessário para atingir esse objetivo? A resposta depende do tipo de investimento e do seu rendimento.</p><p>Este guia mostra o cálculo e o patrimônio necessário em diferentes produtos de investimento.</p><h2>Cálculo Básico da Renda Passiva</h2><p>A fórmula para estimar o patrimônio necessário é simples:</p><p><code>Patrimônio Necessário = (Renda Mensal Desejada / Rendimento Mensal do Investimento)</code></p><p>O desafio é definir o "Rendimento Mensal", que varia muito. Vamos analisar alguns cenários.</p><h2>Cenário 1: Renda Fixa (Tesouro Selic, CDBs)</h2><p>Investimentos de renda fixa atrelados à Selic ou ao CDI são os mais previsíveis. Com a Selic a <strong>{{selicRate}}% ao ano</strong>, temos um rendimento bruto de aproximadamente {{cdiRate}}% ao mês.</p><p>No entanto, é preciso descontar o Imposto de Renda (15% para o longo prazo). O rendimento líquido fica em torno de <strong>0,70% ao mês</strong>.</p><p><code>Patrimônio = R$ 1.000 / 0,0070 = <strong>R$ 142.857</strong></code></p><p>Para gerar R$ 1.000 líquidos por mês na renda fixa com a Selic atual, você precisaria de aproximadamente R$ 143 mil investidos.</p><h3>Patrimônio necessário por produto para R$ 1.000/mês</h3><p>Veja uma simulação de quanto renderia R$100.000 em 12 meses, para efeito de comparação de rentabilidade.</p><p><em>(Referência: {{dataAtualizacao}})</em></p>`,
+        },
+        {
+            type: 'simulationTable',
+            initialInvestment: 100000,
+            terms: [12],
+            scenarios: [
+                { label: 'Tesouro Selic líquido', rate: (cdi, selic) => selic / 100, isTaxable: true },
+                { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
+                { label: 'LCI/LCA 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false }
+            ],
+        },
+        {
+            type: 'html',
+            content: `<h2>Cenário 2: Fundos Imobiliários (FIIs)</h2><p>FIIs são excelentes para gerar renda passiva, pois distribuem rendimentos mensais isentos de Imposto de Renda. O rendimento é medido pelo Dividend Yield (DY).</p><p>Um FII de boa qualidade hoje entrega um DY entre 0,7% e 0,9% ao mês. Vamos usar uma média de <strong>0,85% a.m.</strong></p><p><code>Patrimônio = R$ 1.000 / 0,0085 = <strong>R$ 117.647</strong></code></p><p>Para gerar R$ 1.000 por mês com FIIs, você precisaria de aproximadamente R$ 118 mil.</p><h2>Cenário 3: Ações Pagadoras de Dividendos</h2><p>Ações de empresas sólidas e lucrativas (como bancos, elétricas e seguradoras) também pagam dividendos. O Dividend Yield anual delas costuma variar entre 4% e 8%.</p><p>Vamos usar um DY médio de <strong>6% ao ano</strong>, o que equivale a 0,5% ao mês.</p><p><code>Patrimônio = R$ 1.000 / 0,005 = <strong>R$ 200.000</strong></code></p><p>Para gerar R$ 1.000 por mês com ações, você precisaria de R$ 200 mil investidos. A vantagem aqui é o potencial de valorização da ação no longo prazo, que pode aumentar tanto o seu patrimônio quanto os dividendos futuros.</p><h2>Resumo: Renda Fixa vs. FII vs. Ações</h2><p>Veja o patrimônio necessário em cada classe de ativo para gerar R$ 1.000 de renda mensal:</p><table><thead><tr><th>Classe de Ativo</th><th>Rendimento Médio Esperado</th><th>Patrimônio Necessário</th></tr></thead><tbody><tr><td>Renda Fixa (CDI)</td><td>~0,7% a.m. (líquido)</td><td><strong>~R$ 143.000</strong></td></tr><tr><td>Fundos Imobiliários</td><td>~0,85% a.m. (isento)</td><td><strong>~R$ 118.000</strong></td></tr><tr><td>Ações (Dividendos)</td><td>~0,5% a.m. (isento)</td><td><strong>~R$ 200.000</strong></td></tr></tbody></table><p><em>Valores aproximados para fins didáticos. (Referência: {{dataAtualizacao}})</em></p><h2>Como chegar lá? O poder dos aportes mensais</h2><p>Acumular mais de R$ 100 mil pode parecer distante, mas a consistência dos aportes mensais acelera muito o processo. Veja quanto tempo levaria para juntar R$ 100 mil, investindo a uma taxa de 10% ao ano:</p><table><thead><tr><th>Aporte Mensal</th><th>Tempo para Acumular R$ 100 mil</th></tr></thead><tbody><tr><td>R$ 300</td><td>~13 anos</td></tr><tr><td>R$ 500</td><td>~9 anos</td></tr><tr><td>R$ 1.000</td><td>~6 anos</td></tr><tr><td>R$ 1.500</td><td>~4,5 anos</td></tr></tbody></table><p><em>Cálculo aproximado, considerando juros compostos mensais. (Referência: {{dataAtualizacao}})</em></p>`,
+        },
+    ],
     conclusion: `<h2>Conclusão</h2><p>Gerar R$ 1.000 por mês de renda passiva é uma meta totalmente atingível. FIIs costumam ser o caminho mais rápido para esse objetivo, exigindo um patrimônio menor devido aos rendimentos mensais e isentos de IR. A renda fixa exige um pouco mais de capital, mas com mais segurança. Ações exigem mais capital para a mesma renda, mas oferecem maior potencial de crescimento.</p><p>O mais importante é a disciplina de aportar todos os meses e reinvestir os rendimentos. É assim que os juros compostos trabalham a seu favor.</p>`,
     seoTitle: 'Quanto Investir para Ganhar R$ 1.000 por Mês? (Simulador)',
     seoDescription: 'Calcule o patrimônio necessário para ter R$ 1.000 de renda passiva mensal em Tesouro Selic, CDB, FIIs e Ações. Veja simulações e o caminho para chegar lá.',
@@ -835,7 +835,118 @@ export const blogArticles: Article[] = [
     cluster: 'cdb',
     tags: ['o que é cdb', 'cdb', 'certificado de depósito bancário', 'cdb rendimento', 'cdb como funciona'],
     disclaimer: 'Este conteúdo é educativo e não constitui recomendação de investimento. Rentabilidades são referências e variam conforme o produto e o emissor.',
+  },
+   {
+    slug: 'o-que-e-tesouro-direto',
+    title: 'O que é Tesouro Direto? Como funciona e como investir',
+    description: 'Tesouro Direto é o programa do governo federal para venda de títulos públicos a pessoas físicas. Entenda como funciona, quais os tipos e como começar.',
+    date: '2026-03-20',
+    imageId: 'blog-o-que-e-tesouro-direto',
+    content: [
+      {
+        type: 'html',
+        content: `<h1>O que é Tesouro Direto: como funciona, tipos de título e como investir</h1><div class='resumo-rapido'><ul><li>Tesouro Direto é um programa do governo federal para venda de títulos públicos a pessoas físicas</li><li>É o investimento de menor risco do Brasil — garantido pelo Governo Federal</li><li>Tem três tipos principais: Tesouro Selic, Tesouro Prefixado e Tesouro IPCA+</li><li>Tem IR regressivo (22,5% a 15%) e taxa de custódia da B3 de 0,20% ao ano</li><li>Aplicações a partir de R$ 30 — uma das opções mais acessíveis do mercado</li></ul></div><p>Tesouro Direto é um dos investimentos mais seguros e acessíveis do Brasil. Este guia explica o que é, como funciona, os tipos disponíveis e como começar.</p><h2>O que é Tesouro Direto</h2><p>Tesouro Direto é um programa criado em 2002 pelo Tesouro Nacional em parceria com a B3. Você empresta dinheiro ao Governo Federal e recebe juros em troca. A Selic atual está em {{selicRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}}).</p><h2>Tipos de título</h2><h3>Tesouro Selic</h3><p>Rende de acordo com a taxa Selic ({{selicRate}}% ao ano). Ideal para reserva de emergência — liquidez diária sem risco de perda.</p><h3>Tesouro Prefixado</h3><p>Taxa fixa definida na compra. Você sabe exatamente quanto vai receber no vencimento.</p><h3>Tesouro IPCA+</h3><p>Rende IPCA ({{ipcaRate}}% ao ano) mais taxa fixa. Protege o poder de compra no longo prazo.</p><table><thead><tr><th>Título</th><th>Como rende</th><th>Liquidez</th><th>Melhor para</th></tr></thead><tbody><tr><td>Tesouro Selic</td><td>Taxa Selic ({{selicRate}}% a.a.)</td><td>Diária sem perda</td><td>Reserva de emergência</td></tr><tr><td>Tesouro Prefixado</td><td>Taxa fixa na compra</td><td>Diária com marcação</td><td>Médio prazo</td></tr><tr><td>Tesouro IPCA+</td><td>IPCA + taxa fixa</td><td>Diária com marcação</td><td>Longo prazo</td></tr></tbody></table><h2>Custos do Tesouro Direto</h2><p>Taxa de custódia B3: 0,20% ao ano (isenta para até R$ 10.000 no Tesouro Selic). A maioria das corretoras cobra taxa zero. IR regressivo igual ao CDB: de 22,5% a 15%.</p><h2>Tesouro Direto tem FGC?</h2><p>Não — e não precisa. É garantido pelo Governo Federal, com risco de crédito menor que qualquer banco privado.</p><h2>Tesouro Direto vale a pena? Comparação rápida</h2>`
+      },
+      {
+        type: 'simulationTable',
+        initialInvestment: 10000,
+        terms: [12],
+        scenarios: [
+          { label: 'Poupança', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, isTaxable: false },
+          { label: 'Tesouro Selic', rate: (cdi, selic) => selic / 100, isTaxable: true },
+          { label: 'CDB 100% CDI', rate: (cdi, selic) => cdi / 100, isTaxable: true },
+          { label: 'LCI 90% CDI', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false }
+        ]
+      },
+      {
+        type: 'html',
+        content: `<p><em>Referência: Selic de {{selicRate}}% a.a. e CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}). Sempre compare rendimento líquido.</em></p><h2>Como começar a investir no Tesouro Direto</h2><ol><li>Abra conta em corretora habilitada pelo Tesouro Nacional</li><li>Acesse a área de Tesouro Direto</li><li>Escolha o título adequado ao seu objetivo</li><li>Informe o valor (mínimo ~R$ 30) e confirme</li><li>Acompanhe pelo extrato da corretora ou em tesourodireto.com.br</li></ol>`
+      },
+    ],
+    conclusion: `<h2>Conclusão</h2><p>Tesouro Direto é o ponto de partida mais seguro para qualquer investidor brasileiro. O Tesouro Selic é ideal para reserva de emergência. Para longo prazo, o Tesouro IPCA+ garante crescimento acima da inflação.</p><p><a href='/tesouro-selic-ou-cdb'>Compare Tesouro Selic e CDB</a> ou <a href='/quanto-rende-10000-no-tesouro-selic'>simule quanto rende R$ 10.000 no Tesouro Selic.</a></p><p><em>Referência: Selic de {{selicRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>`,
+    seoTitle: 'O que é Tesouro Direto? Como funciona e como investir',
+    seoDescription: 'Tesouro Direto é o investimento garantido pelo governo federal. Veja como funciona, os tipos de título, custos, IR e se vale mais que CDB e poupança.',
+    faq: [
+      { question: 'O que é Tesouro Direto e como funciona?', answer: 'Tesouro Direto é um programa do Governo Federal que permite a pessoas físicas comprar títulos públicos. Você empresta dinheiro ao governo e recebe juros em troca. É o investimento de menor risco do Brasil.' },
+      { question: 'Tesouro Direto tem FGC?', answer: 'Não. É garantido pelo Governo Federal, que tem risco de crédito menor que qualquer banco privado.' },
+      { question: 'Qual a diferença entre Tesouro Selic, Prefixado e IPCA+?', answer: 'Tesouro Selic acompanha a taxa básica de juros — ideal para reserva de emergência. Prefixado tem taxa fixa — médio prazo. IPCA+ rende inflação mais taxa fixa — longo prazo.' },
+      { question: 'Qual o valor mínimo para investir no Tesouro Direto?', answer: 'A partir de aproximadamente R$ 30, equivalente a 1% do título mais barato disponível.' },
+      { question: 'Posso perder dinheiro no Tesouro Direto?', answer: 'Se carregar até o vencimento, não. Se vender antes, pode receber mais ou menos por causa da marcação a mercado. Para o Tesouro Selic esse risco é mínimo.' }
+    ],
+    category: 'renda-fixa',
+    subcategory: 'tesouro-direto',
+    pillar: 'pillar-2-renda-fixa',
+    cluster: 'tesouro-direto',
+    tags: ['Tesouro Direto', 'o que é tesouro direto', 'como investir no tesouro direto', 'tesouro selic', 'tesouro ipca'],
+    disclaimer: defaultDisclaimer,
+  },
+  {
+    slug: 'quanto-rende-10000-no-tesouro-selic',
+    title: 'Quanto Rende R$ 10.000 no Tesouro Selic? Simulação 2026',
+    description: 'Veja quanto rende R$ 10.000 no Tesouro Selic em 1, 6, 12 e 24 meses. Simulação com rendimento líquido após IR, comparação com poupança e CDB.',
+    date: '2026-03-20',
+    imageId: 'blog-tesouro-10000',
+    content: [
+        {
+            type: 'html',
+            content: `<h1>Quanto rende R$ 10.000 no Tesouro Selic? Simulação com rendimento líquido</h1><div class='resumo-rapido'><ul><li>Com Selic a {{selicRate}}% ao ano, R$ 10.000 no Tesouro Selic rendem bem acima da poupança em todos os prazos</li><li>O Tesouro Selic é isento de taxa de custódia para valores até R$ 10.000</li><li>Tem IR regressivo — quanto mais tempo investido, menor a alíquota</li><li>Simulações assumem taxa constante para fins ilustrativos</li></ul></div><p>Esta simulação mostra o rendimento de R$ 10.000 no Tesouro Selic em diferentes prazos com os descontos reais aplicados. Referência: Selic de {{selicRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}}).</p><h2>Premissas da simulação</h2><ul><li><strong>Selic:</strong> {{selicRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}})</li><li><strong>CDI:</strong> {{cdiRate}}% ao ano</li><li><strong>Taxa de custódia B3:</strong> isenta para até R$ 10.000 no Tesouro Selic</li><li><strong>IR:</strong> tabela regressiva da Receita Federal</li></ul><h2>Simulação: quanto rende R$ 10.000 no Tesouro Selic</h2>`
+        },
+        {
+            type: 'simulationTable',
+            initialInvestment: 10000,
+            terms: [1, 3, 6, 12, 24, 36],
+            scenarios: [
+                { "label": "Tesouro Selic ({{selicRate}}% a.a.)", "rate": (cdi, selic) => selic / 100, "isTaxable": true }
+            ]
+        },
+        {
+            type: 'html',
+            content: `<h2>Tesouro Selic vs Poupança</h2>`
+        },
+        {
+            type: 'simulationTable',
+            initialInvestment: 10000,
+            terms: [6, 12, 24, 36],
+            showDifference: true,
+            scenarios: [
+                { "label": "Poupança ({{poupancaRate}}% a.a.)", "rate": (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, "isTaxable": false },
+                { "label": "Tesouro Selic líquido", "rate": (cdi, selic) => selic / 100, "isTaxable": true }
+            ]
+        },
+        {
+            type: 'html',
+            content: `<h2>Tesouro Selic vs CDB</h2>`
+        },
+        {
+            type: 'simulationTable',
+            initialInvestment: 10000,
+            terms: [6, 12, 24],
+            scenarios: [
+                { "label": "Tesouro Selic líquido", "rate": (cdi, selic) => selic / 100, "isTaxable": true },
+                { "label": "CDB 100% CDI líquido", "rate": (cdi, selic) => cdi / 100, "isTaxable": true },
+                { "label": "CDB 110% CDI líquido", "rate": (cdi, selic) => (cdi / 100) * 1.10, "isTaxable": true }
+            ]
+        },
+        {
+            type: 'html',
+            content: `<h2>Vale a pena investir R$ 10.000 no Tesouro Selic?</h2><p>Para reserva de emergência: sim. O Tesouro Selic é o produto mais indicado para dinheiro que você pode precisar a qualquer momento — liquidez diária, risco mínimo e rendimento muito acima da poupança.</p><p>Para objetivos de médio e longo prazo: o Tesouro Selic é uma boa base, mas CDBs com taxas mais altas, LCI/LCA ou Tesouro IPCA+ podem oferecer rendimento maior dependendo do prazo.</p>`
+        },
+    ],
+    conclusion: `<h2>Conclusão</h2><p>R$ 10.000 no Tesouro Selic com a Selic a {{selicRate}}% ao ano rendem aproximadamente o dobro da poupança em qualquer prazo — mesmo após o IR.</p><p>Quer entender melhor? <a href='/o-que-e-tesouro-direto'>Leia o guia completo sobre o Tesouro Direto.</a> Ou <a href='/tesouro-selic-ou-cdb'>compare Tesouro Selic com CDB.</a></p><p><em>Referência: Selic de {{selicRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}). Simulações com taxa constante para fins ilustrativos.</em></p>`,
+    seoTitle: 'Quanto Rende R$ 10.000 no Tesouro Selic? Simulação 2026',
+    seoDescription: 'Simule quanto rende R$ 10.000 no Tesouro Selic em 1, 6, 12 e 24 meses. Veja o rendimento líquido após IR, comparação com poupança e CDB atualizado.',
+    faq: [
+        { "question": "Quanto rende R$ 10.000 no Tesouro Selic em 12 meses?", "answer": "Com a Selic a {{selicRate}}% ao ano, R$ 10.000 no Tesouro Selic rendem significativamente mais que a poupança ({{poupancaRate}}% a.a.) em 12 meses, após IR de 20%." },
+        { "question": "Tesouro Selic rende mais que a poupança?", "answer": "Sim, em todos os cenários com Selic acima de 8,5% ao ano. Com a Selic atual de {{selicRate}}%, o Tesouro Selic rende aproximadamente o dobro da poupança no líquido." },
+        { "question": "Tesouro Selic tem taxa de custódia?", "answer": "Sim. A B3 cobra 0,20% ao ano. Porém investimentos de até R$ 10.000 no Tesouro Selic são isentos dessa taxa." },
+        { "question": "Posso perder dinheiro no Tesouro Selic?", "answer": "Praticamente não. O Tesouro Selic sobe todos os dias acompanhando a Selic. Mesmo em resgates antecipados, a chance de perda é extremamente baixa." },
+        { "question": "Tesouro Selic ou CDB: qual é melhor?", "answer": "Os dois têm rendimento muito próximo. A diferença principal é a garantia: Tesouro é garantido pelo Governo Federal sem limite. CDB tem FGC até R$ 250.000 por instituição." }
+    ],
+    category: 'renda-fixa',
+    subcategory: 'tesouro-direto',
+    pillar: 'pillar-2-renda-fixa',
+    cluster: 'tesouro-direto',
+    tags: ['quanto rende tesouro selic', 'rendimento tesouro selic', 'simulação tesouro selic', 'tesouro selic 10000'],
+    disclaimer: defaultDisclaimer,
   }
 ];
-
-    
