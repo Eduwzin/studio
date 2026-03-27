@@ -248,7 +248,7 @@ export const blogArticles: Article[] = [
     content: [
       {
         type: 'html',
-        content: `<h1>O que é LCA: como funciona, vantagens e quando vale a pena</h1><div class='resumo-rapido'><ul><li>LCA é um título de renda fixa emitido por bancos, lastreado em crédito do agronegócio</li><li>É isento de Imposto de Renda para pessoa física — igual à LCI</li><li>Tem cobertura do FGC até R$ 250.000 por CPF por instituição</li><li>Tem carência mínima de 90 dias — não permite resgate imediato</li><li>A comparação correta com CDB é sempre pelo rendimento líquido, não pela taxa bruta</li></ul></div><p>LCA e LCI são frequentemente mencionadas juntas — e com razão: funcionam de forma muito parecida. A principal diferença está no lastro: enquanto a LCI financia o setor imobiliário, a LCA financia o agronegócio.</p><p>Para o investidor pessoa física, o que importa é que as duas são isentas de IR e têm cobertura do FGC. Este guia explica tudo que você precisa saber sobre a LCA antes de investir.</p><h2>LCA vs LCI: qual a diferença?</h2><table><thead><tr><th>Critério</th><th>LCA (Letra de Crédito do Agronegócio)</th><th>LCI (Letra de Crédito Imobiliário)</th></tr></thead><tbody><tr><td><strong>Lastro</strong></td><td>Crédito para o agronegócio</td><td>Crédito para o setor imobiliário</td></tr><tr><td><strong>Rendimento</strong></td><td>Pós (CDI), Pré ou Híbrido (IPCA+)</td><td>Pós (CDI), Pré ou Híbrido (IPCA+)</td></tr><tr><td><strong>Imposto de Renda</strong></td><td>Isento para pessoa física</td><td>Isento para pessoa física</td></tr><tr><td><strong>Garantia</strong></td><td>FGC (até R$ 250 mil)</td><td>FGC (até R$ 250 mil)</td></tr><tr><td><strong>Liquidez</strong></td><td>Carência mínima de 90 dias</td><td>Carência mínima de 90 dias</td></tr></tbody></table><p>Na prática, para o investidor, a diferença é mínima. A escolha entre LCA e LCI geralmente se resume a qual está oferecendo a melhor taxa de rendimento no momento da aplicação.</p><h2>Quando a LCA compensa mais que o CDB</h2><p>A comparação correta usa a fórmula de equivalência: <strong>Taxa LCA equivalente = Taxa CDB × (1 — alíquota IR)</strong>. Uma LCA a {{lci90Rate}}% do CDI pode render mais no líquido que um CDB a {{cdb100Rate}}% do CDI. Veja a simulação abaixo para entender na prática.</p><h2>Simulação: Equivalência LCA vs CDB</h2>`
+        content: `<h1>O que é LCA: como funciona, vantagens e quando vale a pena</h1><div class='resumo-rapido'><ul><li>LCA é um título de renda fixa emitido por bancos, lastreado em crédito do agronegócio</li><li>É isento de Imposto de Renda para pessoa física — igual à LCI</li><li>Tem cobertura do FGC até R$ 250.000 por CPF por instituição</li><li>Tem carência mínima de 90 dias — não permite resgate imediato</li><li>A comparação correta com CDB é sempre pelo rendimento líquido, não pela taxa bruta</li></ul></div><p>LCA e LCI são frequentemente mencionadas juntas — e com razão: funcionam de forma muito parecida. A principal diferença está no lastro: enquanto a LCI financia o setor imobiliário, a LCA financia o agronegócio.</p><p>Para o investidor pessoa física, o que importa é que as duas são isentas de IR e têm cobertura do FGC. Este guia explica tudo que você precisa saber sobre a LCA antes de investir.</p><h2>LCA vs LCI: qual a diferença?</h2><table><thead><tr><th>Critério</th><th>LCA (Letra de Crédito do Agronegócio)</th><th>LCI (Letra de Crédito Imobiliário)</th></tr></thead><tbody><tr><td><strong>Lastro</strong></td><td>Crédito para o agronegócio</td><td>Crédito para o setor imobiliário</td></tr><tr><td><strong>Rendimento</strong></td><td>Pós (CDI), Pré ou Híbrido (IPCA+)</td><td>Pós (CDI), Pré ou Híbrido (IPCA+)</td></tr><tr><td><strong>Imposto de Renda</strong></td><td>Isento para pessoa física</td><td>Isento para pessoa física</td></tr><tr><td><strong>Garantia</strong></td><td>FGC (até R$ 250 mil)</td><td>FGC (até R$ 250 mil)</td></tr><tr><td><strong>Liquidez</strong></td><td>Carência mínima de 90 dias</td><td>Carência mínima de 90 dias</td></tr></tbody></table><h2>Quando a LCA compensa mais que o CDB</h2><p>A comparação correta usa a fórmula de equivalência: <strong>Taxa LCA equivalente = Taxa CDB × (1 — alíquota IR)</strong>. Uma LCA a {{lci90Rate}}% do CDI pode render mais no líquido que um CDB a {{cdb100Rate}}% do CDI. Veja a simulação abaixo para entender na prática.</p><h2>Simulação: Equivalência LCA vs CDB</h2>`,
       },
       {
         type: 'simulationTable',
@@ -256,31 +256,31 @@ export const blogArticles: Article[] = [
         terms: [12],
         scenarios: [
           { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-          { label: 'CDB 110% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true },
-          { label: 'LCA 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false },
-          { label: 'LCA 95% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: false }
-        ]
+          { label: 'CDB 110% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.1, isTaxable: true },
+          { label: 'LCA 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.9, isTaxable: false },
+          { label: 'LCA 95% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: false },
+        ],
       },
       {
         type: 'html',
-        content: `<p><em>(Referência: {{dataAtualizacao}})</em></p><h2>Comparativo rápido: LCA vs outros produtos</h2>`
+        content: `<p><em>(Referência: {{dataAtualizacao}})</em></p><h2>Comparativo rápido: LCA vs outros produtos</h2>`,
       },
       {
         type: 'simulationTable',
         initialInvestment: 10000,
         terms: [12],
         scenarios: [
-          { label: 'Poupança', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, isTaxable: false },
+          { label: 'Poupança', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.7, isTaxable: false },
           { label: 'CDB 100% CDI', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-          { label: 'LCA 90% CDI', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false },
+          { label: 'LCA 90% CDI', rate: (cdi, selic) => (cdi / 100) * 0.9, isTaxable: false },
           { label: 'LCA 95% CDI', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: false },
-          { label: 'Tesouro Selic', rate: (cdi, selic) => selic / 100, isTaxable: true }
-        ]
+          { label: 'Tesouro Selic', rate: (cdi, selic) => selic / 100, isTaxable: true },
+        ],
       },
       {
-          type: 'html',
-          content: `<p><em>(Referência: {{dataAtualizacao}})</em></p><h2>Tipos de LCA por Rendimento</h2><table><thead><tr><th>Tipo de LCA</th><th>Como funciona</th></tr></thead><tbody><tr><td><strong>Pós-fixada</strong></td><td>A mais comum. Rende um percentual do CDI (ex: 95% do CDI).</td></tr><tr><td><strong>Prefixada</strong></td><td>A taxa é definida no momento da compra (ex: 11% ao ano).</td></tr><tr><td><strong>Híbrida (IPCA+)</strong></td><td>Paga a variação da inflação (IPCA) mais uma taxa fixa (ex: IPCA + 5% a.a.).</td></tr></tbody></table>`
-      }
+        type: 'html',
+        content: `<p><em>(Referência: {{dataAtualizacao}})</em></p><h2>Tipos de LCA por Rendimento</h2><table><thead><tr><th>Tipo de LCA</th><th>Como funciona</th></tr></thead><tbody><tr><td><strong>Pós-fixada</strong></td><td>A mais comum. Rende um percentual do CDI (ex: 95% do CDI).</td></tr><tr><td><strong>Prefixada</strong></td><td>A taxa é definida no momento da compra (ex: 11% ao ano).</td></tr><tr><td><strong>Híbrida (IPCA+)</strong></td><td>Paga a variação da inflação (IPCA) mais uma taxa fixa (ex: IPCA + 5% a.a.).</td></tr></tbody></table>`,
+      },
     ],
     conclusion: `<h2>Conclusão</h2><p>LCA é uma excelente opção de renda fixa para quem tem objetivo com prazo definido e pode abrir mão da liquidez imediata. A isenção de IR é uma vantagem real — mas só compensa quando a taxa oferecida é competitiva o suficiente para superar o rendimento líquido de outras opções.</p><p>A regra de ouro: sempre compare pelo rendimento líquido. E lembre-se — LCA e LCI funcionam de forma muito parecida. Vale comparar as duas antes de decidir.</p><p>Quer entender melhor a comparação com o CDB? <a href='/cdb-ou-lci'>Veja o comparativo completo entre CDB e LCI/LCA.</a></p>`,
     faq: [
@@ -327,9 +327,9 @@ export const blogArticles: Article[] = [
     date: '2026-03-20',
     imageId: 'blog-fixa-vs-variavel',
     content: [
-        {
-            type: 'html',
-            content: `<h1>Renda fixa ou renda variável: entenda as diferenças e quando escolher cada uma</h1>
+      {
+        type: 'html',
+        content: `<h1>Renda fixa ou renda variável: entenda as diferenças e quando escolher cada uma</h1>
 <div class='resumo-rapido'>
     <ul>
         <li>Renda fixa tem retorno previsível — você sabe o quanto vai render antes de investir</li>
@@ -415,7 +415,7 @@ export const blogArticles: Article[] = [
 </table>
 <p><em>Valores de referência. A alocação ideal deve ser personalizada.</em></p>
 `
-        }
+      }
     ],
     conclusion: `<h2>Conclusão</h2><p>Renda fixa e renda variável não são opostos — são complementares. A maioria dos investidores bem-sucedidos combina as duas, ajustando a proporção conforme o perfil, o objetivo e o momento de vida.</p><p>Para quem está começando: comece pela renda fixa, monte a reserva de emergência, entenda como os investimentos funcionam — e só então explore renda variável com uma parcela que você pode deixar parada por anos.</p><p>Quer dar o próximo passo? <a href='/como-comecar-a-investir'>Veja o guia completo de como começar a investir do zero.</a></p>`,
     seoTitle: 'Renda Fixa ou Renda Variável: qual vale mais a pena?',
@@ -526,7 +526,7 @@ export const blogArticles: Article[] = [
 <h2>Passo 4: Escolha os Primeiros Investimentos</h2>
 <p>Com a reserva montada e o perfil definido, é hora de escolher. Para iniciantes, o caminho mais seguro é começar pela renda fixa e, aos poucos, explorar a renda variável.</p>
 <h3>Renda Fixa: Segurança e Previsibilidade</h3>
-<p>Produtos como Tesouro Direto e CDBs são excelentes para começar. Eles rendem mais que a poupança com segurança similar ou até maior. Veja a comparação de rendimento líquido para R$ 10.000 por 12 meses:</p>`
+<p>Produtos como Tesouro Direto e CDBs são excelentes para começar. Eles rendem mais que a poupança com segurança similar ou até maior. Veja a comparação de rendimento líquido para R$ 10.000 em 12 meses:</p>`
       },
       {
         type: 'simulationTable',
@@ -564,7 +564,7 @@ export const blogArticles: Article[] = [
 </ul>`
       }
     ],
-    conclusion: `<h2>Conclusão: O Segredo é Começar</h2>
+    conclusion: `<h2>Conclusão</h2>
 <p>Começar a investir é um processo de aprendizado contínuo. Não espere saber tudo para dar o primeiro passo. Comece com pouco, em produtos seguros como o Tesouro Selic, e vá aumentando seus aportes e diversificando sua carteira conforme ganha confiança e conhecimento.</p>
 <p>Lembre-se: o maior risco é não investir e deixar a inflação corroer seu poder de compra. O tempo é seu maior aliado. Comece hoje.</p>`,
     faq: [
@@ -592,50 +592,7 @@ export const blogArticles: Article[] = [
     tags: ["como começar a investir", "investir do zero", "guia para iniciantes", "primeiros investimentos", "reserva de emergência"],
     disclaimer: defaultDisclaimer,
   },
-  {
-    slug: 'o-que-sao-etfs',
-    title: 'O que são ETFs? Como funcionam os Fundos de Índice',
-    description: 'ETFs são fundos de índice negociados na bolsa que replicam carteiras diversificadas. Entenda como funcionam, os tipos disponíveis, custos e como começar a investir.',
-    date: '2026-03-20',
-    imageId: 'blog-o-que-sao-etfs',
-    content: [{
-      type: 'html',
-      content: `<h1>O que são ETFs: como funcionam, tipos e como investir com diversificação automática</h1><div class='resumo-rapido'><ul><li>ETF é um fundo de índice negociado na bolsa — ele replica uma carteira diversificada de ativos</li><li>Com uma única cota, você investe em dezenas ou centenas de empresas ao mesmo tempo</li><li>Têm taxa de administração baixa — geralmente entre 0,05% e 0,5% ao ano</li><li>São renda variável — o preço oscila conforme o índice que replicam</li><li>Ideais para quem quer diversificação sem precisar escolher ações individualmente</li></ul></div><p>ETF é uma das formas mais eficientes de investir em renda variável com diversificação automática e custo baixo. Em vez de escolher ações individuais, você compra uma cota que já representa dezenas ou centenas de empresas de uma vez.</p><p>Este guia explica o que são, como funcionam, quais os tipos disponíveis no Brasil e como começar.</p><h2>O que é ETF</h2><p>ETF significa Exchange Traded Fund — fundo negociado em bolsa. É um fundo que replica um índice de mercado, como o Ibovespa, o S&P 500 ou um índice de renda fixa.</p><p>Quando você compra uma cota de ETF, está comprando uma fatia de todos os ativos que compõem aquele índice — na mesma proporção. Se o índice sobe, o ETF sobe. Se o índice cai, o ETF cai.</p><p>Os ETFs são negociados na B3 durante o horário de mercado, igual às ações e FIIs. Você compra e vende pelo home broker da sua corretora.</p><h2>Como os ETFs funcionam na prática</h2><h3>Replicação do índice</h3><p>Um ETF que replica o Ibovespa, por exemplo, compra as mesmas ações que compõem o índice, nas mesmas proporções. Se o Ibovespa tem 90 ações, o ETF tem as mesmas 90 ações na mesma distribuição.</p><p>Quando o índice é rebalanceado — empresas entram e saem conforme critérios de liquidez e representatividade — o ETF ajusta automaticamente sua carteira. Você não precisa fazer nada.</p><h3>Gestão passiva vs ativa</h3><p>A maioria dos ETFs usa gestão passiva — o objetivo é replicar o índice, não superá-lo. Isso reduz os custos operacionais e resulta em taxas de administração muito menores que fundos ativos.</p><p>Gestão ativa tenta superar o índice — mas historicamente, a maioria dos gestores ativos não consegue superar o índice consistentemente no longo prazo, especialmente depois das taxas.</p><h2>Principais ETFs disponíveis no Brasil</h2><h3>ETFs de ações brasileiras</h3><p>Replicam índices da bolsa brasileira:</p><ul><li><strong>BOVA11:</strong> replica o Ibovespa — as maiores e mais negociadas ações da B3</li><li><strong>IVVB11:</strong> replica o S&P 500 americano — as 500 maiores empresas dos EUA, em reais</li><li><strong>SMAL11:</strong> replica o índice de small caps — empresas menores da B3</li><li><strong>DIVO11:</strong> replica o índice de dividendos — empresas com histórico de bons dividendos</li></ul><h3>ETFs de renda fixa</h3><p>Replicam índices de títulos de renda fixa:</p><ul><li><strong>FIXA11:</strong> títulos prefixados do Tesouro</li><li><strong>IMAB11:</strong> títulos IPCA+ do Tesouro</li></ul><h3>ETFs internacionais</h3><p>Dão exposição a mercados internacionais sem precisar abrir conta no exterior:</p><ul><li><strong>IVVB11:</strong> S&P 500 (EUA)</li><li><strong>NASDAQ:</strong> empresas de tecnologia dos EUA</li><li><strong>EURP11:</strong> empresas europeias</li></ul><table><thead><tr><th>ETF</th><th>O que replica</th><th>Exposição</th><th>Taxa admin. aprox.</th></tr></thead><tbody><tr><td>BOVA11</td><td>Ibovespa</td><td>Ações brasileiras (top liquidez)</td><td>0,10% a.a.</td></tr><tr><td>IVVB11</td><td>S&P 500</td><td>500 maiores empresas dos EUA</td><td>0,23% a.a.</td></tr><tr><td>SMAL11</td><td>Small Caps</td><td>Empresas menores da B3</td><td>0,40% a.a.</td></tr><tr><td>DIVO11</td><td>Índice Dividendos</td><td>Ações pagadoras de dividendos</td><td>0,40% a.a.</td></tr><tr><td>IMAB11</td><td>IMA-B</td><td>Títulos IPCA+ do Tesouro</td><td>0,20% a.a.</td></tr></tbody></table><p><em>Taxas de administração aproximadas. Verifique as condições atuais na B3 ou na corretora antes de investir.</em></p><h2>ETF vs ação individual: qual é melhor?</h2><table><thead><tr><th>Critério</th><th>ETF</th><th>Ação individual</th></tr></thead><tbody><tr><td>Diversificação</td><td>Automática — dezenas ou centenas de empresas</td><td>Baixa — concentrado em uma empresa</td></tr><tr><td>Risco</td><td>Menor — diluído entre muitos ativos</td><td>Maior — depende de uma empresa</td></tr><tr><td>Custo</td><td>Taxa de administração baixa (0,05% a 0,5%)</td><td>Taxa de corretagem por operação</td></tr><tr><td>Gestão</td><td>Passiva — replica o índice automaticamente</td><td>Ativa — você decide quando comprar e vender</td></tr><tr><td>Conhecimento necessário</td><td>Baixo — não precisa analisar empresas</td><td>Alto — análise de balanços, setor, gestão</td></tr><tr><td>Potencial de retorno</td><td>Retorno do índice</td><td>Pode superar o índice (ou perder mais)</td></tr></tbody></table><h2>Imposto de Renda nos ETFs</h2><p>ETFs de ações têm tributação diferente de ações individuais:</p><ul><li><strong>Ganho de capital na venda:</strong> 15% sobre o lucro, independente do valor vendido — não há isenção de R$ 20.000 como nas ações</li><li><strong>Dividendos e juros sobre capital próprio:</strong> tributados conforme a tabela progressiva quando distribuídos</li><li><strong>Imposto retido na fonte:</strong> 0,005% sobre o valor da venda (come-cotas não se aplica a ETFs de ações)</li></ul><p>Para ETFs de renda fixa, a tributação segue a tabela regressiva de IR — igual aos títulos que compõem o fundo.</p><p>Fonte: Receita Federal do Brasil, março de 2026.</p><h2>Vantagens dos ETFs para iniciantes</h2><p><strong>Diversificação imediata com pouco dinheiro</strong><br>Com o preço de uma cota — que pode ser menos de R$ 100 — você já tem exposição a dezenas de empresas. Para replicar a mesma diversificação comprando ações individuais, precisaria de muito mais capital.</p><p><strong>Custo baixo</strong><br>A taxa de administração dos ETFs é muito menor que a dos fundos ativos. Essa diferença de custo tem impacto enorme no longo prazo — cada 0,5% ao ano a menos em taxas representa muito mais patrimônio em 20 anos.</p><p><strong>Simplicidade</strong><br>Não precisa analisar empresas individuais, acompanhar balanços ou decidir quando rebalancear. O ETF faz isso automaticamente.</p><p><strong>Liquidez diária</strong><br>Assim como ações e FIIs, você compra e vende cotas a qualquer momento durante o horário de mercado.</p><h2>Riscos dos ETFs</h2><p><strong>Risco de mercado:</strong> se o índice cair, o ETF cai na mesma proporção. Não há proteção contra quedas do mercado.</p><p><strong>Risco cambial:</strong> ETFs que replicam índices internacionais (como IVVB11) têm exposição à variação do dólar — que pode aumentar ou reduzir o rendimento em reais.</p><p><strong>Risco de liquidez:</strong> ETFs menos negociados podem ter spread alto entre o preço de compra e venda — o que reduz a eficiência da operação.</p><p><strong>Tracking error:</strong> diferença entre o retorno do ETF e o retorno do índice que ele replica — geralmente pequena, mas existe.</p><h2>Como começar a investir em ETFs</h2><p><strong>Passo 1:</strong> abra conta em corretora habilitada na B3.</p><p><strong>Passo 2:</strong> defina seu objetivo — exposição ao mercado brasileiro, internacional ou renda fixa.</p><p><strong>Passo 3:</strong> escolha o ETF adequado ao objetivo. Para começar, BOVA11 (Ibovespa) e IVVB11 (S&P 500) são os mais usados.</p><p><strong>Passo 4:</strong> compre cotas pelo home broker durante o horário de mercado.</p><p><strong>Passo 5:</strong> invista regularmente — aportes mensais são mais eficientes que tentativas de acertar o melhor momento.</p><h2>ETF ou FII: qual escolher?</h2><p>Dependendo do objetivo, os dois podem complementar uma carteira:</p><ul><li><strong>ETFs de ações:</strong> crescimento de patrimônio no longo prazo, exposição ao mercado acionário</li><li><strong>FIIs:</strong> renda passiva mensal, exposição ao mercado imobiliário com isenção de IR nos rendimentos</li></ul><p>Para iniciantes, uma combinação de renda fixa (base) com ETFs e FIIs (complemento de longo prazo) é uma estrutura eficiente e diversificada.</p>`
-    }],
-    conclusion: `<h2>Conclusão</h2><p>ETFs são a forma mais simples e eficiente de investir em renda variável com diversificação automática. Com uma única cota, você acessa dezenas de empresas, paga taxas baixas e não precisa analisar ações individuais.</p><p>Para quem está começando, ETFs de índice como BOVA11 e IVVB11 são excelentes pontos de partida para exposição à renda variável — depois de ter a reserva de emergência formada em renda fixa.</p><p>Quer entender a diferença? <a href='/etf-ou-acao'>Veja o comparativo entre ETF e ação individual.</a></p>`,
-    faq: [
-      {
-        question: "O que são ETFs e como funcionam?",
-        answer: "ETF (Exchange Traded Fund) é um fundo de índice negociado na bolsa. Ele replica uma carteira diversificada de ativos — como as ações do Ibovespa ou do S&P 500. Com uma cota, você investe em dezenas ou centenas de empresas ao mesmo tempo."
-      },
-      {
-        question: "ETF é seguro para iniciantes?",
-        answer: "ETFs são mais seguros que ações individuais pela diversificação automática. Mas são renda variável — o preço oscila e você pode perder dinheiro. São mais indicados para objetivos de longo prazo, após montar a reserva de emergência em renda fixa."
-      },
-      {
-        question: "Qual o valor mínimo para investir em ETF?",
-        answer: "O valor mínimo é o preço de uma cota. O BOVA11, por exemplo, costuma ser negociado entre R$ 100 e R$ 120. Alguns ETFs têm cotas mais baratas. Verifique o preço atual na sua corretora."
-      },
-      {
-        question: "ETF tem Imposto de Renda?",
-        answer: "Sim. O ganho de capital na venda de cotas de ETF de ações é tributado em 15% — sem isenção para vendas abaixo de R$ 20.000 como nas ações. ETFs de renda fixa seguem a tabela regressiva de IR."
-      },
-      {
-        question: "Qual a diferença entre ETF e fundo de investimento comum?",
-        answer: "ETFs são negociados na bolsa como ações — você compra e vende a qualquer momento. Fundos comuns têm cotas resgatadas diretamente com o gestor, geralmente com prazo. ETFs também têm taxas menores e maior transparência."
-      },
-      {
-        question: "BOVA11 ou IVVB11: qual escolher?",
-        answer: "Depende do objetivo. BOVA11 dá exposição ao mercado brasileiro (Ibovespa). IVVB11 dá exposição ao mercado americano (S&P 500) em reais, com risco cambial. Muitos investidores combinam os dois para diversificação geográfica."
-      },
-      {
-        question: "ETF ou ação: qual rende mais?",
-        answer: "Depende do período e das ações escolhidas. Ações individuais podem superar o índice — mas também podem perder muito mais. Historicamente, a maioria dos investidores individuais não supera o índice no longo prazo, tornando os ETFs uma escolha eficiente."
-      }
-    ],
-    disclaimer: "Este conteúdo é educativo e não constitui recomendação de investimento. ETFs são renda variável — o preço das cotas oscila e rentabilidades passadas não garantem resultados futuros. Consulte um profissional certificado para orientação personalizada.",
-  },
-  {
+    {
     slug: 'quanto-rende-fii-por-mes',
     title: 'Quanto Rende FII por Mês? Simulação com Dividend Yield',
     description: 'Veja quanto rende um FII por mês com simulações práticas. Entenda o Dividend Yield, como calcular a renda mensal e quanto investir para atingir sua meta.',
@@ -644,7 +601,7 @@ export const blogArticles: Article[] = [
     content: [
       {
         type: 'html',
-        content: `<h1>Quanto rende FII por mês? Simulação com Dividend Yield e renda passiva</h1><div class='resumo-rapido'><ul><li>O rendimento mensal de FIIs é medido pelo Dividend Yield (DY) — rendimento anual dividido pelo preço da cota</li><li>FIIs brasileiros pagam em média 0,7% a 1,0% ao mês em rendimentos (DY médio de 8% a 12% ao ano)</li><li>Os rendimentos são isentos de IR para pessoa física</li><li>O valor distribuído varia todo mês — não é fixo como renda fixa</li><li>Para R$ 1.000 de renda mensal, você precisa de aproximadamente R$ 100.000 a R$ 140.000 investidos</li></ul></div><p>Uma das maiores atrações dos FIIs é a renda mensal. A ideia de receber dinheiro todo mês sem trabalhar para isso é poderosa — mas é importante entender como esse rendimento funciona antes de calcular metas.</p><p>Este guia mostra como calcular o rendimento mensal de FIIs, simulações com diferentes valores investidos e quanto você precisaria ter para atingir uma meta de renda.</p><h2>O que é Dividend Yield (DY)</h2><p>Dividend Yield é o indicador que mede o rendimento distribuído por um FII em relação ao preço atual da cota. É calculado assim:</p><p><strong>DY anual = (rendimentos distribuídos nos últimos 12 meses ÷ preço atual da cota) × 100</strong></p><p>Exemplo: FII com cota a R$ 100 que distribuiu R$ 10 nos últimos 12 meses tem DY de 10% ao ano — ou aproximadamente 0,83% ao mês.</p><p>O DY mensal é a forma mais prática de estimar o quanto você vai receber por cota a cada mês. Mas atenção: o rendimento varia todo mês conforme os resultados do fundo.</p><h2>Faixa de DY dos FIIs brasileiros</h2><p>Em março de 2026, a maioria dos FIIs brasileiros distribui entre 0,7% e 1,1% ao mês por cota. Em termos anuais, isso representa DY de 8% a 13%.</p><table><thead><tr><th>Tipo de FII</th><th>DY mensal típico</th><th>DY anual típico</th><th>Observação</th></tr></thead><tbody><tr><td><strong>FIIs de Papel (CRI)</strong></td><td>0,9% a 1,2%</td><td>11% a 14%</td><td>Mais atrelado ao CDI/IPCA — tende a ser mais previsível</td></tr><tr><td><strong>FIIs de Tijolo (shoppings/galpões)</strong></td><td>0,6% a 0,9%</td><td>7% a 11%</td><td>Depende de vacância e contratos de aluguel</td></tr><tr><td><strong>FOF (fundo de fundos)</strong></td><td>0,7% a 1,0%</td><td>8% a 12%</td><td>Diversificação automática entre FIIs</td></tr><tr><td><strong>FIIs Híbridos</strong></td><td>0,7% a 1,0%</td><td>8% a 12%</td><td>Mix de imóveis e títulos</td></tr></tbody></table><p><em>Referências de DY médio do mercado em março de 2026. Valores variam por fundo e momento do mercado. DY alto pode indicar cota barata por problemas no fundo — sempre analise antes de investir. (Referência: {{dataAtualizacao}})</em></p><h2>Simulação: quanto rende por mês com diferentes valores investidos</h2><table><thead><tr><th>Valor investido</th><th>DY 0,7%/mês</th><th>DY 0,85%/mês</th><th>DY 1,0%/mês</th><th>DY 1,1%/mês</th></tr></thead><tbody><tr><td>R$ 10.000</td><td>R$ 70</td><td>R$ 85</td><td>R$ 100</td><td>R$ 110</td></tr><tr><td>R$ 25.000</td><td>R$ 175</td><td>R$ 213</td><td>R$ 250</td><td>R$ 275</td></tr><tr><td>R$ 50.000</td><td>R$ 350</td><td>R$ 425</td><td>R$ 500</td><td>R$ 550</td></tr><tr><td>R$ 100.000</td><td>R$ 700</td><td>R$ 850</td><td>R$ 1.000</td><td>R$ 1.100</td></tr><tr><td>R$ 150.000</td><td>R$ 1.050</td><td>R$ 1.275</td><td>R$ 1.500</td><td>R$ 1.650</td></tr><tr><td>R$ 200.000</td><td>R$ 1.400</td><td>R$ 1.700</td><td>R$ 2.000</td><td>R$ 2.200</td></tr></tbody></table><p><em>Simulação com DY constante para fins ilustrativos. O rendimento real varia todo mês conforme os resultados do fundo. Valores isentos de IR para pessoa física. (Referência: {{dataAtualizacao}})</em></p><h2>Quanto investir para receber R$ 500, R$ 1.000 ou R$ 2.000 por mês</h2><p>A fórmula para calcular o patrimônio necessário para uma meta de renda é:</p><p><strong>Patrimônio necessário = meta mensal ÷ DY mensal</strong></p><table><thead><tr><th>Meta de renda mensal</th><th>Com DY de 0,7%/mês</th><th>Com DY de 0,85%/mês</th><th>Com DY de 1,0%/mês</th></tr></thead><tbody><tr><td>R$ 500/mês</td><td>R$ 71.429</td><td>R$ 58.824</td><td>R$ 50.000</td></tr><tr><td>R$ 1.000/mês</td><td>R$ 142.857</td><td>R$ 117.647</td><td>R$ 100.000</td></tr><tr><td>R$ 2.000/mês</td><td>R$ 285.714</td><td>R$ 235.294</td><td>R$ 200.000</td></tr><tr><td>R$ 5.000/mês</td><td>R$ 714.286</td><td>R$ 588.235</td><td>R$ 500.000</td></tr></tbody></table><p><em>Cálculo: patrimônio = meta ÷ DY. DY pode variar — use como referência de planejamento, não como garantia. (Referência: {{dataAtualizacao}})</em></p><h2>FII vs renda fixa: qual paga mais por mês?</h2><p>A tabela abaixo compara o rendimento mensal de R$ 100.000. Note que, enquanto o FII tem potencial de rendimento maior e isento de IR, seu valor não é garantido e oscila. A renda fixa oferece previsibilidade.</p><table><thead><tr><th>Produto</th><th>Rendimento mensal estimado</th></tr></thead><tbody><tr><td><strong>FII (DY 1,0% a.m.)</strong></td><td><strong>~R$ 1.000 (isento de IR, variável)</strong></td></tr></tbody></table>`
+        content: `<h1>Quanto rende FII por mês? Simulação com Dividend Yield e renda passiva</h1><div class='resumo-rapido'><ul><li>O rendimento mensal de FIIs é medido pelo Dividend Yield (DY) — rendimento anual dividido pelo preço da cota</li><li>FIIs brasileiros pagam em média 0,7% a 1,0% ao mês em rendimentos (DY médio de 8% a 12% ao ano)</li><li>Os rendimentos são isentos de IR para pessoa física</li><li>O valor distribuído varia todo mês — não é fixo como renda fixa</li><li>Para R$ 1.000 de renda mensal, você precisa de aproximadamente R$ 100.000 a R$ 140.000 investidos</li></ul></div><p>Uma das maiores atrações dos FIIs é a renda mensal. A ideia de receber dinheiro todo mês sem trabalhar para isso é poderosa — mas é importante entender como esse rendimento funciona antes de calcular metas.</p><p>Este guia mostra como calcular o rendimento mensal de FIIs, simulações com diferentes valores investidos e quanto você precisaria ter para atingir uma meta de renda.</p><h2>O que é Dividend Yield (DY)</h2><p>Dividend Yield é o indicador que mede o rendimento distribuído por um FII em relação ao preço atual da cota. É calculado assim:</p><p><strong>DY anual = (rendimentos distribuídos nos últimos 12 meses ÷ preço atual da cota) × 100</strong></p><p>Exemplo: FII com cota a R$ 100 que distribuiu R$ 10 nos últimos 12 meses tem DY de 10% ao ano — ou aproximadamente 0,83% ao mês.</p><p>O DY mensal é a forma mais prática de estimar o quanto você vai receber por cota a cada mês. Mas atenção: o rendimento varia todo mês conforme os resultados do fundo.</p><h2>Faixa de DY dos FIIs brasileiros</h2><p>Em março de 2026, a maioria dos FIIs brasileiros distribui entre 0,7% e 1,1% ao mês por cota. Em termos anuais, isso representa DY de 8% a 13%.</p><table><thead><tr><th>Tipo de FII</th><th>DY mensal típico</th><th>DY anual típico</th><th>Observação</th></tr></thead><tbody><tr><td><strong>FIIs de Papel (CRI)</strong></td><td>0,9% a 1,2%</td><td>11% a 14%</td><td>Mais atrelado ao CDI/IPCA — tende a ser mais previsível</td></tr><tr><td><strong>FIIs de Tijolo (shoppings/galpões)</strong></td><td>0,6% a 0,9%</td><td>7% a 11%</td><td>Depende de vacância e contratos de aluguel</td></tr><tr><td><strong>FOF (fundo de fundos)</strong></td><td>0,7% a 1,0%</td><td>8% a 12%</td><td>Diversificação automática entre FIIs</td></tr><tr><td><strong>FIIs Híbridos</strong></td><td>0,7% a 1,0%</td><td>8% a 12%</td><td>Mix de imóveis e títulos</td></tr></tbody></table><p><em>Referências de DY médio do mercado em março de 2026. Valores variam por fundo e momento do mercado. DY alto pode indicar cota barata por problemas no fundo — sempre analise antes de investir. (Referência: {{dataAtualizacao}})</em></p><h2>Simulação: quanto rende por mês com diferentes valores investidos</h2><table><thead><tr><th>Valor investido</th><th>DY 0,7%/mês</th><th>DY 0,85%/mês</th><th>DY 1,0%/mês</th><th>DY 1,1%/mês</th></tr></thead><tbody><tr><td>R$ 10.000</td><td>R$ 70</td><td>R$ 85</td><td>R$ 100</td><td>R$ 110</td></tr><tr><td>R$ 25.000</td><td>R$ 175</td><td>R$ 213</td><td>R$ 250</td><td>R$ 275</td></tr><tr><td>R$ 50.000</td><td>R$ 350</td><td>R$ 425</td><td>R$ 500</td><td>R$ 550</td></tr><tr><td>R$ 100.000</td><td>R$ 700</td><td>R$ 850</td><td>R$ 1.000</td><td>R$ 1.100</td></tr><tr><td>R$ 150.000</td><td>R$ 1.050</td><td>R$ 1.275</td><td>R$ 1.500</td><td>R$ 1.650</td></tr><tr><td>R$ 200.000</td><td>R$ 1.400</td><td>R$ 1.700</td><td>R$ 2.000</td><td>R$ 2.200</td></tr></tbody></table><p><em>Simulação com DY constante para fins ilustrativos. O rendimento real varia todo mês conforme os resultados do fundo. Valores isentos de IR para pessoa física. (Referência: {{dataAtualizacao}})</em></p><h2>Quanto investir para receber R$ 500, R$ 1.000 ou R$ 2.000 por mês</h2><p>A fórmula para calcular o patrimônio necessário para uma meta de renda é:</p><p><strong>Patrimônio necessário = meta mensal ÷ DY mensal</strong></p><table><thead><tr><th>Meta de renda mensal</th><th>Com DY de 0,7%/mês</th><th>Com DY de 0,85%/mês</th><th>Com DY de 1,0%/mês</th></tr></thead><tbody><tr><td>R$ 500/mês</td><td>R$ 71.429</td><td>R$ 58.824</td><td>R$ 50.000</td></tr><tr><td>R$ 1.000/mês</td><td>R$ 142.857</td><td>R$ 117.647</td><td>R$ 100.000</td></tr><tr><td>R$ 2.000/mês</td><td>R$ 285.714</td><td>R$ 235.294</td><td>R$ 200.000</td></tr><tr><td>R$ 5.000/mês</td><td>R$ 714.286</td><td>R$ 588.235</td><td>R$ 500.000</td></tr></tbody></table><p><em>Cálculo: patrimônio = meta ÷ DY. DY pode variar — use como referência de planejamento, não como garantia. (Referência: {{dataAtualizacao}})</em></p><h2>FII vs renda fixa: qual paga mais por mês?</h2><p>A tabela abaixo compara o rendimento mensal de R$ 100.000. Note que, enquanto o FII tem potencial de rendimento maior e isento de IR, seu valor não é garantido e oscila. A renda fixa oferece previsibilidade.</p><table><thead><tr><th>Produto</th><th>Rendimento mensal estimado</th></tr></thead><tbody><tr><td><strong>FII (DY 1,0% a.m.)</strong></td><td><strong>~R$ 1.000 (isento de IR, variável)</strong></td></tr></tbody></table>`,
       },
       {
         type: 'simulationTable',
@@ -652,18 +609,16 @@ export const blogArticles: Article[] = [
         terms: [12],
         scenarios: [
           { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-          { label: 'LCI 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false },
-          { label: 'Tesouro Selic líquido', rate: (cdi, selic) => selic / 100, isTaxable: true }
-        ]
+          { label: 'LCI 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.9, isTaxable: false },
+          { label: 'Tesouro Selic líquido', rate: (cdi, selic) => selic / 100, isTaxable: true },
+        ],
       },
       {
         type: 'html',
-        content: `<p><em>(Referência: {{dataAtualizacao}})</em></p><h2>Como montar uma carteira de FIIs para renda mensal</h2><p><strong>Diversifique entre tipos:</strong> combine FIIs de papel (mais previsíveis) com FIIs de tijolo de diferentes segmentos (shoppings, galpões, escritórios). Isso reduz o impacto de problemas em um único fundo.</p><p><strong>Diversifique entre gestores:</strong> não concentre tudo em um único gestor ou administradora.</p><p><strong>Verifique o histórico de distribuições:</strong> fundos com pelo menos 2 a 3 anos de distribuições consistentes oferecem mais previsibilidade.</p><p><strong>Atenção ao DY muito alto:</strong> DY acima de 1,3% ao mês pode indicar que a cota está barata por problemas no fundo — analise antes de investir.</p>`
-      }
+        content: `<p><em>(Referência: {{dataAtualizacao}})</em></p><h2>Como montar uma carteira de FIIs para renda mensal</h2><p><strong>Diversifique entre tipos:</strong> combine FIIs de papel (mais previsíveis) com FIIs de tijolo de diferentes segmentos (shoppings, galpões, escritórios). Isso reduz o impacto de problemas em um único fundo.</p><p><strong>Diversifique entre gestores:</strong> não concentre tudo em um único gestor ou administradora.</p><p><strong>Verifique o histórico de distribuições:</strong> fundos com pelo menos 2 a 3 anos de distribuições consistentes oferecem mais previsibilidade.</p><p><strong>Atenção ao DY muito alto:</strong> DY acima de 1,3% ao mês pode indicar que a cota está barata por problemas no fundo — analise antes de investir.</p>`,
+      },
     ],
     conclusion: `<h2>Conclusão</h2><p>FIIs são uma excelente porta de entrada para a renda variável e para o mercado imobiliário. Permitem diversificar a carteira e receber uma renda mensal isenta de IR com um valor inicial baixo.</p><p>Mas é fundamental entender que são renda variável: o preço das cotas oscila. Comece com uma parcela pequena do seu patrimônio, estude os fundos e entenda os riscos antes de aumentar a posição.</p><p>Quer comparar FIIs com outras classes de ativos? Veja a <a href='/fii-ou-acao'>comparação entre FIIs e ações</a> e <a href='/fii-ou-renda-fixa'>FIIs vs renda fixa</a>.</p>`,
-    seoTitle: "Quanto Rende FII por Mês? Simulação com Dividend Yield",
-    seoDescription: "Veja quanto rende um FII por mês com simulações práticas. Entenda o Dividend Yield, como calcular a renda mensal e quanto investir para atingir sua meta.",
     faq: [
       { question: "O que são FIIs e como funcionam?", answer: "FIIs são fundos que investem em imóveis ou títulos imobiliários e distribuem rendimentos mensais para os cotistas. São negociados na B3 e permitem investir no mercado imobiliário a partir do preço de uma cota." },
       { question: "FII paga renda todo mês?", answer: "A maioria dos FIIs distribui rendimentos mensalmente. Por lei, os FIIs devem distribuir pelo menos 95% do lucro caixa semestral. O valor pode variar conforme o desempenho do fundo." },
@@ -689,7 +644,7 @@ export const blogArticles: Article[] = [
     content: [
       {
         type: 'html',
-        content: `<h1>Quanto investir para ganhar R$ 1.000 por mês? Simulação por produto e prazo</h1><div class='resumo-rapido'><ul><li>Para ganhar R$ 1.000 por mês, você precisa de R$ 100.000 a R$ 143.000 investidos dependendo do produto</li><li>Com FIIs (DY 1% ao mês), o patrimônio necessário é de aproximadamente R$ 100.000</li><li>Com renda fixa (Selic {{selicRate}}%), o patrimônio necessário é de aproximadamente R$ 103.000</li><li>Aportes mensais consistentes aceleram o caminho — R$ 1.000 por mês chega lá em 6 a 7 anos</li><li>Os valores são referências — rendimentos variam e não são garantidos</li></ul></div><p>R$ 1.000 por mês de renda passiva é uma meta concreta e alcançável — mas exige planejamento, consistência e tempo. A boa notícia é que existem caminhos diferentes, e você pode começar com muito menos do que imagina.</p><p>Este guia mostra quanto você precisa ter investido, quanto tempo leva com aportes mensais e quais produtos usar para chegar lá.</p><h2>Quanto patrimônio você precisa para R$ 1.000 por mês</h2><p>A resposta depende do produto escolhido e do rendimento que ele oferece. A fórmula é simples:</p><p><strong>Patrimônio necessário = meta mensal ÷ rendimento mensal do produto</strong></p><table><thead><tr><th>Produto</th><th>Rendimento mensal estimado</th><th>Patrimônio para R$ 1.000/mês</th><th>IR</th><th>Garantia</th></tr></thead><tbody><tr><td>FII (DY 1,0%/mês)</td><td>1,0% ao mês</td><td>~R$ 100.000</td><td>Isento (rendimentos)</td><td>Nenhuma — renda variável</td></tr><tr><td>FII (DY 0,85%/mês)</td><td>0,85% ao mês</td><td>~R$ 118.000</td><td>Isento (rendimentos)</td><td>Nenhuma — renda variável</td></tr><tr><td>Tesouro Selic (líquido)</td><td>~0,97% ao mês líquido</td><td>~R$ 103.000</td><td>15% (acima 720 dias)</td><td>Governo Federal</td></tr><tr><td>CDB 100% CDI (líquido)</td><td>~0,97% ao mês líquido</td><td>~R$ 103.000</td><td>15% (acima 720 dias)</td><td>FGC até R$ 250k</td></tr><tr><td>LCI/LCA 90% CDI</td><td>~1,02% ao mês</td><td>~R$ 98.000</td><td>Isento (PF)</td><td>FGC até R$ 250k</td></tr></tbody></table><p><em>Referências com Selic de {{selicRate}}% a.a. e CDI de {{cdiRate}}% a.a. ({{dataAtualizacao}}). FII com DY estimado — variável. Renda fixa com IR de 15% para prazos acima de 720 dias. Valores aproximados.</em></p><h2>O caminho: quanto tempo leva com aportes mensais</h2><p>Poucos têm R$ 100.000 disponíveis hoje. A maioria vai construir esse patrimônio ao longo do tempo com aportes mensais regulares.</p><p>Veja quanto tempo leva para acumular R$ 100.000 com diferentes valores de aporte mensal, considerando rendimento de 1% ao mês (juros compostos):</p><table><thead><tr><th>Aporte mensal</th><th>Tempo para R$ 100.000</th><th>Total aportado</th><th>Rendimento acumulado</th></tr></thead><tbody><tr><td>R$ 500</td><td>~10 anos</td><td>R$ 60.000</td><td>R$ 40.000</td></tr><tr><td>R$ 1.000</td><td>~6,5 anos</td><td>R$ 78.000</td><td>R$ 22.000</td></tr><tr><td>R$ 2.000</td><td>~4 anos</td><td>R$ 96.000</td><td>R$ 4.000</td></tr><tr><td>R$ 3.000</td><td>~3 anos</td><td>R$ 108.000*</td><td>já passa de R$ 100k antes</td></tr></tbody></table><p><em>Simulação com rendimento constante de 1% ao mês, capitalização mensal. Taxa constante para fins ilustrativos. *Com R$ 3.000/mês, o patrimônio de R$ 100.000 é atingido em aproximadamente 30 meses. (Referência: {{dataAtualizacao}})</em></p><h2>Simulação completa: da meta de R$ 1.000 ao caminho para chegar lá</h2><p>Exemplo prático: João tem 30 anos, ganha R$ 5.000 por mês e consegue poupar R$ 1.000 por mês para investir. Ele quer criar uma renda passiva de R$ 1.000 mensais.</p><table><thead><tr><th>Ano</th><th>Patrimônio acumulado (1% a.m.)</th><th>Renda mensal estimada (DY 1%)</th></tr></thead><tbody><tr><td>1</td><td>R$ 12.682</td><td>R$ 127</td></tr><tr><td>2</td><td>R$ 27.243</td><td>R$ 272</td></tr><tr><td>3</td><td>R$ 43.923</td><td>R$ 439</td></tr><tr><td>4</td><td>R$ 62.985</td><td>R$ 630</td></tr><tr><td>5</td><td>R$ 84.729</td><td>R$ 847</td></tr><tr><td>6</td><td>R$ 109.502</td><td>R$ 1.095</td></tr><tr><td>7</td><td>R$ 137.706</td><td>R$ 1.377</td></tr></tbody></table><p><em>Simulação com aporte de R$ 1.000/mês, rendimento constante de 1% ao mês. Taxa constante para fins ilustrativos — o rendimento real varia. (Referência: {{dataAtualizacao}})</em></p><h2>Renda fixa vs FII: qual paga mais por mês?</h2><p>A tabela abaixo compara o rendimento mensal de R$ 100.000. Note que, enquanto o FII tem potencial de rendimento maior e isento de IR, seu valor não é garantido e oscila. A renda fixa oferece previsibilidade.</p><table><thead><tr><th>Produto</th><th>Rendimento mensal estimado</th></tr></thead><tbody><tr><td><strong>FII (DY 1,0% a.m.)</strong></td><td><strong>~R$ 1.000 (isento de IR, variável)</strong></td></tr></tbody></table>`,
+        content: `<h1>Quanto investir para ganhar R$ 1.000 por mês? Simulação por produto e prazo</h1><div class='resumo-rapido'><ul><li>Para ganhar R$ 1.000 por mês, você precisa de R$ 100.000 a R$ 143.000 investidos dependendo do produto</li><li>Com FIIs (DY 1% ao mês), o patrimônio necessário é de aproximadamente R$ 100.000</li><li>Com renda fixa (Selic {{selicRate}}%), o patrimônio necessário é de aproximadamente R$ 103.000</li><li>Aportes mensais consistentes aceleram o caminho — R$ 1.000 por mês chega lá em 6 a 7 anos</li><li>Os valores são referências — rendimentos variam e não são garantidos</li></ul></div><p>R$ 1.000 por mês de renda passiva é uma meta concreta e alcançável — mas exige planejamento, consistência e tempo. A boa notícia é que existem caminhos diferentes, e você pode começar com muito menos do que imagina.</p><p>Este guia mostra quanto você precisa ter investido, quanto tempo leva com aportes mensais e quais produtos usar para chegar lá.</p><h2>Quanto patrimônio você precisa para R$ 1.000 por mês</h2><p>A resposta depende do produto escolhido e do rendimento que ele oferece. A fórmula é simples:</p><p><strong>Patrimônio necessário = meta mensal ÷ rendimento mensal do produto</strong></p><table><thead><tr><th>Produto</th><th>Rendimento mensal estimado</th><th>Patrimônio para R$ 1.000/mês</th><th>IR</th><th>Garantia</th></tr></thead><tbody><tr><td>FII (DY 1,0%/mês)</td><td>1,0% ao mês</td><td>~R$ 100.000</td><td>Isento (rendimentos)</td><td>Nenhuma — renda variável</td></tr><tr><td>FII (DY 0,85%/mês)</td><td>0,85% ao mês</td><td>~R$ 118.000</td><td>Isento (rendimentos)</td><td>Nenhuma — renda variável</td></tr><tr><td>Tesouro Selic (líquido)</td><td>~0,97% ao mês líquido</td><td>~R$ 103.000</td><td>15% (acima 720 dias)</td><td>Governo Federal</td></tr><tr><td>CDB 100% CDI (líquido)</td><td>~0,97% ao mês líquido</td><td>~R$ 103.000</td><td>15% (acima 720 dias)</td><td>FGC até R$ 250k</td></tr><tr><td>LCI/LCA 90% CDI</td><td>~1,02% ao mês</td><td>~R$ 98.000</td><td>Isento (PF)</td><td>FGC até R$ 250k</td></tr></tbody></table><p><em>Referências com Selic de {{selicRate}}% a.a. e CDI de {{cdiRate}}% a.a. ({{dataAtualizacao}}). FII com DY estimado — variável. Renda fixa com IR de 15% para prazos acima de 720 dias. Valores aproximados.</em></p><h2>O caminho: quanto tempo leva com aportes mensais</h2><p>Poucos têm R$ 100.000 disponíveis hoje. A maioria vai construir esse patrimônio ao longo do tempo com aportes mensais regulares.</p><p>Veja quanto tempo leva para acumular R$ 100.000 com diferentes valores de aporte mensal, considerando rendimento de 1% ao mês (juros compostos):</p><table><thead><tr><th>Aporte mensal</th><th>Tempo para R$ 100.000</th><th>Total aportado</th><th>Rendimento acumulado</th></tr></thead><tbody><tr><td>R$ 500</td><td>~10 anos</td><td>R$ 60.000</td><td>R$ 40.000</td></tr><tr><td>R$ 1.000</td><td>~6,5 anos</td><td>R$ 78.000</td><td>R$ 22.000</td></tr><tr><td>R$ 2.000</td><td>~4 anos</td><td>R$ 96.000</td><td>R$ 4.000</td></tr><tr><td>R$ 3.000</td><td>~3 anos</td><td>R$ 108.000*</td><td>já passa de R$ 100k antes</td></tr></tbody></table><p><em>Simulação com rendimento constante de 1% ao mês, capitalização mensal. Taxa constante para fins ilustrativos. *Com R$ 3.000/mês, o patrimônio de R$ 100.000 é atingido em aproximadamente 30 meses. (Referência: {{dataAtualizacao}})</em></p><h2>Renda fixa vs FII: qual paga mais por mês?</h2><p>A tabela abaixo compara o rendimento mensal de R$ 100.000. Note que, enquanto o FII tem potencial de rendimento maior e isento de IR, seu valor não é garantido e oscila. A renda fixa oferece previsibilidade.</p><table><thead><tr><th>Produto</th><th>Rendimento mensal estimado</th></tr></thead><tbody><tr><td><strong>FII (DY 1,0% a.m.)</strong></td><td><strong>~R$ 1.000 (isento de IR, variável)</strong></td></tr></tbody></table>`
       },
       {
         type: 'simulationTable',
@@ -698,13 +653,13 @@ export const blogArticles: Article[] = [
         scenarios: [
           { label: 'Tesouro Selic líquido', rate: (cdi, selic) => selic / 100, isTaxable: true },
           { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-          { label: 'LCI/LCA 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false }
-        ]
+          { label: 'LCI/LCA 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.9, isTaxable: false },
+        ],
       },
       {
-          type: 'html',
-          content: `<p><em>(Referência: {{dataAtualizacao}})</em></p><h2>Estratégia recomendada: carteira mista para R$ 1.000/mês</h2><p>A estratégia mais eficiente para a maioria dos investidores não é escolher entre renda fixa e FIIs — é combinar os dois:</p><ul><li><strong>Base (60-70%):</strong> renda fixa — Tesouro Selic, CDB, LCI/LCA para segurança e liquidez</li><li><strong>Complemento (30-40%):</strong> FIIs diversificados para renda mensal isenta e potencial de valorização</li></ul><p>Com essa estrutura, você tem previsibilidade da renda fixa + potencial de renda mensal isenta dos FIIs + diversificação entre classes de ativos.</p><h2>Erros comuns ao perseguir a meta de R$ 1.000 por mês</h2><p><strong>Começar pelos FIIs sem ter reserva de emergência</strong><br>Se precisar do dinheiro em emergência, vai vender FIIs no pior momento. Monte a reserva primeiro.</p><p><strong>Concentrar tudo em um único FII</strong><br>Diversifique entre pelo menos 5 a 8 FIIs diferentes para reduzir o impacto de problemas em um único fundo.</p><p><strong>Resgatar os rendimentos em vez de reinvestir</strong><br>No início, reinvestir os rendimentos acelera muito o crescimento do patrimônio. Só retire quando o patrimônio estiver na meta.</p><p><strong>Escolher FIIs apenas pelo DY mais alto</strong><br>DY muito alto pode indicar problemas no fundo. Priorize qualidade dos ativos e histórico consistente.</p><p><strong>Desistir nas primeiras oscilações</strong><br>FIIs oscilam — o preço das cotas sobe e cai. Quem vende na queda realiza prejuízo e atrasa a meta. O foco é a renda mensal, não o preço diário.</p>`
-      }
+        type: 'html',
+        content: `<p><em>(Referência: {{dataAtualizacao}})</em></p><h2>Estratégia recomendada: carteira mista para R$ 1.000/mês</h2><p>A estratégia mais eficiente para a maioria dos investidores não é escolher entre renda fixa e FIIs — é combinar os dois:</p><ul><li><strong>Base (60-70%):</strong> renda fixa — Tesouro Selic, CDB, LCI/LCA para segurança e liquidez</li><li><strong>Complemento (30-40%):</strong> FIIs diversificados para renda mensal isenta e potencial de valorização</li></ul><p>Com essa estrutura, você tem previsibilidade da renda fixa + potencial de renda mensal isenta dos FIIs + diversificação entre classes de ativos.</p><h2>Erros comuns ao perseguir a meta de R$ 1.000 por mês</h2><p><strong>Começar pelos FIIs sem ter reserva de emergência</strong><br>Se precisar do dinheiro em emergência, vai vender FIIs no pior momento. Monte a reserva primeiro.</p><p><strong>Concentrar tudo em um único FII</strong><br>Diversifique entre pelo menos 5 a 8 FIIs diferentes para reduzir o impacto de problemas em um único fundo.</p><p><strong>Resgatar os rendimentos em vez de reinvestir</strong><br>No início, reinvestir os rendimentos acelera muito o crescimento do patrimônio. Só retire quando o patrimônio estiver na meta.</p><p><strong>Escolher FIIs apenas pelo DY mais alto</strong><br>DY muito alto pode indicar problemas no fundo. Priorize qualidade dos ativos e histórico consistente.</p><p><strong>Desistir nas primeiras oscilações</strong><br>FIIs oscilam — o preço das cotas sobe e cai. Quem vende na queda realiza prejuízo e atrasa a meta. O foco é a renda mensal, não o preço diário.</p>`
+      },
     ],
     conclusion: `<h2>Conclusão</h2><p>Ganhar R$ 1.000 por mês de renda passiva é uma meta realista — não instantânea. Com R$ 1.000 de aporte mensal e rendimento consistente, você chega lá em aproximadamente 6 anos.</p><p>O segredo é começar, ser consistente e reinvestir os rendimentos enquanto o patrimônio não atinge a meta. O tempo e os juros compostos fazem o trabalho pesado.</p><p>Quer entender melhor os FIIs? <a href='/o-que-sao-fiis'>Leia o guia completo sobre FIIs.</a> Ou <a href='/quanto-rende-fii-por-mes'>veja quanto rende FII por mês com diferentes valores investidos.</a></p>`,
     faq: [
@@ -724,259 +679,6 @@ export const blogArticles: Article[] = [
     disclaimer: defaultDisclaimer,
   },
   {
-    slug: 'quanto-rende-10000-no-tesouro-selic',
-    title: 'Quanto Rende R$ 10.000 no Tesouro Selic? Simulação 2026',
-    description: 'Veja quanto rende R$ 10.000 no Tesouro Selic hoje com a taxa atual. Simulação de rendimento líquido em 1, 6, 12 e 24 meses, comparado com poupança e CDB.',
-    date: '2026-03-20',
-    imageId: 'blog-tesouro-10000',
-    content: [
-      {
-        type: 'html',
-        content: `<h1>Quanto rende R$ 10.000 no Tesouro Selic hoje? Simulação 2026</h1><div class='resumo-rapido'><ul><li>Com a Selic a {{selicRate}}% ao ano, R$ 10.000 no Tesouro Selic rendem aproximadamente R$ 1.169 líquidos em 12 meses.</li><li>O rendimento é diário e segue a taxa Selic, o que o torna ideal para reserva de emergência.</li><li>Tem Imposto de Renda regressivo (de 22,5% a 15%) sobre o rendimento.</li><li>É considerado o investimento mais seguro do Brasil, garantido pelo Tesouro Nacional.</li><li>A simulação abaixo mostra o rendimento líquido em diferentes prazos.</li></ul></div><p>O Tesouro Selic é o investimento mais recomendado para quem busca segurança e liquidez. Mas quanto ele rende na prática? Para responder, simulamos o rendimento de R$ 10.000 com a taxa Selic atual de {{selicRate}}% ao ano.</p><h2>Simulação: R$ 10.000 no Tesouro Selic por prazo</h2>`
-      },
-      {
-        type: 'simulationTable',
-        initialInvestment: 10000,
-        terms: [1, 3, 6, 12, 24, 36],
-        scenarios: [
-          { label: 'Tesouro Selic ({{selicRate}}% a.a.)', rate: (cdi, selic) => selic / 100, isTaxable: true }
-        ]
-      },
-      {
-        type: 'html',
-        content: `<p><em>Rendimento líquido, já descontado o IR. (Referência: {{dataAtualizacao}})</em></p><h2>Tesouro Selic vs. Poupança</h2><p>A diferença de rendimento para a poupança é significativa. Veja a comparação para os mesmos R$ 10.000:</p>`
-      },
-      {
-        type: 'simulationTable',
-        initialInvestment: 10000,
-        terms: [6, 12, 24, 36],
-        showDifference: true,
-        scenarios: [
-          { label: 'Poupança ({{poupancaRate}}% a.a.)', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, isTaxable: false },
-          { label: 'Tesouro Selic líquido', rate: (cdi, selic) => selic / 100, isTaxable: true }
-        ]
-      },
-      {
-        type: 'html',
-        content: `<p><em>(Referência: {{dataAtualizacao}})</em></p><h2>Tesouro Selic vs. CDB 100% CDI</h2><p>O CDB de liquidez diária é o concorrente mais direto do Tesouro Selic. O rendimento dos dois é muito próximo, pois o CDI acompanha a Selic. A diferença é pequena:</p>`
-      },
-      {
-        type: 'simulationTable',
-        initialInvestment: 10000,
-        terms: [6, 12, 24],
-        scenarios: [
-          { label: 'Tesouro Selic líquido', rate: (cdi, selic) => selic / 100, isTaxable: true },
-          { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-          { label: 'CDB 110% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true }
-        ]
-      },
-      {
-        type: 'html',
-        content: `<p><em>(Referência: {{dataAtualizacao}})</em></p><p>Um CDB a 100% do CDI rende praticamente o mesmo que o Tesouro Selic. Um CDB que pague acima disso, como 110% do CDI, passa a ser mais vantajoso, desde que tenha a mesma liquidez e garantia do FGC.</p>`
-      }
-    ],
-    conclusion: `<h2>Conclusão</h2><p>Com a Selic a {{selicRate}}% ao ano, R$ 10.000 no Tesouro Selic rendem mais de R$ 1.100 líquidos no primeiro ano, superando com folga a poupança e competindo diretamente com os melhores CDBs de liquidez diária.</p><p>É a escolha ideal para quem busca segurança máxima e precisa do dinheiro disponível a qualquer momento, sendo o produto perfeito para a sua reserva de emergência.</p><p>Quer entender mais sobre o Tesouro Direto? <a href='/o-que-e-tesouro-direto'>Leia nosso guia completo.</a></p>`,
-    faq: [
-      {
-        question: "Quanto rende R$ 10.000 no Tesouro Selic em 1 ano?",
-        answer: "Com a Selic a {{selicRate}}% ao ano, R$ 10.000 rendem aproximadamente R$ 1.169 líquidos em 12 meses, já descontando o Imposto de Renda de 17,5% sobre o rendimento."
-      },
-      {
-        question: "Qual o rendimento mensal do Tesouro Selic?",
-        answer: "O rendimento é diário e acompanha a taxa Selic. Com a Selic a {{selicRate}}% ao ano, o rendimento bruto mensal é de aproximadamente 0,89%. O rendimento líquido depende do prazo e da alíquota do IR."
-      },
-      {
-        question: "Tesouro Selic tem Imposto de Renda?",
-        answer: "Sim. O IR incide sobre o rendimento e segue a tabela regressiva: de 22,5% (até 180 dias) a 15% (acima de 720 dias). O imposto é retido na fonte no momento do resgate."
-      },
-      {
-        question: "Tesouro Selic ou Poupança: qual o melhor?",
-        answer: "Tesouro Selic é melhor. Ele rende mais (com a Selic atual, quase o dobro da poupança), tem liquidez diária e é considerado o investimento mais seguro do Brasil."
-      },
-      {
-        question: "Tesouro Selic tem taxa de custódia?",
-        answer: "Sim, a B3 cobra uma taxa de 0,20% ao ano sobre o valor investido. No entanto, investimentos de até R$ 10.000 no Tesouro Selic são isentos dessa taxa."
-      },
-      {
-        question: "Posso resgatar o Tesouro Selic a qualquer momento?",
-        answer: "Sim. O Tesouro Selic tem liquidez diária (D+1), o que significa que o dinheiro cai na sua conta no próximo dia útil após a solicitação de resgate."
-      }
-    ],
-    category: 'renda-fixa',
-    subcategory: 'tesouro-direto',
-    pillar: 'pillar-2-renda-fixa',
-    cluster: 'tesouro-direto',
-    tags: ["quanto rende tesouro selic", "tesouro selic", "simulação tesouro selic", "rendimento tesouro selic", "reserva de emergência"],
-    disclaimer: defaultDisclaimer,
-  },
-    {
-    slug: 'cdb-ou-lci',
-    title: 'CDB ou LCI/LCA: qual rende mais com a Selic atual?',
-    description: 'CDB ou LCI/LCA: entenda qual rende mais com a Selic em {{selicRate}}%. Simulação, tabela de equivalência e como escolher o melhor para sua carteira.',
-    date: '2026-03-20',
-    imageId: 'blog-cdb-lci',
-    content: [
-        {
-            type: 'html',
-            content: `<h1>CDB ou LCI/LCA: qual rende mais com a Selic atual?</h1><div class='resumo-rapido'><ul><li>LCI e LCA são isentas de IR para pessoa física — CDB não é</li><li>Para comparar, você precisa calcular o rendimento líquido do CDB</li><li>Com Selic a {{selicRate}}%, um CDB de 110% do CDI rende mais que uma LCI de 90% do CDI</li><li>A LCI/LCA só vence se sua taxa for alta o suficiente para compensar a isenção de IR</li><li>Use a tabela de equivalência para uma decisão rápida</li></ul></div><p>CDB, LCI e LCA são ótimas opções de renda fixa, mas a isenção de imposto de renda da LCI/LCA gera muita dúvida: qual rende mais no final do dia?</p><p>A resposta é: depende da taxa de cada um. Este guia te mostra como fazer a conta e escolher a melhor opção.</p><h2>Simulação prática: R$ 10.000 em CDB vs LCI</h2>`
-        },
-        {
-            type: 'simulationTable',
-            initialInvestment: 10000,
-            terms: [12],
-            scenarios: [
-                { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-                { label: 'LCI 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false },
-                { label: 'CDB 110% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true },
-                { label: 'LCI 95% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: false }
-            ]
-        },
-        {
-            type: 'html',
-            content: `<p><em>Rendimento líquido em 12 meses. (Referência: {{dataAtualizacao}})</em></p><h2>Tabela de Equivalência: a partir de qual taxa a LCI/LCA compensa?</h2><p>Para um CDB que paga 100% do CDI, esta é a taxa mínima que uma LCI/LCA precisa oferecer para ter o mesmo rendimento líquido, considerando o prazo do investimento e a alíquota de IR.</p><table><thead><tr><th>Prazo da Aplicação</th><th>Alíquota IR (CDB)</th><th>Taxa LCI/LCA equivalente</th></tr></thead><tbody><tr><td>Até 6 meses</td><td>22,5%</td><td><strong>77,5% do CDI</strong></td></tr><tr><td>De 6 meses a 1 ano</td><td>20%</td><td><strong>80% do CDI</strong></td></tr><tr><td>De 1 a 2 anos</td><td>17,5%</td><td><strong>82,5% do CDI</strong></td></tr><tr><td>Acima de 2 anos</td><td>15%</td><td><strong>85% do CDI</strong></td></tr></tbody></table><p><em>CDI de referência: {{cdiRate}}% a.a. ({{dataAtualizacao}})</em></p><p><strong>Regra prática:</strong> se a LCI/LCA oferecer uma taxa acima do valor na tabela, ela é mais vantajosa que um CDB de 100% do CDI para aquele prazo. Por exemplo, para 1 ano, uma LCI que paga acima de 80% do CDI já é melhor.</p>`
-        }
-    ],
-    conclusion: `<h2>Conclusão</h2><p>Não se deixe levar apenas pela isenção de IR. O que importa é o rendimento final no seu bolso. Um CDB com uma taxa bruta alta (como {{cdb120Rate}}% do CDI) pode render mais que uma LCI com uma taxa menor (como {{lci90Rate}}% do CDI).</p><p>Use a tabela de equivalência como guia rápido e, sempre que possível, simule os valores líquidos antes de decidir. Para reserva de emergência, a liquidez diária do CDB geralmente o torna a melhor opção.</p>`,
-    seoTitle: 'CDB ou LCI/LCA: qual rende mais? Simulação e tabela 2026',
-    seoDescription: 'CDB ou LCI/LCA? Compare o rendimento líquido com a Selic atual, use a tabela de equivalência para decidir e veja qual vale mais a pena para seu objetivo.',
-    faq: [
-        { question: "O que rende mais, CDB ou LCI?", answer: "Depende da taxa de cada um e do prazo do investimento. Uma LCI isenta de IR precisa ter uma taxa de pelo menos 85% do CDI para equivaler a um CDB de 100% do CDI em um prazo acima de 2 anos. Use a tabela de equivalência para comparar." },
-        { question: "Qual a principal vantagem da LCI sobre o CDB?", answer: "A isenção de Imposto de Renda para pessoa física." },
-        { question: "CDB e LCI têm a mesma segurança?", answer: "Sim, ambos são garantidos pelo FGC (Fundo Garantidor de Créditos) em até R$ 250.000 por CPF por instituição financeira." },
-        { question: "LCI tem liquidez diária como o CDB?", answer: "Geralmente não. LCIs e LCAs têm uma carência mínima regulamentada (ex: 90 dias). CDBs de liquidez diária podem ser resgatados a qualquer momento. Para reserva de emergência, o CDB de liquidez diária é mais indicado." }
-    ],
-    category: 'renda-fixa',
-    subcategory: 'comparativos',
-    pillar: 'pillar-2-renda-fixa',
-    cluster: 'comparativos-renda-fixa',
-    tags: ["CDB ou LCI", "CDB vs LCI", "LCI ou CDB", "rendimento CDB", "rendimento LCI", "tabela equivalencia cdb lci"],
-    disclaimer: defaultDisclaimer,
-  },
-  {
-    slug: 'o-que-e-cdb',
-    title: 'O que é CDB: um guia completo para iniciantes',
-    description: 'Entenda o que é CDB (Certificado de Depósito Bancário), como funciona, os tipos (prefixado, pós, híbrido), a segurança do FGC e como escolher o melhor para você.',
-    date: '2026-03-20',
-    imageId: 'blog-o-que-e-cdb',
-    content: [
-      {
-        type: 'html',
-        content: `<h1>O que é CDB: um guia completo para iniciantes</h1><div class='resumo-rapido'><ul><li>CDB é um título de renda fixa emitido por bancos. Na prática, você empresta dinheiro ao banco.</li><li>É um dos investimentos mais seguros, com garantia do FGC até R$ 250.000.</li><li>O rendimento da maioria dos CDBs acompanha a taxa CDI, que anda junto com a Selic.</li><li>Ideal para reserva de emergência (CDB com liquidez diária) e objetivos de médio prazo.</li><li>Rende mais que a poupança em todos os cenários com a Selic acima de 8,5% ao ano.</li></ul></div><p>CDB é a sigla para Certificado de Depósito Bancário. É um dos investimentos mais simples e populares de renda fixa, ideal para quem está saindo da poupança e buscando mais rentabilidade com segurança.</p><h2>Como o CDB funciona?</h2><p>Ao investir em um CDB, você está emprestando dinheiro para um banco. Em troca, o banco te paga juros. No final do prazo combinado, você recebe seu dinheiro de volta mais o rendimento. Simples assim.</p><h2>Tipos de CDB</h2><p>Existem três tipos principais de CDBs:</p><table><thead><tr><th>Tipo de CDB</th><th>Como funciona o rendimento</th></tr></thead><tbody><tr><td><strong>Pós-fixado</strong></td><td>Rende um percentual de um índice, geralmente o CDI. Ex: 100% do CDI, 110% do CDI. É o tipo mais comum.</td></tr><tr><td><strong>Prefixado</strong></td><td>A taxa de juros é fixa, definida no momento da compra. Ex: 12% ao ano. Você sabe exatamente quanto vai receber no vencimento.</td></tr><tr><td><strong>Híbrido (IPCA+)</strong></td><td>Paga a variação da inflação (IPCA) mais uma taxa fixa. Ex: IPCA + 6% ao ano. Protege seu poder de compra.</td></tr></tbody></table><h2>CDB é seguro? A garantia do FGC</h2><p>Sim, o CDB é um dos investimentos mais seguros do mercado. Ele conta com a proteção do <strong>Fundo Garantidor de Créditos (FGC)</strong>, que garante até R$ 250.000 por CPF por instituição financeira em caso de falência do banco emissor. Na prática, o risco de perder dinheiro em um CDB dentro desse limite é praticamente zero.</p><h2>Comparativo rápido: CDB vs outros produtos</h2><p>Veja como o rendimento líquido de um CDB se compara a outras opções para R$ 10.000 em 12 meses:</p>`
-      },
-      {
-        type: 'simulationTable',
-        initialInvestment: 10000,
-        terms: [12],
-        scenarios: [
-          { label: 'Poupança', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, isTaxable: false },
-          { label: 'CDB 100% CDI', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-          { label: 'CDB 110% CDI', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true },
-          { label: 'Tesouro Selic', rate: (cdi, selic) => selic / 100, isTaxable: true },
-          { label: 'LCI 90% CDI', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false }
-        ]
-      },
-      {
-        type: 'html',
-        content: `<p><em>Rendimento líquido após IR. (Referência: {{dataAtualizacao}})</em></p><h2>Imposto de Renda no CDB</h2><p>O Imposto de Renda no CDB incide apenas sobre o rendimento e segue a tabela regressiva:</p><table><thead><tr><th>Prazo da Aplicação</th><th>Alíquota de IR</th></tr></thead><tbody><tr><td>Até 180 dias</td><td>22,5%</td></tr><tr><td>De 181 a 360 dias</td><td>20%</td></tr><tr><td>De 361 a 720 dias</td><td>17,5%</td></tr><tr><td>Acima de 720 dias</td><td>15%</td></tr></tbody></table><p>Quanto mais tempo você deixa o dinheiro investido, menos imposto paga.</p>`
-      }
-    ],
-    conclusion: `<h2>Conclusão</h2><p>O CDB é um excelente investimento para iniciantes e para a reserva de emergência. É seguro, simples de entender e rende significativamente mais que a poupança. Para começar, procure por um CDB com liquidez diária que pague pelo menos 100% do CDI.</p><p>Quer comparar com outras opções? <a href='/cdb-ou-poupanca'>Veja a batalha CDB vs Poupança</a> ou <a href='/cdb-ou-lci'>CDB vs LCI/LCA</a>.</p>`,
-    seoTitle: 'O que é CDB: Guia Completo para Iniciantes (2026)',
-    seoDescription: 'Aprenda o que é CDB, como funciona, os tipos (prefixado, pós-fixado), a segurança do FGC e como escolher o melhor CDB para seus objetivos de investimento.',
-    faq: [
-      { question: "O que significa CDB?", answer: "CDB significa Certificado de Depósito Bancário. É um título de renda fixa emitido por bancos para captar recursos. Na prática, você empresta dinheiro ao banco e recebe juros por isso." },
-      { question: "CDB é seguro?", answer: "Sim, é um dos investimentos mais seguros. Ele tem a garantia do FGC (Fundo Garantidor de Créditos) de até R$ 250.000 por CPF e por instituição financeira." },
-      { question: "Qual o melhor tipo de CDB para iniciantes?", answer: "O CDB pós-fixado com liquidez diária que pague pelo menos 100% do CDI é o mais recomendado para iniciantes e para a reserva de emergência, pois une segurança, bom rendimento e a possibilidade de resgate a qualquer momento." },
-      { question: "CDB tem Imposto de Renda?", answer: "Sim, o IR incide sobre o rendimento e segue a tabela regressiva: começa em 22,5% e cai para 15% para investimentos acima de 2 anos. O imposto é retido na fonte no momento do resgate." },
-      { question: "CDB rende mais que a poupança?", answer: "Sim. Com a Selic atual em {{selicRate}}% ao ano, um CDB a 100% do CDI rende significativamente mais que a poupança, mesmo após o desconto do Imposto de Renda." }
-    ],
-    category: 'renda-fixa',
-    subcategory: 'cdb',
-    pillar: 'pillar-2-renda-fixa',
-    cluster: 'cdb',
-    tags: ["o que é CDB", "CDB", "rendimento CDB", "CDB liquidez diária", "investir em CDB", "FGC"],
-    disclaimer: defaultDisclaimer,
-  },
-  {
-    slug: 'melhores-investimentos-para-iniciantes',
-    title: 'Melhores Investimentos para Iniciantes em 2026',
-    description: 'Descubra os melhores investimentos para iniciantes. Um guia simples sobre Tesouro Direto, CDB, LCI/LCA e como dar os primeiros passos com segurança.',
-    seoTitle: 'Melhores Investimentos para Iniciantes em 2026: Guia Completo',
-    seoDescription: 'Quais os melhores investimentos para iniciantes? Guia completo sobre Tesouro Direto (Selic), CDBs de liquidez diária e LCI/LCA. Comece a investir com segurança.',
-    date: '2026-03-20',
-    imageId: 'blog-beginner-guide',
-    content: [
-      {
-        type: 'html',
-        content: `<h1>Melhores Investimentos para Iniciantes em 2026</h1>
-<div class='resumo-rapido'>
-  <ul>
-    <li>O melhor investimento para iniciantes é a <strong>renda fixa</strong>, pela segurança e previsibilidade.</li>
-    <li>Comece pelo <strong>Tesouro Selic</strong> ou um <strong>CDB com liquidez diária</strong> que pague 100% do CDI para sua reserva de emergência.</li>
-    <li><strong>LCI e LCA</strong> são ótimas opções isentas de IR para objetivos de médio prazo, mas têm carência.</li>
-    <li>Evite renda variável (ações, FIIs, cripto) antes de ter uma base sólida em renda fixa.</li>
-    <li>A consistência de investir todo mês é mais importante que tentar acertar o melhor produto.</li>
-  </ul>
-</div>
-<p>Começar a investir pode parecer um labirinto de siglas e promessas de ganhos. Mas a verdade é que, para quem está dando os primeiros passos, o caminho é mais simples do que parece. O foco deve ser em segurança, simplicidade e consistência.</p>
-<p>Este guia vai direto ao ponto e te mostra os 3 melhores investimentos para iniciantes em 2026.</p>
-<h2>1. Tesouro Selic: O Mais Seguro de Todos</h2>
-<p>O Tesouro Selic é um título público do governo. Na prática, você empresta dinheiro para o Brasil. Por isso, é considerado o investimento de menor risco do país. Ele é ideal para dois objetivos principais:</p>
-<ul>
-  <li><strong>Reserva de Emergência:</strong> Como ele tem liquidez diária (D+1), você pode resgatar o dinheiro rapidamente em caso de imprevisto.</li>
-  <li><strong>Primeiro Investimento:</strong> É a forma mais segura de sair da poupança e começar a ver seu dinheiro render de verdade.</li>
-</ul>
-<p>Seu rendimento acompanha a taxa Selic, que hoje está em <strong>{{selicRate}}% ao ano</strong>. Ele tem desconto de Imposto de Renda, mas mesmo assim rende muito mais que a poupança.</p>
-<h2>2. CDB de Liquidez Diária: A Alternativa dos Bancos</h2>
-<p>O CDB é um título emitido por bancos. Funciona de forma parecida com o Tesouro Selic, mas aqui você empresta dinheiro para o banco. Os pontos principais são:</p>
-<ul>
-  <li><strong>Segurança:</strong> Tem a garantia do FGC (Fundo Garantidor de Créditos) para valores até R$ 250.000.</li>
-  <li><strong>Rendimento:</strong> Rende um percentual do CDI, que é uma taxa muito próxima da Selic. Procure por CDBs que paguem no mínimo 100% do CDI.</li>
-  <li><strong>Liquidez:</strong> Escolha um CDB com "liquidez diária" para poder resgatar quando quiser.</li>
-</ul>
-<h2>3. LCI e LCA: Isenção de Imposto para Turbinar Ganhos</h2>
-<p>LCI (Letra de Crédito Imobiliário) e LCA (Letra de Crédito do Agronegócio) são parecidas com o CDB, mas com uma grande vantagem: são <strong>isentas de Imposto de Renda</strong> para pessoa física.</p>
-<ul>
-  <li><strong>Segurança:</strong> Também contam com a garantia do FGC.</li>
-  <li><strong>Rendimento:</strong> Por serem isentas de IR, um rendimento de 90% do CDI em uma LCI/LCA pode ser mais vantajoso que um CDB de 100% do CDI.</li>
-  <li><strong>Ponto de Atenção:</strong> A maioria das LCIs e LCAs tem um prazo de carência (ex: 90 dias, 1 ano) antes do qual você não pode resgatar. Por isso, não são ideais para a reserva de emergência.</li>
-</ul>
-<h2>Comparativo Rápido: Onde R$ 10.000 Rendem Mais em 1 Ano?</h2>
-<p>A tabela abaixo mostra o rendimento líquido (já com impostos descontados) de cada produto, para que você possa comparar de forma justa:</p>`
-      },
-      {
-        type: 'simulationTable',
-        initialInvestment: 10000,
-        terms: [12],
-        scenarios: [
-          { label: 'Poupança', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, isTaxable: false },
-          { label: 'Tesouro Selic', rate: (cdi, selic) => selic / 100, isTaxable: true },
-          { label: 'CDB 100% CDI', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-          { label: 'LCI 90% CDI', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false },
-        ]
-      },
-      {
-        type: 'html',
-        content: `<p><em>Rendimento líquido em 12 meses. (Referência: {{dataAtualizacao}})</em></p>`
-      }
-    ],
-    conclusion: `<h2>Conclusão: O Melhor Investimento é Começar</h2>
-<p>Para o iniciante, o melhor investimento é aquele que te permite começar com segurança e consistência. O Tesouro Selic e os CDBs de liquidez diária são as melhores portas de entrada. Comece por eles, forme sua reserva de emergência e, com o tempo, explore outras opções como LCIs e, futuramente, a renda variável.</p>
-<p>O mais importante é dar o primeiro passo. Seu "eu" do futuro agradecerá.</p>`,
-    faq: [
-      { question: "Qual o investimento mais seguro para iniciantes?", answer: "O Tesouro Selic é considerado o investimento mais seguro do Brasil, pois é garantido pelo Governo Federal." },
-      { question: "CDB rende mais que a poupança?", answer: "Sim. Com a taxa Selic em {{selicRate}}% ao ano, um CDB a 100% do CDI rende significativamente mais que a poupança, mesmo após o desconto do Imposto de Renda." },
-      { question: "O que é melhor para reserva de emergência: Tesouro Selic ou CDB?", answer: "Ambos são excelentes. O Tesouro Selic tem a garantia do governo, enquanto o CDB tem a do FGC. A escolha pode depender da taxa oferecida pelo CDB. Se o CDB pagar 100% do CDI ou mais, a rentabilidade será muito similar." },
-      { question: "Posso investir em ações sendo iniciante?", answer: "É recomendado primeiro construir uma base sólida em renda fixa e uma reserva de emergência antes de começar a investir em ações, que são de maior risco." }
-    ],
-    category: 'investimentos',
-    subcategory: 'para-iniciantes',
-    pillar: 'pillar-1-investimentos',
-    cluster: 'comecar-a-investir',
-    tags: ["melhores investimentos", "investimentos para iniciantes", "como começar a investir", "tesouro selic", "cdb"],
-    disclaimer: defaultDisclaimer,
-  },
-  {
     slug: 'fii-ou-acao',
     title: 'FII ou Ação: qual é melhor para investir?',
     description: 'FII ou ação: descubra as diferenças em renda, liquidez, risco e tributação. Comparativo completo para ajudar você a decidir qual faz mais sentido na sua carteira.',
@@ -985,12 +687,10 @@ export const blogArticles: Article[] = [
     content: [
       {
         type: 'html',
-        content: `<h1>FII ou ação: qual é melhor para a sua carteira?</h1><div class='resumo-rapido'><ul><li>FIIs pagam renda mensal isenta de IR — ações pagam dividendos esporádicos e tributados</li><li>Ações têm maior potencial de valorização no longo prazo — mas com mais volatilidade</li><li>FIIs são mais indicados para quem busca renda passiva mensal</li><li>Ações são mais indicadas para quem busca crescimento de patrimônio no longo prazo</li><li>A maioria dos investidores combina os dois — a proporção depende do objetivo</li></ul></div><p>FII ou ação é uma das perguntas mais comuns de quem está começando a montar uma carteira de renda variável. A resposta direta é que os dois têm papéis diferentes — e na maioria dos casos, a melhor escolha é ter os dois.</p><p>Este comparativo explica as diferenças reais, quando cada um faz sentido e como pensar na combinação ideal.</p><h2>O que são FIIs e ações</h2><p>FIIs (Fundos de Investimento Imobiliário) são fundos que investem em imóveis ou títulos imobiliários e distribuem os rendimentos mensalmente para os cotistas. São negociados na B3 como ações.</p><p>Ações representam uma fração do capital de uma empresa. Ao comprar uma ação, você se torna sócio da empresa — e participa dos seus lucros (dividendos e JCP) e da valorização do negócio ao longo do tempo.</p><h2>Diferenças principais entre FII e ação</h2><table><thead><tr><th>Característica</th><th>FII</th><th>Ação</th></tr></thead><tbody><tr><td>O que representa</td><td>Fração de um fundo imobiliário</td><td>Fração do capital de uma empresa</td></tr><tr><td>Renda mensal</td><td>Sim — distribuição mensal obrigatória (95% do lucro caixa)</td><td>Não garantida — dividendos esporádicos</td></tr><tr><td>IR sobre rendimentos</td><td>Isento para PF (condições aplicáveis)</td><td>Dividendos isentos; JCP tributado em 15%</td></tr><tr><td>IR sobre ganho de capital</td><td>20% sobre o lucro na venda</td><td>15% sobre o lucro (isenção até R$ 20k/mês)</td></tr><tr><td>Volatilidade</td><td>Média — oscila conforme juros e mercado</td><td>Alta — oscila conforme resultados e mercado</td></tr><tr><td>Potencial de valorização</td><td>Médio — limitado pelo mercado imobiliário</td><td>Alto — sem limite teórico de valorização</td></tr><tr><td>Gestão</td><td>Profissional — gestor cuida do fundo</td><td>Você decide quando comprar e vender</td></tr><tr><td>Valor mínimo</td><td>Preço de 1 cota (pode ser menos de R$ 100)</td><td>Preço de 1 ação (varia muito por empresa)</td></tr></tbody></table><p><em>(Referência de dados: {{dataAtualizacao}})</em></p><h2>FII: quando faz mais sentido</h2><p>FIIs são mais indicados quando o objetivo principal é <strong>renda passiva mensal</strong>.</p><p>Com FIIs, você recebe rendimentos todo mês — isentos de IR para pessoa física. Isso cria um fluxo de caixa previsível que ações raramente oferecem com a mesma consistência.</p><p>Outros cenários em que FIIs fazem sentido:</p><ul><li>Você quer exposição ao mercado imobiliário sem comprar um imóvel físico</li><li>Prefere gestão profissional dos ativos</li><li>Quer diversificação imediata com pouco capital</li><li>Tem horizonte de médio a longo prazo e tolerância a oscilações moderadas</li></ul><h2>Ação: quando faz mais sentido</h2><p>Ações são mais indicadas quando o objetivo principal é <strong>crescimento de patrimônio no longo prazo</strong>.</p><p>Empresas bem geridas crescem ao longo do tempo — e o preço das suas ações tende a acompanhar esse crescimento. No longo prazo, ações de boas empresas historicamente superam FIIs em valorização total.</p><p>Outros cenários em que ações fazem sentido:</p><ul><li>Você tem horizonte de 10 anos ou mais</li><li>Tolera oscilações maiores no curto prazo</li><li>Quer participar do crescimento de empresas específicas</li><li>Já tem a base de renda fixa e FIIs formada e quer potencializar o crescimento</li></ul><h2>Tributação: FII vs ação</h2><table><thead><tr><th>Evento</th><th>FII</th><th>Ação</th></tr></thead><tbody><tr><td>Rendimento mensal/dividendo</td><td>Isento de IR (PF)</td><td>Dividendos isentos; JCP tributado em 15%</td></tr><tr><td>Ganho de capital na venda</td><td>20% sobre o lucro</td><td>15% sobre o lucro</td></tr><tr><td>Isenção na venda</td><td>Não há isenção</td><td>Isento se vendas no mês somarem até R$ 20.000</td></tr><tr><td>Come-cotas</td><td>Não se aplica</td><td>Não se aplica</td></tr></tbody></table><p>Fonte: Receita Federal do Brasil, março de 2026. <em>(Referência: {{dataAtualizacao}})</em></p><p><strong>Ponto de atenção:</strong> na venda de FIIs, o ganho de capital é sempre tributado em 20% — sem isenção para valores menores. Em ações, vendas abaixo de R$ 20.000 no mês são isentas de IR. Para quem opera com valores pequenos, as ações levam vantagem na tributação do ganho de capital.</p><h2>Volatilidade: qual oscila mais?</h2><p>Ações individuais tendem a oscilar mais que FIIs. Uma ação pode subir ou cair 10%, 20% ou mais em um único dia por conta de resultados trimestrais, mudanças de gestão ou fatores macroeconômicos.</p><p>FIIs oscilam menos — mas não são imunes. Em cenários de alta de juros (Selic subindo), FIIs tendem a cair porque o mercado compara o DY com a renda fixa. Com a Selic a {{selicRate}}% ao ano, FIIs com DY abaixo de 10% ficam menos atrativos em comparação.</p><h2>Como combinar FII e ação na carteira</h2><p>Para a maioria dos investidores, a melhor abordagem é combinar os dois — cada um com um papel diferente na carteira:</p><table><thead><tr><th>Perfil</th><th>FIIs</th><th>Ações</th><th>Objetivo</th></tr></thead><tbody><tr><td>Foco em renda</td><td>60% a 70%</td><td>30% a 40%</td><td>Renda mensal + algum crescimento</td></tr><tr><td>Equilibrado</td><td>40% a 50%</td><td>50% a 60%</td><td>Renda + crescimento balanceados</td></tr><tr><td>Foco em crescimento</td><td>20% a 30%</td><td>70% a 80%</td><td>Máximo crescimento de longo prazo</td></tr></tbody></table><p><em>Estas são referências gerais. A alocação ideal depende do seu objetivo, prazo e situação financeira. Não constitui recomendação de investimento. (Referência: {{dataAtualizacao}})</em></p><h2>Checklist de decisão: FII ou ação?</h2><ul><li>Você quer renda mensal previsível? → <strong>FII</strong></li><li>Seu objetivo principal é crescimento de patrimônio em 10+ anos? → <strong>Ação</strong></li><li>Você tem baixa tolerância a oscilações? → <strong>FII</strong></li><li>Você quer isenção de IR sobre os rendimentos recebidos? → <strong>FII</strong></li><li>Você opera com valores pequenos e quer isenção no ganho de capital? → <strong>Ação</strong> (isenção até R$ 20k/mês)</li><li>Você quer exposição ao mercado imobiliário? → <strong>FII</strong></li><li>Você quer participar do crescimento de empresas específicas? → <strong>Ação</strong></li></ul>`,
+        content: `<h1>FII ou ação: qual é melhor para a sua carteira?</h1><div class='resumo-rapido'><ul><li>FIIs pagam renda mensal isenta de IR — ações pagam dividendos esporádicos e tributados</li><li>Ações têm maior potencial de valorização no longo prazo — mas com mais volatilidade</li><li>FIIs são mais indicados para quem busca renda passiva mensal</li><li>Ações são mais indicadas para quem busca crescimento de patrimônio no longo prazo</li><li>A maioria dos investidores combina os dois — a proporção depende do objetivo</li></ul></div><p>FII ou ação é uma das perguntas mais comuns de quem está começando a montar uma carteira de renda variável. A resposta direta é que os dois têm papéis diferentes — e na maioria dos casos, a melhor escolha é ter os dois.</p><p>Este comparativo explica as diferenças reais, quando cada um faz sentido e como pensar na combinação ideal.</p><h2>O que são FIIs e ações</h2><p>FIIs (Fundos de Investimento Imobiliário) são fundos que investem em imóveis ou títulos imobiliários e distribuem os rendimentos mensalmente para os cotistas. São negociados na B3 como ações.</p><p>Ações representam uma fração do capital de uma empresa. Ao comprar uma ação, você se torna sócio da empresa — e participa dos seus lucros (dividendos e JCP) e da valorização do negócio ao longo do tempo.</p><h2>Diferenças principais entre FII e ação</h2><table><thead><tr><th>Característica</th><th>FII</th><th>Ação</th></tr></thead><tbody><tr><td>O que representa</td><td>Fração de um fundo imobiliário</td><td>Fração do capital de uma empresa</td></tr><tr><td>Renda mensal</td><td>Sim — distribuição mensal obrigatória (95% do lucro caixa)</td><td>Não garantida — dividendos esporádicos</td></tr><tr><td>IR sobre rendimentos</td><td>Isento para PF (condições aplicáveis)</td><td>Dividendos isentos; JCP tributado em 15%</td></tr><tr><td>IR sobre ganho de capital</td><td>20% sobre o lucro na venda</td><td>15% sobre o lucro na venda (isenção até R$ 20k/mês)</td></tr><tr><td>Volatilidade</td><td>Média — oscila conforme juros e mercado</td><td>Alta — oscila conforme resultados e mercado</td></tr><tr><td>Potencial de valorização</td><td>Médio — limitado pelo mercado imobiliário</td><td>Alto — sem limite teórico de valorização</td></tr><tr><td>Gestão</td><td>Profissional — gestor cuida do fundo</td><td>Você decide quando comprar e vender</td></tr><tr><td>Valor mínimo</td><td>Preço de 1 cota (pode ser menos de R$ 100)</td><td>Preço de 1 ação (varia muito por empresa)</td></tr></tbody></table><h2>FII: quando faz mais sentido</h2><p>FIIs são mais indicados quando o objetivo principal é <strong>renda passiva mensal</strong>.</p><p>Com FIIs, você recebe rendimentos todo mês — isentos de IR para pessoa física. Isso cria um fluxo de caixa previsível que ações raramente oferecem com a mesma consistência.</p><p>Outros cenários em que FIIs fazem sentido:</p><ul><li>Você quer exposição ao mercado imobiliário sem comprar um imóvel físico</li><li>Prefere gestão profissional dos ativos</li><li>Quer diversificação imediata com pouco capital</li><li>Tem horizonte de médio a longo prazo e tolerância a oscilações moderadas</li></ul><h2>Ação: quando faz mais sentido</h2><p>Ações são mais indicadas quando o objetivo principal é <strong>crescimento de patrimônio no longo prazo</strong>.</p><p>Empresas bem geridas crescem ao longo do tempo — e o preço das suas ações tende a acompanhar esse crescimento. No longo prazo, ações de boas empresas historicamente superam FIIs em valorização total.</p><p>Outros cenários em que ações fazem sentido:</p><ul><li>Você tem horizonte de 10 anos ou mais</li><li>Tolera oscilações maiores no curto prazo</li><li>Quer participar do crescimento de empresas específicas</li><li>Já tem a base de renda fixa e FIIs formada e quer potencializar o crescimento</li></ul><h2>Tributação: FII vs ação</h2><table><thead><tr><th>Evento</th><th>FII</th><th>Ação</th></tr></thead><tbody><tr><td>Rendimento mensal/dividendo</td><td>Isento de IR (PF)</td><td>Dividendos isentos; JCP tributado em 15%</td></tr><tr><td>Ganho de capital na venda</td><td>20% sobre o lucro</td><td>15% sobre o lucro</td></tr><tr><td>Isenção na venda</td><td>Não há isenção</td><td>Isento se vendas no mês somarem até R$ 20.000</td></tr><tr><td>Come-cotas</td><td>Não se aplica</td><td>Não se aplica</td></tr></tbody></table><p>Fonte: Receita Federal do Brasil, março de 2026.</p><p><strong>Ponto de atenção:</strong> na venda de FIIs, o ganho de capital é sempre tributado em 20% — sem isenção para valores menores. Em ações, vendas abaixo de R$ 20.000 no mês são isentas de IR. Para quem opera com valores pequenos, as ações levam vantagem na tributação do ganho de capital.</p><h2>Volatilidade: qual oscila mais?</h2><p>Ações individuais tendem a oscilar mais que FIIs. Uma ação pode subir ou cair 10%, 20% ou mais em um único dia por conta de resultados trimestrais, mudanças de gestão ou fatores macroeconômicos.</p><p>FIIs oscilam menos — mas não são imunes. Em cenários de alta de juros (Selic subindo), FIIs tendem a cair porque o mercado compara o DY com a renda fixa. Com a Selic a {{selicRate}}% ao ano, FIIs com DY abaixo de 10% ficam menos atrativos em comparação.</p><h2>Como combinar FII e ação na carteira</h2><p>Para a maioria dos investidores, a melhor abordagem é combinar os dois — cada um com um papel diferente na carteira:</p><table><thead><tr><th>Perfil</th><th>FIIs</th><th>Ações</th><th>Objetivo</th></tr></thead><tbody><tr><td>Foco em renda</td><td>60% a 70%</td><td>30% a 40%</td><td>Renda mensal + algum crescimento</td></tr><tr><td>Equilibrado</td><td>40% a 50%</td><td>50% a 60%</td><td>Renda + crescimento balanceados</td></tr><tr><td>Foco em crescimento</td><td>20% a 30%</td><td>70% a 80%</td><td>Máximo crescimento de longo prazo</td></tr></tbody></table><p><em>Estas são referências gerais. A alocação ideal depende do seu objetivo, prazo e situação financeira. Não constitui recomendação de investimento.</em></p><h2>Checklist de decisão: FII ou ação?</h2><ul><li>Você quer renda mensal previsível? → <strong>FII</strong></li><li>Seu objetivo principal é crescimento de patrimônio em 10+ anos? → <strong>Ação</strong></li><li>Você tem baixa tolerância a oscilações? → <strong>FII</strong></li><li>Você quer isenção de IR sobre os rendimentos recebidos? → <strong>FII</strong></li><li>Você opera com valores pequenos e quer isenção no ganho de capital? → <strong>Ação</strong> (isenção até R$ 20k/mês)</li><li>Você quer exposição ao mercado imobiliário? → <strong>FII</strong></li><li>Você quer participar do crescimento de empresas específicas? → <strong>Ação</strong></li></ul>`
       },
     ],
     conclusion: `<h2>Conclusão</h2><p>FII e ação não são concorrentes — são complementares. FIIs entregam renda mensal isenta e previsibilidade. Ações entregam potencial de crescimento no longo prazo.</p><p>Para quem está começando, FIIs são geralmente o ponto de entrada mais natural na renda variável — pela renda mensal, pela gestão profissional e pela menor volatilidade em relação a ações individuais.</p><p>Quer entender melhor os FIIs? <a href='/o-que-sao-fiis'>Leia o guia completo sobre FIIs.</a> Ou <a href='/fii-ou-renda-fixa'>veja a comparação entre FII e renda fixa.</a></p>`,
-    seoTitle: 'FII ou Ação: qual é melhor para investir em 2026?',
-    seoDescription: 'FII ou ação: compare renda mensal, liquidez, risco, IR e volatilidade. Veja quando cada um compensa e como combinar os dois na carteira.',
     faq: [
       { question: "FII ou ação: qual é melhor?", answer: "Depende do objetivo. FIIs são melhores para renda passiva mensal isenta de IR. Ações são melhores para crescimento de patrimônio no longo prazo. A maioria dos investidores combina os dois." },
       { question: "FII paga mais dividendos que ação?", answer: "FIIs pagam rendimentos mensais obrigatórios (95% do lucro caixa), geralmente entre 0,7% e 1,1% ao mês por cota. Ações pagam dividendos de forma esporádica e variável — dependem da política de distribuição de cada empresa." },
@@ -1000,12 +700,54 @@ export const blogArticles: Article[] = [
       { question: "Qual o valor mínimo para investir em FII ou ação?", answer: "Os dois têm valor mínimo equivalente ao preço de uma cota ou ação. Muitos FIIs têm cotas abaixo de R$ 100. Ações variam bastante — algumas custam menos de R$ 10, outras centenas de reais." },
       { question: "FII é mais seguro que ação?", answer: "Em geral, FIIs tendem a ter menor volatilidade que ações individuais. Mas ambos são renda variável — o preço oscila e não há garantia de rendimento. Nenhum dos dois tem a segurança da renda fixa com FGC ou Tesouro Direto." }
     ],
-    category: 'renda-variavel',
-    subcategory: 'comparativos',
-    pillar: 'pillar-3-renda-variavel',
-    cluster: 'fiis',
-    tags: ["FII ou ação", "FII vs ação", "fundos imobiliários ou ações", "comparativo renda variável"],
+    internalLinks: [
+      { "anchor": "leia o guia completo sobre FIIs", "slug": "o-que-sao-fiis" },
+      { "anchor": "compare FII e renda fixa", "slug": "fii-ou-renda-fixa" },
+      { "anchor": "quanto rende FII por mês", "slug": "quanto-rende-fii-por-mes" },
+      { "anchor": "o que são ETFs e como funcionam", "slug": "o-que-sao-etfs" },
+      { "anchor": "renda fixa ou renda variável", "slug": "renda-fixa-ou-renda-variavel" },
+      { "anchor": "como começar a investir do zero", "slug": "como-comecar-a-investir" }
+    ],
+    externalSources: [
+      { "name": "B3 — FIIs e ações", "url": "https://www.b3.com.br", "accessDate": "2026-03-20" },
+      { "name": "Receita Federal — tributação FIIs e ações", "url": "https://www.gov.br/receitafederal", "accessDate": "2026-03-20" },
+      { "name": "CVM — regulamentação", "url": "https://www.cvm.gov.br", "accessDate": "2026-03-20" }
+    ],
+    schema: {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "headline": "FII ou Ação: qual é melhor para investir?",
+          "description": "Comparativo completo entre FIIs e ações com diferenças em renda, tributação, volatilidade e como combinar os dois na carteira.",
+          "author": { "@type": "Organization", "name": "Bigwall Investimentos" },
+          "publisher": { "@type": "Organization", "name": "Bigwall Investimentos" },
+          "dateModified": "2026-03-20",
+          "inLanguage": "pt-BR"
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            { "@type": "Question", "name": "FII ou ação: qual é melhor?", "acceptedAnswer": { "@type": "Answer", "text": "Depende do objetivo. FIIs são melhores para renda passiva mensal isenta de IR. Ações são melhores para crescimento de patrimônio no longo prazo." } },
+            { "@type": "Question", "name": "FII oscila menos que ação?", "acceptedAnswer": { "@type": "Answer", "text": "Em geral, sim. FIIs tendem a ter menor volatilidade que ações individuais. Mas ambos são renda variável e oscilam." } },
+            { "@type": "Question", "name": "Posso ter FII e ação ao mesmo tempo?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. FIIs para renda mensal e ações para crescimento de longo prazo é uma combinação eficiente e complementar." } }
+          ]
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://bigwall.com.br" },
+            { "@type": "ListItem", "position": 2, "name": "Renda Variável", "item": "https://bigwall.com.br/renda-variavel" },
+            { "@type": "ListItem", "position": 3, "name": "FII ou Ação", "item": "https://bigwall.com.br/fii-ou-acao" }
+          ]
+        }
+      ]
+    },
     disclaimer: "Este conteúdo é educativo e não constitui recomendação de investimento. FIIs e ações são renda variável — o preço oscila e rentabilidades passadas não garantem resultados futuros. Consulte um profissional certificado para orientação personalizada.",
+    cta: {
+      primary: { "text": "Entenda o que são FIIs", "url": "/o-que-sao-fiis" },
+      secondary: { "text": "Compare FII e renda fixa", "url": "/fii-ou-renda-fixa" }
+    }
   },
   {
     slug: 'o-que-e-lci',
@@ -1016,39 +758,39 @@ export const blogArticles: Article[] = [
     content: [
       {
         type: 'html',
-        content: `<h1>O que é LCI: como funciona, vantagens e quando vale a pena</h1><div class='resumo-rapido'><ul><li>LCI é um título de renda fixa emitido por bancos, lastreado em crédito imobiliário</li><li>É isento de Imposto de Renda para pessoa física — essa é a principal vantagem</li><li>Tem cobertura do FGC até R$ 250.000 por CPF por instituição</li><li>Geralmente tem carência mínima — não permite resgate imediato como o CDB de liquidez diária</li><li>Para saber se compensa, sempre compare o rendimento líquido com outras opções</li></ul></div><p>LCI é um dos investimentos de renda fixa mais procurados por quem quer pagar menos imposto. A isenção de IR para pessoa física é o principal atrativo — mas nem sempre isso significa que a LCI rende mais que um CDB ou o Tesouro Direto.</p><p>Este guia explica o que é, como funciona, quais os tipos disponíveis e como calcular se a isenção realmente compensa no seu caso.</p><h2>Tipos de LCI por rendimento</h2><p>Assim como os CDBs, as LCIs podem ter diferentes formas de remuneração:</p><table><thead><tr><th>Tipo de LCI</th><th>Como funciona</th></tr></thead><tbody><tr><td><strong>Pós-fixada</strong></td><td>A mais comum. Rende um percentual do CDI (ex: 95% do CDI).</td></tr><tr><td><strong>Prefixada</strong></td><td>A taxa é definida no momento da compra (ex: 11% ao ano).</td></tr><tr><td><strong>Híbrida (IPCA+)</strong></td><td>Paga a variação da inflação (IPCA) mais uma taxa fixa (ex: IPCA + 6% ao ano).</td></tr></tbody></table><h2>Simulação prática: CDB vs LCI</h2><p>Esta simulação mostra o rendimento líquido de R$ 10.000 em diferentes cenários, já descontando o IR quando aplicável.</p>`
+        content: `<h1>O que é LCI: como funciona, vantagens e quando vale a pena</h1><div class='resumo-rapido'><ul><li>LCI é um título de renda fixa emitido por bancos, lastreado em crédito imobiliário</li><li>É isento de Imposto de Renda para pessoa física — essa é a principal vantagem</li><li>Tem cobertura do FGC até R$ 250.000 por CPF por instituição</li><li>Geralmente tem carência mínima — não permite resgate imediato como o CDB de liquidez diária</li><li>Para saber se compensa, sempre compare o rendimento líquido com outras opções</li></ul></div><p>LCI é um dos investimentos de renda fixa mais procurados por quem quer pagar menos imposto. A isenção de IR para pessoa física é o principal atrativo — mas nem sempre isso significa que a LCI rende mais que um CDB ou o Tesouro Direto.</p><p>Este guia explica o que é, como funciona, quais os tipos disponíveis e como calcular se a isenção realmente compensa no seu caso.</p><h2>Tipos de LCI por rendimento</h2><p>Assim como os CDBs, as LCIs podem ter diferentes formas de remuneração:</p><table><thead><tr><th>Tipo de LCI</th><th>Como funciona</th></tr></thead><tbody><tr><td><strong>Pós-fixada</strong></td><td>A mais comum. Rende um percentual do CDI (ex: 95% do CDI).</td></tr><tr><td><strong>Prefixada</strong></td><td>A taxa é definida no momento da compra (ex: 11% ao ano).</td></tr><tr><td><strong>Híbrida (IPCA+)</strong></td><td>Paga a variação da inflação (IPCA) mais uma taxa fixa (ex: IPCA + 6% a.a.).</td></tr></tbody></table><h2>Simulação prática: CDB vs LCI</h2><p>Esta simulação mostra o rendimento líquido de R$ 10.000 em diferentes cenários, já descontando o IR quando aplicável.</p>`,
       },
       {
         type: 'simulationTable',
         initialInvestment: 10000,
         terms: [12],
         scenarios: [
-            { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-            { label: 'CDB 110% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true },
-            { label: 'LCI 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false },
-            { label: 'LCI 95% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: false }
-        ]
+          { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
+          { label: 'CDB 110% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.1, isTaxable: true },
+          { label: 'LCI 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.9, isTaxable: false },
+          { label: 'LCI 95% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: false },
+        ],
       },
       {
         type: 'html',
-        content: `<p><em>(Referência: {{dataAtualizacao}})</em></p><h2>Comparativo Rápido: LCI vs Outros Produtos</h2>`
+        content: `<p><em>(Referência: {{dataAtualizacao}})</em></p><h2>Comparativo Rápido: LCI vs Outros Produtos</h2>`,
       },
       {
         type: 'simulationTable',
         initialInvestment: 10000,
         terms: [12],
         scenarios: [
-            { label: 'Poupança', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, isTaxable: false },
-            { label: 'CDB 100% CDI', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-            { label: 'LCI 90% CDI', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false },
-            { label: 'LCI 95% CDI', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: false },
-            { label: 'Tesouro Selic', rate: (cdi, selic) => selic / 100, isTaxable: true }
-        ]
+          { label: 'Poupança', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.7, isTaxable: false },
+          { label: 'CDB 100% CDI', rate: (cdi, selic) => cdi / 100, isTaxable: true },
+          { label: 'LCI 90% CDI', rate: (cdi, selic) => (cdi / 100) * 0.9, isTaxable: false },
+          { label: 'LCI 95% CDI', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: false },
+          { label: 'Tesouro Selic', rate: (cdi, selic) => selic / 100, isTaxable: true },
+        ],
       },
       {
-          type: 'html',
-          content: `<p><em>(Referência: {{dataAtualizacao}})</em></p>`
-      }
+        type: 'html',
+        content: `<p><em>(Referência: {{dataAtualizacao}})</em></p>`,
+      },
     ],
     conclusion: `<h2>Conclusão</h2><p>LCI é uma excelente opção de renda fixa para quem tem um objetivo com prazo definido e pode abrir mão da liquidez imediata. A isenção de IR é uma vantagem real — mas só faz sentido quando a taxa oferecida é competitiva o suficiente para superar o rendimento líquido de outras opções.</p><p>A regra de ouro: sempre compare rendimento líquido, não taxa bruta. Uma LCI a {{lci90Rate}}% do CDI pode render menos que um CDB a {{cdb100Rate}}% do CDI no mesmo prazo.</p><p>Quer entender melhor essa comparação? <a href='/cdb-ou-lci'>Veja o comparativo completo entre CDB e LCI.</a></p>`,
     faq: [
@@ -1088,50 +830,137 @@ export const blogArticles: Article[] = [
     tags: ["o que é LCI", "LCI", "renda fixa", "letra de crédito imobiliário", "isento IR", "FGC"],
     disclaimer: defaultDisclaimer,
   },
-  {
-    slug: 'cdb-ou-lci',
-    title: 'CDB ou LCI/LCA: qual rende mais com a Selic atual?',
-    description: 'CDB ou LCI/LCA: entenda qual rende mais com a Selic em {{selicRate}}%. Simulação, tabela de equivalência e como escolher o melhor para sua carteira.',
+    {
+    slug: 'o-que-sao-etfs',
+    title: 'O que são ETFs: Como funcionam os Fundos de Índice',
+    description: 'ETFs são fundos de índice negociados na bolsa que replicam carteiras diversificadas. Entenda como funcionam, os tipos disponíveis, custos e como começar a investir.',
     date: '2026-03-20',
-    imageId: 'blog-cdb-lci',
+    imageId: 'blog-o-que-sao-etfs',
+    content: [{
+      type: 'html',
+      content: `<h1>O que são ETFs: como funcionam, tipos e como investir com diversificação automática</h1><div class='resumo-rapido'><ul><li>ETF é um fundo de índice negociado na bolsa — ele replica uma carteira diversificada de ativos</li><li>Com uma única cota, você investe em dezenas ou centenas de empresas ao mesmo tempo</li><li>Têm taxa de administração baixa — geralmente entre 0,05% e 0,5% ao ano</li><li>São renda variável — o preço oscila conforme o índice que replicam</li><li>Ideais para quem quer diversificação sem precisar escolher ações individualmente</li></ul></div><p>ETF é uma das formas mais eficientes de investir em renda variável com diversificação automática e custo baixo. Em vez de escolher ações individuais, você compra uma cota que já representa dezenas ou centenas de empresas de uma vez.</p><p>Este guia explica o que são, como funcionam, quais os tipos disponíveis no Brasil e como começar.</p><h2>O que é ETF</h2><p>ETF significa Exchange Traded Fund — fundo negociado em bolsa. É um fundo que replica um índice de mercado, como o Ibovespa, o S&P 500 ou um índice de renda fixa.</p><p>Quando você compra uma cota de ETF, está comprando uma fatia de todos os ativos que compõem aquele índice — na mesma proporção. Se o índice sobe, o ETF sobe. Se o índice cai, o ETF cai.</p><p>Os ETFs são negociados na B3 durante o horário de mercado, igual às ações e FIIs. Você compra e vende pelo home broker da sua corretora.</p><h2>Como os ETFs funcionam na prática</h2><h3>Replicação do índice</h3><p>Um ETF que replica o Ibovespa, por exemplo, compra as mesmas ações que compõem o índice, nas mesmas proporções. Se o Ibovespa tem 90 ações, o ETF tem as mesmas 90 ações na mesma distribuição.</p><p>Quando o índice é rebalanceado — empresas entram e saem conforme critérios de liquidez e representatividade — o ETF ajusta automaticamente sua carteira. Você não precisa fazer nada.</p><h3>Gestão passiva vs ativa</h3><p>A maioria dos ETFs usa gestão passiva — o objetivo é replicar o índice, não superá-lo. Isso reduz os custos operacionais e resulta em taxas de administração muito menores que fundos ativos.</p><p>Gestão ativa tenta superar o índice — mas historicamente, a maioria dos gestores ativos não consegue superar o índice consistentemente no longo prazo, especialmente depois das taxas.</p><h2>Principais ETFs disponíveis no Brasil</h2><h3>ETFs de ações brasileiras</h3><p>Replicam índices da bolsa brasileira:</p><ul><li><strong>BOVA11:</strong> replica o Ibovespa — as maiores e mais negociadas ações da B3</li><li><strong>IVVB11:</strong> replica o S&P 500 americano — as 500 maiores empresas dos EUA, em reais</li><li><strong>SMAL11:</strong> replica o índice de small caps — empresas menores da B3</li><li><strong>DIVO11:</strong> replica o índice de dividendos — empresas com histórico de bons dividendos</li></ul><h3>ETFs de renda fixa</h3><p>Replicam índices de títulos de renda fixa:</p><ul><li><strong>FIXA11:</strong> títulos prefixados do Tesouro</li><li><strong>IMAB11:</strong> títulos IPCA+ do Tesouro</li></ul><h3>ETFs internacionais</h3><p>Dão exposição a mercados internacionais sem precisar abrir conta no exterior:</p><ul><li><strong>IVVB11:</strong> S&P 500 (EUA)</li><li><strong>NASDAQ:</strong> empresas de tecnologia dos EUA</li><li><strong>EURP11:</strong> empresas europeias</li></ul><table><thead><tr><th>ETF</th><th>O que replica</th><th>Exposição</th><th>Taxa admin. aprox.</th></tr></thead><tbody><tr><td>BOVA11</td><td>Ibovespa</td><td>Ações brasileiras (top liquidez)</td><td>0,10% a.a.</td></tr><tr><td>IVVB11</td><td>S&P 500</td><td>500 maiores empresas dos EUA</td><td>0,23% a.a.</td></tr><tr><td>SMAL11</td><td>Small Caps</td><td>Empresas menores da B3</td><td>0,40% a.a.</td></tr><tr><td>DIVO11</td><td>Índice Dividendos</td><td>Ações pagadoras de dividendos</td><td>0,40% a.a.</td></tr><tr><td>IMAB11</td><td>IMA-B</td><td>Títulos IPCA+ do Tesouro</td><td>0,20% a.a.</td></tr></tbody></table><p><em>Taxas de administração aproximadas. Verifique as condições atuais na B3 ou na corretora antes de investir.</em></p><h2>ETF vs ação individual: qual é melhor?</h2><table><thead><tr><th>Critério</th><th>ETF</th><th>Ação individual</th></tr></thead><tbody><tr><td>Diversificação</td><td>Automática — dezenas ou centenas de empresas</td><td>Baixa — concentrado em uma empresa</td></tr><tr><td>Risco</td><td>Menor — diluído entre muitos ativos</td><td>Maior — depende de uma empresa</td></tr><tr><td>Custo</td><td>Taxa de administração baixa (0,05% a 0,5%)</td><td>Taxa de corretagem por operação</td></tr><tr><td>Gestão</td><td>Passiva — replica o índice automaticamente</td><td>Ativa — você decide quando comprar e vender</td></tr><tr><td>Conhecimento necessário</td><td>Baixo — não precisa analisar empresas</td><td>Alto — análise de balanços, setor, gestão</td></tr><tr><td>Potencial de retorno</td><td>Retorno do índice</td><td>Pode superar o índice (ou perder mais)</td></tr></tbody></table><h2>Imposto de Renda nos ETFs</h2><p>ETFs de ações têm tributação diferente de ações individuais:</p><ul><li><strong>Ganho de capital na venda:</strong> 15% sobre o lucro, independente do valor vendido — não há isenção de R$ 20.000 como nas ações</li><li><strong>Dividendos e juros sobre capital próprio:</strong> tributados conforme a tabela progressiva quando distribuídos</li><li><strong>Imposto retido na fonte:</strong> 0,005% sobre o valor da venda (come-cotas não se aplica a ETFs de ações)</li></ul><p>Para ETFs de renda fixa, a tributação segue a tabela regressiva de IR — igual aos títulos que compõem o fundo.</p><p>Fonte: Receita Federal do Brasil, março de 2026.</p><h2>Vantagens dos ETFs para iniciantes</h2><p><strong>Diversificação imediata com pouco dinheiro</strong><br>Com o preço de uma cota — que pode ser menos de R$ 100 — você já tem exposição a dezenas de empresas. Para replicar a mesma diversificação comprando ações individuais, precisaria de muito mais capital.</p><p><strong>Custo baixo</strong><br>A taxa de administração dos ETFs é muito menor que a dos fundos ativos. Essa diferença de custo tem impacto enorme no longo prazo — cada 0,5% ao ano a menos em taxas representa muito mais patrimônio em 20 anos.</p><p><strong>Simplicidade</strong><br>Não precisa analisar empresas individuais, acompanhar balanços ou decidir quando rebalancear. O ETF faz isso automaticamente.</p><p><strong>Liquidez diária</strong><br>Assim como ações e FIIs, você compra e vende cotas a qualquer momento durante o horário de mercado.</p><h2>Riscos dos ETFs</h2><p><strong>Risco de mercado:</strong> se o índice cair, o ETF cai na mesma proporção. Não há proteção contra quedas do mercado.</p><p><strong>Risco cambial:</strong> ETFs que replicam índices internacionais (como IVVB11) têm exposição à variação do dólar — que pode aumentar ou reduzir o rendimento em reais.</p><p><strong>Risco de liquidez:</strong> ETFs menos negociados podem ter spread alto entre o preço de compra e venda — o que reduz a eficiência da operação.</p><p><strong>Tracking error:</strong> diferença entre o retorno do ETF e o retorno do índice que ele replica — geralmente pequena, mas existe.</p><h2>Como começar a investir em ETFs</h2><p><strong>Passo 1:</strong> abra conta em corretora habilitada na B3.</p><p><strong>Passo 2:</strong> defina seu objetivo — exposição ao mercado brasileiro, internacional ou renda fixa.</p><p><strong>Passo 3:</strong> escolha o ETF adequado ao objetivo. Para começar, BOVA11 (Ibovespa) e IVVB11 (S&P 500) são os mais usados.</p><p><strong>Passo 4:</strong> compre cotas pelo home broker durante o horário de mercado.</p><p><strong>Passo 5:</strong> invista regularmente — aportes mensais são mais eficientes que tentativas de acertar o melhor momento.</p><h2>ETF ou FII: qual escolher?</h2><p>Dependendo do objetivo, os dois podem complementar uma carteira:</p><ul><li><strong>ETFs de ações:</strong> crescimento de patrimônio no longo prazo, exposição ao mercado acionário</li><li><strong>FIIs:</strong> renda passiva mensal, exposição ao mercado imobiliário com isenção de IR nos rendimentos</li></ul><p>Para iniciantes, uma combinação de renda fixa (base) com ETFs e FIIs (complemento de longo prazo) é uma estrutura eficiente e diversificada.</p>`
+    }],
+    conclusion: `<h2>Conclusão</h2><p>ETFs são a forma mais simples e eficiente de investir em renda variável com diversificação automática. Com uma única cota, você acessa dezenas de empresas, paga taxas baixas e não precisa analisar ações individuais.</p><p>Para quem está começando, ETFs de índice como BOVA11 e IVVB11 são excelentes pontos de partida para exposição à renda variável — depois de ter a reserva de emergência formada em renda fixa.</p><p>Quer entender a diferença? <a href='/etf-ou-acao'>Veja o comparativo entre ETF e ação individual.</a></p>`,
+    faq: [
+      {
+        "question": "O que são ETFs e como funcionam?",
+        "answer": "ETF (Exchange Traded Fund) é um fundo de índice negociado na bolsa. Ele replica uma carteira diversificada de ativos — como as ações do Ibovespa ou do S&P 500. Com uma cota, você investe em dezenas ou centenas de empresas ao mesmo tempo."
+      },
+      {
+        "question": "ETF é seguro para iniciantes?",
+        "answer": "ETFs são mais seguros que ações individuais pela diversificação automática. Mas são renda variável — o preço oscila e você pode perder dinheiro. São mais indicados para objetivos de longo prazo, após montar a reserva de emergência em renda fixa."
+      },
+      {
+        "question": "Qual o valor mínimo para investir em ETF?",
+        "answer": "O valor mínimo é o preço de uma cota. O BOVA11, por exemplo, costuma ser negociado entre R$ 100 e R$ 120. Alguns ETFs têm cotas mais baratas. Verifique o preço atual na sua corretora."
+      },
+      {
+        "question": "ETF tem Imposto de Renda?",
+        "answer": "Sim. O ganho de capital na venda de cotas de ETF de ações é tributado em 15% — sem isenção para vendas abaixo de R$ 20.000 como nas ações. ETFs de renda fixa seguem a tabela regressiva de IR."
+      },
+      {
+        "question": "Qual a diferença entre ETF e fundo de investimento comum?",
+        "answer": "ETFs são negociados na bolsa como ações — você compra e vende a qualquer momento. Fundos comuns têm cotas resgatadas diretamente com o gestor, geralmente com prazo. ETFs também têm taxas menores e maior transparência."
+      },
+      {
+        "question": "BOVA11 ou IVVB11: qual escolher?",
+        "answer": "Depende do objetivo. BOVA11 dá exposição ao mercado brasileiro (Ibovespa). IVVB11 dá exposição ao mercado americano (S&P 500) em reais, com risco cambial. Muitos investidores combinam os dois para diversificação geográfica."
+      },
+      {
+        "question": "ETF ou ação: qual rende mais?",
+        "answer": "Depende do período e das ações escolhidas. Ações individuais podem superar o índice — mas também podem perder muito mais. Historicamente, a maioria dos investidores individuais não supera o índice no longo prazo, tornando os ETFs uma escolha eficiente."
+      }
+    ],
+    disclaimer: "Este conteúdo é educativo e não constitui recomendação de investimento. ETFs são renda variável — o preço das cotas oscila e rentabilidades passadas não garantem resultados futuros. Consulte um profissional certificado para orientação personalizada."
+  },
+  {
+    slug: 'o-que-e-cdb',
+    title: 'O que é CDB: um guia completo para iniciantes',
+    description: 'Entenda o que é CDB (Certificado de Depósito Bancário), como funciona, os tipos (prefixado, pós, híbrido), a segurança do FGC e como escolher o melhor para você.',
+    date: '2026-03-20',
+    imageId: 'blog-o-que-e-cdb',
     content: [
       {
         type: 'html',
-        content: `<h1>CDB ou LCI/LCA: qual rende mais com a Selic atual?</h1><div class='resumo-rapido'><ul><li>LCI e LCA são isentas de IR para pessoa física — CDB não é</li><li>Para comparar, você precisa calcular o rendimento líquido do CDB</li><li>Com Selic a {{selicRate}}%, um CDB de 110% do CDI rende mais que uma LCI de 90% do CDI</li><li>A LCI/LCA só vence se sua taxa for alta o suficiente para compensar a isenção de IR</li><li>Use a tabela de equivalência para uma decisão rápida</li></ul></div><p>CDB, LCI e LCA são ótimas opções de renda fixa, mas a isenção de imposto de renda da LCI/LCA gera muita dúvida: qual rende mais no final do dia?</p><p>A resposta é: depende da taxa de cada um. Este guia te mostra como fazer a conta e escolher a melhor opção.</p><h2>Simulação prática: R$ 10.000 em CDB vs LCI</h2>`,
+        content: `<h1>O que é CDB: um guia completo para iniciantes</h1><div class='resumo-rapido'><ul><li>CDB é um título de renda fixa emitido por bancos. Na prática, você empresta dinheiro ao banco.</li><li>É um dos investimentos mais seguros, com garantia do FGC até R$ 250.000.</li><li>O rendimento da maioria dos CDBs acompanha a taxa CDI, que anda junto com a Selic.</li><li>Ideal para reserva de emergência (CDB com liquidez diária) e objetivos de médio prazo.</li><li>Rende mais que a poupança em todos os cenários com a Selic acima de 8,5% ao ano.</li></ul></div><p>CDB é a sigla para Certificado de Depósito Bancário. É um dos investimentos mais simples e populares de renda fixa, ideal para quem está saindo da poupança e buscando mais rentabilidade com segurança.</p><h2>Como o CDB funciona?</h2><p>Ao investir em um CDB, você está emprestando dinheiro para um banco. Em troca, o banco te paga juros. No final do prazo combinado, você recebe seu dinheiro de volta mais o rendimento. Simples assim.</p><h2>Tipos de CDB</h2><p>Existem três tipos principais de CDBs:</p><table><thead><tr><th>Tipo de CDB</th><th>Como funciona o rendimento</th></tr></thead><tbody><tr><td><strong>Pós-fixado</strong></td><td>Rende um percentual de um índice, geralmente o CDI. Ex: 100% do CDI, 110% do CDI. É o tipo mais comum.</td></tr><tr><td><strong>Prefixado</strong></td><td>A taxa de juros é fixa, definida no momento da compra. Ex: 12% ao ano. Você sabe exatamente quanto vai receber no vencimento.</td></tr><tr><td><strong>Híbrido (IPCA+)</strong></td><td>Paga a variação da inflação (IPCA) mais uma taxa fixa. Ex: IPCA + 6% ao ano. Protege seu poder de compra.</td></tr></tbody></table><h2>CDB é seguro? A garantia do FGC</h2><p>Sim, o CDB é um dos investimentos mais seguros do mercado. Ele conta com a proteção do <strong>Fundo Garantidor de Créditos (FGC)</strong>, que garante até R$ 250.000 por CPF por instituição financeira em caso de falência do banco emissor. Na prática, o risco de perder dinheiro em um CDB dentro desse limite é praticamente zero.</p><h2>Comparativo rápido: CDB vs outros produtos</h2><p>Veja como o rendimento líquido de um CDB se compara a outras opções para R$ 10.000 em 12 meses:</p>`,
       },
       {
         type: 'simulationTable',
         initialInvestment: 10000,
         terms: [12],
         scenarios: [
-          { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-          { label: 'LCI 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.9, isTaxable: false },
-          { label: 'CDB 110% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.1, isTaxable: true },
-          { label: 'LCI 95% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: false },
-        ],
+          { label: 'Poupança', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, isTaxable: false },
+          { label: 'CDB 100% CDI', rate: (cdi, selic) => cdi / 100, isTaxable: true },
+          { label: 'CDB 110% CDI', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true },
+          { label: 'Tesouro Selic', rate: (cdi, selic) => selic / 100, isTaxable: true },
+          { label: 'LCI 90% CDI', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false }
+        ]
       },
       {
         type: 'html',
-        content: `<p><em>Rendimento líquido em 12 meses. (Referência: {{dataAtualizacao}})</em></p><h2>Tabela de Equivalência: a partir de qual taxa a LCI/LCA compensa?</h2><p>Para um CDB que paga 100% do CDI, esta é a taxa mínima que uma LCI/LCA precisa oferecer para ter o mesmo rendimento líquido, considerando o prazo do investimento e a alíquota de IR.</p><table><thead><tr><th>Prazo da Aplicação</th><th>Alíquota IR (CDB)</th><th>Taxa LCI/LCA equivalente</th></tr></thead><tbody><tr><td>Até 6 meses</td><td>22,5%</td><td><strong>77,5% do CDI</strong></td></tr><tr><td>De 6 meses a 1 ano</td><td>20%</td><td><strong>80% do CDI</strong></td></tr><tr><td>De 1 a 2 anos</td><td>17,5%</td><td><strong>82,5% do CDI</strong></td></tr><tr><td>Acima de 2 anos</td><td>15%</td><td><strong>85% do CDI</strong></td></tr></tbody></table><p><em>CDI de referência: {{cdiRate}}% a.a. ({{dataAtualizacao}})</em></p><p><strong>Regra prática:</strong> se a LCI/LCA oferecer uma taxa acima do valor na tabela, ela é mais vantajosa que um CDB de 100% do CDI para aquele prazo. Por exemplo, para 1 ano, uma LCI que paga acima de 80% do CDI já é melhor.</p>`,
+        content: `<p><em>Rendimento líquido após IR. (Referência: {{dataAtualizacao}})</em></p><h2>Imposto de Renda no CDB</h2><p>O Imposto de Renda no CDB incide apenas sobre o rendimento e segue a tabela regressiva:</p><table><thead><tr><th>Prazo da Aplicação</th><th>Alíquota de IR</th></tr></thead><tbody><tr><td>Até 180 dias</td><td>22,5%</td></tr><tr><td>De 181 a 360 dias</td><td>20%</td></tr><tr><td>De 361 a 720 dias</td><td>17,5%</td></tr><tr><td>Acima de 720 dias</td><td>15%</td></tr></tbody></table><p>Quanto mais tempo você deixa o dinheiro investido, menos imposto paga.</p>`,
       },
     ],
-    conclusion: `<h2>Conclusão</h2><p>Não se deixe levar apenas pela isenção de IR. O que importa é o rendimento final no seu bolso. Um CDB com uma taxa bruta alta (como {{cdb120Rate}}% do CDI) pode render mais que uma LCI com uma taxa menor (como {{lci90Rate}}% do CDI).</p><p>Use a tabela de equivalência como guia rápido e, sempre que possível, simule os valores líquidos antes de decidir. Para reserva de emergência, a liquidez diária do CDB geralmente o torna a melhor opção.</p>`,
-    seoTitle: 'CDB ou LCI/LCA: qual rende mais? Simulação e tabela 2026',
-    seoDescription:
-      'CDB ou LCI/LCA? Compare o rendimento líquido com a Selic atual, use a tabela de equivalência para decidir e veja qual vale mais a pena para seu objetivo.',
+    conclusion: `<h2>Conclusão</h2><p>O CDB é um excelente investimento para iniciantes e para a reserva de emergência. É seguro, simples de entender e rende significativamente mais que a poupança. Para começar, procure por um CDB com liquidez diária que pague pelo menos 100% do CDI.</p><p>Quer comparar com outras opções? <a href='/cdb-ou-poupanca'>Veja a batalha CDB vs Poupança</a> ou <a href='/cdb-ou-lci'>CDB vs LCI/LCA</a>.</p>`,
+    seoTitle: 'O que é CDB: Guia Completo para Iniciantes (2026)',
+    seoDescription: 'Aprenda o que é CDB (Certificado de Depósito Bancário), como funciona, os tipos (prefixado, pós-fixado), a segurança do FGC e como escolher o melhor CDB para seus objetivos de investimento.',
     faq: [
-      { question: "O que rende mais, CDB ou LCI?", answer: "Depende da taxa de cada um e do prazo do investimento. Uma LCI isenta de IR precisa ter uma taxa de pelo menos 85% do CDI para equivaler a um CDB de 100% do CDI em um prazo acima de 2 anos. Use a tabela de equivalência para comparar." },
-      { question: "Qual a principal vantagem da LCI sobre o CDB?", answer: "A isenção de Imposto de Renda para pessoa física." },
-      { question: "CDB e LCI têm a mesma segurança?", answer: "Sim, ambos são garantidos pelo FGC (Fundo Garantidor de Créditos) em até R$ 250.000 por CPF por instituição financeira." },
-      { question: "LCI tem liquidez diária como o CDB?", answer: "Geralmente não. LCIs e LCAs têm uma carência mínima regulamentada (ex: 90 dias). CDBs de liquidez diária podem ser resgatados a qualquer momento. Para reserva de emergência, o CDB de liquidez diária é mais indicado." }
+      { question: "O que significa CDB?", answer: "CDB significa Certificado de Depósito Bancário. É um título de renda fixa emitido por bancos para captar recursos. Na prática, você empresta dinheiro ao banco e recebe juros por isso." },
+      { question: "CDB é seguro?", answer: "Sim, é um dos investimentos mais seguros. Ele tem a garantia do FGC (Fundo Garantidor de Créditos) de até R$ 250.000 por CPF e por instituição financeira." },
+      { question: "Qual o melhor tipo de CDB para iniciantes?", answer: "O CDB pós-fixado com liquidez diária que pague pelo menos 100% do CDI é o mais recomendado para iniciantes e para a reserva de emergência, pois une segurança, bom rendimento e a possibilidade de resgate a qualquer momento." },
+      { question: "CDB tem Imposto de Renda?", answer: "Sim, o IR incide sobre o rendimento e segue a tabela regressiva: começa em 22,5% e cai para 15% para investimentos acima de 2 anos. O imposto é retido na fonte no momento do resgate." },
+      { question: "CDB rende mais que a poupança?", answer: "Sim. Com a Selic atual em {{selicRate}}% ao ano, um CDB a 100% do CDI rende significativamente mais que a poupança, mesmo após o desconto do Imposto de Renda." }
     ],
     category: 'renda-fixa',
-    subcategory: 'comparativos',
+    subcategory: 'cdb',
     pillar: 'pillar-2-renda-fixa',
-    cluster: 'comparativos-renda-fixa',
-    tags: ["CDB ou LCI", "CDB vs LCI", "LCI ou CDB", "rendimento CDB", "rendimento LCI", "tabela equivalencia cdb lci"],
+    cluster: 'cdb',
+    tags: ["o que é CDB", "CDB", "rendimento CDB", "CDB liquidez diária", "investir em CDB", "FGC"],
     disclaimer: defaultDisclaimer,
-  }
+  },
+  {
+    slug: 'guia-renda-fixa',
+    title: 'Guia de Renda Fixa: como funciona e principais produtos',
+    description: 'Guia completo de renda fixa para iniciantes. Entenda como funciona, conheça os principais produtos (Tesouro, CDB, LCI, LCA) e veja um comparativo de rendimentos.',
+    date: '2026-03-20',
+    imageId: 'blog-guia-renda-fixa',
+    content: [
+      {
+        type: 'html',
+        content: `<h1>Guia de Renda Fixa: como funciona e principais produtos</h1><div class='resumo-rapido'><ul><li>Renda fixa é uma modalidade de investimento com retorno previsível</li><li>É o ponto de partida ideal para iniciantes pela segurança e simplicidade</li><li>Produtos mais comuns: Tesouro Direto, CDB, LCI e LCA</li><li>A rentabilidade é geralmente atrelada à taxa Selic ou ao CDI</li><li>A maioria tem garantia do FGC ou do Tesouro Nacional, o que os torna muito seguros</li></ul></div><p>Renda fixa é a porta de entrada para o mundo dos investimentos. É aqui que você constrói sua base financeira, cria sua reserva de emergência e financia objetivos de curto e médio prazo.</p><p>Este guia completo vai explicar como funciona, quais os principais produtos e quanto eles rendem na prática.</p><h2>Como funciona a renda fixa?</h2><p>Investir em renda fixa é como emprestar dinheiro para alguém — o governo, um banco ou uma empresa. Em troca, você recebe esse dinheiro de volta no futuro com juros. A "renda" é "fixa" porque a forma de calcular o rendimento é definida no momento da aplicação.</p><h2>Comparativo geral: rendimento líquido de R$ 10.000 em 1 ano</h2>`
+      },
+      {
+        type: 'simulationTable',
+        initialInvestment: 10000,
+        terms: [12],
+        scenarios: [
+          { label: 'Poupança', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, isTaxable: false },
+          { label: 'Tesouro Selic', rate: (cdi, selic) => selic / 100, isTaxable: true },
+          { label: 'CDB 100% CDI', rate: (cdi, selic) => cdi / 100, isTaxable: true },
+          { label: 'LCI 90% CDI', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false },
+          { label: 'LCI 95% CDI', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: false },
+          { label: 'CDB 110% CDI', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true },
+        ]
+      },
+      {
+        type: 'html',
+        content: `<p><em>(Referência: {{dataAtualizacao}})</em></p><h2>LCI/LCA vs CDB: qual taxa vale a pena?</h2><p>Para um CDB que paga 100% do CDI, esta é a taxa mínima que uma LCI/LCA (isenta de IR) precisa oferecer para ter o mesmo rendimento líquido, considerando o prazo do investimento e a alíquota de IR.</p><table><thead><tr><th>Prazo da Aplicação</th><th>Alíquota IR (CDB)</th><th>Taxa LCI/LCA equivalente</th></tr></thead><tbody><tr><td>Até 6 meses</td><td>22,5%</td><td><strong>77,5% do CDI</strong></td></tr><tr><td>De 6 meses a 1 ano</td><td>20%</td><td><strong>80% do CDI</strong></td></tr><tr><td>De 1 a 2 anos</td><td>17,5%</td><td><strong>82,5% do CDI</strong></td></tr><tr><td>Acima de 2 anos</td><td>15%</td><td><strong>85% do CDI</strong></td></tr></tbody></table><p><em>CDI de referência: {{cdiRate}}% a.a. ({{dataAtualizacao}})</em></p>`,
+      }
+    ],
+    conclusion: `<h2>Conclusão</h2><p>Renda fixa é a base de toda carteira de investimentos. É segura, previsível e, com a Selic atual, oferece retornos muito atrativos. Comece pelo Tesouro Selic ou CDB de liquidez diária para sua reserva de emergência e, a partir daí, explore outras opções para diversificar e otimizar seus ganhos.</p>`,
+    faq: [
+      { question: "O que é renda fixa?", answer: "É uma classe de investimentos onde você empresta dinheiro a uma entidade (governo, banco) e recebe juros por isso. A forma de cálculo do rendimento é definida no momento da aplicação." },
+      { question: "Qual o investimento de renda fixa mais seguro?", answer: "Títulos do Tesouro Direto, como o Tesouro Selic, são considerados os investimentos mais seguros do Brasil, pois são garantidos pelo Governo Federal." },
+      { question: "Qual o melhor investimento de renda fixa hoje?", answer: "Para reserva de emergência, Tesouro Selic ou CDB com liquidez diária e rendimento de 100% do CDI são ideais. Para prazos maiores, LCIs, LCAs e CDBs com taxas mais altas podem ser mais vantajosos." },
+      { question: "Renda fixa tem Imposto de Renda?", answer: "Sim, a maioria dos produtos (Tesouro, CDB) tem IR regressivo sobre o rendimento. LCI e LCA são isentas para pessoa física." }
+    ],
+    category: 'renda-fixa',
+    subcategory: 'para-iniciantes',
+    pillar: 'pillar-2-renda-fixa',
+    cluster: 'comecar-a-investir',
+    tags: ["guia renda fixa", "renda fixa", "o que é renda fixa", "investir em renda fixa", "tesouro direto", "cdb", "lci", "lca"],
+    disclaimer: defaultDisclaimer,
+  },
 ];
 
     
