@@ -68,10 +68,11 @@ service cloud.firestore {
     }
 
     /**
-     * Enforces immutability of the UserProfile's 'id' field on update.
+     * Enforces immutability of the UserProfile's 'id' field on update,
+     * correctly handling partial updates.
      */
     function hasValidUserProfileDataOnUpdate() {
-      return request.resource.data.id == resource.data.id;
+      return !('id' in request.resource.data) || request.resource.data.id == resource.data.id;
     }
 
     /**
@@ -158,8 +159,12 @@ service cloud.firestore {
         allow create: if isOwner(userId) && hasValidUserProfileDataOnCreate(userId);
         allow update: if isOwner(userId)
                     && hasValidUserProfileDataOnUpdate()
-                    && request.resource.data.accountType == resource.data.accountType
-                    && (request.resource.data.plan == resource.data.plan || (resource.data.plan == 'starter' && request.resource.data.plan == 'pro'));
+                    && (!('accountType' in request.resource.data) || request.resource.data.accountType == resource.data.accountType)
+                    && (
+                      !('plan' in request.resource.data) ||
+                      request.resource.data.plan == resource.data.plan ||
+                      (resource.data.plan == 'starter' && request.resource.data.plan == 'pro')
+                    );
         allow delete: if isExistingOwner(userId);
       }
       
