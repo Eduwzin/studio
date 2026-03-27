@@ -191,6 +191,12 @@
       "description": "pessoa organizando finanças pessoais com planilha e calculadora",
       "imageUrl": "https://picsum.photos/seed/financas/1200/630",
       "imageHint": "finanças pessoais"
+    },
+    {
+      "id": "blog-guia-educacao-financeira",
+      "description": "guia completo de educação financeira para iniciantes",
+      "imageUrl": "https://picsum.photos/seed/guiaeducacaofinanceira/1200/630",
+      "imageHint": "educação financeira"
     }
   ]
 }
