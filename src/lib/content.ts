@@ -517,7 +517,7 @@ export const blogArticles: Article[] = [
           scenarios: [
               { label: 'Tesouro Selic líquido', rate: (cdi, selic) => selic / 100, isTaxable: true },
               { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-              { label: 'LCI/LCA 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.9, isTaxable: false },
+              { label: 'LCI/LCA 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false },
           ],
       },
       {
@@ -566,6 +566,8 @@ export const blogArticles: Article[] = [
       },
     ],
     conclusion: `<h2>Conclusão</h2><p>FII e ação não são concorrentes — são complementares. FIIs entregam renda mensal isenta e previsibilidade. Ações entregam potencial de crescimento no longo prazo.</p><p>Para quem está começando, FIIs são geralmente o ponto de entrada mais natural na renda variável — pela renda mensal, pela gestão profissional e pela menor volatilidade em relação a ações individuais.</p><p>Quer entender melhor os FIIs? <a href='/o-que-sao-fiis'>Leia o guia completo sobre FIIs.</a> Ou <a href='/fii-ou-renda-fixa'>veja a comparação entre FII e renda fixa.</a></p>`,
+    seoTitle: 'FII ou Ação: qual é melhor para investir em 2026?',
+    seoDescription: 'FII ou ação: compare renda mensal, liquidez, risco, IR e volatilidade. Veja quando cada um compensa e como combinar os dois na carteira.',
     faq: [
       { "question": "FII ou ação: qual é melhor?", "answer": "Depende do objetivo. FIIs são melhores para renda passiva mensal isenta de IR. Ações são melhores para crescimento de patrimônio no longo prazo. A maioria dos investidores combina os dois." },
       { "question": "FII paga mais dividendos que ação?", "answer": "FIIs pagam rendimentos mensais obrigatórios (95% do lucro caixa), geralmente entre 0,7% e 1,1% ao mês por cota. Ações pagam dividendos de forma esporádica e variável — dependem da política de distribuição de cada empresa." },
@@ -575,6 +577,11 @@ export const blogArticles: Article[] = [
       { "question": "Qual o valor mínimo para investir em FII ou ação?", "answer": "Os dois têm valor mínimo equivalente ao preço de uma cota ou ação. Muitos FIIs têm cotas abaixo de R$ 100. Ações variam bastante — algumas custam menos de R$ 10, outras centenas de reais." },
       { "question": "FII é mais seguro que ação?", "answer": "Em geral, FIIs tendem a ter menor volatilidade que ações individuais. Mas ambos são renda variável — o preço oscila e não há garantia de rendimento. Nenhum dos dois tem a segurança da renda fixa com FGC ou Tesouro Direto." }
     ],
+    category: 'renda-variavel',
+    subcategory: 'comparativos',
+    pillar: 'pillar-3-renda-variavel',
+    cluster: 'fiis',
+    tags: ["FII ou ação", "FII vs ação", "fundos imobiliários ou ações", "comparativo renda variável"],
     disclaimer: "Este conteúdo é educativo e não constitui recomendação de investimento. FIIs e ações são renda variável — o preço oscila e rentabilidades passadas não garantem resultados futuros. Consulte um profissional certificado para orientação personalizada.",
   },
   {
@@ -590,6 +597,8 @@ export const blogArticles: Article[] = [
       },
     ],
     conclusion: `<h2>Conclusão</h2><p>Renda variável é uma ferramenta poderosa para construção de patrimônio no longo prazo — mas exige paciência, disciplina e entendimento dos riscos.</p><p>Comece pela renda fixa, forme a reserva de emergência, entenda os produtos e só então explore renda variável com uma parcela que você pode deixar parada por anos.</p><p>Explore os guias específicos: <a href='/o-que-sao-fiis'>FIIs</a>, <a href='/o-que-sao-etfs'>ETFs</a>, <a href='/fii-ou-acao'>FII ou ação</a> e <a href='/renda-fixa-ou-renda-variavel'>renda fixa ou renda variável.</a></p>`,
+    seoTitle: 'Guia Completo de Renda Variável 2026: tudo que você precisa saber',
+    seoDescription: 'Tudo sobre renda variável: ações, FIIs, ETFs, BDRs, riscos, tributação e como começar a investir. Guia completo para iniciantes e intermediários.',
     faq: [
       { "question": "O que é renda variável?", "answer": "Renda variável é qualquer investimento cujo retorno não é conhecido antecipadamente e pode variar para cima ou para baixo. Os principais produtos são ações, FIIs, ETFs e BDRs." },
       { "question": "Renda variável é arriscada?", "answer": "Sim, mais que renda fixa. O preço dos ativos oscila e você pode perder parte do capital. Não tem cobertura do FGC. Por isso é recomendada apenas após ter reserva de emergência formada." },
@@ -599,7 +608,118 @@ export const blogArticles: Article[] = [
       { "question": "Quando devo começar a investir em renda variável?", "answer": "Após ter a reserva de emergência completa (3 a 6 meses de despesas em renda fixa com liquidez). Renda variável é para o dinheiro que você não vai precisar por pelo menos 5 anos." },
       { "question": "O que é B3?", "answer": "B3 é a bolsa de valores brasileira — Brasil, Bolsa, Balcão. É onde são negociados ações, FIIs, ETFs, BDRs e outros ativos de renda variável. Para investir, você precisa de conta em corretora habilitada na B3." }
     ],
+    category: 'renda-variavel',
+    subcategory: 'guia',
+    pillar: 'pillar-3-renda-variavel',
+    cluster: 'guia-renda-variavel',
+    tags: ["renda variável", "guia renda variável", "ações FIIs ETFs", "como investir renda variável", "bolsa de valores"],
     disclaimer: "Este conteúdo é educativo e não constitui recomendação de investimento. Renda variável envolve risco de perda de capital. Rentabilidades passadas não garantem resultados futuros. Consulte um profissional certificado para orientação personalizada.",
+  },
+  {
+    slug: 'como-organizar-financas-pessoais',
+    title: 'Como Organizar Finanças Pessoais do Zero: guia prático',
+    description: 'Aprenda como organizar suas finanças pessoais do zero com um método simples e prático. Controle de gastos, orçamento, dívidas e como começar a investir.',
+    date: '2026-03-20',
+    imageId: 'blog-organizar-financas-pessoais',
+    content: [
+      {
+        type: 'html',
+        content: `<h1>Como organizar finanças pessoais do zero: método simples e prático</h1><div class='resumo-rapido'><ul><li>Organizar finanças começa por entender quanto entra e quanto sai todo mês</li><li>O método 50-30-20 é um ponto de partida simples: 50% necessidades, 30% desejos, 20% poupança</li><li>Antes de investir, quite dívidas com juros altos e monte a reserva de emergência</li><li>Consistência importa mais do que perfeição — um orçamento simples que você usa é melhor que um complexo que abandona</li><li>Automatizar transferências para poupança e investimentos reduz a dependência de força de vontade</li></ul></div><p>Organizar finanças pessoais não exige planilhas complexas nem conhecimento avançado. Exige honestidade sobre quanto você ganha, quanto gasta e para onde o dinheiro vai.</p><p>Este guia mostra um método simples para começar do zero — independente da sua renda atual.</p><h2>Por onde começar: o diagnóstico financeiro</h2><p>Antes de qualquer planejamento, você precisa entender sua situação atual. Isso exige responder três perguntas com honestidade:</p><p><strong>1. Quanto entra por mês?</strong><br>Some todas as fontes de renda: salário, freelances, aluguéis, pensão, benefícios. Use o valor líquido — o que cai na conta, não o bruto.</p><p><strong>2. Quanto sai por mês?</strong><br>Some todos os gastos: aluguel, alimentação, transporte, contas fixas, assinaturas, lazer, compras. Inclua gastos variáveis e ocasionais divididos por 12.</p><p><strong>3. Qual é o saldo?</strong><br>Renda - Gastos = Saldo. Se o saldo é negativo, você gasta mais do que ganha. Se é positivo, esse é o dinheiro disponível para investir.</p><h2>O método 50-30-20: um ponto de partida simples</h2><p>O método 50-30-20 divide a renda em três categorias:</p><table><thead><tr><th>Categoria</th><th>Percentual</th><th>O que inclui</th><th>Exemplos</th></tr></thead><tbody><tr><td>Necessidades</td><td>50%</td><td>Gastos essenciais e fixos</td><td>Aluguel, alimentação, transporte, contas, plano de saúde</td></tr><tr><td>Desejos</td><td>30%</td><td>Gastos não essenciais mas planejados</td><td>Lazer, restaurantes, streaming, roupas, viagens</td></tr><tr><td>Poupança e investimentos</td><td>20%</td><td>Reserva de emergência e investimentos</td><td>Tesouro Selic, CDB, LCI, previdência</td></tr></tbody></table><p>Exemplo prático: renda líquida de R$ 5.000 por mês.</p><ul><li>Necessidades: até R$ 2.500</li><li>Desejos: até R$ 1.500</li><li>Poupança e investimentos: R$ 1.000</li></ul><p>Esse método não precisa ser seguido à risca — é um ponto de referência. Se suas necessidades consomem 60% da renda, o objetivo é reduzir progressivamente essa proporção ao longo do tempo.</p><h2>Como fazer um orçamento mensal</h2><p><strong>Passo 1 — Liste todas as receitas</strong><br>Anote todas as fontes de renda e os valores líquidos mensais.</p><p><strong>Passo 2 — Liste todos os gastos por categoria</strong><br>Divida os gastos em categorias: moradia, alimentação, transporte, saúde, educação, lazer, assinaturas, vestuário, outros.</p><p><strong>Passo 3 — Identifique gastos desnecessários</strong><br>Revise cada categoria e identifique o que pode ser reduzido ou eliminado sem impacto real na qualidade de vida. Assinaturas esquecidas, gastos por impulso e conveniências substituíveis são os alvos mais comuns.</p><p><strong>Passo 4 — Defina metas para cada categoria</strong><br>Estabeleça limites por categoria para o mês seguinte. Comece com ajustes pequenos — cortar R$ 200 de lazer e R$ 150 de alimentação fora já representa R$ 350 a mais para investir.</p><p><strong>Passo 5 — Acompanhe semanalmente</strong><br>Uma revisão semanal de 10 minutos evita surpresas no final do mês. Use um app, planilha ou caderno — o que funcionar melhor para o seu hábito.</p><h2>A ordem correta para organizar as finanças</h2><p>Existe uma sequência lógica que faz as coisas funcionarem melhor:</p><table><thead><tr><th>Etapa</th><th>O que fazer</th><th>Por quê vem primeiro</th></tr></thead><tbody><tr><td>1</td><td>Parar de acumular novas dívidas caras</td><td>Dívida com juros altos cancela qualquer progresso</td></tr><tr><td>2</td><td>Quitar dívidas com juros acima de 1% ao mês</td><td>Cartão e cheque especial cobram mais que qualquer investimento rende</td></tr><tr><td>3</td><td>Montar reserva de emergência mínima (1 mês de despesas)</td><td>Protege contra imprevistos que jogam tudo fora</td></tr><tr><td>4</td><td>Quitar demais dívidas</td><td>Libera renda para investir</td></tr><tr><td>5</td><td>Completar reserva de emergência (3 a 6 meses)</td><td>Base de segurança antes de investir</td></tr><tr><td>6</td><td>Começar a investir</td><td>Com a base segura, o dinheiro trabalha por você</td></tr></tbody></table><h2>Como controlar os gastos no dia a dia</h2><p>O controle de gastos não precisa ser obsessivo — precisa ser consistente. Algumas estratégias que funcionam:</p><p><strong>Regra das 24 horas para compras não planejadas</strong><br>Antes de comprar qualquer item não essencial acima de R$ 100, espere 24 horas. A maioria dos impulsos passa nesse tempo.</p><p><strong>Envelope mental por categoria</strong><br>Defina um limite para cada categoria e acompanhe o saldo disponível. Quando o envelope de lazer esgotar, pare até o mês seguinte.</p><p><strong>Automatize o que é prioritário</strong><br>Configure uma transferência automática para a conta de investimentos no dia do pagamento do salário. Dinheiro que sai antes de você ver raramente faz falta.</p><p><strong>Revise assinaturas a cada 3 meses</strong><br>Liste todos os débitos automáticos e assinaturas. Cancele o que não usa. É comum encontrar R$ 100 a R$ 300 mensais em serviços esquecidos.</p><h2>Metas financeiras: como definir e acompanhar</h2><p>Metas financeiras concretas são mais eficazes do que objetivos vagos como "economizar mais".</p><p>Exemplo de metas concretas:</p><ul><li>"Montar reserva de emergência de R$ 12.000 em 18 meses" → poupar R$ 667 por mês</li><li>"Quitar R$ 8.000 de dívida em 8 meses" → pagar R$ 1.000 por mês além do mínimo</li><li>"Viajar com R$ 5.000 daqui a 10 meses" → guardar R$ 500 por mês em conta separada</li></ul><p>Separe uma conta ou investimento para cada meta. Misturar tudo em uma única conta dificulta o acompanhamento e aumenta o risco de usar o dinheiro para outro fim.</p><h2>Ferramentas para organizar finanças pessoais</h2><p>Não existe ferramenta certa — existe a que você vai usar com consistência:</p><ul><li><strong>Planilha simples:</strong> Google Sheets ou Excel com receitas, gastos e saldo. Baixo custo, alta flexibilidade.</li><li><strong>Aplicativos de finanças:</strong> Mobills, Organizze, GuiaBolso — conectam ao banco e categorizam gastos automaticamente.</li><li><strong>Caderno/papel:</strong> funciona para quem prefere algo tangível e sem distrações digitais.</li><li><strong>Extrato bancário:</strong> mesmo sem ferramentas extras, revisar o extrato mensalmente já é um grande avanço.</li></ul>`,
+      },
+    ],
+    conclusion: `<h2>Conclusão</h2><p>Organizar finanças pessoais não é sobre restrição — é sobre intencionalidade. Saber onde o dinheiro vai e decidir conscientemente para onde ele deve ir.</p><p>Comece simples: diagnóstico, orçamento básico, quite as dívidas caras, monte a reserva de emergência. O resto vem naturalmente.</p><p>Com as finanças organizadas, o próximo passo é começar a investir. <a href='/como-comecar-a-investir'>Veja o guia completo de como começar a investir do zero.</a></p>`,
+    seoTitle: 'Como Organizar Finanças Pessoais do Zero: guia completo 2026',
+    seoDescription: 'Aprenda a organizar suas finanças pessoais com método simples: controle de gastos, orçamento mensal, como sair das dívidas e começar a investir.',
+    faq: [
+      { question: 'Como começar a organizar as finanças pessoais do zero?', answer: 'Comece pelo diagnóstico: some tudo que entra e tudo que sai por mês. Se o saldo for negativo, identifique onde cortar. Se for positivo, direcione para quitar dívidas ou formar reserva de emergência. Use o método 50-30-20 como referência inicial.' },
+      { question: 'O que é o método 50-30-20?', answer: 'É um método simples de orçamento que divide a renda em três categorias: 50% para necessidades (aluguel, alimentação, contas), 30% para desejos (lazer, restaurantes) e 20% para poupança e investimentos.' },
+      { question: 'Devo investir ou quitar dívidas primeiro?', answer: 'Dívidas com juros acima de 1% ao mês (cartão de crédito, cheque especial) devem ser quitadas antes de investir — os juros são maiores que qualquer rendimento. Para dívidas de juros baixos (financiamento imobiliário), você pode investir e pagar simultaneamente.' },
+      { question: 'Como controlar gastos sem planilha complexa?', answer: 'O método mais simples é revisar o extrato bancário uma vez por semana e categorizar os gastos. Aplicativos como Mobills e Organizze fazem isso automaticamente. O importante é ter algum acompanhamento consistente.' },
+      { question: 'Quanto devo guardar por mês?', answer: 'O ideal é guardar pelo menos 20% da renda líquida. Se não for possível agora, comece com o que for possível — R$ 100, R$ 200. O hábito de guardar é mais importante do que o valor inicial.' },
+      { question: 'Como organizar finanças com renda variável ou irregular?', answer: 'Use o mês de menor renda como base para o orçamento fixo. Nos meses de renda maior, destine o excedente primeiro para reserva de emergência e depois para investimentos. Nunca comprometa gastos fixos com renda variável.' },
+      { question: 'Qual app é melhor para controlar finanças pessoais?', answer: 'Depende do hábito. Mobills e Organizze conectam ao banco e categorizam automaticamente. GuiaBolso tem boa integração bancária. Para quem prefere controle manual, uma planilha simples no Google Sheets funciona muito bem.' }
+    ],
+    category: 'educacao-financeira',
+    subcategory: 'organizacao-financeira',
+    pillar: 'pillar-4-educacao-financeira',
+    cluster: 'educacao-financeira',
+    tags: ['como organizar finanças pessoais', 'organizar finanças', 'controle financeiro', 'orçamento pessoal', 'educação financeira'],
+    disclaimer: 'Este conteúdo é educativo e não constitui recomendação de investimento ou assessoria financeira personalizada. Consulte um profissional certificado para orientação adequada à sua situação.',
+  },
+  {
+    slug: 'guia-educacao-financeira',
+    title: 'Guia Completo de Educação Financeira: organize, poupe e invista',
+    description: 'Guia completo de educação financeira: como organizar as finanças, sair das dívidas, montar reserva de emergência e começar a investir com segurança.',
+    date: '2026-03-20',
+    imageId: 'blog-guia-educacao-financeira',
+    content: [
+      {
+        type: 'html',
+        content: `<h1>Guia completo de educação financeira: organize, poupe e invista com consciência</h1><div class='resumo-rapido'><ul><li>Educação financeira é o conjunto de conhecimentos e hábitos que permitem tomar boas decisões com dinheiro</li><li>O ponto de partida é entender quanto entra, quanto sai e para onde vai o dinheiro</li><li>A sequência correta: organize → quite dívidas → monte reserva → invista</li><li>Investir antes de ter a base financeira organizada raramente funciona no longo prazo</li><li>Consistência e paciência importam mais do que encontrar o investimento perfeito</li></ul></div><p>Educação financeira não é sobre ser rico — é sobre ter controle. Sobre não ser surpreendido por imprevistos, não depender de crédito para emergências e ter dinheiro trabalhando por você ao longo do tempo.</p><p>Este guia reúne tudo que você precisa para construir uma base financeira sólida do zero.</p><h2>O que é educação financeira</h2><p>Educação financeira é o conjunto de conhecimentos, hábitos e habilidades que permite tomar decisões conscientes e eficientes com dinheiro — seja para gastar, poupar, investir ou se proteger de riscos.</p><p>Não é um dom natural. É uma habilidade que se aprende e se pratica. E quanto mais cedo você começa, mais tempo os efeitos positivos têm para se acumular.</p><h2>Por que educação financeira importa</h2><p>Sem educação financeira, a tendência é seguir o padrão mais comum: gastar tudo que ganha, usar crédito rotativo quando falta, acumular dívidas e chegar à aposentadoria sem reservas.</p><p>Com educação financeira, você consegue:</p><ul><li>Viver dentro das suas possibilidades sem abrir mão de qualidade de vida</li><li>Ter uma reserva para imprevistos sem recorrer a empréstimos</li><li>Construir patrimônio ao longo do tempo com aportes regulares</li><li>Tomar decisões de consumo e investimento com base em dados — não em impulso</li><li>Reduzir o estresse financeiro que afeta saúde e relacionamentos</li></ul><h2>Os pilares da saúde financeira</h2><table><thead><tr><th>Pilar</th><th>O que significa</th><th>Como desenvolver</th></tr></thead><tbody><tr><td>Controle</td><td>Saber quanto entra e quanto sai</td><td>Orçamento mensal, acompanhamento de gastos</td></tr><tr><td>Proteção</td><td>Ter reserva para imprevistos</td><td>Reserva de emergência de 3 a 6 meses</td></tr><tr><td>Liberdade de dívidas</td><td>Não dever com juros altos</td><td>Quitar cartão, cheque especial e empréstimos caros</td></tr><tr><td>Crescimento</td><td>Fazer o dinheiro trabalhar por você</td><td>Investimentos regulares em renda fixa e variável</td></tr><tr><td>Proteção futura</td><td>Garantir renda na aposentadoria</td><td>Previdência, investimentos de longo prazo</td></tr></tbody></table><h2>A sequência correta da organização financeira</h2><p>Existe uma ordem lógica que faz o sistema funcionar. Pular etapas raramente funciona:</p><h3>Etapa 1 — Diagnóstico e orçamento</h3><p>Antes de qualquer decisão, você precisa saber onde está. Some toda a renda líquida mensal. Liste todos os gastos por categoria. Calcule o saldo (renda menos gastos).</p><p>Se o saldo for negativo: você precisa cortar gastos ou aumentar renda antes de qualquer outro passo. Se for positivo: esse é o dinheiro disponível para as próximas etapas.</p><h3>Etapa 2 — Controle e redução de gastos</h3><p>Identifique gastos desnecessários — assinaturas esquecidas, gastos por impulso, conveniências substituíveis. Uma redução de R$ 300 a R$ 500 mensais já muda significativamente o cenário.</p><p>Use o método 50-30-20 como referência: 50% necessidades, 30% desejos, 20% poupança. Adapte à sua realidade — o objetivo é aumentar progressivamente a fatia de poupança.</p><h3>Etapa 3 — Quite as dívidas caras</h3><p>Dívidas com juros acima de 1% ao mês (cartão de crédito, cheque especial, empréstimos pessoais) devem ser quitadas antes de qualquer investimento. Os juros dessas dívidas são maiores que qualquer rendimento que um investimento conservador entregaria.</p><p>Estratégia recomendada: quite primeiro a dívida com maior taxa de juros (método avalanche). Ou quite primeiro a menor dívida para ganhar motivação (método bola de neve). Ambos funcionam — o que importa é começar.</p><h3>Etapa 4 — Monte a reserva de emergência</h3><p>Com as dívidas caras quitadas, o próximo passo é montar uma reserva de emergência de 3 a 6 meses de despesas mensais em produto com liquidez diária.</p><p>Onde guardar: Tesouro Selic ou CDB de liquidez diária. Os dois têm segurança alta, liquidez imediata e rendem muito mais que a poupança com a Selic a {{selicRate}}% ao ano.</p><h3>Etapa 5 — Comece a investir</h3><p>Com a base organizada, você pode investir com tranquilidade — sem o risco de resgatar no pior momento por uma emergência. Comece pela renda fixa e evolua conforme seu conhecimento e tolerância a risco crescem.</p><h2>Conceitos fundamentais de educação financeira</h2><h3>Juros compostos: o tempo é seu maior aliado</h3><p>Juros compostos são juros que incidem sobre juros — a cada período, o rendimento anterior é somado ao capital e gera novos rendimentos. Com o tempo, o efeito é exponencial.</p><p>Quem começa a investir R$ 500 por mês aos 25 anos acumula aproximadamente 3 vezes mais do que quem começa com o mesmo valor aos 35 anos — com a mesma taxa e o mesmo esforço mensal. O tempo é o fator mais poderoso.</p><h3>Inflação: o inimigo silencioso do dinheiro parado</h3><p>Inflação é a perda de poder de compra do dinheiro ao longo do tempo. Com IPCA a {{ipcaRate}}% ao ano, R$ 1.000 parados na conta corrente valem aproximadamente R$ {{ipcaRate}} a menos em poder de compra após 12 meses.</p><p>Por isso investir é necessário — não opcional. Dinheiro parado perde valor. O objetivo mínimo de qualquer investimento é superar a inflação.</p><h3>Risco e retorno: a relação inevitável</h3><p>Quanto maior o potencial de retorno, maior o risco. Não existe investimento com retorno alto e risco zero — quem promete isso está mentindo.</p><p>A chave é encontrar o equilíbrio adequado para o seu perfil: renda fixa para a base de segurança, renda variável para objetivos de longo prazo onde você pode aceitar oscilações.</p><h3>Diversificação: não colocar todos os ovos na mesma cesta</h3><p>Diversificar significa distribuir o dinheiro entre diferentes produtos, emissores e classes de ativos. Isso reduz o impacto de problemas em um único investimento sem necessariamente reduzir o retorno esperado.</p><h2>Erros mais comuns em finanças pessoais</h2><p><strong>Gastar antes de poupar</strong><br>O erro mais comum. Quem tenta poupar o que sobra quase nunca consegue. A solução é poupar primeiro — transferir para investimentos antes de gastar o restante.</p><p><strong>Usar crédito rotativo</strong><br>O cartão de crédito no rotativo cobra taxas de 15% a 20% ao mês — a dívida dobra em menos de 6 meses. É uma armadilha que pode levar anos para sair.</p><p><strong>Comparar com os outros</strong><br>Gastos motivados pelo que os outros têm ou fazem geram dívidas sem construir patrimônio. Cada situação financeira é única.</p><p><strong>Não ter reserva de emergência</strong><br>Sem reserva, qualquer imprevisto vira dívida. Com reserva, imprevistos são apenas inconveniências.</p><p><strong>Buscar enriquecimento rápido</strong><br>Pirâmides financeiras, promessas de retorno garantido acima do mercado e esquemas de renda passiva rápida são armadilhas. Patrimônio sólido se constrói com tempo e consistência.</p><h2>Como criar hábitos financeiros saudáveis</h2><p><strong>Pague a si mesmo primeiro</strong><br>Configure uma transferência automática para a conta de investimentos no dia do pagamento. Trate a poupança como uma conta fixa — não como o que sobra.</p><p><strong>Revise o orçamento mensalmente</strong><br>Uma revisão de 20 minutos no final de cada mês identifica desvios e mantém o plano no trilho.</p><p><strong>Celebre progresso, não perfeição</strong><br>Um mês ruim não apaga meses de progresso. O importante é manter a direção geral — não ser perfeito todo mês.</p><p><strong>Aprenda continuamente</strong><br>Educação financeira é uma jornada, não um destino. Cada novo conceito aprendido melhora as próximas decisões.</p>`,
+      },
+    ],
+    conclusion: `<h2>Conclusão</h2><p>Educação financeira não transforma sua vida da noite para o dia — transforma ao longo do tempo, com decisões consistentes e hábitos construídos gradualmente.</p><p>Comece com o diagnóstico, organize o orçamento, quite as dívidas caras, monte a reserva de emergência e comece a investir. Cada etapa concluída abre a próxima.</p><p>Explore os guias específicos para cada etapa: <a href='/como-organizar-financas-pessoais'>como organizar finanças pessoais</a>, <a href='/reserva-de-emergencia'>reserva de emergência</a>, <a href='/como-sair-das-dividas'>como sair das dívidas</a> e <a href='/como-comecar-a-investir'>como começar a investir.</a></p>`,
+    seoTitle: 'Guia Completo de Educação Financeira 2026',
+    seoDescription: 'Guia completo de educação financeira: organize suas finanças, saia das dívidas, monte reserva de emergência e comece a investir. Tudo em um só lugar.',
+    faq: [
+      { "question": "O que é educação financeira?", "answer": "Educação financeira é o conjunto de conhecimentos e hábitos que permite tomar decisões conscientes com dinheiro — gastar, poupar, investir e se proteger de riscos. É uma habilidade que se aprende e se pratica ao longo do tempo." },
+      { "question": "Por onde começar a educação financeira?", "answer": "Comece pelo diagnóstico: some toda a renda e todos os gastos mensais. Se o saldo for negativo, corte gastos. Se for positivo, siga a sequência: quite dívidas caras → monte reserva de emergência → comece a investir." },
+      { "question": "Quanto devo poupar por mês?", "answer": "O ideal é 20% da renda líquida (método 50-30-20). Se não for possível agora, comece com o que for possível. O hábito de poupar regularmente é mais importante que o valor inicial." },
+      { "question": "É melhor quitar dívidas ou investir?", "answer": "Dívidas com juros acima de 1% ao mês devem ser quitadas primeiro — os juros superam qualquer rendimento de investimento conservador. Para dívidas de juros baixos, você pode fazer os dois simultaneamente." },
+      { "question": "O que é reserva de emergência e por que é importante?", "answer": "Reserva de emergência é um valor guardado para cobrir imprevistos sem recorrer a dívidas. Deve cobrir de 3 a 6 meses de despesas em produto com liquidez diária. Sem ela, qualquer imprevisto pode destruir o planejamento financeiro." },
+      { "question": "Como sair das dívidas?", "answer": "Identifique todas as dívidas com seus saldos e taxas. Quite primeiro a de maior juros (método avalanche) ou a menor (método bola de neve). Negocie renegociação com os credores quando possível. Evite acumular novas dívidas enquanto quita as existentes." },
+      { "question": "Quando posso começar a investir?", "answer": "Após ter as dívidas caras quitadas e a reserva de emergência formada. Investir sem essas duas bases significa que qualquer imprevisto vai forçar um resgate no pior momento." }
+    ],
+    category: 'educacao-financeira',
+    subcategory: 'guia',
+    pillar: 'pillar-4-educacao-financeira',
+    cluster: 'educacao-financeira',
+    tags: ["educação financeira", "guia educação financeira", "finanças pessoais", "como organizar dinheiro", "independência financeira"],
+    disclaimer: "Este conteúdo é educativo e não constitui recomendação de investimento ou assessoria financeira personalizada. Consulte um profissional certificado para orientação adequada à sua situação.",
+  },
+   {
+    slug: 'o-que-e-tesouro-direto',
+    title: 'O que é Tesouro Direto? Como funciona e como investir',
+    description: 'Tesouro Direto é o programa do governo federal para venda de títulos públicos a pessoas físicas. Entenda como funciona, quais os tipos e como começar.',
+    date: '2026-03-20',
+    imageId: 'blog-o-que-e-tesouro-direto',
+    content: [
+      {
+        type: 'html',
+        content: `<h1>O que é Tesouro Direto: como funciona, tipos de título e como investir</h1><div class='resumo-rapido'><ul><li>Tesouro Direto é um programa do governo federal para venda de títulos públicos a pessoas físicas</li><li>É o investimento de menor risco do Brasil — garantido pelo Governo Federal</li><li>Tem três tipos principais: Tesouro Selic, Tesouro Prefixado e Tesouro IPCA+</li><li>Tem IR regressivo (22,5% a 15%) e taxa de custódia da B3 de 0,20% ao ano</li><li>Aplicações a partir de R$ 30 — uma das opções mais acessíveis do mercado</li></ul></div><p>Tesouro Direto é um dos investimentos mais seguros e acessíveis do Brasil. Este guia explica o que é, como funciona, os tipos disponíveis e como começar.</p><h2>O que é Tesouro Direto</h2><p>Tesouro Direto é um programa criado em 2002 pelo Tesouro Nacional em parceria com a B3. Você empresta dinheiro ao Governo Federal e recebe juros em troca. A Selic atual está em {{selicRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}}).</p><h2>Tipos de título</h2><h3>Tesouro Selic</h3><p>Rende de acordo com a taxa Selic ({{selicRate}}% ao ano). Ideal para reserva de emergência — liquidez diária sem risco de perda.</p><h3>Tesouro Prefixado</h3><p>Taxa fixa definida na compra. Você sabe exatamente quanto vai receber no vencimento.</p><h3>Tesouro IPCA+</h3><p>Rende IPCA ({{ipcaRate}}% ao ano) mais taxa fixa. Protege o poder de compra no longo prazo.</p><table><thead><tr><th>Título</th><th>Como rende</th><th>Liquidez</th><th>Melhor para</th></tr></thead><tbody><tr><td>Tesouro Selic</td><td>Taxa Selic ({{selicRate}}% a.a.)</td><td>Diária sem perda</td><td>Reserva de emergência</td></tr><tr><td>Tesouro Prefixado</td><td>Taxa fixa na compra</td><td>Diária com marcação</td><td>Médio prazo</td></tr><tr><td>Tesouro IPCA+</td><td>IPCA + taxa fixa</td><td>Diária com marcação</td><td>Longo prazo</td></tr></tbody></table><h2>Custos do Tesouro Direto</h2><p>Taxa de custódia B3: 0,20% ao ano (isenta para até R$ 10.000 no Tesouro Selic). A maioria das corretoras cobra taxa zero. IR regressivo igual ao CDB: de 22,5% a 15%.</p><h2>Tesouro Direto tem FGC?</h2><p>Não — e não precisa. É garantido pelo Governo Federal, com risco de crédito menor que qualquer banco privado.</p><h2>Tesouro Direto vale a pena? Comparação rápida</h2>`
+      },
+      {
+        type: 'simulationTable',
+        initialInvestment: 10000,
+        terms: [12],
+        scenarios: [
+          { label: 'Poupança', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, isTaxable: false },
+          { label: 'Tesouro Selic', rate: (cdi, selic) => selic / 100, isTaxable: true },
+          { label: 'CDB 100% CDI', rate: (cdi, selic) => cdi / 100, isTaxable: true },
+          { label: 'LCI 90% CDI', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false }
+        ]
+      },
+      {
+        type: 'html',
+        content: `<p><em>Referência: Selic de {{selicRate}}% a.a. e CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}). Sempre compare rendimento líquido.</em></p><h2>Como começar a investir no Tesouro Direto</h2><ol><li>Abra conta em corretora habilitada pelo Tesouro Nacional</li><li>Acesse a área de Tesouro Direto</li><li>Escolha o título adequado ao seu objetivo</li><li>Informe o valor (mínimo ~R$ 30) e confirme</li><li>Acompanhe pelo extrato da corretora ou em tesourodireto.com.br</li></ol>`
+      },
+    ],
+    conclusion: `<h2>Conclusão</h2><p>Tesouro Direto é o ponto de partida mais seguro para qualquer investidor brasileiro. O Tesouro Selic é ideal para reserva de emergência. Para longo prazo, o Tesouro IPCA+ garante crescimento acima da inflação.</p><p><a href='/tesouro-selic-ou-cdb'>Compare Tesouro Selic e CDB</a> ou <a href='/quanto-rende-10000-no-tesouro-selic'>simule quanto rende R$ 10.000 no Tesouro Selic.</a></p><p><em>Referência: Selic de {{selicRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>`,
+    seoTitle: 'O que é Tesouro Direto? Como funciona e como investir',
+    seoDescription: 'Tesouro Direto é o investimento garantido pelo governo federal. Veja como funciona, os tipos de título, custos, IR e se vale mais que CDB e poupança.',
+    faq: [
+      { question: 'O que é Tesouro Direto e como funciona?', answer: 'Tesouro Direto é um programa do Governo Federal que permite a pessoas físicas comprar títulos públicos. Você empresta dinheiro ao governo e recebe juros em troca. É o investimento de menor risco do Brasil.' },
+      { question: 'Tesouro Direto tem FGC?', answer: 'Não. É garantido pelo Governo Federal, que tem risco de crédito menor que qualquer banco privado.' },
+      { question: 'Qual a diferença entre Tesouro Selic, Prefixado e IPCA+?', answer: 'Tesouro Selic acompanha a taxa básica de juros — ideal para reserva de emergência. Prefixado tem taxa fixa — médio prazo. IPCA+ rende inflação mais taxa fixa — longo prazo.' },
+      { question: 'Qual o valor mínimo para investir no Tesouro Direto?', answer: 'A partir de aproximadamente R$ 30, equivalente a 1% do título mais barato disponível.' },
+      { question: 'Posso perder dinheiro no Tesouro Direto?', answer: 'Se carregar até o vencimento, não. Se vender antes, pode receber mais ou menos por causa da marcação a mercado. Para o Tesouro Selic esse risco é mínimo.' }
+    ],
+    category: 'renda-fixa',
+    subcategory: 'tesouro-direto',
+    pillar: 'pillar-2-renda-fixa',
+    cluster: 'tesouro-direto',
+    tags: ['Tesouro Direto', 'o que é tesouro direto', 'como investir no tesouro direto', 'tesouro selic', 'tesouro ipca'],
+    disclaimer: defaultDisclaimer,
   },
   {
     slug: 'quanto-rende-1000-no-cdb',
@@ -608,47 +728,51 @@ export const blogArticles: Article[] = [
     date: '2026-03-20',
     imageId: 'blog-cdb-1000',
     content: [
-        {
-            type: 'html',
-            content: `<h1>Quanto rende R$ 1.000 no CDB? Simulação com rendimento líquido</h1><div class='resumo-rapido'><ul><li>Com CDI a {{cdiRate}}% ao ano, R$ 1.000 no CDB a 100% do CDI rendem aproximadamente R$ 8 líquidos por mês</li><li>Em 12 meses, o rendimento líquido é de aproximadamente R$ 109</li><li>O CDB rende quase o dobro da poupança ({{poupancaRate}}% a.a.) no mesmo período</li><li>Sempre compare rendimento líquido — não taxa bruta</li><li>Taxas variam por produto e emissor — use como referência, não como promessa</li></ul></div><p>R$ 1.000 pode parecer pouco para investir — mas é um ótimo ponto de partida. Saber exatamente quanto esse valor vai render ajuda a planejar aportes futuros e comparar produtos com clareza.</p><p>Esta simulação mostra o rendimento de R$ 1.000 no CDB em diferentes prazos e taxas, com os impostos reais descontados. Os cálculos usam CDI de {{cdiRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}}).</p><h2>Premissas da simulação</h2><ul><li><strong>CDI:</strong> {{cdiRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}})</li><li><strong>IR:</strong> tabela regressiva da Receita Federal</li><li><strong>IOF:</strong> zero para aplicações mantidas por mais de 30 dias</li></ul><p><strong>Importante:</strong> simulações assumem CDI constante para fins ilustrativos. O rendimento real pode variar conforme o CDI muda a cada reunião do Copom.</p>`,
-        },
-        {
-            type: 'simulationTable',
-            initialInvestment: 1000,
-            terms: [1, 3, 6, 12, 24, 36],
-            scenarios: [
-                { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-            ]
-        },
-        {
-            type: 'html',
-            content: `<h2>Simulação: quanto rende R$ 1.000 em diferentes taxas de CDB</h2>`,
-        },
-        {
-            type: 'simulationTable',
-            initialInvestment: 1000,
-            terms: [6, 12, 24, 36],
-            scenarios: [
-                { label: 'CDB 90% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: true },
-                { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-                { label: 'CDB 110% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true },
-                { label: 'CDB 120% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.20, isTaxable: true },
-            ]
-        },
-        {
-            type: 'html',
-            content: `<h2>Quanto rende R$ 1.000 na poupança no mesmo período?</h2>`,
-        },
-        {
-            type: 'simulationTable',
-            initialInvestment: 1000,
-            terms: [6, 12, 24, 36],
-            showDifference: true,
-            scenarios: [
-                { label: 'Poupança ({{poupancaRate}}% a.a.)', rate: (cdi, selic) => (selic > 8.5 ? 0.0617 : (selic / 100) * 0.7), isTaxable: false },
-                { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-            ]
-        },
+      {
+        type: 'html',
+        content: `<h1>Quanto rende R$ 1.000 no CDB? Simulação com rendimento líquido</h1><div class='resumo-rapido'><ul><li>Com CDI a {{cdiRate}}% ao ano, R$ 1.000 no CDB a 100% do CDI rendem aproximadamente R$ 8 líquidos por mês</li><li>Em 12 meses, o rendimento líquido é de aproximadamente R$ 109</li><li>O CDB rende quase o dobro da poupança ({{poupancaRate}}% a.a.) no mesmo período</li><li>Sempre compare rendimento líquido — não taxa bruta</li><li>Taxas variam por produto e emissor — use como referência, não como promessa</li></ul></div><p>R$ 1.000 pode parecer pouco para investir — mas é um ótimo ponto de partida. Saber exatamente quanto esse valor vai render ajuda a planejar aportes futuros e comparar produtos com clareza.</p><p>Esta simulação mostra o rendimento de R$ 1.000 no CDB em diferentes prazos e taxas, com os impostos reais descontados. Os cálculos usam CDI de {{cdiRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}}).</p><h2>Premissas da simulação</h2><ul><li><strong>CDI:</strong> {{cdiRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}})</li><li><strong>IR:</strong> tabela regressiva da Receita Federal</li><li><strong>IOF:</strong> zero para aplicações mantidas por mais de 30 dias</li></ul><p><strong>Importante:</strong> simulações assumem CDI constante para fins ilustrativos. O rendimento real pode variar conforme o CDI muda a cada reunião do Copom.</p>`,
+      },
+      {
+        type: 'simulationTable',
+        initialInvestment: 1000,
+        terms: [1, 3, 6, 12, 24, 36],
+        scenarios: [
+          { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
+        ]
+      },
+      {
+        type: 'html',
+        content: `<h2>Simulação: quanto rende R$ 1.000 em diferentes taxas de CDB</h2>`,
+      },
+      {
+        type: 'simulationTable',
+        initialInvestment: 1000,
+        terms: [6, 12, 24, 36],
+        scenarios: [
+          { label: 'CDB 90% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: true },
+          { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
+          { label: 'CDB 110% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true },
+          { label: 'CDB 120% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.20, isTaxable: true },
+        ]
+      },
+      {
+        type: 'html',
+        content: `<h2>Quanto rende R$ 1.000 na poupança no mesmo período?</h2>`,
+      },
+      {
+        type: 'simulationTable',
+        initialInvestment: 1000,
+        terms: [6, 12, 24, 36],
+        showDifference: true,
+        scenarios: [
+          { label: 'Poupança ({{poupancaRate}}% a.a.)', rate: (cdi, selic) => (selic > 8.5 ? 0.0617 : (selic / 100) * 0.7), isTaxable: false },
+          { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
+        ]
+      },
+      {
+        type: 'html',
+        content: ``
+      }
     ],
     conclusion: `<h2>Conclusão</h2><p>R$ 1.000 no CDB a 100% do CDI rende mais que o dobro da poupança em qualquer prazo com a Selic atual de {{selicRate}}% ao ano.</p><p>Para começar, escolha um CDB com a maior taxa disponível dentro do seu prazo, respeite a carência e mantenha o rendimento acumulando.</p><p>Quer entender melhor o CDB? <a href='/o-que-e-cdb'>Leia o guia completo sobre o CDB.</a> Ou <a href='/cdb-ou-poupanca'>veja a comparação completa entre CDB e poupança.</a></p><p><em>Referência: CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}). Simulações com taxa constante para fins ilustrativos.</em></p>`,
     seoTitle: 'Quanto Rende R$ 1.000 no CDB? Simulação 2026',
@@ -697,7 +821,7 @@ export const blogArticles: Article[] = [
     ],
     conclusion: `<h2>Conclusão</h2><p>CDB combina segurança (FGC), variedade de prazos e rentabilidade acima da poupança na maioria dos cenários. A chave é sempre comparar rendimento líquido.</p><p>Quer simular? <a href='/quanto-rende-1000-no-cdb'>Veja quanto rende R$ 1.000 no CDB.</a></p><p><em>Referência: CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>`,
     seoTitle: 'O que é CDB? Como funciona e se vale a pena',
-    seoDescription: 'CDB é um título emitido por bancos que paga juros ao investidor. Entenda como funciona, quais os tipos, como é o IR e se vale mais que a poupança.',
+    seoDescription: 'CDB é um título de renda fixa emitido por bancos que paga juros ao investidor. Entenda como funciona, quais os tipos, como é o IR e se vale mais que a poupança.',
     faq: [
       { question: "O que é CDB e como funciona?", answer: "CDB é um título de renda fixa emitido por bancos. Você empresta dinheiro ao banco e recebe de volta com juros no resgate. Tem cobertura do FGC até R$ 250.000 por CPF por instituição." },
       { question: "CDB tem garantia do FGC?", answer: "Sim. O FGC garante até R$ 250.000 por CPF por instituição em caso de falência do banco emissor." },
@@ -713,3 +837,5 @@ export const blogArticles: Article[] = [
     disclaimer: 'Este conteúdo é educativo e não constitui recomendação de investimento. Rentabilidades são referências e variam conforme o produto e o emissor.',
   }
 ];
+
+    
