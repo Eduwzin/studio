@@ -101,19 +101,32 @@ function DisclaimerSection({ text }: { text?: string }) {
   );
 }
 
-const RenderContentBlock = ({ block, cdiRate, selicRate }: { block: ArticleContent[0], cdiRate: number, selicRate: number }) => {
+const RenderContentBlock = ({ block, cdiRate, selicRate, replacePlaceholders }: { block: ArticleContent[0], cdiRate: number, selicRate: number, replacePlaceholders: (text: string) => string }) => {
     switch (block.type) {
         case 'html':
             const htmlBlock = block as HtmlContentBlock;
             return (
                 <div
                     className="prose prose-lg max-w-none prose-h3:font-headline prose-h3:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-foreground"
-                    dangerouslySetInnerHTML={{ __html: htmlBlock.content }}
+                    dangerouslySetInnerHTML={{ __html: replacePlaceholders(htmlBlock.content) }}
                 />
             );
         case 'simulationTable':
             const tableBlock = block as SimulationTableBlock;
-            return <SimulationTable cdiRate={cdiRate} selicRate={selicRate} {...tableBlock} />;
+            // Pré-processa os cenários no servidor para evitar passar funções para o componente cliente
+            const processedScenarios = tableBlock.scenarios.map(scenario => ({
+                ...scenario,
+                annualRate: scenario.rate(cdiRate, selicRate), // Executa a função aqui
+            }));
+            
+            return <SimulationTable 
+                selicRate={selicRate}
+                initialInvestment={tableBlock.initialInvestment}
+                monthlyInvestment={tableBlock.monthlyInvestment}
+                scenarios={processedScenarios}
+                terms={tableBlock.terms}
+                showDifference={tableBlock.showDifference}
+            />;
         default:
             return null;
     }
@@ -267,21 +280,9 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
         )}
 
-        {article.content.map((block, index) => {
-            if (block.type === 'html') {
-                return (
-                    <div
-                        key={index}
-                        className="prose prose-lg max-w-none prose-h3:font-headline prose-h3:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-foreground"
-                        dangerouslySetInnerHTML={{ __html: replacePlaceholders(block.content) }}
-                    />
-                );
-            }
-            if (block.type === 'simulationTable') {
-                return <RenderContentBlock key={index} block={block} cdiRate={cdiRate} selicRate={selicRate} />;
-            }
-            return null;
-        })}
+        {article.content.map((block, index) => (
+          <RenderContentBlock key={index} block={block} cdiRate={cdiRate} selicRate={selicRate} replacePlaceholders={replacePlaceholders} />
+        ))}
 
         <FaqSection faq={article.faq || []} dynamicReplacers={replacePlaceholders} />
         
@@ -297,6 +298,3 @@ export default async function BlogPostPage({ params }: Props) {
     </>
   );
 }
-
-
-  

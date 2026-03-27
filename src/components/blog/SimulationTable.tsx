@@ -12,19 +12,16 @@ import { Alert, AlertDescription } from "../ui/alert";
 
 type Scenario = {
   label: string;
-  rate: (cdi: number, selic: number) => number;
-  // Usamos um booleano para determinar se o imposto deve ser aplicado.
-  // true para CDB/Tesouro; false para LCI/LCA/Poupança.
+  annualRate: number; // Alterado de função para número
   isTaxable: boolean;
 };
 
 type SimulationTableProps = {
-  cdiRate: number;
-  selicRate: number;
+  selicRate: number; // Mantido para o placeholder da poupança
   initialInvestment: number;
   monthlyInvestment?: number;
-  scenarios: Scenario[];
-  terms: number[]; // In months
+  scenarios: Scenario[]; // Agora recebe cenários com `annualRate`
+  terms: number[]; // Em meses
   showDifference?: boolean;
 };
 
@@ -59,7 +56,6 @@ const calculateGrossYield = (
 }
 
 export default function SimulationTable({
-  cdiRate,
   selicRate,
   initialInvestment,
   monthlyInvestment = 0,
@@ -71,7 +67,7 @@ export default function SimulationTable({
   const results = terms.map(term => {
     const termYields: { [label: string]: number } = {};
     scenarios.forEach(scenario => {
-      const annualRate = scenario.rate(cdiRate, selicRate);
+      const annualRate = scenario.annualRate; // Usa a taxa anual já calculada
       
       const grossYield = calculateGrossYield(initialInvestment, monthlyInvestment, term, annualRate);
       
@@ -97,7 +93,7 @@ export default function SimulationTable({
       headers.push('Diferença');
   }
 
-  if (!cdiRate || !selicRate) {
+  if (selicRate === undefined) {
     return (
         <Alert variant="destructive">
             <AlertDescription>
