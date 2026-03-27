@@ -1,4 +1,5 @@
 
+
 import type { ImagePlaceholder } from './placeholder-images';
 import data from './placeholder-images.json';
 
@@ -79,7 +80,7 @@ export const blogArticles: Article[] = [
         content: `<p><em>Simulação de rendimento líquido com Selic a {{selicRate}}% e CDI a {{cdiRate}}%. (Referência: {{dataAtualizacao}})</em></p>`
       }
     ],
-    conclusion: "<h2>Conclusão</h2><p>Com a Selic a {{selicRate}}% ao ano, o CDB supera a poupança em todos os prazos — mesmo após o desconto do IR.</p><p>Se você ainda tem dinheiro na poupança, vale avaliar migrar para um CDB de liquidez diária ou Tesouro Selic — com o mesmo nível de segurança (FGC) e rendimento muito superior.</p><p>Quer entender melhor as opções? <a href='/melhores-investimentos-para-iniciantes'>Veja os melhores investimentos para iniciantes.</a></p>",
+    conclusion: `<h2>Conclusão</h2><p>Com a Selic a {{selicRate}}% ao ano, o CDB supera a poupança em todos os prazos — mesmo após o desconto do IR.</p><p>Se você ainda tem dinheiro na poupança, vale avaliar migrar para um CDB de liquidez diária ou Tesouro Selic — com o mesmo nível de segurança (FGC) e rendimento muito superior.</p><p>Quer entender melhor as opções? <a href='/melhores-investimentos-para-iniciantes'>Veja os melhores investimentos para iniciantes.</a></p>`,
     seoTitle: 'CDB ou Poupança: qual rende mais em 2026?',
     seoDescription: 'CDB ou poupança: compare rendimento líquido, segurança e liquidez. Simulação com valores reais e checklist para escolher o melhor investimento.',
     faq: [
@@ -101,7 +102,7 @@ export const blogArticles: Article[] = [
       },
       {
         question: 'Quanto rende mais o CDB do que a poupança?',
-        answer: "Com a Selic a {{selicRate}}% ao ano, um CDB a 100% do CDI rende aproximadamente R$ 475 a mais do que a poupança em 12 meses para cada R$ 10.000 investidos."
+        answer: `Com a Selic a {{selicRate}}% ao ano, um CDB a 100% do CDI rende aproximadamente R$ 475 a mais do que a poupança em 12 meses para cada R$ 10.000 investidos.`
       },
       {
         question: 'Vale a pena migrar da poupança para o CDB?',
@@ -128,28 +129,28 @@ export const blogArticles: Article[] = [
     date: '2026-03-20',
     imageId: 'blog-tesouro-cdb',
     content: [
-        {
-            type: 'html',
-            content: `<h1>Tesouro Selic ou CDB: qual é melhor para você?</h1><div class='resumo-rapido'><ul><li>Tesouro Selic e CDB de liquidez diária têm rendimento muito próximo — a diferença em 12 meses é pequena</li><li>A principal diferença está na garantia: Tesouro é garantido pelo Governo Federal, CDB pelo FGC até R$ 250k</li><li>Para reserva de emergência, os dois funcionam bem — a escolha depende do valor investido</li><li>CDB acima de 100% do CDI pode superar o Tesouro Selic no líquido</li><li>Sempre compare rendimento líquido — não taxa bruta</li></ul></div><p>Tesouro Selic e CDB são os dois investimentos de renda fixa mais populares para reserva de emergência e objetivos de curto prazo. A dúvida entre os dois é comum — e a resposta depende de alguns fatores simples.</p><p>Este comparativo explica as diferenças reais, mostra uma simulação prática e te ajuda a decidir em minutos.</p><h2>Simulação: R$ 10.000 em Tesouro Selic vs CDB</h2>`
-        },
-        {
-            type: 'simulationTable',
-            initialInvestment: 10000,
-            terms: [6, 12, 24],
-            scenarios: [
-                { label: 'Tesouro Selic líquido', rate: (cdi, selic) => selic / 100, isTaxable: true },
-                { label: 'CDB 95% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: true },
-                { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-                { label: 'CDB 105% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.05, isTaxable: true },
-                { label: 'CDB 110% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true }
-            ]
-        },
-        {
-            type: 'html',
-            content: `<p><em>Simulação de rendimento líquido com Selic a {{selicRate}}% e CDI a {{cdiRate}}%. (Referência: {{dataAtualizacao}})</em></p><p>A tabela mostra que, para um CDB de liquidez diária superar o rendimento do Tesouro Selic, ele precisa pagar acima de 100% do CDI. A diferença é pequena, mas existe.</p><h2>Quando o Tesouro Selic é melhor?</h2><p><strong>Segurança máxima:</strong> para valores acima de R$ 250.000 — limite do FGC —, o Tesouro Selic é a opção mais segura, pois é garantido pelo Governo Federal sem limite de valor.</p><p><strong>Praticidade:</strong> se o seu banco ou corretora oferece apenas CDBs com taxas abaixo de 100% do CDI, o Tesouro Selic é uma escolha melhor e mais simples.</p><h2>Quando o CDB é melhor?</h2><p><strong>Taxas competitivas:</strong> se você encontrar um CDB de liquidez diária que pague acima de 101% do CDI, ele terá um rendimento líquido ligeiramente superior ao Tesouro Selic.</p><p><strong>Isenção da taxa de custódia:</strong> o Tesouro Selic tem uma taxa de custódia de 0,20% ao ano da B3 (isenta para os primeiros R$ 10.000). O CDB não tem essa taxa, o que pode fazer diferença no longo prazo.</p>`
-        }
+      {
+        type: 'html',
+        content: `<h1>Tesouro Selic ou CDB: qual é melhor para você?</h1><div class='resumo-rapido'><ul><li>Tesouro Selic e CDB de liquidez diária têm rendimento muito próximo — a diferença em 12 meses é pequena</li><li>A principal diferença está na garantia: Tesouro é garantido pelo Governo Federal, CDB pelo FGC até R$ 250k</li><li>Para reserva de emergência, os dois funcionam bem — a escolha depende do valor investido</li><li>CDB acima de 100% do CDI pode superar o Tesouro Selic no líquido</li><li>Sempre compare rendimento líquido — não taxa bruta</li></ul></div><p>Tesouro Selic e CDB são os dois investimentos de renda fixa mais populares para reserva de emergência e objetivos de curto prazo. A dúvida entre os dois é comum — e a resposta depende de alguns fatores simples.</p><p>Este comparativo explica as diferenças reais, mostra uma simulação prática e te ajuda a decidir em minutos.</p><h2>Simulação: R$ 10.000 em Tesouro Selic vs CDB</h2>`
+      },
+      {
+        type: 'simulationTable',
+        initialInvestment: 10000,
+        terms: [6, 12, 24],
+        scenarios: [
+          { label: 'Tesouro Selic líquido', rate: (cdi, selic) => selic / 100, isTaxable: true },
+          { label: 'CDB 95% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: true },
+          { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
+          { label: 'CDB 105% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.05, isTaxable: true },
+          { label: 'CDB 110% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true }
+        ]
+      },
+      {
+        type: 'html',
+        content: `<p><em>Simulação de rendimento líquido com Selic a {{selicRate}}% e CDI a {{cdiRate}}%. (Referência: {{dataAtualizacao}})</em></p><p>A tabela mostra que, para um CDB de liquidez diária superar o rendimento do Tesouro Selic, ele precisa pagar acima de 100% do CDI. A diferença é pequena, mas existe.</p><h2>Quando o Tesouro Selic é melhor?</h2><p><strong>Segurança máxima:</strong> para valores acima de R$ 250.000 — limite do FGC —, o Tesouro Selic é a opção mais segura, pois é garantido pelo Governo Federal sem limite de valor.</p><p><strong>Praticidade:</strong> se o seu banco ou corretora oferece apenas CDBs com taxas abaixo de 100% do CDI, o Tesouro Selic é uma escolha melhor e mais simples.</p><h2>Quando o CDB é melhor?</h2><p><strong>Taxas competitivas:</strong> se você encontrar um CDB de liquidez diária que pague acima de 101% do CDI, ele terá um rendimento líquido ligeiramente superior ao Tesouro Selic.</p><p><strong>Isenção da taxa de custódia:</strong> o Tesouro Selic tem uma taxa de custódia de 0,20% ao ano da B3 (isenta para os primeiros R$ 10.000). O CDB não tem essa taxa, o que pode fazer diferença no longo prazo.</p>`
+      }
     ],
-    conclusion: "<h2>Conclusão</h2><p>Tesouro Selic e CDB de liquidez diária são produtos quase equivalentes para objetivos de curto prazo e reserva de emergência. A diferença de rendimento é pequena — o que realmente importa é a taxa do CDB disponível e o valor que você vai investir.</p><p>Regra simples: se o CDB paga acima de 101% do CDI com liquidez diária, ele vence. Se paga menos, o Tesouro Selic é melhor. Para valores acima de R$ 250.000, Tesouro Selic sempre.</p><p>Quer entender melhor cada produto? Leia <a href='/o-que-e-tesouro-direto'>o que é Tesouro Direto</a> e <a href='/o-que-e-cdb'>o que é CDB</a>.</p>",
+    conclusion: `<h2>Conclusão</h2><p>Tesouro Selic e CDB de liquidez diária são produtos quase equivalentes para objetivos de curto prazo e reserva de emergência. A diferença de rendimento é pequena — o que realmente importa é a taxa do CDB disponível e o valor que você vai investir.</p><p>Regra simples: se o CDB paga acima de 101% do CDI com liquidez diária, ele vence. Se paga menos, o Tesouro Selic é melhor. Para valores acima de R$ 250.000, Tesouro Selic sempre.</p><p>Quer entender melhor cada produto? Leia <a href='/o-que-e-tesouro-direto'>o que é Tesouro Direto</a> e <a href='/o-que-e-cdb'>o que é CDB</a>.</p>`,
     faq: [
       {
         question: "Tesouro Selic ou CDB: qual rende mais?",
@@ -242,8 +243,44 @@ export const blogArticles: Article[] = [
     seoDescription: 'LCA é um título de renda fixa isento de IR para pessoa física. Veja como funciona, quais os tipos, quando compensa mais que CDB e LCI e como investir.',
     date: '2026-03-20',
     imageId: 'blog-o-que-e-lca',
-    content: [{type: 'html', content: `<h1>O que é LCA: como funciona, vantagens e quando vale a pena</h1><div class='resumo-rapido'><ul><li>LCA é um título de renda fixa emitido por bancos, lastreado em crédito do agronegócio</li><li>É isento de Imposto de Renda para pessoa física — igual à LCI</li><li>Tem cobertura do FGC até R$ 250.000 por CPF por instituição</li><li>Tem carência mínima de 90 dias — não permite resgate imediato</li><li>A comparação correta com CDB é sempre pelo rendimento líquido, não pela taxa bruta</li></ul></div><p>LCA e LCI são frequentemente mencionadas juntas — e com razão: funcionam de forma muito parecida. A principal diferença está no lastro: enquanto a LCI financia o setor imobiliário, a LCA financia o agronegócio.</p><p>Para o investidor pessoa física, o que importa é que as duas são isentas de IR e têm cobertura do FGC. Este guia explica tudo que você precisa saber sobre a LCA antes de investir.</p><h2>LCA vs LCI: qual a diferença?</h2><p>Para o investidor, a diferença entre LCA e LCI é mínima. As duas são isentas de IR para pessoa física, têm cobertura do FGC até R$ 250.000 e carência mínima de 90 dias. A diferença prática está na disponibilidade e nas taxas.</p><h2>Quando a LCA compensa mais que o CDB</h2><p>A comparação correta usa a fórmula de equivalência: <strong>Taxa LCA equivalente = Taxa CDB × (1 — alíquota IR)</strong>. Uma LCA a {{lci90Rate}}% do CDI pode render mais no líquido que um CDB a {{cdb100Rate}}% do CDI.</p>`}],
-    conclusion: "<h2>Conclusão</h2><p>LCA é uma excelente opção de renda fixa para quem tem objetivo com prazo definido e pode abrir mão da liquidez imediata. A isenção de IR é uma vantagem real — mas só compensa quando a taxa oferecida é competitiva o suficiente para superar o rendimento líquido de outras opções.</p><p>A regra de ouro: sempre compare pelo rendimento líquido. E lembre-se — LCA e LCI funcionam de forma muito parecida. Vale comparar as duas antes de decidir.</p><p>Quer entender melhor a comparação com o CDB? <a href='/cdb-ou-lci'>Veja o comparativo completo entre CDB e LCI/LCA.</a></p>",
+    content: [
+      {
+        type: 'html',
+        content: `<h1>O que é LCA: como funciona, vantagens e quando vale a pena</h1><div class='resumo-rapido'><ul><li>LCA é um título de renda fixa emitido por bancos, lastreado em crédito do agronegócio</li><li>É isento de Imposto de Renda para pessoa física — igual à LCI</li><li>Tem cobertura do FGC até R$ 250.000 por CPF por instituição</li><li>Tem carência mínima de 90 dias — não permite resgate imediato</li><li>A comparação correta com CDB é sempre pelo rendimento líquido, não pela taxa bruta</li></ul></div><p>LCA e LCI são frequentemente mencionadas juntas — e com razão: funcionam de forma muito parecida. A principal diferença está no lastro: enquanto a LCI financia o setor imobiliário, a LCA financia o agronegócio.</p><p>Para o investidor pessoa física, o que importa é que as duas são isentas de IR e têm cobertura do FGC. Este guia explica tudo que você precisa saber sobre a LCA antes de investir.</p><h2>LCA vs LCI: qual a diferença?</h2><table><thead><tr><th>Critério</th><th>LCA (Letra de Crédito do Agronegócio)</th><th>LCI (Letra de Crédito Imobiliário)</th></tr></thead><tbody><tr><td><strong>Lastro</strong></td><td>Crédito para o agronegócio</td><td>Crédito para o setor imobiliário</td></tr><tr><td><strong>Rendimento</strong></td><td>Pós (CDI), Pré ou Híbrido (IPCA+)</td><td>Pós (CDI), Pré ou Híbrido (IPCA+)</td></tr><tr><td><strong>Imposto de Renda</strong></td><td>Isento para pessoa física</td><td>Isento para pessoa física</td></tr><tr><td><strong>Garantia</strong></td><td>FGC (até R$ 250 mil)</td><td>FGC (até R$ 250 mil)</td></tr><tr><td><strong>Liquidez</strong></td><td>Carência mínima de 90 dias</td><td>Carência mínima de 90 dias</td></tr></tbody></table><p>Na prática, para o investidor, a diferença é mínima. A escolha entre LCA e LCI geralmente se resume a qual está oferecendo a melhor taxa de rendimento no momento da aplicação.</p><h2>Quando a LCA compensa mais que o CDB</h2><p>A comparação correta usa a fórmula de equivalência: <strong>Taxa LCA equivalente = Taxa CDB × (1 — alíquota IR)</strong>. Uma LCA a {{lci90Rate}}% do CDI pode render mais no líquido que um CDB a {{cdb100Rate}}% do CDI. Veja a simulação abaixo para entender na prática.</p><h2>Simulação: Equivalência LCA vs CDB</h2>`,
+      },
+      {
+        type: 'simulationTable',
+        initialInvestment: 10000,
+        terms: [12],
+        scenarios: [
+          { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
+          { label: 'CDB 110% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true },
+          { label: 'LCA 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false },
+          { label: 'LCA 95% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: false }
+        ]
+      },
+      {
+        type: 'html',
+        content: `<p><em>Simulação de rendimento líquido em 12 meses. (Referência: {{dataAtualizacao}})</em></p><h2>Comparativo rápido: LCA vs outros produtos</h2>`,
+      },
+      {
+        type: 'simulationTable',
+        initialInvestment: 10000,
+        terms: [12],
+        scenarios: [
+          { label: 'Poupança', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, isTaxable: false },
+          { label: 'CDB 100% CDI', rate: (cdi, selic) => cdi / 100, isTaxable: true },
+          { label: 'LCA 90% CDI', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false },
+          { label: 'LCA 95% CDI', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: false },
+          { label: 'Tesouro Selic', rate: (cdi, selic) => selic / 100, isTaxable: true }
+        ]
+      },
+      {
+        type: 'html',
+        content: `<p><em>Simulação de rendimento líquido em 12 meses. (Referência: {{dataAtualizacao}})</em></p><h2>Tipos de LCA por Rendimento</h2><table><thead><tr><th>Tipo de LCA</th><th>Como funciona</th></tr></thead><tbody><tr><td><strong>Pós-fixada</strong></td><td>A mais comum. Rende um percentual do CDI (ex: 95% do CDI).</td></tr><tr><td><strong>Prefixada</strong></td><td>A taxa é definida no momento da compra (ex: 11% ao ano).</td></tr><tr><td><strong>Híbrida (IPCA+)</strong></td><td>Paga a variação da inflação (IPCA) mais uma taxa fixa (ex: IPCA + 5% a.a.).</td></tr></tbody></table>`,
+      }
+    ],
+    conclusion: `<h2>Conclusão</h2><p>LCA é uma excelente opção de renda fixa para quem tem objetivo com prazo definido e pode abrir mão da liquidez imediata. A isenção de IR é uma vantagem real — mas só compensa quando a taxa oferecida é competitiva o suficiente para superar o rendimento líquido de outras opções.</p><p>A regra de ouro: sempre compare pelo rendimento líquido. E lembre-se — LCA e LCI funcionam de forma muito parecida. Vale comparar as duas antes de decidir.</p><p>Quer entender melhor a comparação com o CDB? <a href='/cdb-ou-lci'>Veja o comparativo completo entre CDB e LCI/LCA.</a></p>`,
     faq: [
       {
         question: "O que é LCA e como funciona?",
@@ -307,10 +344,10 @@ export const blogArticles: Article[] = [
       },
       {
         type: 'html',
-        content: `<p><em>Simulação de rendimento líquido em 12 meses. (Referência: {{dataAtualizacao}})</em></p><h2>Tabela de Equivalência: a partir de qual taxa a LCI/LCA compensa?</h2><p>Para saber se uma LCI/LCA vale mais a pena que um CDB, você precisa encontrar a taxa equivalente. A tabela abaixo mostra qual seria o rendimento de uma LCI/LCA para empatar com um CDB a 100% do CDI, considerando a alíquota de IR para cada prazo.</p><table><thead><tr><th>Prazo da Aplicação</th><th>Alíquota IR (CDB)</th><th>CDB 100% CDI (Bruto)</th><th>Taxa LCI/LCA equivalente</th></tr></thead><tbody><tr><td>Até 6 meses</td><td>22,5%</td><td>100% do CDI</td><td><strong>77,5% do CDI</strong></td></tr><tr><td>De 6 meses a 1 ano</td><td>20%</td><td>100% do CDI</td><td><strong>80% do CDI</strong></td></tr><tr><td>De 1 a 2 anos</td><td>17,5%</td><td>100% do CDI</td><td><strong>82,5% do CDI</strong></td></tr><tr><td>Acima de 2 anos</td><td>15%</td><td>100% do CDI</td><td><strong>85% do CDI</strong></td></tr></tbody></table><p><em>CDI de referência: {{cdiRate}}% a.a. ({{dataAtualizacao}})</em></p><p><strong>Como usar a tabela:</strong> se você vai investir por 1 ano (IR de 20%), uma LCI que pague mais de 80% do CDI já rende mais que um CDB a 100% do CDI.</p>`
+        content: `<p><em>Simulação de rendimento líquido em 12 meses. (Referência: {{dataAtualizacao}})</em></p><h2>Tabela de Equivalência: a partir de qual taxa a LCI/LCA compensa?</h2><p>Para saber se uma LCI/LCA vale mais a pena que um CDB, você precisa encontrar a taxa equivalente. A tabela abaixo mostra qual seria o rendimento de uma LCI/LCA para empatar com um CDB a 100% do CDI, considerando a alíquota de IR para cada prazo.</p><table><thead><tr><th>Prazo da Aplicação</th><th>Alíquota IR (CDB)</th><th>CDB 100% CDI (Bruto)</th><th>Taxa LCI/LCA equivalente</th></tr></thead><tbody><tr><td>Até 6 meses</td><td>22,5%</td><td>100% do CDI</td><td><strong>77,5% do CDI</strong></td></tr><tr><td>De 6 meses a 1 ano</td><td>20%</td><td>100% do CDI</td><td><strong>80% do CDI</strong></td></tr><tr><td>De 1 a 2 anos</td><td>17,5%</td><td>100% do CDI</td><td><strong>82,5% do CDI</strong></td></tr><tr><td>Acima de 2 anos</td><td>15%</td><td>100% do CDI</td><td><strong>85% do CDI</strong></td></tr></tbody></table><p><em>CDI de referência: {{cdiRate}}% a.a. ({{dataAtualizacao}})</em></p>`
       }
     ],
-    conclusion: "<h2>Conclusão</h2><p>CDB e LCI são produtos complementares — não concorrentes diretos. A melhor escolha depende da taxa disponível no mercado no momento da aplicação, do prazo e da sua necessidade de liquidez.</p><p>A regra de ouro: <strong>sempre compare rendimento líquido, nunca taxa bruta.</strong></p><p>Quer entender melhor cada produto separadamente? Leia <a href='/o-que-e-cdb'>o que é CDB</a> e <a href='/o-que-e-lci'>o que é LCI</a>.</p>",
+    conclusion: `<h2>Conclusão</h2><p>CDB e LCI são produtos complementares — não concorrentes diretos. A melhor escolha depende da taxa disponível no mercado no momento da aplicação, do prazo e da sua necessidade de liquidez.</p><p>A regra de ouro: <strong>sempre compare rendimento líquido, nunca taxa bruta.</strong></p><p>Quer entender melhor cada produto separadamente? Leia <a href='/o-que-e-cdb'>o que é CDB</a> e <a href='/o-que-e-lci'>o que é LCI</a>.</p>`,
     faq: [
       {
         question: "CDB ou LCI: qual rende mais?",
@@ -366,10 +403,10 @@ export const blogArticles: Article[] = [
         initialInvestment: 10000,
         terms: [12],
         scenarios: [
-          { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-          { label: 'CDB 110% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true },
-          { label: 'LCI 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false },
-          { label: 'LCI 95% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: false }
+            { label: 'CDB 100% CDI líquido', rate: (cdi, selic) => cdi / 100, isTaxable: true },
+            { label: 'CDB 110% CDI líquido', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true },
+            { label: 'LCI 90% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false },
+            { label: 'LCI 95% CDI (isento)', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: false }
         ]
       },
       {
@@ -389,11 +426,11 @@ export const blogArticles: Article[] = [
         ]
       },
       {
-        type: 'html',
-        content: `<p><em>Simulação de rendimento líquido em 12 meses. (Referência: {{dataAtualizacao}})</em></p>`
+          type: 'html',
+          content: `<p><em>Simulação de rendimento líquido em 12 meses. (Referência: {{dataAtualizacao}})</em></p>`
       }
     ],
-    conclusion: "<h2>Conclusão</h2><p>LCI é uma excelente opção de renda fixa para quem tem um objetivo com prazo definido e pode abrir mão da liquidez imediata. A isenção de IR é uma vantagem real — mas só faz sentido quando a taxa oferecida é competitiva o suficiente para superar o rendimento líquido de outras opções.</p><p>A regra de ouro: sempre compare rendimento líquido, não taxa bruta. Uma LCI a {{lci90Rate}}% do CDI pode render menos que um CDB a {{cdb100Rate}}% do CDI no mesmo prazo.</p><p>Quer entender melhor essa comparação? <a href='/cdb-ou-lci'>Veja o comparativo completo entre CDB e LCI.</a></p>",
+    conclusion: `<h2>Conclusão</h2><p>LCI é uma excelente opção de renda fixa para quem tem um objetivo com prazo definido e pode abrir mão da liquidez imediata. A isenção de IR é uma vantagem real — mas só faz sentido quando a taxa oferecida é competitiva o suficiente para superar o rendimento líquido de outras opções.</p><p>A regra de ouro: sempre compare rendimento líquido, não taxa bruta. Uma LCI a {{lci90Rate}}% do CDI pode render menos que um CDB a {{cdb100Rate}}% do CDI no mesmo prazo.</p><p>Quer entender melhor essa comparação? <a href='/cdb-ou-lci'>Veja o comparativo completo entre CDB e LCI.</a></p>`,
     faq: [
       {
         question: "O que é LCI e como funciona?",
@@ -531,7 +568,7 @@ export const blogArticles: Article[] = [
         content: `<p><em>Simulação de rendimento líquido. (Referência: {{dataAtualizacao}})</em></p>`,
       },
     ],
-    conclusion: "<h2>Conclusão</h2><p>R$ 10.000 no Tesouro Selic rendem aproximadamente R$ 1.100 líquidos em 12 meses com a Selic a {{selicRate}}% ao ano — quase o dobro do que a poupança pagaria no mesmo período.</p><p>Para reserva de emergência e objetivos de curto prazo, o Tesouro Selic segue sendo a referência de segurança e liquidez no mercado brasileiro.</p><p>Quer entender melhor como funciona? <a href='/o-que-e-tesouro-direto'>Leia o guia completo sobre o Tesouro Direto.</a></p>",
+    conclusion: `<h2>Conclusão</h2><p>R$ 10.000 no Tesouro Selic rendem aproximadamente R$ 1.100 líquidos em 12 meses com a Selic a {{selicRate}}% ao ano — quase o dobro do que a poupança pagaria no mesmo período.</p><p>Para reserva de emergência e objetivos de curto prazo, o Tesouro Selic segue sendo a referência de segurança e liquidez no mercado brasileiro.</p><p>Quer entender melhor como funciona? <a href='/o-que-e-tesouro-direto'>Leia o guia completo sobre o Tesouro Direto.</a></p>`,
     faq: [
       {
         question: "Quanto rende R$ 10.000 no Tesouro Selic em 12 meses?",
@@ -598,7 +635,7 @@ export const blogArticles: Article[] = [
           content: `<p><em>Simulação de rendimento líquido em 12 meses. (Referência: {{dataAtualizacao}})</em></p>`
       }
     ],
-    conclusion: "<h2>Conclusão</h2><p>Para a maioria dos iniciantes, o caminho é simples: Tesouro Selic ou CDB de liquidez diária para a reserva de emergência, LCI/LCA para objetivos de médio prazo e Tesouro IPCA+ para o longo prazo.</p><p>Não existe o investimento perfeito — existe o produto certo para o objetivo certo. Comece simples, aprenda com a prática e evolua com o tempo.</p><p>Quer dar o primeiro passo? <a href='/como-comecar-a-investir'>Veja o guia completo de como começar a investir do zero.</a></p>",
+    conclusion: `<h2>Conclusão</h2><p>Para a maioria dos iniciantes, o caminho é simples: Tesouro Selic ou CDB de liquidez diária para a reserva de emergência, LCI/LCA para objetivos de médio prazo e Tesouro IPCA+ para o longo prazo.</p><p>Não existe o investimento perfeito — existe o produto certo para o objetivo certo. Comece simples, aprenda com a prática e evolua com o tempo.</p><p>Quer dar o primeiro passo? <a href='/como-comecar-a-investir'>Veja o guia completo de como começar a investir do zero.</a></p>`,
     seoTitle: 'Melhores Investimentos para Iniciantes em 2026',
     seoDescription: 'Conheça os melhores investimentos para iniciantes: Tesouro Selic, CDB, LCI e mais. Comparativo completo com segurança, liquidez, IR e como escolher o seu.',
     faq: [
@@ -820,7 +857,7 @@ export const blogArticles: Article[] = [
         content: `<p><em>(Referência: {{dataAtualizacao}})</em></p><p>Em 36 meses, o CDB a 100% do CDI rende mais que o dobro da poupança para cada R$ 1.000 investidos. Proporcionalmente ao valor aplicado, a diferença é significativa.</p><h2>Como maximizar o rendimento de R$ 1.000 no CDB</h2><p><strong>1. Escolha a maior taxa disponível dentro do seu prazo</strong><br>Compare CDBs de diferentes emissores na plataforma da sua corretora. Bancos menores costumam oferecer taxas mais altas — dentro do limite do FGC, o risco é controlado.</p><p><strong>2. Reinvista o rendimento</strong><br>Se não precisar do dinheiro, deixe o rendimento acumular. É exatamente o reinvestimento automático que cria o efeito dos juros compostos.</p>`
       }
     ],
-    conclusion: "<h2>Conclusão</h2><p>R$ 1.000 no CDB a 100% do CDI rende aproximadamente R$ 109 líquidos em 12 meses — contra R$ 62 na poupança no mesmo período. A diferença cresce com o tempo e com o valor investido.</p><p>Para começar, o mais importante é escolher um produto adequado ao seu objetivo, respeitar o prazo e manter a consistência dos aportes.</p><p>Quer entender melhor o CDB? <a href='/o-que-e-cdb'>Leia o guia completo sobre o CDB.</a> Ou <a href='/cdb-ou-poupanca'>veja a comparação completa entre CDB e poupança.</a></p>",
+    conclusion: `<h2>Conclusão</h2><p>R$ 1.000 no CDB a 100% do CDI rende aproximadamente R$ 109 líquidos em 12 meses — contra R$ 62 na poupança no mesmo período. A diferença cresce com o tempo e com o valor investido.</p><p>Para começar, o mais importante é escolher um produto adequado ao seu objetivo, respeitar o prazo e manter a consistência dos aportes.</p><p>Quer entender melhor o CDB? <a href='/o-que-e-cdb'>Leia o guia completo sobre o CDB.</a> Ou <a href='/cdb-ou-poupanca'>veja a comparação completa entre CDB e poupança.</a></p>`,
     faq: [
       {
         question: "Quanto rende R$ 1.000 no CDB em 12 meses?",
@@ -885,7 +922,7 @@ export const blogArticles: Article[] = [
     pillar: 'pillar-3-renda-variavel',
     cluster: 'fiis',
     tags: ["o que são FIIs", "fundos imobiliários", "FII como funciona", "FII renda mensal", "investir em FIIs"],
-    disclaimer: "Este conteúdo é educativo e não constitui recomendação de investimento. FIIs são renda variável — o preço das cotas oscila e rentabilidades passadas não garantem resultados futuros. Consulte um profissional certificado para orientação personalizada.",
+    disclaimer: defaultDisclaimer,
   },
   {
     slug: 'o-que-sao-etfs',
@@ -917,7 +954,7 @@ export const blogArticles: Article[] = [
     imageId: 'blog-fii-rendimento',
     content: [{
       type: 'html',
-      content: `<h1>Quanto rende FII por mês? Simulação com Dividend Yield e renda passiva</h1><div class='resumo-rapido'><ul><li>O rendimento mensal de FIIs é medido pelo Dividend Yield (DY) — rendimento anual dividido pelo preço da cota</li><li>FIIs brasileiros pagam em média 0,7% a 1,0% ao mês em rendimentos (DY médio de 8% a 12% ao ano)</li><li>Os rendimentos são isentos de IR para pessoa física</li><li>O valor distribuído varia todo mês — não é fixo como renda fixa</li><li>Para R$ 1.000 de renda mensal, você precisa de aproximadamente R$ 100.000 a R$ 140.000 investidos</li></ul></div><p>Uma das maiores atrações dos FIIs é a renda mensal. A ideia de receber dinheiro todo mês sem trabalhar para isso é poderosa — mas é importante entender como esse rendimento funciona antes de calcular metas.</p><p>Este guia mostra como calcular o rendimento mensal de FIIs, simulações com diferentes valores investidos e quanto você precisaria ter para atingir uma meta de renda.</p><h2>O que é Dividend Yield (DY)</h2><p>Dividend Yield é o indicador que mede o rendimento distribuído por um FII em relação ao preço atual da cota. É calculado assim:</p><p><strong>DY anual = (rendimentos distribuídos nos últimos 12 meses ÷ preço atual da cota) × 100</strong></p><p>Exemplo: FII com cota a R$ 100 que distribuiu R$ 10 nos últimos 12 meses tem DY de 10% ao ano — ou aproximadamente 0,83% ao mês.</p><p>O DY mensal é a forma mais prática de estimar o quanto você vai receber por cota a cada mês. Mas atenção: o rendimento varia todo mês conforme os resultados do fundo.</p><h2>Faixa de DY dos FIIs brasileiros</h2><p>Em março de 2026, a maioria dos FIIs brasileiros distribui entre 0,7% e 1,1% ao mês por cota. Em termos anuais, isso representa DY de 8% a 13%.</p><table><thead><tr><th>Tipo de FII</th><th>DY mensal típico</th><th>DY anual típico</th><th>Observação</th></tr></thead><tbody><tr><td><strong>FIIs de Papel (CRI)</strong></td><td>0,9% a 1,2%</td><td>11% a 14%</td><td>Mais atrelado ao CDI/IPCA — tende a ser mais previsível</td></tr><tr><td><strong>FIIs de Tijolo (shoppings/galpões)</strong></td><td>0,6% a 0,9%</td><td>7% a 11%</td><td>Depende de vacância e contratos de aluguel</td></tr><tr><td><strong>FOF (fundo de fundos)</strong></td><td>0,7% a 1,0%</td><td>8% a 12%</td><td>Diversificação automática entre FIIs</td></tr><tr><td><strong>FIIs Híbridos</strong></td><td>0,7% a 1,0%</td><td>8% a 12%</td><td>Mix de imóveis e títulos</td></tr></tbody></table><p><em>Referências de DY médio do mercado em março de 2026. Valores variam por fundo e momento do mercado. DY alto pode indicar cota barata por problemas no fundo — sempre analise antes de investir.</em></p><h2>Simulação: quanto rende por mês com diferentes valores investidos</h2><table><thead><tr><th>Valor investido</th><th>DY 0,7%/mês</th><th>DY 0,85%/mês</th><th>DY 1,0%/mês</th><th>DY 1,1%/mês</th></tr></thead><tbody><tr><td>R$ 10.000</td><td>R$ 70</td><td>R$ 85</td><td>R$ 100</td><td>R$ 110</td></tr><tr><td>R$ 25.000</td><td>R$ 175</td><td>R$ 213</td><td>R$ 250</td><td>R$ 275</td></tr><tr><td>R$ 50.000</td><td>R$ 350</td><td>R$ 425</td><td>R$ 500</td><td>R$ 550</td></tr><tr><td>R$ 100.000</td><td>R$ 700</td><td>R$ 850</td><td>R$ 1.000</td><td>R$ 1.100</td></tr><tr><td>R$ 150.000</td><td>R$ 1.050</td><td>R$ 1.275</td><td>R$ 1.500</td><td>R$ 1.650</td></tr><tr><td>R$ 200.000</td><td>R$ 1.400</td><td>R$ 1.700</td><td>R$ 2.000</td><td>R$ 2.200</td></tr></tbody></table><p><em>Simulação com DY constante para fins ilustrativos. O rendimento real varia todo mês conforme os resultados do fundo. Valores isentos de IR para pessoa física.</em></p><h2>Quanto investir para receber R$ 500, R$ 1.000 ou R$ 2.000 por mês</h2><p>A fórmula para calcular o patrimônio necessário para uma meta de renda é:</p><p><strong>Patrimônio necessário = meta mensal ÷ DY mensal</strong></p><table><thead><tr><th>Meta de renda mensal</th><th>Com DY de 0,7%/mês</th><th>Com DY de 0,85%/mês</th><th>Com DY de 1,0%/mês</th></tr></thead><tbody><tr><td>R$ 500/mês</td><td>R$ 71.429</td><td>R$ 58.824</td><td>R$ 50.000</td></tr><tr><td>R$ 1.000/mês</td><td>R$ 142.857</td><td>R$ 117.647</td><td>R$ 100.000</td></tr><tr><td>R$ 2.000/mês</td><td>R$ 285.714</td><td>R$ 235.294</td><td>R$ 200.000</td></tr><tr><td>R$ 5.000/mês</td><td>R$ 714.286</td><td>R$ 588.235</td><td>R$ 500.000</td></tr></tbody></table><p><em>Cálculo: patrimônio = meta ÷ DY. DY pode variar — use como referência de planejamento, não como garantia.</em></p><h2>O rendimento de FII é garantido?</h2><p>Não. Esse é o ponto mais importante para quem está começando.</p><p>Diferente da renda fixa — onde você sabe exatamente quanto vai receber — os rendimentos de FIIs variam todo mês. Um FII que pagou R$ 0,90 por cota em janeiro pode pagar R$ 0,75 em fevereiro e R$ 1,05 em março.</p><p>Os fatores que afetam o rendimento:</p><ul><li><strong>Vacância:</strong> imóveis vazios não geram aluguel — menos renda para distribuir</li><li><strong>Inadimplência:</strong> inquilinos que não pagam reduzem o caixa do fundo</li><li><strong>Vencimento de contratos:</strong> renovação com valores diferentes altera o fluxo de caixa</li><li><strong>Gestão do fundo:</strong> decisões de compra e venda de ativos impactam os resultados</li><li><strong>Cenário de juros:</strong> FIIs de papel são mais afetados pela Selic e pelo CDI</li></ul><h2>FII vs renda fixa: qual paga mais por mês?</h2><table><thead><tr><th>Produto</th><th>Rendimento mensal estimado (R$ 100k)</th><th>Previsibilidade</th><th>IR</th></tr></thead><tbody><tr><td>FII (DY 1,0% a.m.)</td><td>~R$ 1.000</td><td>Baixa — varia todo mês</td><td>Isento (rendimentos)</td></tr><tr><td>CDB 100% CDI</td><td>~R$ 960 líquidos/ano = R$ 80/mês</td><td>Alta — segue o CDI</td><td>15% a 22,5%</td></tr><tr><td>LCI 90% CDI</td><td>~R$ 1.020 líquidos/ano = R$ 85/mês</td><td>Alta — segue o CDI</td><td>Isento</td></tr><tr><td>Tesouro Selic</td><td>~R$ 1.169 líquidos/ano = R$ 97/mês</td><td>Alta — segue a Selic</td><td>15% a 22,5%</td></tr></tbody></table><p><em>Comparação para R$ 100.000 investidos. CDB, LCI e Tesouro Selic com Selic/CDI de 13,65-13,75% a.a. (Bacen/SGS, março de 2026). FII com DY de 1,0% ao mês — variável.</em></p><h2>Como montar uma carteira de FIIs para renda mensal</h2><p><strong>Diversifique entre tipos:</strong> combine FIIs de papel (mais previsíveis) com FIIs de tijolo de diferentes segmentos (shoppings, galpões, escritórios). Isso reduz o impacto de problemas em um único fundo.</p><p><strong>Diversifique entre gestores:</strong> não concentre tudo em um único gestor ou administradora.</p><p><strong>Verifique o histórico de distribuições:</strong> fundos com pelo menos 2 a 3 anos de distribuições consistentes oferecem mais previsibilidade.</p><p><strong>Atenção ao DY muito alto:</strong> DY acima de 1,3% ao mês pode indicar que a cota está barata por problemas no fundo — analise antes de investir.</p>`
+      content: `<h1>Quanto rende FII por mês? Simulação com Dividend Yield e renda passiva</h1><div class='resumo-rapido'><ul><li>O rendimento mensal de FIIs é medido pelo Dividend Yield (DY) — rendimento anual dividido pelo preço da cota</li><li>FIIs brasileiros pagam em média 0,7% a 1,0% ao mês em rendimentos (DY médio de 8% a 12% ao ano)</li><li>Os rendimentos são isentos de IR para pessoa física</li><li>O valor distribuído varia todo mês — não é fixo como renda fixa</li><li>Para R$ 1.000 de renda mensal, você precisa de aproximadamente R$ 100.000 a R$ 140.000 investidos</li></ul></div><p>Uma das maiores atrações dos FIIs é a renda mensal. A ideia de receber dinheiro todo mês sem trabalhar para isso é poderosa — mas é importante entender como esse rendimento funciona antes de calcular metas.</p><p>Este guia mostra como calcular o rendimento mensal de FIIs, simulações com diferentes valores investidos e quanto você precisaria ter para atingir uma meta de renda.</p><h2>O que é Dividend Yield (DY)</h2><p>Dividend Yield é o indicador que mede o rendimento distribuído por um FII em relação ao preço atual da cota. É calculado assim:</p><p><strong>DY anual = (rendimentos distribuídos nos últimos 12 meses ÷ preço atual da cota) × 100</strong></p><p>Exemplo: FII com cota a R$ 100 que distribuiu R$ 10 nos últimos 12 meses tem DY de 10% ao ano — ou aproximadamente 0,83% ao mês.</p><p>O DY mensal é a forma mais prática de estimar o quanto você vai receber por cota a cada mês. Mas atenção: o rendimento varia todo mês conforme os resultados do fundo.</p><h2>Faixa de DY dos FIIs brasileiros</h2><p>Em março de 2026, a maioria dos FIIs brasileiros distribui entre 0,7% e 1,1% ao mês por cota. Em termos anuais, isso representa DY de 8% a 13%.</p><table><thead><tr><th>Tipo de FII</th><th>DY mensal típico</th><th>DY anual típico</th><th>Observação</th></tr></thead><tbody><tr><td><strong>FIIs de Papel (CRI)</strong></td><td>0,9% a 1,2%</td><td>11% a 14%</td><td>Mais atrelado ao CDI/IPCA — tende a ser mais previsível</td></tr><tr><td><strong>FIIs de Tijolo (shoppings/galpões)</strong></td><td>0,6% a 0,9%</td><td>7% a 11%</td><td>Depende de vacância e contratos de aluguel</td></tr><tr><td><strong>FOF (fundo de fundos)</strong></td><td>0,7% a 1,0%</td><td>8% a 12%</td><td>Diversificação automática entre FIIs</td></tr><tr><td><strong>FIIs Híbridos</strong></td><td>0,7% a 1,0%</td><td>8% a 12%</td><td>Mix de imóveis e títulos</td></tr></tbody></table><p><em>Referências de DY médio do mercado em março de 2026. Valores variam por fundo e momento do mercado. DY alto pode indicar cota barata por problemas no fundo — sempre analise antes de investir.</em></p><h2>Simulação: quanto rende por mês com diferentes valores investidos</h2><table><thead><tr><th>Valor investido</th><th>DY 0,7%/mês</th><th>DY 0,85%/mês</th><th>DY 1,0%/mês</th><th>DY 1,1%/mês</th></tr></thead><tbody><tr><td>R$ 10.000</td><td>R$ 70</td><td>R$ 85</td><td>R$ 100</td><td>R$ 110</td></tr><tr><td>R$ 25.000</td><td>R$ 175</td><td>R$ 213</td><td>R$ 250</td><td>R$ 275</td></tr><tr><td>R$ 50.000</td><td>R$ 350</td><td>R$ 425</td><td>R$ 500</td><td>R$ 550</td></tr><tr><td>R$ 100.000</td><td>R$ 700</td><td>R$ 850</td><td>R$ 1.000</td><td>R$ 1.100</td></tr><tr><td>R$ 150.000</td><td>R$ 1.050</td><td>R$ 1.275</td><td>R$ 1.500</td><td>R$ 1.650</td></tr><tr><td>R$ 200.000</td><td>R$ 1.400</td><td>R$ 1.700</td><td>R$ 2.000</td><td>R$ 2.200</td></tr></tbody></table><p><em>Simulação com DY constante para fins ilustrativos. O rendimento real varia todo mês conforme os resultados do fundo. Valores isentos de IR para pessoa física.</em></p><h2>Quanto investir para receber R$ 500, R$ 1.000 ou R$ 2.000 por mês</h2><p>A fórmula para calcular o patrimônio necessário para uma meta de renda é:</p><p><strong>Patrimônio necessário = meta mensal ÷ DY mensal</strong></p><table><thead><tr><th>Meta de renda mensal</th><th>Com DY de 0,7%/mês</th><th>Com DY de 0,85%/mês</th><th>Com DY de 1,0%/mês</th></tr></thead><tbody><tr><td>R$ 500/mês</td><td>R$ 71.429</td><td>R$ 58.824</td><td>R$ 50.000</td></tr><tr><td>R$ 1.000/mês</td><td>R$ 142.857</td><td>R$ 117.647</td><td>R$ 100.000</td></tr><tr><td>R$ 2.000/mês</td><td>R$ 285.714</td><td>R$ 235.294</td><td>R$ 200.000</td></tr><tr><td>R$ 5.000/mês</td><td>R$ 714.286</td><td>R$ 588.235</td><td>R$ 500.000</td></tr></tbody></table><p><em>Cálculo: patrimônio = meta ÷ DY. DY pode variar — use como referência de planejamento, não como garantia.</em></p><h2>O rendimento de FII é garantido?</h2><p>Não. Esse é o ponto mais importante para quem está começando.</p><p>Diferente da renda fixa — onde você sabe exatamente quanto vai receber — os rendimentos de FIIs variam todo mês. Um FII que pagou R$ 0,90 por cota em janeiro pode pagar R$ 0,75 em fevereiro e R$ 1,05 em março.</p><p>Os fatores que afetam o rendimento:</p><ul><li><strong>Vacância:</strong> imóveis vazios não geram aluguel — menos renda para distribuir</li><li><strong>Inadimplência:</strong> inquilinos que não pagam reduzem o caixa do fundo</li><li><strong>Vencimento de contratos:</strong> renovação com valores diferentes altera o fluxo de caixa</li><li><strong>Gestão do fundo:</strong> decisões de compra e venda de ativos impactam os resultados</li><li><strong>Cenário de juros:</strong> FIIs de papel são mais afetados pela Selic e pelo CDI</li></ul><h2>FII vs renda fixa: qual paga mais por mês?</h2><table><thead><tr><th>Produto</th><th>Rendimento mensal estimado (R$ 100k)</th><th>Previsibilidade</th><th>IR</th></tr></thead><tbody><tr><td>FII (DY 1,0% a.m.)</td><td>~R$ 1.000</td><td>Baixa — varia todo mês</td><td>Isento (rendimentos)</td></tr><tr><td>CDB 100% CDI</td><td>~R$ 960 líquidos/ano = R$ 80/mês</td><td>Alta — segue o CDI</td><td>15% a 22,5%</td></tr><tr><td>LCI 90% CDI</td><td>~R$ 1.020 líquidos/ano = R$ 85/mês</td><td>Alta — segue o CDI</td><td>Isento</td></tr><tr><td>Tesouro Selic</td><td>~R$ 1.169 líquidos/ano = R$ 97/mês</td><td>Alta — segue a Selic</td><td>15% a 22,5%</td></tr></tbody></table><p><em>Comparação para R$ 100.000 investidos. CDB, LCI e Tesouro Selic com Selic/CDI de 13,65-13,75% a.a. (Bacen/SGS, março de 2026). FII com DY estimado de 1,0% ao mês — variável.</em></p><h2>Como montar uma carteira de FIIs para renda mensal</h2><p><strong>Diversifique entre tipos:</strong> combine FIIs de papel (mais previsíveis) com FIIs de tijolo de diferentes segmentos (shoppings, galpões, escritórios). Isso reduz o impacto de problemas em um único fundo.</p><p><strong>Diversifique entre gestores:</strong> não concentre tudo em um único gestor ou administradora.</p><p><strong>Verifique o histórico de distribuições:</strong> fundos com pelo menos 2 a 3 anos de distribuições consistentes oferecem mais previsibilidade.</p><p><strong>Atenção ao DY muito alto:</strong> DY acima de 1,3% ao mês pode indicar que a cota está barata por problemas no fundo — analise antes de investir.</p>`
     }],
     conclusion: "<h2>Conclusão</h2><p>FIIs são uma excelente porta de entrada para a renda variável e para o mercado imobiliário. Permitem diversificar a carteira e receber uma renda mensal isenta de IR com um valor inicial baixo.</p><p>Mas é fundamental entender que são renda variável: o preço das cotas oscila. Comece com uma parcela pequena do seu patrimônio, estude os fundos e entenda os riscos antes de aumentar a posição.</p><p>Quer saber quanto investir para atingir uma meta maior? <a href='/quanto-investir-para-ganhar-1000-por-mes'>Veja quanto investir para ganhar R$ 1.000 por mês.</a></p>",
     faq: [
@@ -993,7 +1030,7 @@ export const blogArticles: Article[] = [
         content: `<p><em>Simulação de rendimento líquido em 12 meses. (Referência: {{dataAtualizacao}})</em></p><h2>Imposto de Renda no CDB</h2><p>O Imposto de Renda no CDB incide apenas sobre o rendimento e segue a tabela regressiva. Quanto mais tempo o dinheiro fica investido, menor a alíquota:</p><table><thead><tr><th>Prazo da Aplicação</th><th>Alíquota de IR</th></tr></thead><tbody><tr><td>Até 180 dias</td><td>22,5%</td></tr><tr><td>De 181 a 360 dias</td><td>20%</td></tr><tr><td>De 361 a 720 dias</td><td>17,5%</td></tr><tr><td>Acima de 720 dias</td><td>15%</td></tr></tbody></table><p>A retenção é feita na fonte, no momento do resgate. Você não precisa se preocupar em emitir DARF.</p>`
       }
     ],
-    conclusion: "<h2>Conclusão</h2><p>CDB é um produto de renda fixa versátil, seguro e mais rentável que a poupança. É ideal tanto para a reserva de emergência (na modalidade de liquidez diária) quanto para objetivos de curto e médio prazo.</p><p>Para começar, busque um CDB de liquidez diária que pague pelo menos 100% do CDI em uma corretora ou banco digital. Com o tempo, você pode explorar opções com prazos maiores e taxas mais atrativas.</p><p>Quer comparar com outros produtos? Veja os comparativos <a href='/cdb-ou-poupanca'>CDB ou Poupança</a> e <a href='/tesouro-selic-ou-cdb'>Tesouro Selic ou CDB</a>.</p>",
+    conclusion: `<h2>Conclusão</h2><p>CDB é um produto de renda fixa versátil, seguro e mais rentável que a poupança. É ideal tanto para a reserva de emergência (na modalidade de liquidez diária) quanto para objetivos de curto e médio prazo.</p><p>Para começar, busque um CDB de liquidez diária que pague pelo menos 100% do CDI em uma corretora ou banco digital. Com o tempo, você pode explorar opções com prazos maiores e taxas mais atrativas.</p><p>Quer comparar com outros produtos? Veja os comparativos <a href='/cdb-ou-poupanca'>CDB ou Poupança</a> e <a href='/tesouro-selic-ou-cdb'>Tesouro Selic ou CDB</a>.</p>`,
     faq: [
       {
         question: "O que é CDB e qual o risco?",
@@ -1043,5 +1080,7 @@ export const blogArticles: Article[] = [
 
 
 
+
+    
 
     
