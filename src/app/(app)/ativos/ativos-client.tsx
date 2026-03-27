@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { AvailableTicker, AvailableTickersResponse } from "@/services/brapi";
+import type { AvailableTicker, TreasuryAsset, AvailableTickersResponse } from "@/services/brapi";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import {
   CardDescription,
@@ -13,6 +13,7 @@ import { List, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import TickerDetails from '@/components/ativos/ticker-details';
+import TreasuryList from '@/components/ativos/treasury-list';
 
 function TickerList({
   tickers,
@@ -69,6 +70,7 @@ export default function AtivosClient({ initialData }: AtivosClientProps) {
   const [fiis] = useState<AvailableTicker[]>(initialData.fiis);
   const [bdrs] = useState<AvailableTicker[]>(initialData.bdrs);
   const [cryptos] = useState<AvailableTicker[]>(initialData.cryptos || []);
+  const [treasuryAssets] = useState<TreasuryAsset[]>(initialData.treasuryAssets || []);
   const [filter, setFilter] = useState("");
 
   return (
@@ -79,7 +81,7 @@ export default function AtivosClient({ initialData }: AtivosClientProps) {
           Lista de Ativos Disponíveis
         </h1>
         <p className="text-muted-foreground">
-          Visualize e explore os ativos (ações, FIIs, BDRs e Criptomoedas) disponíveis. Clique em um ativo para ver mais detalhes.
+          Visualize e explore os ativos (ações, FIIs, BDRs, Criptomoedas e Tesouro Direto) disponíveis. Clique em um ativo para ver mais detalhes.
         </p>
       </header>
 
@@ -87,7 +89,7 @@ export default function AtivosClient({ initialData }: AtivosClientProps) {
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         <Input
           type="text"
-          placeholder="Buscar por ticker ou nome..."
+          placeholder="Buscar por ticker, nome ou título do tesouro..."
           className="w-full pl-10"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
@@ -95,11 +97,12 @@ export default function AtivosClient({ initialData }: AtivosClientProps) {
       </div>
 
       <Tabs defaultValue="stocks" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="stocks">Ações ({stocks.length})</TabsTrigger>
           <TabsTrigger value="fiis">FIIs ({fiis.length})</TabsTrigger>
           <TabsTrigger value="bdrs">BDRs ({bdrs.length})</TabsTrigger>
           <TabsTrigger value="cryptos">Criptos ({cryptos.length})</TabsTrigger>
+          <TabsTrigger value="treasury">Tesouro ({treasuryAssets.length})</TabsTrigger>
         </TabsList>
         <TabsContent value="stocks">
            <TickerList tickers={stocks} filter={filter} />
@@ -112,6 +115,9 @@ export default function AtivosClient({ initialData }: AtivosClientProps) {
         </TabsContent>
         <TabsContent value="cryptos">
            <TickerList tickers={cryptos} filter={filter} />
+        </TabsContent>
+        <TabsContent value="treasury">
+           <TreasuryList assets={treasuryAssets} filter={filter} />
         </TabsContent>
       </Tabs>
     </div>

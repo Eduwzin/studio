@@ -393,11 +393,36 @@ export interface AvailableTicker {
   sector?: string;
 }
 
+export interface TreasuryAssetEntry {
+  Título: string;
+  Vencimento: string;
+  "Código ISIN": string;
+  Provedor: string;
+  Horário: string;
+  "Fech D-1 (taxa % a.a.)": string;
+  "Última taxa (% a.a.)": string;
+  "Oferta compra": string;
+  "Oferta venda": string;
+}
+
+export interface TreasuryAsset {
+  titulo: string;
+  vencimento: string;
+  isin: string;
+  fechD1Taxa: string;
+  ultimaTaxa: string | null;
+  ofertaVenda: string | null;
+  ofertaCompra: string | null;
+  horario: string | null;
+  source: 'última taxa' | 'oferta venda' | 'oferta compra';
+}
+
 export interface AvailableTickersResponse {
   stocks: AvailableTicker[];
   fiis: AvailableTicker[];
   bdrs: AvailableTicker[];
   cryptos: AvailableTicker[];
+  treasuryAssets: TreasuryAsset[];
 }
 
 /**
@@ -474,17 +499,18 @@ export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
   };
 
   try {
-    const [stocks, fiis, bdrs, cryptos] = await Promise.all([
+    const [stocks, fiis, bdrs, cryptos, treasuryAssets] = await Promise.all([
       fetchTickers('stock'),
       fetchTickers('fund'), // 'fund' na API da Brapi corresponde a FIIs
       fetchTickers('bdr'),
-      fetchCryptoTickers()
+      fetchCryptoTickers(),
+      getTreasuryAssets()
     ]);
 
-    return { stocks, fiis, bdrs, cryptos };
+    return { stocks, fiis, bdrs, cryptos, treasuryAssets };
   } catch (error) {
     console.error("Falha geral ao buscar listas de tickers da Brapi:", error);
-    return { stocks: [], fiis: [], bdrs: [], cryptos: [] };
+    return { stocks: [], fiis: [], bdrs: [], cryptos: [], treasuryAssets: [] };
   }
 }
 
@@ -525,4 +551,89 @@ export async function getCryptoInfo(coin: string, currency: string = 'BRL'): Pro
         console.error(`Falha ao buscar detalhes da criptomoeda ${coin}:`, error);
         throw error;
     }
+}
+
+/**
+ * Busca a lista de ativos de tesouro direto (Tesouro Público).
+ * @returns Uma promessa que resolve para um array de TreasuryAsset agregados.
+ */
+export async function getTreasuryAssets(): Promise<TreasuryAsset[]> {
+  try {
+    const fs = await import('fs');
+    const path = await import('path');
+    
+    // Caminho para a pasta de tesouro direto
+    const treasuryDir = path.join(process.cwd(), 'src/data/tesouro-direto');
+    
+    // Listar arquivos na pasta
+    const files = fs.readdirSync(treasuryDir).filter(f => f.endsWith('.json'));
+    
+    if (files.length === 0) {
+      console.warn('Nenhum arquivo de tesouro direto encontrado em src/data/tesouro-direto');
+      return [];
+    }
+    
+    // Pegar o arquivo mais recente (assumindo nome com timestamp)
+    const latestFile = files.sort().pop();
+    if (!latestFile) {
+      return [];
+    }
+    
+    const filePath = path.join(treasuryDir, latestFile);
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+    const entries: TreasuryAssetEntry[] = JSON.parse(fileContent);
+    
+    // Agrupar por Título + Vencimento
+    const grouped = new Map<string, TreasuryAssetEntry[]>();
+    
+    for (const entry of entries) {
+      const key = `${entry.Título}|${entry.Vencimento}`;
+      if (!grouped.has(key)) {
+        grouped.set(key, []);
+      }
+      grouped.get(key)!.push(entry);
+    }
+    
+    // Agregar cada grupo em um TreasuryAsset
+    const assets: TreasuryAsset[] = [];
+    
+    for (const [, entryGroup] of grouped) {
+      // Usar a primeira entrada para obter dados comuns (todas devem ter mesmo D-1)
+      const firstEntry = entryGroup[0];
+      
+      // Encontrar a entrada mais recente com Última taxa válida
+      let selectedEntry = entryGroup.find(e => e["Última taxa (% a.a.)"] !== '-');
+      let source: 'última taxa' | 'oferta venda' | 'oferta compra' = 'última taxa';
+      
+      if (!selectedEntry) {
+        // Fallback para Oferta venda da entrada mais recente
+        selectedEntry = entryGroup[entryGroup.length - 1];
+        if (selectedEntry["Oferta venda"] !== '-') {
+          source = 'oferta venda';
+        } else {
+          source = 'oferta compra';
+        }
+      }
+      
+      assets.push({
+        titulo: firstEntry.Título,
+        vencimento: firstEntry.Vencimento,
+        isin: firstEntry["Código ISIN"],
+        fechD1Taxa: firstEntry["Fech D-1 (taxa % a.a.)"],
+        ultimaTaxa: selectedEntry["Última taxa (% a.a.)"] !== '-' ? selectedEntry["Última taxa (% a.a.)"] : null,
+        ofertaVenda: selectedEntry["Oferta venda"] !== '-' ? selectedEntry["Oferta venda"] : null,
+        ofertaCompra: selectedEntry["Oferta compra"] !== '-' ? selectedEntry["Oferta compra"] : null,
+        horario: selectedEntry.Horário !== '-' ? selectedEntry.Horário : null,
+        source
+      });
+    }
+    
+    // Ordenar por Título
+    assets.sort((a, b) => a.titulo.localeCompare(b.titulo));
+    
+    return assets;
+  } catch (error) {
+    console.error('Erro ao buscar ativos de tesouro direto:', error);
+    return [];
+  }
 }
