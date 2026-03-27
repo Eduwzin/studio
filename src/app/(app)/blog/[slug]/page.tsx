@@ -115,7 +115,8 @@ const RenderContentBlock = ({ block, cdiRate, selicRate, replacePlaceholders }: 
             const tableBlock = block as SimulationTableBlock;
             // Pré-processa os cenários no servidor para evitar passar funções para o componente cliente
             const processedScenarios = tableBlock.scenarios.map(scenario => ({
-                ...scenario,
+                label: scenario.label,
+                isTaxable: scenario.isTaxable,
                 annualRate: scenario.rate(cdiRate, selicRate), // Executa a função aqui
             }));
             
