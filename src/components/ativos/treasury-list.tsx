@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import type { TreasuryAsset } from "@/services/brapi";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { getTreasuryDisplayName, isTreasuryPostFixed, getTreasuryType } from "@/lib/utils";
+import { getTreasuryDisplayName, isTreasuryPostFixed, getTreasuryType, getTreasuryIndexPrefix } from "@/lib/utils";
 
 function formatDate(dateStr: string): string {
   // Esperado formato: DD/MM/YYYY
@@ -58,7 +58,7 @@ function TreasuryList({
                 <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider mb-1">Rentabilidade D-1</p>
                 <p className="text-lg font-bold">
                   {isTreasuryPostFixed(asset.titulo) 
-                    ? `SELIC + ${parseRate(asset.fechD1Taxa)}`
+                    ? `${getTreasuryIndexPrefix(asset.titulo)} + ${parseRate(asset.fechD1Taxa)}`
                     : parseRate(asset.fechD1Taxa)
                   }
                 </p>
@@ -75,7 +75,7 @@ function TreasuryList({
                   {asset.ultimaTaxa 
                     ? asset.source === 'última taxa' 
                       ? isTreasuryPostFixed(asset.titulo)
-                        ? `SELIC + ${parseRate(asset.ultimaTaxa)}`
+                        ? `${getTreasuryIndexPrefix(asset.titulo)} + ${parseRate(asset.ultimaTaxa)}`
                         : parseRate(asset.ultimaTaxa)
                       : parseRate(asset.ofertaVenda || asset.ofertaCompra)
                     : 'N/A'

@@ -22,12 +22,26 @@ export function getTreasuryDisplayName(titulo: string): string {
 }
 
 /**
- * Verifica se um tesouro é pós-fixado (rendimento acompanha SELIC)
+ * Verifica se um tesouro é pós-fixado (rendimento acompanha um índice: SELIC, IPCA, IGP-M)
  * @param titulo - Código do tesouro
- * @returns true se é pós-fixado (LFT), false caso contrário
+ * @returns true se é pós-fixado (LFT, NTN-B, NTN-C), false caso contrário
  */
 export function isTreasuryPostFixed(titulo: string): boolean {
-  return titulo === 'LFT';
+  return ['LFT', 'NTN-B', 'NTN-C'].includes(titulo);
+}
+
+/**
+ * Retorna o prefixo do índice para tesouros pós-fixados
+ * @param titulo - Código do tesouro
+ * @returns Prefixo do índice (ex: "SELIC", "IPCA", "IGP-M") ou string vazia se prefixado
+ */
+export function getTreasuryIndexPrefix(titulo: string): string {
+  const prefixMap: Record<string, string> = {
+    'LFT': 'SELIC',
+    'NTN-B': 'IPCA',
+    'NTN-C': 'IGP-M',
+  };
+  return prefixMap[titulo] || '';
 }
 
 /**
