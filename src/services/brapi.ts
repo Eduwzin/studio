@@ -437,9 +437,8 @@ export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
         }
   
         // Ajuste na URL: Se for bdr, usamos type=stock na API
-        const apiType = type === 'bdr' ? '' : type;
-        const url = `${BRAPI_API_BASE_URL}/quote/list?token=${BRAPI_API_TOKEN}&type=${apiType}`;
-        const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache 24h
+        const url = `${BRAPI_API_BASE_URL}/quote/list?token=${BRAPI_API_TOKEN}&type=${type}`;
+        const response = await fetch(url, { next: { revalidate: 1 } }); // Cache 24h
         if (!response.ok) {
           console.error(`Erro na API da Brapi para o tipo ${type}: ${response.statusText}`);
           return [];
@@ -450,12 +449,11 @@ export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
         let stocks = data.stocks || [];
   
         // Filtro específico para BDRs:
-        // A API retorna BDRs com ticker.type === 'dr' dentro da listagem de stocks
         if (type === 'bdr') {
-          stocks = stocks.filter((ticker: any) => ticker.type === 'dr');
+          stocks = stocks.filter((ticker: any) => ticker.type === 'bdr');
         } else if (type === 'stock') {
           // Opcional: Garantir que na lista de 'stock' não venham os BDRs (dr)
-          stocks = stocks.filter((ticker: any) => ticker.type !== 'dr');
+          stocks = stocks.filter((ticker: any) => ticker.type !== 'bdr');
         }
         return stocks.map((ticker: any) => ({
           stock: ticker.stock,

@@ -390,6 +390,247 @@ export const blogArticles: Article[] = [
     "secondary": { "text": "Veja o guia completo de renda fixa", "url": "/guia-renda-fixa" }
   }
 },
+{
+  "slug": "quanto-rende-10000-no-tesouro-selic",
+  "title": "Quanto rende R$ 10.000 no Tesouro Selic",
+  "excerpt": "Veja quanto rende R$ 10.000 no Tesouro Selic em 1, 6, 12 e 24 meses. Simulação com rendimento líquido após IR, comparação com poupança e CDB.",
+  "seoTitle": "Quanto rende R$ 10.000 no Tesouro Selic? Simulação 2026",
+  "seoDescription": "Simule quanto rende R$ 10.000 no Tesouro Selic em 1, 6, 12 e 24 meses. Veja o rendimento líquido após IR, comparação com poupança e CDB atualizado.",
+  "category": "renda-fixa",
+  "subcategory": "tesouro-direto",
+  "pillar": "pillar-2-renda-fixa",
+  "cluster": "tesouro-direto",
+  "readingTime": "8 min",
+  "lastUpdated": "2026-03-20",
+  "author": "Equipe Bigwall",
+  "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento. As simulações assumem taxa constante para fins ilustrativos — o rendimento real pode variar.",
+  "content": [
+    {
+      "type": "html",
+      "content": "<h1>Quanto rende R$ 10.000 no Tesouro Selic? Simulação com rendimento líquido</h1><div class='resumo-rapido'><ul><li>Com Selic a {{selicRate}}% ao ano, R$ 10.000 no Tesouro Selic rendem bem acima da poupança em todos os prazos</li><li>Para valores até R$ 10.000, a taxa de custódia da B3 é isenta</li><li>Tem IR regressivo — quanto mais tempo investido, menor a alíquota</li><li>Simulações assumem taxa constante para fins ilustrativos</li></ul></div><p>Esta simulação mostra o rendimento de R$ 10.000 no Tesouro Selic em diferentes prazos. Referência: Selic de {{selicRate}}% ao ano e CDI de {{cdiRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}}).</p><h2>Simulação: quanto rende R$ 10.000 no Tesouro Selic</h2>"
+    },
+    {
+      "type": "simulationTable",
+      "initialInvestment": 10000,
+      "terms": [1, 3, 6, 12, 24, 36],
+      "scenarios": [
+        { "label": "Tesouro Selic ({{selicRate}}% a.a.)", "rateLogic": "selic/100", "isTaxable": true }
+      ]
+    },
+    {
+      "type": "html",
+      "content": "<h2>Tesouro Selic vs Poupança</h2>"
+    },
+    {
+      "type": "simulationTable",
+      "initialInvestment": 10000,
+      "terms": [6, 12, 24, 36],
+      "showDifference": true,
+      "scenarios": [
+        { "label": "Poupança ({{poupancaRate}}% a.a.)", "rateLogic": "selic>8.5?0.0617:selic*0.70", "isTaxable": false },
+        { "label": "Tesouro Selic líquido", "rateLogic": "selic/100", "isTaxable": true }
+      ]
+    },
+    {
+      "type": "html",
+      "content": "<h2>Tesouro Selic vs CDB</h2>"
+    },
+    {
+      "type": "simulationTable",
+      "initialInvestment": 10000,
+      "terms": [6, 12, 24],
+      "scenarios": [
+        { "label": "Tesouro Selic líquido", "rateLogic": "selic/100", "isTaxable": true },
+        { "label": "CDB 100% CDI líquido", "rateLogic": "cdi/100", "isTaxable": true },
+        { "label": "CDB 110% CDI líquido", "rateLogic": "cdi*1.10", "isTaxable": true }
+      ]
+    },
+    {
+      "type": "html",
+      "content": "<h2>Vale a pena investir R$ 10.000 no Tesouro Selic?</h2><p>Para reserva de emergência: sim. O Tesouro Selic é o produto mais indicado — liquidez diária, risco mínimo e rendimento muito acima da poupança ({{poupancaRate}}% a.a.).</p><p>Para médio e longo prazo: o Tesouro Selic é uma boa base, mas CDBs com taxas mais altas, LCI/LCA ou Tesouro IPCA+ podem oferecer rendimento maior.</p><h2>Conclusão</h2><p>R$ 10.000 no Tesouro Selic com a Selic a {{selicRate}}% ao ano rendem aproximadamente o dobro da poupança em qualquer prazo — mesmo após o IR.</p><p><a href='/o-que-e-tesouro-direto'>Leia o guia completo sobre o Tesouro Direto.</a> Ou <a href='/tesouro-selic-ou-cdb'>compare Tesouro Selic com CDB.</a></p><p><em>Referência: Selic de {{selicRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
+    }
+  ],
+  "faq": [
+    { "question": "Quanto rende R$ 10.000 no Tesouro Selic em 12 meses?", "answer": "Com a Selic a {{selicRate}}% ao ano, R$ 10.000 no Tesouro Selic rendem significativamente mais que a poupança em 12 meses, após IR de 20%." },
+    { "question": "Tesouro Selic rende mais que a poupança?", "answer": "Sim, em todos os cenários com Selic acima de 8,5% ao ano. Com a Selic atual de {{selicRate}}%, o Tesouro Selic rende aproximadamente o dobro da poupança no líquido." },
+    { "question": "Tesouro Selic tem taxa de custódia?", "answer": "Sim, 0,20% ao ano. Porém investimentos de até R$ 10.000 no Tesouro Selic são isentos dessa taxa." },
+    { "question": "Posso perder dinheiro no Tesouro Selic?", "answer": "Praticamente não. O Tesouro Selic sobe todos os dias acompanhando a Selic. Mesmo em resgates antecipados, a chance de perda é extremamente baixa." },
+    { "question": "Tesouro Selic ou CDB: qual é melhor?", "answer": "Os dois têm rendimento muito próximo. A diferença principal é a garantia: Tesouro é garantido pelo Governo Federal sem limite. CDB tem FGC até R$ 250.000 por instituição." }
+  ],
+  "internalLinks": [
+    { "anchor": "veja o guia completo do Tesouro Direto", "slug": "o-que-e-tesouro-direto" },
+    { "anchor": "compare Tesouro Selic e CDB", "slug": "tesouro-selic-ou-cdb" },
+    { "anchor": "reserva de emergência: quanto guardar", "slug": "reserva-de-emergencia" },
+    { "anchor": "guia completo de renda fixa", "slug": "guia-renda-fixa" }
+  ],
+  "cta": {
+    "primary": { "text": "Veja o guia completo do Tesouro Direto", "url": "/o-que-e-tesouro-direto" },
+    "secondary": { "text": "Compare Tesouro Selic com CDB", "url": "/tesouro-selic-ou-cdb" }
+  }
+},
+{
+  "slug": "cdb-ou-lci",
+  "title": "CDB ou LCI: quando a isenção compensa?",
+  "excerpt": "CDB tem IR, LCI é isenta — mas isso não significa que LCI rende mais. Veja como comparar corretamente pelo rendimento líquido e quando cada um compensa.",
+  "seoTitle": "CDB ou LCI: quando a isenção de IR compensa? 2026",
+  "seoDescription": "CDB ou LCI: descubra quando a isenção de IR da LCI realmente compensa. Comparativo com tabela de rendimento líquido, exemplos práticos e checklist.",
+  "category": "renda-fixa",
+  "subcategory": "comparativos",
+  "pillar": "pillar-2-renda-fixa",
+  "cluster": "comparativos-renda-fixa",
+  "readingTime": "9 min",
+  "lastUpdated": "2026-03-20",
+  "author": "Equipe Bigwall",
+  "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento. Rentabilidades são referências e variam conforme o produto e o emissor.",
+  "content": [
+    {
+      "type": "html",
+      "content": "<h1>CDB ou LCI: quando a isenção de IR realmente compensa?</h1><div class='resumo-rapido'><ul><li>LCI é isenta de IR para pessoa física — CDB tem IR de 15% a 22,5%</li><li>Isenção não garante que LCI rende mais — depende da taxa e do prazo</li><li>A comparação correta é sempre pelo rendimento líquido</li><li>LCI tem carência mínima de 90 dias — CDB pode ter liquidez diária</li><li>CDI atual: {{cdiRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}})</li></ul></div><p>A dúvida entre CDB e LCI é uma das mais comuns em renda fixa. A isenção de IR da LCI é uma vantagem real — mas só compensa quando a taxa oferecida é competitiva o suficiente.</p><h2>Diferenças principais entre CDB e LCI</h2><table><thead><tr><th>Característica</th><th>CDB</th><th>LCI</th></tr></thead><tbody><tr><td>IR para PF</td><td>15% a 22,5% sobre rendimento</td><td>Isento</td></tr><tr><td>FGC</td><td>Até R$ 250k por CPF/instituição</td><td>Até R$ 250k por CPF/instituição</td></tr><tr><td>Liquidez</td><td>Pode ter liquidez diária</td><td>Carência mínima 90 dias</td></tr><tr><td>Valor mínimo típico</td><td>A partir de R$ 1</td><td>Geralmente R$ 1.000+</td></tr><tr><td>IR para PJ</td><td>Sim</td><td>Sim (isenção só para PF)</td></tr></tbody></table><h2>Como comparar corretamente</h2><p>Fórmula: <strong>Taxa LCI equivalente = Taxa CDB × (1 — alíquota IR)</strong></p><p>Exemplo com CDI a {{cdiRate}}% ao ano e IR de 15% (acima de 720 dias): um CDB a 100% do CDI equivale a uma LCI de 85% do CDI. Se a LCI pagar acima de 85% do CDI, ela vence no líquido.</p><h2>Simulação prática: R$ 10.000 em CDB vs LCI</h2>"
+    },
+    {
+      "type": "simulationTable",
+      "initialInvestment": 10000,
+      "terms": [12],
+      "scenarios": [
+        { "label": "CDB 100% CDI líquido", "rateLogic": "cdi/100", "isTaxable": true },
+        { "label": "LCI 90% CDI (isento)", "rateLogic": "cdi*0.90", "isTaxable": false },
+        { "label": "CDB 110% CDI líquido", "rateLogic": "cdi*1.10", "isTaxable": true },
+        { "label": "LCI 95% CDI (isento)", "rateLogic": "cdi*0.95", "isTaxable": false }
+      ]
+    },
+    {
+      "type": "html",
+      "content": "<p><em>Referência: CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}). Sempre compare rendimento líquido.</em></p><h2>Quando a LCI compensa mais que o CDB</h2><ul><li>A taxa da LCI está acima do ponto de equivalência</li><li>O prazo é curto (até 360 dias) — IR do CDB é mais alto nesses prazos</li><li>Você não precisa de liquidez imediata</li></ul><h2>Quando o CDB compensa mais</h2><ul><li>A taxa do CDB está significativamente acima do ponto de equivalência</li><li>Você precisa de liquidez imediata — CDB de liquidez diária resolve, LCI não</li><li>O valor mínimo da LCI está acima do que você quer investir</li><li>Você é pessoa jurídica (LCI não é isenta para PJ)</li></ul><h2>Checklist de decisão em 60 segundos</h2><ul><li>Pode deixar o dinheiro por pelo menos 90 dias? Se não → <strong>CDB liquidez diária</strong></li><li>A LCI paga acima do ponto de equivalência? Se sim → <strong>LCI</strong></li><li>Você é PJ? → <strong>CDB</strong></li><li>O CDB disponível paga acima de 110% do CDI? → <strong>compare com a tabela antes de decidir</strong></li></ul><h2>Conclusão</h2><p>A regra de ouro: <strong>sempre compare rendimento líquido, nunca taxa bruta.</strong></p><p>Quer entender melhor cada produto? <a href='/o-que-e-cdb'>O que é CDB</a> e <a href='/o-que-e-lci'>o que é LCI.</a></p><p><em>Referência: CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
+    }
+  ],
+  "faq": [
+    { "question": "CDB ou LCI: qual rende mais?", "answer": "Depende da taxa oferecida. Compare sempre pelo rendimento líquido. LCI é isenta de IR, mas um CDB com taxa suficientemente alta pode superar a LCI." },
+    { "question": "Qual a principal diferença entre CDB e LCI?", "answer": "IR e liquidez. CDB tem IR de 15% a 22,5%, LCI é isenta para PF. CDB pode ter liquidez diária, LCI tem carência mínima de 90 dias." },
+    { "question": "Como calcular o ponto de equivalência entre CDB e LCI?", "answer": "Taxa LCI equivalente = taxa CDB × (1 - alíquota IR). Exemplo: CDB a 100% do CDI com IR de 20% equivale a LCI de 80% do CDI." },
+    { "question": "LCI é isenta de IR para pessoa jurídica?", "answer": "Não. A isenção se aplica apenas para pessoa física. Empresas pagam IR normalmente sobre rendimentos de LCI." },
+    { "question": "LCI tem FGC?", "answer": "Sim. Até R$ 250.000 por CPF por instituição, com limite global de R$ 1.000.000 renovável a cada 4 anos." }
+  ],
+  "internalLinks": [
+    { "anchor": "o que é CDB e como funciona", "slug": "o-que-e-cdb" },
+    { "anchor": "o que é LCI e como funciona", "slug": "o-que-e-lci" },
+    { "anchor": "guia completo de renda fixa", "slug": "guia-renda-fixa" },
+    { "anchor": "compare Tesouro Selic e CDB", "slug": "tesouro-selic-ou-cdb" },
+    { "anchor": "como começar a investir do zero", "slug": "como-comecar-a-investir" }
+  ],
+  "cta": {
+    "primary": { "text": "Entenda o que é CDB", "url": "/o-que-e-cdb" },
+    "secondary": { "text": "Entenda o que é LCI", "url": "/o-que-e-lci" }
+  }
+},
+{
+  "slug": "reserva-de-emergencia",
+  "title": "Reserva de emergência: quanto guardar",
+  "excerpt": "Saiba quanto guardar na reserva de emergência, onde deixar com liquidez e segurança, e por que ela deve vir antes de qualquer investimento.",
+  "seoTitle": "Reserva de Emergência: quanto guardar e onde investir 2026",
+  "seoDescription": "Saiba quanto guardar na reserva de emergência, onde deixar o dinheiro com liquidez e segurança, e por que ela deve vir antes de qualquer investimento.",
+  "category": "educacao-financeira",
+  "subcategory": "reserva-de-emergencia",
+  "pillar": "pillar-4-educacao-financeira",
+  "cluster": "reserva-de-emergencia",
+  "readingTime": "9 min",
+  "lastUpdated": "2026-03-20",
+  "author": "Equipe Bigwall",
+  "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento. Os valores e prazos são referências gerais — a situação ideal varia conforme o perfil.",
+  "content": [
+    {
+      "type": "html",
+      "content": "<h1>Reserva de emergência: quanto guardar, onde deixar e como montar a sua</h1><div class='resumo-rapido'><ul><li>Reserva de emergência é o dinheiro separado para imprevistos — não para investir, mas para proteger</li><li>O valor ideal é de 3 a 6 meses de despesas (6 a 12 meses para autônomos e MEIs)</li><li>Precisa ter liquidez imediata — resgate em até 1 dia útil</li><li>Melhores produtos: Tesouro Selic e CDB de liquidez diária</li><li>Monte a reserva antes de qualquer outro investimento — sem exceção</li></ul></div><p>Reserva de emergência é o alicerce de qualquer vida financeira saudável. Sem ela, qualquer imprevisto pode destruir um planejamento que levou anos para construir.</p><h2>O que é reserva de emergência</h2><p>É um dinheiro separado, de fácil acesso, destinado exclusivamente a cobrir imprevistos ou períodos de perda de renda. A prioridade não é rentabilidade máxima — é segurança e liquidez.</p><h2>Quanto guardar</h2><table><thead><tr><th>Perfil</th><th>Reserva recomendada</th><th>Motivo</th></tr></thead><tbody><tr><td>CLT com renda estável</td><td>3 a 6 meses de despesas</td><td>Tem FGTS e seguro-desemprego</td></tr><tr><td>Autônomo ou freelancer</td><td>6 a 12 meses</td><td>Renda variável, sem proteções trabalhistas</td></tr><tr><td>MEI ou empresário</td><td>6 a 12 meses</td><td>Receita incerta</td></tr><tr><td>Com dependentes financeiros</td><td>6 meses ou mais</td><td>Maior responsabilidade</td></tr></tbody></table><p>Fórmula: <strong>Reserva ideal = despesas mensais × número de meses recomendado</strong></p><p>Exemplo: despesas de R$ 4.000/mês com perfil CLT → reserva ideal entre R$ 12.000 e R$ 24.000.</p><h2>Onde deixar a reserva de emergência</h2><p>O produto ideal precisa ter: liquidez diária, segurança e rendimento acima da poupança ({{poupancaRate}}% a.a.). Com a Selic a {{selicRate}}% ao ano, o Tesouro Selic e o CDB de liquidez diária rendem muito mais com a mesma segurança.</p>"
+    },
+    {
+      "type": "simulationTable",
+      "initialInvestment": 10000,
+      "terms": [12],
+      "scenarios": [
+        { "label": "Poupança ({{poupancaRate}}% a.a.)", "rateLogic": "selic>8.5?0.0617:selic*0.70", "isTaxable": false },
+        { "label": "Tesouro Selic", "rateLogic": "selic/100", "isTaxable": true },
+        { "label": "CDB liquidez diária (100% CDI)", "rateLogic": "cdi/100", "isTaxable": true }
+      ]
+    },
+    {
+      "type": "html",
+      "content": "<p><em>Referência: Selic de {{selicRate}}% a.a. e CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p><h2>Tesouro Selic ou CDB para reserva?</h2><table><thead><tr><th>Critério</th><th>Tesouro Selic</th><th>CDB liquidez diária</th></tr></thead><tbody><tr><td>Garantia</td><td>Governo Federal (sem limite)</td><td>FGC até R$ 250k por instituição</td></tr><tr><td>Resgate</td><td>D+1 (1 dia útil)</td><td>D+0 ou D+1</td></tr><tr><td>Valor mínimo</td><td>~R$ 30</td><td>A partir de R$ 1</td></tr><tr><td>Isenção custódia</td><td>Sim, até R$ 10.000</td><td>Não se aplica</td></tr></tbody></table><p>Para reservas acima de R$ 250.000, o Tesouro Selic é mais seguro. Para valores menores, os dois são equivalentes.</p><h2>Como montar do zero</h2><ol><li>Calcule seu número: despesas mensais × meses recomendados</li><li>Abra conta em corretora com Tesouro Selic ou CDB de liquidez diária</li><li>Defina um aporte mensal fixo</li><li>Automatize a transferência no dia do salário</li><li>Não mexa até uma emergência real</li></ol><h2>Conclusão</h2><p>Monte a reserva antes de qualquer investimento. Use Tesouro Selic ou CDB de liquidez diária. Com a Selic a {{selicRate}}% ao ano, os dois rendem muito mais que a poupança com a mesma segurança.</p><p><a href='/como-comecar-a-investir'>Veja como começar a investir do zero.</a></p><p><em>Referência: Selic {{selicRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
+    }
+  ],
+  "faq": [
+    { "question": "Quanto devo ter de reserva de emergência?", "answer": "De 3 a 6 meses de despesas para CLT. Para autônomos e MEIs, de 6 a 12 meses. Fórmula: despesas mensais × número de meses recomendado." },
+    { "question": "Onde deixar a reserva de emergência?", "answer": "Tesouro Selic ou CDB de liquidez diária. Os dois têm liquidez em até 1 dia útil e rendem muito acima da poupança." },
+    { "question": "Posso investir a reserva em ações ou FIIs?", "answer": "Não. Renda variável oscila — você pode ser forçado a vender em queda. A reserva deve estar em renda fixa com liquidez diária." },
+    { "question": "Tesouro Selic ou CDB para reserva de emergência?", "answer": "Os dois são ótimos. Para valores acima de R$ 250.000, Tesouro Selic é mais seguro. Para valores menores, os dois são equivalentes." },
+    { "question": "Posso usar a reserva para aproveitar uma oportunidade de investimento?", "answer": "Não. Reserva é para emergências — não para oportunidades. Crie um objetivo separado para isso." }
+  ],
+  "internalLinks": [
+    { "anchor": "como começar a investir do zero", "slug": "como-comecar-a-investir" },
+    { "anchor": "o que é Tesouro Selic", "slug": "o-que-e-tesouro-direto" },
+    { "anchor": "o que é CDB", "slug": "o-que-e-cdb" },
+    { "anchor": "compare Tesouro Selic e CDB", "slug": "tesouro-selic-ou-cdb" },
+    { "anchor": "melhores investimentos para iniciantes", "slug": "melhores-investimentos-para-iniciantes" }
+  ],
+  "cta": {
+    "primary": { "text": "Veja como começar a investir do zero", "url": "/como-comecar-a-investir" },
+    "secondary": { "text": "Compare Tesouro Selic e CDB", "url": "/tesouro-selic-ou-cdb" }
+  }
+},
+{
+  "slug": "melhores-investimentos-para-iniciantes",
+  "title": "Melhores Investimentos para Iniciantes em 2026",
+  "excerpt": "Quais são os melhores investimentos para quem está começando? Veja as opções mais indicadas com segurança, liquidez e rendimento acima da poupança.",
+  "seoTitle": "Melhores Investimentos para Iniciantes em 2026",
+  "seoDescription": "Conheça os melhores investimentos para iniciantes: Tesouro Selic, CDB, LCI e mais. Comparativo completo com segurança, liquidez, IR e rendimento.",
+  "category": "investimentos",
+  "subcategory": "para-iniciantes",
+  "pillar": "pillar-1-investimentos",
+  "cluster": "comecar-a-investir",
+  "readingTime": "11 min",
+  "lastUpdated": "2026-03-20",
+  "author": "Equipe Bigwall",
+  "content": [
+    {
+      "type": "html",
+      "content": "<h1>Melhores investimentos para iniciantes: opções seguras, rentáveis e acessíveis</h1><div class='resumo-rapido'><ul><li>Para iniciantes, segurança e liquidez vêm antes de rentabilidade máxima</li><li>Os melhores pontos de partida são Tesouro Selic e CDB de liquidez diária</li><li>Poupança ({{poupancaRate}}% a.a.) não é recomendada — existem opções mais seguras com rendimento maior</li><li>Monte a reserva de emergência antes de qualquer investimento</li><li>Compare sempre pelo rendimento líquido — não taxa bruta</li></ul></div><p>Não existe o melhor investimento universal — existe o produto certo para o seu objetivo. Para iniciantes, o caminho é começar com produtos simples, seguros e com boa liquidez.</p><h2>O que um bom investimento para iniciantes precisa ter</h2><table><thead><tr><th>Critério</th><th>Por que importa</th></tr></thead><tbody><tr><td>Segurança</td><td>Risco de perda deve ser baixo</td></tr><tr><td>Liquidez</td><td>Poder resgatar sem penalidade</td></tr><tr><td>Simplicidade</td><td>Fácil de entender e acompanhar</td></tr><tr><td>Rendimento acima da poupança</td><td>Não faz sentido ter risco para render igual à poupança</td></tr><tr><td>Acessibilidade</td><td>Valor mínimo baixo para começar com o que tem</td></tr></tbody></table><h2>Comparativo dos melhores produtos para iniciantes</h2>"
+    },
+    {
+      "type": "simulationTable",
+      "initialInvestment": 10000,
+      "terms": [12],
+      "scenarios": [
+        { "label": "Poupança", "rateLogic": "selic>8.5?0.0617:selic*0.70", "isTaxable": false },
+        { "label": "Tesouro Selic", "rateLogic": "selic/100", "isTaxable": true },
+        { "label": "CDB 100% CDI", "rateLogic": "cdi/100", "isTaxable": true },
+        { "label": "LCI 90% CDI", "rateLogic": "cdi*0.90", "isTaxable": false },
+        { "label": "LCI 95% CDI", "rateLogic": "cdi*0.95", "isTaxable": false },
+        { "label": "CDB 110% CDI", "rateLogic": "cdi*1.10", "isTaxable": true }
+      ]
+    },
+    {
+      "type": "html",
+      "content": "<p><em>Referência: Selic de {{selicRate}}% a.a. e CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}). Sempre compare rendimento líquido.</em></p><h2>Por que a poupança não é recomendada</h2><p>A poupança rende apenas {{poupancaRate}}% ao ano com a Selic atual de {{selicRate}}% — menos da metade do Tesouro Selic ou CDB de liquidez diária. Existem alternativas com a mesma segurança (FGC) e rendimento muito superior.</p><h2>Como escolher o melhor para o seu caso</h2><p><strong>Tem reserva de emergência?</strong> Não → comece pelo Tesouro Selic ou CDB de liquidez diária.<br><strong>Prazo menor que 1 ano?</strong> → Tesouro Selic ou CDB diário.<br><strong>Prazo de 1 a 3 anos?</strong> → LCI/LCA ou CDB com prazo.<br><strong>Longo prazo?</strong> → Tesouro IPCA+ ou mix renda fixa e variável.</p><h2>Conclusão</h2><p>Para a maioria dos iniciantes: Tesouro Selic ou CDB para reserva de emergência, LCI/LCA para médio prazo e Tesouro IPCA+ para longo prazo.</p><p><a href='/como-comecar-a-investir'>Veja o guia completo de como começar a investir.</a></p><p><em>Referência: Selic {{selicRate}}% a.a., CDI {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
+    }
+  ],
+  "faq": [
+    { "question": "Qual o melhor investimento para quem está começando?", "answer": "Tesouro Selic e CDB de liquidez diária são os melhores pontos de partida — seguros, acessíveis e com rendimento muito acima da poupança." },
+    { "question": "Quanto preciso para começar a investir?", "answer": "Você pode começar com menos de R$ 100. O Tesouro Selic aceita a partir de R$ 30 e alguns CDBs aceitam R$ 1 em corretoras digitais." },
+    { "question": "Poupança é boa para iniciantes?", "answer": "Não. Com a Selic a {{selicRate}}% ao ano, a poupança rende {{poupancaRate}}% ao ano — menos da metade do Tesouro Selic ou CDB." },
+    { "question": "LCI é boa para iniciantes?", "answer": "Sim, para objetivos com prazo acima de 90 dias. Não é indicada para reserva de emergência pela carência mínima." },
+    { "question": "Devo começar pela renda fixa ou variável?", "answer": "Renda fixa. Monte a reserva de emergência, entenda os produtos e só então explore renda variável com uma parcela pequena." }
+  ],
+  "internalLinks": [
+    { "anchor": "como começar a investir do zero", "slug": "como-comecar-a-investir" },
+    { "anchor": "reserva de emergência", "slug": "reserva-de-emergencia" },
+    { "anchor": "o que é Tesouro Direto", "slug": "o-que-e-tesouro-direto" },
+    { "anchor": "o que é CDB", "slug": "o-que-e-cdb" },
+    { "anchor": "o que é LCI", "slug": "o-que-e-lci" },
+    { "anchor": "guia completo de renda fixa", "slug": "guia-renda-fixa" }
+  ],
+  "cta": {
+    "primary": { "text": "Veja como começar a investir do zero", "url": "/como-comecar-a-investir" },
+    "secondary": { "text": "Conheça o guia completo de renda fixa", "url": "/guia-renda-fixa" }
+  }
+},
   {
     "title": "O que é LCA? Vale a pena? (Guia Completo)",
     "slug": "o-que-e-lca",
@@ -414,7 +655,7 @@ export const blogArticles: Article[] = [
   {
     "slug": "renda-fixa-ou-renda-variavel",
     "title": "Renda fixa ou renda variável",
-    "excerpt": "Renda fixa tem retorno previsível; renda variável, não. Entenda as diferenças, riscos e quando cada uma faz sentido para o seu perfil e objetivo de investimento.",
+    "excerpt": "Renda fixa ou renda variável: entenda as diferenças, riscos e quando cada uma faz sentido para o seu perfil e objetivo de investimento.",
     "seoTitle": "Renda Fixa ou Renda Variável: qual vale mais a pena em 2026?",
     "seoDescription": "Renda fixa ou renda variável? Entenda as diferenças, riscos, rentabilidade e quando cada uma faz sentido para o seu perfil. Comparativo completo.",
     "category": "investimentos",
@@ -432,58 +673,22 @@ export const blogArticles: Article[] = [
         }
     ],
     "faq": [
-        {
-            "question": "Qual a diferença entre renda fixa e renda variável?",
-            "answer": "Renda fixa tem retorno previsível — definido ou seguindo regra conhecida. Renda variável não tem retorno garantido — pode render muito mais ou gerar prejuízo."
-        },
-        {
-            "question": "Renda fixa ou renda variável: qual é melhor para iniciantes?",
-            "answer": "Renda fixa é o ponto de partida recomendado. Monte a reserva de emergência antes de qualquer investimento em renda variável."
-        },
-        {
-            "question": "Renda variável rende mais que renda fixa?",
-            "answer": "No longo prazo, renda variável tende a superar renda fixa — mas com muito mais oscilação. Em períodos curtos pode render menos ou gerar prejuízo."
-        },
-        {
-            "question": "Posso ter renda fixa e renda variável ao mesmo tempo?",
-            "answer": "Sim — e é o que a maioria dos investidores faz. A proporção depende do perfil de risco, objetivo e prazo."
-        },
-        {
-            "question": "Por onde começar: renda fixa ou renda variável?",
-            "answer": "Comece pela renda fixa. Monte a reserva de emergência no Tesouro Selic ou CDB de liquidez diária. Só então, com a base montada, explore renda variável para objetivos de longo prazo."
-        }
+        { "question": "Qual a diferença entre renda fixa e renda variável?", "answer": "Renda fixa tem retorno previsível — definido ou seguindo regra conhecida. Renda variável não tem retorno garantido — pode render muito mais ou gerar prejuízo." },
+        { "question": "Renda fixa ou renda variável: qual é melhor para iniciantes?", "answer": "Renda fixa é o ponto de partida recomendado. Monte a reserva de emergência antes de qualquer investimento em renda variável." },
+        { "question": "Renda variável rende mais que renda fixa?", "answer": "No longo prazo, renda variável tende a superar renda fixa — mas com muito mais oscilação. Em períodos curtos pode render menos ou gerar prejuízo." },
+        { "question": "Posso ter renda fixa e renda variável ao mesmo tempo?", "answer": "Sim — e é o que a maioria dos investidores faz. A proporção depende do perfil de risco, objetivo e prazo." },
+        { "question": "Por onde começar: renda fixa ou renda variável?", "answer": "Comece pela renda fixa. Monte a reserva de emergência no Tesouro Selic ou CDB de liquidez diária. Só então, com a base montada, explore renda variável para objetivos de longo prazo." }
     ],
     "internalLinks": [
-        {
-            "anchor": "como começar a investir do zero",
-            "slug": "como-comecar-a-investir"
-        },
-        {
-            "anchor": "guia completo de renda fixa",
-            "slug": "guia-renda-fixa"
-        },
-        {
-            "anchor": "o que é CDB e como funciona",
-            "slug": "o-que-e-cdb"
-        },
-        {
-            "anchor": "reserva de emergência: quanto guardar",
-            "slug": "reserva-de-emergencia"
-        },
-        {
-            "anchor": "melhores investimentos para iniciantes",
-            "slug": "melhores-investimentos-para-iniciantes"
-        }
+        { "anchor": "como começar a investir do zero", "slug": "como-comecar-a-investir" },
+        { "anchor": "guia completo de renda fixa", "slug": "guia-renda-fixa" },
+        { "anchor": "o que é CDB e como funciona", "slug": "o-que-e-cdb" },
+        { "anchor": "reserva de emergência: quanto guardar", "slug": "reserva-de-emergencia" },
+        { "anchor": "melhores investimentos para iniciantes", "slug": "melhores-investimentos-para-iniciantes" }
     ],
     "cta": {
-        "primary": {
-            "text": "Veja como começar a investir do zero",
-            "url": "/como-comecar-a-investir"
-        },
-        "secondary": {
-            "text": "Conheça o guia completo de renda fixa",
-            "url": "/guia-renda-fixa"
-        }
+        "primary": { "text": "Veja como começar a investir do zero", "url": "/como-comecar-a-investir" },
+        "secondary": { "text": "Conheça o guia completo de renda fixa", "url": "/guia-renda-fixa" }
     }
   },
   {
@@ -523,7 +728,7 @@ export const blogArticles: Article[] = [
     "content": [
       {
         "type": "html",
-        "content": "<h1>Onde posso investir? Guia completo das opções disponíveis no Brasil</h1><div class='resumo-rapido'><ul><li>Você pode investir pelo seu banco atual ou por uma corretora independente</li><li>Corretoras oferecem mais produtos, melhores taxas e mais ferramentas</li><li>Os principais produtos são: Tesouro Direto, CDB, LCI, LCA, ações, FIIs e ETFs</li><li>Abrir conta em corretora é gratuito e 100% digital</li><li>Sempre verifique se a corretora é regulamentada pela CVM antes de investir</li></ul></div><p>Hoje investir ficou mais acessível do que nunca. Existem diversas plataformas, a maioria gratuita e 100% digital. O desafio é entender as diferenças e escolher a que faz mais sentido para o seu perfil.</p><h2>Banco ou corretora: qual escolher?</h2><table><thead><tr><th>Critério</th><th>Banco</th><th>Corretora independente</th></tr></thead><tbody><tr><td>Variedade de produtos</td><td>Limitada — foco em produtos próprios</td><td>Alta — produtos de vários emissores</td></tr><tr><td>Taxas de CDB/LCI</td><td>Geralmente menores</td><td>Geralmente mais competitivas</td></tr><tr><td>Acesso a ações e FIIs</td><td>Limitado ou inexistente</td><td>Completo</td></tr><tr><td>Praticidade</td><td>Alta — já tem conta</td><td>Exige abertura de conta e PIX/TED</td></tr><tr><td>Custo de abertura</td><td>Gratuito</td><td>Gratuito na maioria</td></tr></tbody></table><h2>Onde investir por produto</h2><table><thead><tr><th>Produto</th><th>Onde acessar</th><th>Observação</th></tr></thead><tbody><tr><td>Tesouro Direto</td><td>Corretoras ou banco habilitado</td><td>Mesmo produto em qualquer plataforma</td></tr><tr><td>CDB</td><td>Banco emissor ou corretoras</td><td>Corretoras têm mais opções e taxas melhores</td></tr><tr><td>LCI e LCA</td><td>Banco emissor ou corretoras</td><td>Mesma lógica do CDB</td></tr><tr><td>Ações</td><td>Corretoras habilitadas na B3</td><td>Não disponível em bancos tradicionais</td></tr><tr><td>FIIs</td><td>Corretoras habilitadas na B3</td><td>Negociados na bolsa como ações</td></tr><tr><td>ETFs</td><td>Corretoras habilitadas na B3</td><td>Negociados na bolsa como ações</td></tr></tbody></table><h2>Como verificar se uma corretora é confiável</h2><ul><li>Está regulamentada pela CVM? Consulte em cvm.gov.br</li><li>Está regulamentada pelo Banco Central? Consulte em bcb.gov.br</li><li>Para Tesouro Direto: está listada em tesourodireto.com.br?</li><li>Tem boa reputação? Pesquise no Reclame Aqui</li></ul><h2>Onde investir por objetivo</h2><table><thead><tr><th>Objetivo</th><th>Produto</th><th>Onde acessar</th></tr></thead><tbody><tr><td>Reserva de emergência</td><td>Tesouro Selic ou CDB diário</td><td>Qualquer corretora ou banco digital</td></tr><tr><td>Objetivo de 1 a 3 anos</td><td>LCI, LCA ou CDB com prazo</td><td>Corretora com boa seleção</td></tr><tr><td>Proteção contra inflação</td><td>Tesouro IPCA+</td><td>Qualquer corretora habilitada</td></tr><tr><td>Renda passiva mensal</td><td>FIIs</td><td>Corretora habilitada na B3</td></tr><tr><td>Exposição à bolsa</td><td>ETFs de índice</td><td>Corretora habilitada na B3</td></tr></tbody></table><h2>Conclusão</h2><p>Para quem está começando: abra conta em uma corretora digital de boa reputação, comece pelo Tesouro Selic ou CDB de liquidez diária e explore os demais produtos conforme seu conhecimento cresce.</p><p><a href='/melhores-investimentos-para-iniciantes'>Veja os melhores investimentos para iniciantes.</a></p>",
+        "content": "<h1>Onde posso investir? Guia completo das opções disponíveis no Brasil</h1><div class='resumo-rapido'><ul><li>Você pode investir pelo seu banco atual ou por uma corretora independente</li><li>Corretoras oferecem mais produtos, melhores taxas e mais ferramentas</li><li>Os principais produtos são: Tesouro Direto, CDB, LCI, LCA, ações, FIIs e ETFs</li><li>Abrir conta em corretora é gratuito e 100% digital</li><li>Sempre verifique se a corretora é regulamentada pela CVM antes de investir</li></ul></div><p>Hoje investir ficou mais acessível do que nunca. Existem diversas plataformas, a maioria gratuita e 100% digital. O desafio é entender as diferenças e escolher a que faz mais sentido para o seu perfil.</p><h2>Banco ou corretora: qual escolher?</h2><table><thead><tr><th>Critério</th><th>Banco</th><th>Corretora independente</th></tr></thead><tbody><tr><td>Variedade de produtos</td><td>Limitada — foco em produtos próprios</td><td>Alta — produtos de vários emissores</td></tr><tr><td>Taxas de CDB/LCI</td><td>Geralmente menores</td><td>Geralmente mais competitivas</td></tr><tr><td>Acesso a ações e FIIs</td><td>Limitado ou inexistente</td><td>Completo</td></tr><tr><td>Praticidade</td><td>Alta — já tem conta</td><td>Exige abertura de conta e PIX/TED</td></tr><tr><td>Custo de abertura</td><td>Gratuito</td><td>Gratuito na maioria</td></tr></tbody></table><h2>Onde investir por produto</h2><table><thead><tr><th>Produto</th><th>Onde acessar</th><th>Observação</th></tr></thead><tbody><tr><td>Tesouro Direto</td><td>Corretoras ou banco habilitado</td><td>Mesmo produto em qualquer plataforma</td></tr><tr><td>CDB</td><td>Banco emissor ou corretoras</td><td>Corretoras têm mais opções e taxas melhores</td></tr><tr><td>LCI e LCA</td><td>Banco emissor ou corretoras</td><td>Mesma lógica do CDB</td></tr><tr><td>Ações</td><td>Corretoras habilitadas na B3</td><td>Não disponível em bancos tradicionais</td></tr><tr><td>FIIs</td><td>Corretoras habilitadas na B3</td><td>Negociados na bolsa como ações</td></tr><tr><td>ETFs</td><td>Corretoras habilitadas na B3</td><td>Negociados na bolsa como ações</td></tr></tbody></table><h2>Como verificar se uma corretora é confiável</h2><ul><li>Está regulamentada pela CVM? Consulte em cvm.gov.br</li><li>Está regulamentada pelo Banco Central? Consulte em bcb.gov.br</li><li>Para Tesouro Direto: está listada em tesourodireto.com.br?</li><li>Tem boa reputação? Pesquise no Reclame Aqui</li></ul><h2>Onde investir por objetivo</h2><table><thead><tr><th>Objetivo</th><th>Produto recomendado</th><th>Onde acessar</th></tr></thead><tbody><tr><td>Reserva de emergência</td><td>Tesouro Selic ou CDB diário</td><td>Qualquer corretora ou banco digital</td></tr><tr><td>Objetivo de 1 a 3 anos</td><td>LCI, LCA ou CDB com prazo</td><td>Corretora com boa seleção</td></tr><tr><td>Proteção contra inflação</td><td>Tesouro IPCA+</td><td>Qualquer corretora habilitada</td></tr><tr><td>Renda passiva mensal</td><td>FIIs</td><td>Corretora habilitada na B3</td></tr><tr><td>Exposição à bolsa</td><td>ETFs de índice</td><td>Corretora habilitada na B3</td></tr></tbody></table><h2>Conclusão</h2><p>Para quem está começando: abra conta em uma corretora digital de boa reputação, comece pelo Tesouro Selic ou CDB de liquidez diária e explore os demais produtos conforme seu conhecimento cresce.</p><p><a href='/melhores-investimentos-para-iniciantes'>Veja os melhores investimentos para iniciantes.</a></p>",
         "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento. Sempre verifique a regulamentação antes de investir."
       }
     ],
@@ -563,45 +768,45 @@ export const blogArticles: Article[] = [
       {
         "type": "html",
         "content": "<h1>Melhores investimentos para iniciantes: opções seguras, rentáveis e acessíveis</h1><div class='resumo-rapido'><ul><li>Para iniciantes, segurança e liquidez vêm antes de rentabilidade máxima</li><li>Os melhores pontos de partida são Tesouro Selic e CDB de liquidez diária</li><li>Poupança ({{poupancaRate}}% a.a.) não é recomendada — existem opções mais seguras com rendimento maior</li><li>Monte a reserva de emergência antes de qualquer investimento</li><li>Compare sempre pelo rendimento líquido — não taxa bruta</li></ul></div><p>Não existe o melhor investimento universal — existe o produto certo para o seu objetivo. Para iniciantes, o caminho é começar com produtos simples, seguros e com boa liquidez.</p><h2>O que um bom investimento para iniciantes precisa ter</h2><table><thead><tr><th>Critério</th><th>Por que importa</th></tr></thead><tbody><tr><td>Segurança</td><td>Risco de perda deve ser baixo</td></tr><tr><td>Liquidez</td><td>Poder resgatar sem penalidade</td></tr><tr><td>Simplicidade</td><td>Fácil de entender e acompanhar</td></tr><tr><td>Rendimento acima da poupança</td><td>Não faz sentido ter risco para render igual à poupança</td></tr><tr><td>Acessibilidade</td><td>Valor mínimo baixo para começar com o que tem</td></tr></tbody></table><h2>Comparativo dos melhores produtos para iniciantes</h2>"
-      },
-      {
-        "type": "simulationTable",
-        "initialInvestment": 10000,
-        "terms": [12],
-        "scenarios": [
-          { "label": "Poupança", "rateLogic": "selic>8.5?0.0617:selic*0.70", "isTaxable": false },
-          { "label": "Tesouro Selic", "rateLogic": "selic/100", "isTaxable": true },
-          { "label": "CDB 100% CDI", "rateLogic": "cdi/100", "isTaxable": true },
-          { "label": "LCI 90% CDI", "rateLogic": "cdi*0.90", "isTaxable": false },
-          { "label": "LCI 95% CDI", "rateLogic": "cdi*0.95", "isTaxable": false },
-          { "label": "CDB 110% CDI", "rateLogic": "cdi*1.10", "isTaxable": true }
-        ]
-      },
-      {
-        "type": "html",
-        "content": "<p><em>Referência: Selic de {{selicRate}}% a.a. e CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}). Sempre compare rendimento líquido.</em></p><h2>Por que a poupança não é recomendada</h2><p>A poupança rende apenas {{poupancaRate}}% ao ano com a Selic atual de {{selicRate}}% — menos da metade do Tesouro Selic ou CDB de liquidez diária. Existem alternativas com a mesma segurança (FGC) e rendimento muito superior.</p><h2>Como escolher o melhor para o seu caso</h2><p><strong>Tem reserva de emergência?</strong> Não → comece pelo Tesouro Selic ou CDB de liquidez diária.<br><strong>Prazo menor que 1 ano?</strong> → Tesouro Selic ou CDB diário.<br><strong>Prazo de 1 a 3 anos?</strong> → LCI/LCA ou CDB com prazo.<br><strong>Longo prazo?</strong> → Tesouro IPCA+ ou mix renda fixa e variável.</p><h2>Conclusão</h2><p>Para a maioria dos iniciantes: Tesouro Selic ou CDB para reserva de emergência, LCI/LCA para médio prazo e Tesouro IPCA+ para longo prazo.</p><p><a href='/como-comecar-a-investir'>Veja o guia completo de como começar a investir.</a></p><p><em>Referência: Selic {{selicRate}}% a.a., CDI {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
-      }
-    ],
-    "faq": [
-      { "question": "Qual o melhor investimento para quem está começando?", "answer": "Tesouro Selic e CDB de liquidez diária são os melhores pontos de partida — seguros, acessíveis e com rendimento muito acima da poupança." },
-      { "question": "Quanto preciso para começar a investir?", "answer": "Você pode começar com menos de R$ 100. O Tesouro Selic aceita a partir de R$ 30 e alguns CDBs aceitam R$ 1 em corretoras digitais." },
-      { "question": "Poupança é boa para iniciantes?", "answer": "Não. Com a Selic a {{selicRate}}% ao ano, a poupança rende {{poupancaRate}}% ao ano — menos da metade do Tesouro Selic ou CDB." },
-      { "question": "LCI é boa para iniciantes?", "answer": "Sim, para objetivos com prazo acima de 90 dias. Não é indicada para reserva de emergência pela carência mínima." },
-      { "question": "Devo começar pela renda fixa ou variável?", "answer": "Renda fixa. Monte a reserva de emergência, entenda os produtos e só então explore renda variável com uma parcela pequena." }
-    ],
-    "internalLinks": [
-      { "anchor": "como começar a investir do zero", "slug": "como-comecar-a-investir" },
-      { "anchor": "reserva de emergência", "slug": "reserva-de-emergencia" },
-      { "anchor": "o que é Tesouro Direto", "slug": "o-que-e-tesouro-direto" },
-      { "anchor": "o que é CDB", "slug": "o-que-e-cdb" },
-      { "anchor": "o que é LCI", "slug": "o-que-e-lci" },
-      { "anchor": "guia completo de renda fixa", "slug": "guia-renda-fixa" }
-    ],
-    "cta": {
-      "primary": { "text": "Veja como começar a investir do zero", "url": "/como-comecar-a-investir" },
-      "secondary": { "text": "Conheça o guia completo de renda fixa", "url": "/guia-renda-fixa" }
+    },
+    {
+      "type": "simulationTable",
+      "initialInvestment": 10000,
+      "terms": [12],
+      "scenarios": [
+        { "label": "Poupança", "rateLogic": "selic>8.5?0.0617:selic*0.70", "isTaxable": false },
+        { "label": "Tesouro Selic", "rateLogic": "selic/100", "isTaxable": true },
+        { "label": "CDB 100% CDI", "rateLogic": "cdi/100", "isTaxable": true },
+        { "label": "LCI 90% CDI", "rateLogic": "cdi*0.90", "isTaxable": false },
+        { "label": "LCI 95% CDI", "rateLogic": "cdi*0.95", "isTaxable": false },
+        { "label": "CDB 110% CDI", "rateLogic": "cdi*1.10", "isTaxable": true }
+      ]
+    },
+    {
+      "type": "html",
+      "content": "<p><em>Referência: Selic de {{selicRate}}% a.a. e CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}). Sempre compare rendimento líquido.</em></p><h2>Por que a poupança não é recomendada</h2><p>A poupança rende apenas {{poupancaRate}}% ao ano com a Selic atual de {{selicRate}}% — menos da metade do Tesouro Selic ou CDB de liquidez diária. Existem alternativas com a mesma segurança (FGC) e rendimento muito superior.</p><h2>Como escolher o melhor para o seu caso</h2><p><strong>Tem reserva de emergência?</strong> Não → comece pelo Tesouro Selic ou CDB de liquidez diária.<br><strong>Prazo menor que 1 ano?</strong> → Tesouro Selic ou CDB diário.<br><strong>Prazo de 1 a 3 anos?</strong> → LCI/LCA ou CDB com prazo.<br><strong>Longo prazo?</strong> → Tesouro IPCA+ ou mix renda fixa e variável.</p><h2>Conclusão</h2><p>Para a maioria dos iniciantes: Tesouro Selic ou CDB para reserva de emergência, LCI/LCA para médio prazo e Tesouro IPCA+ para longo prazo.</p><p><a href='/como-comecar-a-investir'>Veja o guia completo de como começar a investir.</a></p><p><em>Referência: Selic {{selicRate}}% a.a., CDI {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
     }
-  },
+  ],
+  "faq": [
+    { "question": "Qual o melhor investimento para quem está começando?", "answer": "Tesouro Selic e CDB de liquidez diária são os melhores pontos de partida — seguros, acessíveis e com rendimento muito acima da poupança." },
+    { "question": "Quanto preciso para começar a investir?", "answer": "Você pode começar com menos de R$ 100. O Tesouro Selic aceita a partir de R$ 30 e alguns CDBs aceitam R$ 1 em corretoras digitais." },
+    { "question": "Poupança é boa para iniciantes?", "answer": "Não. Com a Selic a {{selicRate}}% ao ano, a poupança rende {{poupancaRate}}% ao ano — menos da metade do Tesouro Selic ou CDB." },
+    { "question": "LCI é boa para iniciantes?", "answer": "Sim, para objetivos com prazo acima de 90 dias. Não é indicada para reserva de emergência pela carência mínima." },
+    { "question": "Devo começar pela renda fixa ou variável?", "answer": "Renda fixa. Monte a reserva de emergência, entenda os produtos e só então explore renda variável com uma parcela pequena." }
+  ],
+  "internalLinks": [
+    { "anchor": "como começar a investir do zero", "slug": "como-comecar-a-investir" },
+    { "anchor": "reserva de emergência", "slug": "reserva-de-emergencia" },
+    { "anchor": "o que é Tesouro Direto", "slug": "o-que-e-tesouro-direto" },
+    { "anchor": "o que é CDB", "slug": "o-que-e-cdb" },
+    { "anchor": "o que é LCI", "slug": "o-que-e-lci" },
+    { "anchor": "guia completo de renda fixa", "slug": "guia-renda-fixa" }
+  ],
+  "cta": {
+    "primary": { "text": "Veja como começar a investir do zero", "url": "/como-comecar-a-investir" },
+    "secondary": { "text": "Conheça o guia completo de renda fixa", "url": "/guia-renda-fixa" }
+  }
+},
   {
     "title": "FIIs ou Ações: qual o melhor para dividendos?",
     "slug": "fii-ou-acao",
@@ -623,113 +828,6 @@ export const blogArticles: Article[] = [
       "primary": { "text": "O que são FIIs? (Guia Completo)", "url": "/o-que-sao-fiis" }
     }
   },
-  {
-    "slug": "cdb-ou-lci",
-    "title": "CDB ou LCI: quando a isenção compensa?",
-    "excerpt": "CDB tem IR, LCI é isenta — mas isso não significa que LCI rende mais. Veja como comparar corretamente pelo rendimento líquido e quando cada um compensa.",
-    "seoTitle": "CDB ou LCI: quando a isenção de IR compensa? 2026",
-    "seoDescription": "CDB ou LCI: descubra quando a isenção de IR da LCI realmente compensa. Comparativo com tabela de rendimento líquido, exemplos práticos e checklist.",
-    "category": "renda-fixa",
-    "subcategory": "comparativos",
-    "pillar": "pillar-2-renda-fixa",
-    "cluster": "comparativos-renda-fixa",
-    "readingTime": "9 min",
-    "lastUpdated": "2026-03-20",
-    "author": "Equipe Bigwall",
-    "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento. Rentabilidades são referências e variam conforme o produto e o emissor.",
-    "content": [
-      {
-        "type": "html",
-        "content": "<h1>CDB ou LCI: quando a isenção de IR realmente compensa?</h1><div class='resumo-rapido'><ul><li>LCI é isenta de IR para pessoa física — CDB tem IR de 15% a 22,5%</li><li>Isenção não garante que LCI rende mais — depende da taxa e do prazo</li><li>A comparação correta é sempre pelo rendimento líquido</li><li>LCI tem carência mínima de 90 dias — CDB pode ter liquidez diária</li><li>CDI atual: {{cdiRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}})</li></ul></div><p>A dúvida entre CDB e LCI é uma das mais comuns em renda fixa. A isenção de IR da LCI é uma vantagem real — mas só compensa quando a taxa oferecida é competitiva o suficiente.</p><h2>Diferenças principais entre CDB e LCI</h2><table><thead><tr><th>Característica</th><th>CDB</th><th>LCI</th></tr></thead><tbody><tr><td>IR para PF</td><td>15% a 22,5% sobre rendimento</td><td>Isento</td></tr><tr><td>FGC</td><td>Até R$ 250k por CPF/instituição</td><td>Até R$ 250k por CPF/instituição</td></tr><tr><td>Liquidez</td><td>Pode ter liquidez diária</td><td>Carência mínima 90 dias</td></tr><tr><td>Valor mínimo típico</td><td>A partir de R$ 1</td><td>Geralmente R$ 1.000+</td></tr><tr><td>IR para PJ</td><td>Sim</td><td>Sim (isenção só para PF)</td></tr></tbody></table><h2>Como comparar corretamente</h2><p>Fórmula: <strong>Taxa LCI equivalente = Taxa CDB × (1 — alíquota IR)</strong></p><p>Exemplo com CDI a {{cdiRate}}% ao ano e IR de 15% (acima de 720 dias): um CDB a 100% do CDI equivale a uma LCI de 85% do CDI. Se a LCI pagar acima de 85% do CDI, ela vence no líquido.</p><h2>Simulação prática: R$ 10.000 em CDB vs LCI</h2>"
-    },
-    {
-      "type": "simulationTable",
-      "initialInvestment": 10000,
-      "terms": [12],
-      "scenarios": [
-        { "label": "CDB 100% CDI líquido", "rateLogic": "cdi/100", "isTaxable": true },
-        { "label": "LCI 90% CDI (isento)", "rateLogic": "cdi*0.90", "isTaxable": false },
-        { "label": "CDB 110% CDI líquido", "rateLogic": "cdi*1.10", "isTaxable": true },
-        { "label": "LCI 95% CDI (isento)", "rateLogic": "cdi*0.95", "isTaxable": false }
-      ]
-    },
-    {
-      "type": "html",
-      "content": "<p><em>Referência: CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}). Sempre compare rendimento líquido.</em></p><h2>Quando a LCI compensa mais que o CDB</h2><ul><li>A taxa da LCI está acima do ponto de equivalência</li><li>O prazo é curto (até 360 dias) — IR do CDB é mais alto nesses prazos</li><li>Você não precisa de liquidez imediata</li></ul><h2>Quando o CDB compensa mais</h2><ul><li>A taxa do CDB está significativamente acima do ponto de equivalência</li><li>Você precisa de liquidez imediata — CDB de liquidez diária resolve, LCI não</li><li>O valor mínimo da LCI está acima do que você quer investir</li><li>Você é pessoa jurídica (LCI não é isenta para PJ)</li></ul><h2>Checklist de decisão em 60 segundos</h2><ul><li>Pode deixar o dinheiro por pelo menos 90 dias? Se não → <strong>CDB liquidez diária</strong></li><li>A LCI paga acima do ponto de equivalência? Se sim → <strong>LCI</strong></li><li>Você é PJ? → <strong>CDB</strong></li><li>O CDB disponível paga acima de 110% do CDI? → <strong>compare com a tabela antes de decidir</strong></li></ul><h2>Conclusão</h2><p>A regra de ouro: <strong>sempre compare rendimento líquido, nunca taxa bruta.</strong></p><p>Quer entender melhor cada produto? <a href='/o-que-e-cdb'>O que é CDB</a> e <a href='/o-que-e-lci'>o que é LCI.</a></p><p><em>Referência: CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
-    }
-  ],
-  "faq": [
-    { "question": "CDB ou LCI: qual rende mais?", "answer": "Depende da taxa oferecida. Compare sempre pelo rendimento líquido. LCI é isenta de IR, mas um CDB com taxa suficientemente alta pode superar a LCI." },
-    { "question": "Qual a principal diferença entre CDB e LCI?", "answer": "IR e liquidez. CDB tem IR de 15% a 22,5%, LCI é isenta para PF. CDB pode ter liquidez diária, LCI tem carência mínima de 90 dias." },
-    { "question": "Como calcular o ponto de equivalência entre CDB e LCI?", "answer": "Taxa LCI equivalente = taxa CDB × (1 - alíquota IR). Exemplo: CDB a 100% do CDI com IR de 20% equivale a LCI de 80% do CDI." },
-    { "question": "LCI é isenta de IR para pessoa jurídica?", "answer": "Não. A isenção se aplica apenas para pessoa física. Empresas pagam IR normalmente sobre rendimentos de LCI." },
-    { "question": "LCI tem FGC?", "answer": "Sim. Até R$ 250.000 por CPF por instituição, com limite global de R$ 1.000.000 renovável a cada 4 anos." }
-  ],
-  "internalLinks": [
-    { "anchor": "o que é CDB e como funciona", "slug": "o-que-e-cdb" },
-    { "anchor": "o que é LCI e como funciona", "slug": "o-que-e-lci" },
-    { "anchor": "guia completo de renda fixa", "slug": "guia-renda-fixa" },
-    { "anchor": "compare Tesouro Selic e CDB", "slug": "tesouro-selic-ou-cdb" },
-    { "anchor": "como começar a investir do zero", "slug": "como-comecar-a-investir" }
-  ],
-  "cta": {
-    "primary": { "text": "Entenda o que é CDB", "url": "/o-que-e-cdb" },
-    "secondary": { "text": "Entenda o que é LCI", "url": "/o-que-e-lci" }
-  }
-},
-{
-  "slug": "reserva-de-emergencia",
-  "title": "Reserva de emergência: quanto guardar e onde investir",
-  "excerpt": "Aprenda a calcular sua reserva de emergência (3 a 12 meses de custo de vida) e onde investir com segurança e liquidez: Tesouro Selic ou CDB de liquidez diária.",
-  "date": "2026-03-20",
-  "readingTime": "9 min",
-  "category": "educacao-financeira",
-  "subcategory": "planejamento-financeiro",
-  "pillar": "pillar-4-educacao-financeira",
-  "cluster": "reserva-de-emergencia",
-  "author": "Equipe Bigwall",
-  "seoTitle": "Reserva de Emergência: quanto guardar e onde investir (2026)",
-  "seoDescription": "Guia completo da Reserva de Emergência: como calcular (3 a 12 meses do seu custo de vida), onde investir com segurança e liquidez (Tesouro Selic, CDB) e o que evitar.",
-  "disclaimer": "defaultDisclaimer",
-  "content": [
-    {
-      "type": "html",
-      "content": "<h1>Reserva de emergência: quanto guardar, onde deixar e como montar a sua</h1><div class='resumo-rapido'><ul><li>Reserva de emergência é o dinheiro separado para imprevistos — não para investir, mas para proteger</li><li>O valor ideal é de 3 a 6 meses de despesas (6 a 12 meses para autônomos e MEIs)</li><li>Precisa ter liquidez imediata — resgate em até 1 dia útil</li><li>Melhores produtos: Tesouro Selic e CDB de liquidez diária</li><li>Monte a reserva antes de qualquer outro investimento — sem exceção</li></ul></div><p>Reserva de emergência é o alicerce de qualquer vida financeira saudável. Sem ela, qualquer imprevisto pode destruir um planejamento que levou anos para construir.</p><h2>O que é reserva de emergência</h2><p>É um dinheiro separado, de fácil acesso, destinado exclusivamente a cobrir imprevistos ou períodos de perda de renda. A prioridade não é rentabilidade máxima — é segurança e liquidez.</p><h2>Quanto guardar</h2><table><thead><tr><th>Perfil</th><th>Reserva recomendada</th><th>Motivo</th></tr></thead><tbody><tr><td>CLT com renda estável</td><td>3 a 6 meses de despesas</td><td>Tem FGTS e seguro-desemprego</td></tr><tr><td>Autônomo ou freelancer</td><td>6 a 12 meses</td><td>Renda variável, sem proteções trabalhistas</td></tr><tr><td>MEI ou empresário</td><td>6 a 12 meses</td><td>Receita incerta</td></tr><tr><td>Com dependentes financeiros</td><td>6 meses ou mais</td><td>Maior responsabilidade</td></tr></tbody></table><p>Fórmula: <strong>Reserva ideal = despesas mensais × número de meses recomendado</strong></p><p>Exemplo: despesas de R$ 4.000/mês com perfil CLT → reserva ideal entre R$ 12.000 e R$ 24.000.</p><h2>Onde deixar a reserva de emergência</h2><p>O produto ideal precisa ter: liquidez diária, segurança e rendimento acima da poupança ({{poupancaRate}}% a.a.). Com a Selic a {{selicRate}}% ao ano, o Tesouro Selic e o CDB de liquidez diária rendem muito mais com a mesma segurança.</p>"
-    },
-    {
-      "type": "simulationTable",
-      "initialInvestment": 10000,
-      "terms": [12],
-      "scenarios": [
-        { "label": "Poupança ({{poupancaRate}}% a.a.)", "rateLogic": "selic>8.5?0.0617:selic*0.70", "isTaxable": false },
-        { "label": "Tesouro Selic", "rateLogic": "selic/100", "isTaxable": true },
-        { "label": "CDB liquidez diária (100% CDI)", "rateLogic": "cdi/100", "isTaxable": true }
-      ]
-    },
-    {
-      "type": "html",
-      "content": "<p><em>Referência: Selic de {{selicRate}}% a.a. e CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p><h2>Tesouro Selic ou CDB para reserva?</h2><table><thead><tr><th>Critério</th><th>Tesouro Selic</th><th>CDB liquidez diária</th></tr></thead><tbody><tr><td>Garantia</td><td>Governo Federal (sem limite)</td><td>FGC até R$ 250k por instituição</td></tr><tr><td>Resgate</td><td>D+1 (1 dia útil)</td><td>D+0 ou D+1</td></tr><tr><td>Valor mínimo</td><td>~R$ 30</td><td>A partir de R$ 1</td></tr><tr><td>Isenção custódia</td><td>Sim, até R$ 10.000</td><td>Não se aplica</td></tr></tbody></table><p>Para reservas acima de R$ 250.000, o Tesouro Selic é mais seguro. Para valores menores, os dois são equivalentes.</p><h2>Como montar do zero</h2><ol><li>Calcule seu número: despesas mensais × meses recomendados</li><li>Abra conta em corretora com Tesouro Selic ou CDB de liquidez diária</li><li>Defina um aporte mensal fixo</li><li>Automatize a transferência no dia do salário</li><li>Não mexa até uma emergência real</li></ol><h2>Conclusão</h2><p>Monte a reserva antes de qualquer investimento. Use Tesouro Selic ou CDB de liquidez diária. Com a Selic a {{selicRate}}% ao ano, os dois rendem muito mais que a poupança com a mesma segurança.</p><p><a href='/como-comecar-a-investir'>Veja como começar a investir do zero.</a></p><p><em>Referência: Selic {{selicRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
-    }
-  ],
-  "faq": [
-    { "question": "Quanto devo ter de reserva de emergência?", "answer": "De 3 a 6 meses de despesas para CLT. Para autônomos e MEIs, de 6 a 12 meses. Fórmula: despesas mensais × número de meses recomendado." },
-    { "question": "Onde deixar a reserva de emergência?", "answer": "Tesouro Selic ou CDB de liquidez diária. Os dois têm liquidez em até 1 dia útil e rendem muito acima da poupança." },
-    { "question": "Posso investir a reserva em ações ou FIIs?", "answer": "Não. Renda variável oscila — você pode ser forçado a vender em queda. A reserva deve estar em renda fixa com liquidez diária." },
-    { "question": "Tesouro Selic ou CDB para reserva de emergência?", "answer": "Os dois são ótimos. Para valores acima de R$ 250.000, Tesouro Selic é mais seguro. Para valores menores, os dois são equivalentes." },
-    { "question": "Posso usar a reserva para aproveitar uma oportunidade de investimento?", "answer": "Não. Reserva é para emergências — não para oportunidades. Crie um objetivo separado para isso." }
-  ],
-  "internalLinks": [
-    { "anchor": "como começar a investir do zero", "slug": "como-comecar-a-investir" },
-    { "anchor": "o que é Tesouro Selic", "slug": "o-que-e-tesouro-direto" },
-    { "anchor": "o que é CDB", "slug": "o-que-e-cdb" },
-    { "anchor": "compare Tesouro Selic e CDB", "slug": "tesouro-selic-ou-cdb" },
-    { "anchor": "melhores investimentos para iniciantes", "slug": "melhores-investimentos-para-iniciantes" }
-  ],
-  "cta": {
-    "primary": { "text": "Veja como começar a investir do zero", "url": "/como-comecar-a-investir" },
-    "secondary": { "text": "Compare Tesouro Selic com CDB", "url": "/tesouro-selic-ou-cdb" }
-  }
-},
   {
     "title": "Calculadora de Juros Compostos (com simulação)",
     "slug": "calculadora-juros-compostos",
@@ -794,81 +892,61 @@ export const blogArticles: Article[] = [
     }
   },
   {
-    "slug": "quanto-rende-10000-no-tesouro-selic",
-    "title": "Quanto rende R$ 10.000 no Tesouro Selic",
-    "excerpt": "Veja quanto rende R$ 10.000 no Tesouro Selic em 1, 6, 12 e 24 meses. Simulação com rendimento líquido após IR, comparação com poupança e CDB.",
-    "seoTitle": "Quanto rende R$ 10.000 no Tesouro Selic? Simulação 2026",
-    "seoDescription": "Simule quanto rende R$ 10.000 no Tesouro Selic em 1, 6, 12 e 24 meses. Veja o rendimento líquido após IR, comparação com poupança e CDB atualizado.",
+    "slug": "guia-renda-fixa",
+    "title": "Guia completo sobre Renda Fixa",
+    "excerpt": "Tudo sobre renda fixa em um só lugar: CDB, LCI, LCA, Tesouro Direto, IR, FGC, liquidez e como escolher o melhor investimento para o seu objetivo.",
+    "seoTitle": "Guia Completo sobre Renda Fixa 2026: tudo que você precisa saber",
+    "seoDescription": "Tudo sobre renda fixa: CDB, LCI, LCA, Tesouro Direto, IR, FGC, liquidez e como escolher o melhor investimento para o seu objetivo.",
     "category": "renda-fixa",
-    "subcategory": "tesouro-direto",
+    "subcategory": "guia",
     "pillar": "pillar-2-renda-fixa",
-    "cluster": "tesouro-direto",
-    "readingTime": "8 min",
+    "cluster": "guia-renda-fixa",
+    "readingTime": "15 min",
     "lastUpdated": "2026-03-20",
     "author": "Equipe Bigwall",
-    "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento. As simulações assumem taxa constante para fins ilustrativos — o rendimento real pode variar.",
+    "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento. Rentabilidades são referências e variam conforme o produto e o emissor.",
     "content": [
       {
         "type": "html",
-        "content": "<h1>Quanto rende R$ 10.000 no Tesouro Selic? Simulação com rendimento líquido</h1><div class='resumo-rapido'><ul><li>Com Selic a {{selicRate}}% ao ano, R$ 10.000 no Tesouro Selic rendem bem acima da poupança em todos os prazos</li><li>Para valores até R$ 10.000, a taxa de custódia da B3 é isenta</li><li>Tem IR regressivo — quanto mais tempo investido, menor a alíquota</li><li>Simulações assumem taxa constante para fins ilustrativos</li></ul></div><p>Esta simulação mostra o rendimento de R$ 10.000 no Tesouro Selic em diferentes prazos. Referência: Selic de {{selicRate}}% ao ano e CDI de {{cdiRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}}).</p><h2>Simulação: quanto rende R$ 10.000 no Tesouro Selic</h2>"
+        "content": "<h1>Guia completo sobre Renda Fixa: tudo que você precisa saber para investir com segurança</h1><div class='resumo-rapido'><ul><li>Renda fixa é qualquer investimento com retorno previsível ou regra de remuneração definida</li><li>Os principais produtos são: Tesouro Direto, CDB, LCI e LCA</li><li>Todos têm IR regressivo (22,5% a 15%) — exceto LCI e LCA, isentos para PF</li><li>A maioria tem FGC ou garantia do Governo Federal</li><li>Compare sempre pelo rendimento líquido — não pela taxa bruta</li></ul></div><p>Renda fixa é a base de qualquer carteira bem estruturada. Com a Selic a {{selicRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}}), os produtos de renda fixa brasileiros oferecem um dos melhores retornos reais do mundo com risco controlado.</p><h2>O que é renda fixa</h2><p>Renda fixa é qualquer investimento em que as condições de remuneração são definidas no momento da aplicação — ou seguem uma regra conhecida, como a variação da Selic ({{selicRate}}% a.a.), do CDI ({{cdiRate}}% a.a.) ou do IPCA ({{ipcaRate}}% a.a.).</p><h2>Principais produtos de renda fixa</h2><h3>Tesouro Direto</h3><p>Programa do Governo Federal para venda de títulos públicos. Menor risco do Brasil. Valor mínimo: ~R$ 30. Tipos: Tesouro Selic (reserva de emergência), Tesouro Prefixado (médio prazo) e Tesouro IPCA+ (longo prazo). <a href='/o-que-e-tesouro-direto'>Veja o guia completo do Tesouro Direto.</a></p><h3>CDB</h3><p>Título emitido por bancos. FGC até R$ 250k. IR regressivo. Pode ter liquidez diária. O CDI atual está em {{cdiRate}}% ao ano. <a href='/o-que-e-cdb'>Veja o guia completo do CDB.</a></p><h3>LCI</h3><p>Isenta de IR para PF. FGC até R$ 250k. Carência mínima 90 dias. <a href='/o-que-e-lci'>Veja o guia completo da LCI.</a></p><h3>LCA</h3><p>Igual à LCI, lastreada no agronegócio. Isenta de IR para PF. FGC até R$ 250k. <a href='/o-que-e-lca'>Veja o guia completo da LCA.</a></p><h2>IR na renda fixa</h2><table><thead><tr><th>Prazo</th><th>Alíquota IR</th></tr></thead><tbody><tr><td>Até 180 dias</td><td>22,5%</td></tr><tr><td>181 a 360 dias</td><td>20%</td></tr><tr><td>361 a 720 dias</td><td>17,5%</td></tr><tr><td>Acima de 720 dias</td><td>15%</td></tr></tbody></table><p>Exceções isentas para PF: LCI e LCA. Fonte: Receita Federal do Brasil.</p><h2>Comparativo geral de produtos</h2>"
       },
       {
         "type": "simulationTable",
         "initialInvestment": 10000,
-        "terms": [1, 3, 6, 12, 24, 36],
+        "terms": [12],
         "scenarios": [
-          { "label": "Tesouro Selic ({{selicRate}}% a.a.)", "rateLogic": "selic/100", "isTaxable": true }
+          { "label": "Poupança", "rateLogic": "selic>8.5?0.0617:selic*0.70", "isTaxable": false },
+          { "label": "Tesouro Selic", "rateLogic": "selic/100", "isTaxable": true },
+          { "label": "CDB 100% CDI", "rateLogic": "cdi/100", "isTaxable": true },
+          { "label": "LCI 90% CDI", "rateLogic": "cdi*0.90", "isTaxable": false },
+          { "label": "LCI 95% CDI", "rateLogic": "cdi*0.95", "isTaxable": false },
+          { "label": "CDB 110% CDI", "rateLogic": "cdi*1.10", "isTaxable": true }
         ]
       },
       {
         "type": "html",
-        "content": "<h2>Tesouro Selic vs Poupança</h2>"
-      },
-      {
-        "type": "simulationTable",
-        "initialInvestment": 10000,
-        "terms": [6, 12, 24, 36],
-        "showDifference": true,
-        "scenarios": [
-          { "label": "Poupança ({{poupancaRate}}% a.a.)", "rateLogic": "selic>8.5?0.0617:selic*0.70", "isTaxable": false },
-          { "label": "Tesouro Selic líquido", "rateLogic": "selic/100", "isTaxable": true }
-        ]
-      },
-      {
-        "type": "html",
-        "content": "<h2>Tesouro Selic vs CDB</h2>"
-      },
-      {
-        "type": "simulationTable",
-        "initialInvestment": 10000,
-        "terms": [6, 12, 24],
-        "scenarios": [
-          { "label": "Tesouro Selic líquido", "rateLogic": "selic/100", "isTaxable": true },
-          { "label": "CDB 100% CDI líquido", "rateLogic": "cdi/100", "isTaxable": true },
-          { "label": "CDB 110% CDI líquido", "rateLogic": "cdi*1.10", "isTaxable": true }
-        ]
-      },
-      {
-        "type": "html",
-        "content": "<h2>Vale a pena investir R$ 10.000 no Tesouro Selic?</h2><p>Para reserva de emergência: sim. O Tesouro Selic é o produto mais indicado — liquidez diária, risco mínimo e rendimento muito acima da poupança ({{poupancaRate}}% a.a.).</p><p>Para médio e longo prazo: o Tesouro Selic é uma boa base, mas CDBs com taxas mais altas, LCI/LCA ou Tesouro IPCA+ podem oferecer rendimento maior.</p><h2>Conclusão</h2><p>R$ 10.000 no Tesouro Selic com a Selic a {{selicRate}}% ao ano rendem aproximadamente o dobro da poupança em qualquer prazo — mesmo após o IR.</p><p><a href='/o-que-e-tesouro-direto'>Leia o guia completo sobre o Tesouro Direto.</a> Ou <a href='/tesouro-selic-ou-cdb'>compare Tesouro Selic com CDB.</a></p><p><em>Referência: Selic de {{selicRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
+        "content": "<p><em>Referência: Selic de {{selicRate}}% a.a. e CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}). Sempre compare rendimento líquido.</em></p><h2>Por qual produto começar</h2><table><thead><tr><th>Objetivo</th><th>Produto recomendado</th></tr></thead><tbody><tr><td>Reserva de emergência</td><td>Tesouro Selic ou CDB liquidez diária</td></tr><tr><td>Curto prazo (até 1 ano)</td><td>CDB pós-fixado ou LCI</td></tr><tr><td>Médio prazo (1 a 3 anos)</td><td>LCI, LCA ou CDB com prazo</td></tr><tr><td>Proteção contra inflação</td><td>Tesouro IPCA+ ou CDB IPCA+</td></tr></tbody></table><h2>Checklist para escolher um investimento de renda fixa</h2><ul><li>Qual é o meu objetivo com esse dinheiro?</li><li>Em quanto tempo vou precisar dele?</li><li>O produto tem a liquidez que preciso?</li><li>Qual o rendimento líquido após IR e taxas?</li><li>O emissor tem boa saúde financeira?</li><li>O valor está dentro do limite do FGC?</li></ul><h2>Conclusão</h2><p>Renda fixa não é sinônimo de retorno baixo — é sinônimo de previsibilidade e segurança. O segredo está em escolher o produto certo para o objetivo certo e comparar sempre pelo rendimento líquido.</p><p>Explore os guias: <a href='/o-que-e-cdb'>CDB</a>, <a href='/o-que-e-lci'>LCI</a>, <a href='/o-que-e-tesouro-direto'>Tesouro Direto</a> e <a href='/cdb-ou-lci'>CDB vs LCI.</a></p><p><em>Referência: Selic {{selicRate}}% a.a., CDI {{cdiRate}}% a.a., IPCA {{ipcaRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
       }
     ],
     "faq": [
-      { "question": "Quanto rende R$ 10.000 no Tesouro Selic em 12 meses?", "answer": "Com a Selic a {{selicRate}}% ao ano, R$ 10.000 no Tesouro Selic rendem significativamente mais que a poupança em 12 meses, após IR de 20%." },
-      { "question": "Tesouro Selic rende mais que a poupança?", "answer": "Sim, em todos os cenários com Selic acima de 8,5% ao ano. Com a Selic atual de {{selicRate}}%, o Tesouro Selic rende aproximadamente o dobro da poupança no líquido." },
-      { "question": "Tesouro Selic tem taxa de custódia?", "answer": "Sim, 0,20% ao ano. Porém investimentos de até R$ 10.000 no Tesouro Selic são isentos dessa taxa." },
-      { "question": "Posso perder dinheiro no Tesouro Selic?", "answer": "Praticamente não. O Tesouro Selic sobe todos os dias acompanhando a Selic. Mesmo em resgates antecipados, a chance de perda é extremamente baixa." },
-      { "question": "Tesouro Selic ou CDB: qual é melhor?", "answer": "Os dois têm rendimento muito próximo. A diferença principal é a garantia: Tesouro é garantido pelo Governo Federal sem limite. CDB tem FGC até R$ 250.000 por instituição." }
+      { "question": "O que é renda fixa?", "answer": "Renda fixa é qualquer investimento com retorno previsível ou regra definida. Os principais produtos são Tesouro Direto, CDB, LCI e LCA." },
+      { "question": "Renda fixa é segura?", "answer": "Sim. A maioria tem FGC até R$ 250.000 ou é garantida pelo Governo Federal. O risco é muito menor que renda variável." },
+      { "question": "Qual o melhor investimento de renda fixa?", "answer": "Depende do objetivo. Reserva de emergência: Tesouro Selic ou CDB diário. Médio prazo: LCI/LCA. Longo prazo: Tesouro IPCA+." },
+      { "question": "Renda fixa tem IR?", "answer": "A maioria sim, com alíquota regressiva de 22,5% a 15%. LCI e LCA são isentas para PF." },
+      { "question": "O que é CDI?", "answer": "CDI é a taxa de referência da renda fixa brasileira. Atualmente em {{cdiRate}}% ao ano, próxima à Selic de {{selicRate}}% ao ano." }
     ],
     "internalLinks": [
-      { "anchor": "veja o guia completo do Tesouro Direto", "slug": "o-que-e-tesouro-direto" },
-      { "anchor": "compare Tesouro Selic e CDB", "slug": "tesouro-selic-ou-cdb" },
-      { "anchor": "reserva de emergência: quanto guardar", "slug": "reserva-de-emergencia" },
-      { "anchor": "guia completo de renda fixa", "slug": "guia-renda-fixa" }
+      { "anchor": "guia completo do Tesouro Direto", "slug": "o-que-e-tesouro-direto" },
+      { "anchor": "o que é CDB", "slug": "o-que-e-cdb" },
+      { "anchor": "o que é LCI", "slug": "o-que-e-lci" },
+      { "anchor": "o que é LCA", "slug": "o-que-e-lca" },
+      { "anchor": "CDB ou LCI: quando compensa", "slug": "cdb-ou-lci" },
+      { "anchor": "reserva de emergência", "slug": "reserva-de-emergencia" },
+      { "anchor": "como começar a investir", "slug": "como-comecar-a-investir" }
     ],
     "cta": {
-      "primary": { "text": "Veja o guia completo do Tesouro Direto", "url": "/o-que-e-tesouro-direto" },
-      "secondary": { "text": "Compare Tesouro Selic com CDB", "url": "/tesouro-selic-ou-cdb" }
+      "primary": { "text": "Veja o que é CDB", "url": "/o-que-e-cdb" },
+      "secondary": { "text": "Compare CDB e LCI", "url": "/cdb-ou-lci" }
     }
   }
 ]
