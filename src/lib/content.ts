@@ -65,26 +65,59 @@ export const defaultDisclaimer = "Este conteúdo é educativo e não constitui r
 // Após a importação bem-sucedida, ele será removido.
 export const blogArticles: Article[] = [
   {
-    "title": "CDB ou Poupança: qual a melhor opção para iniciantes?",
-    "slug": "cdb-ou-poupanca",
-    "excerpt": "CDB rende mais que a poupança em todos os cenários, com a mesma segurança (FGC). Veja o comparativo e entenda por que o CDB é melhor para sua reserva.",
-    "date": "2026-03-20",
-    "readingTime": "8 min",
-    "category": "investimentos",
-    "subcategory": "renda-fixa",
-    "pillar": "pillar-1-investimentos",
-    "cluster": "cdb",
-    "author": "Equipe Bigwall",
-    "seoTitle": "CDB ou Poupança: qual o melhor investimento para iniciantes?",
-    "seoDescription": "CDB rende mais que a poupança em todos os cenários, com a mesma segurança (FGC). Veja o comparativo de rendimento, liquidez, IR e saiba quando usar cada um.",
-    "disclaimer": "defaultDisclaimer",
-    "content": [],
-    "faq": [],
-    "internalLinks": [],
-    "cta": {
-      "primary": { "text": "Veja os melhores investimentos para iniciantes", "url": "/melhores-investimentos-para-iniciantes" }
+  "slug": "cdb-ou-poupanca",
+  "title": "CDB ou Poupança",
+  "excerpt": "CDB ou poupança: veja qual rende mais, as diferenças em segurança e liquidez, e por que o CDB supera a poupança na maioria dos cenários.",
+  "seoTitle": "CDB ou Poupança: qual rende mais em 2026?",
+  "seoDescription": "CDB ou poupança: compare rendimento líquido, segurança e liquidez. Simulação com valores reais e checklist para escolher o melhor investimento.",
+  "category": "renda-fixa",
+  "subcategory": "comparativos",
+  "pillar": "pillar-2-renda-fixa",
+  "cluster": "comparativos-renda-fixa",
+  "readingTime": "8 min",
+  "lastUpdated": "2026-03-20",
+  "author": "Equipe Bigwall",
+  "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento. Rentabilidades são referências e variam conforme o produto e o emissor.",
+  "content": [
+    {
+      "type": "html",
+      "content": "<h1>CDB ou Poupança: qual rende mais e por que o CDB quase sempre vence</h1><div class='resumo-rapido'><ul><li>Com a Selic acima de 8,5% ao ano, o CDB rende mais que a poupança — sempre</li><li>A poupança rende apenas {{poupancaRate}}% ao ano com a Selic atual de {{selicRate}}%</li><li>CDB de 100% do CDI rende muito mais mesmo após o IR</li><li>Os dois têm FGC até R$ 250.000 — o nível de segurança é o mesmo</li><li>A única vantagem real da poupança é a isenção de IR — mas não compensa</li></ul></div><p>A poupança ainda é o investimento mais popular do Brasil — mas não porque é o melhor. A resposta direta: com a Selic acima de 8,5% ao ano, o CDB rende mais que a poupança em praticamente todos os cenários — mesmo após o IR.</p><h2>Como funciona o rendimento da poupança</h2><p>Com a Selic a {{selicRate}}% ao ano, a poupança rende 0,5% ao mês mais TR — equivalente a aproximadamente {{poupancaRate}}% ao ano. A poupança é isenta de IR, mas isso não compensa o rendimento muito menor.</p><h2>Comparativo: R$ 10.000 investidos</h2>"
+    },
+    {
+      "type": "simulationTable",
+      "initialInvestment": 10000,
+      "terms": [6, 12, 24, 36],
+      "showDifference": true,
+      "scenarios": [
+        { "label": "Poupança ({{poupancaRate}}% a.a.)", "rateLogic": "selic>8.5?0.0617:selic*0.70", "isTaxable": false },
+        { "label": "CDB 100% CDI líquido", "rateLogic": "cdi/100", "isTaxable": true },
+        { "label": "CDB 110% CDI líquido", "rateLogic": "cdi*1.10", "isTaxable": true }
+      ]
+    },
+    {
+      "type": "html",
+      "content": "<p><em>Referência: Selic de {{selicRate}}% a.a. e CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}). Simulações com taxa constante para fins ilustrativos.</em></p><h2>Por que a poupança não é recomendada</h2><p><strong>1. Rende muito menos.</strong> Com a Selic a {{selicRate}}% ao ano, a poupança rende {{poupancaRate}}% ao ano — menos da metade do CDB de liquidez diária.</p><p><strong>2. Perde para a inflação em muitos cenários.</strong> Com IPCA a {{ipcaRate}}% ao ano, o rendimento real da poupança pode ser próximo de zero.</p><p><strong>3. Existem alternativas com a mesma segurança.</strong> CDB de liquidez diária e Tesouro Selic têm o mesmo FGC e rendem muito mais.</p><h2>O que usar no lugar da poupança</h2><table><thead><tr><th>Uso da poupança</th><th>Alternativa mais eficiente</th></tr></thead><tbody><tr><td>Reserva de emergência</td><td>Tesouro Selic ou CDB de liquidez diária</td></tr><tr><td>Guardar dinheiro de curto prazo</td><td>CDB de liquidez diária ou Tesouro Selic</td></tr><tr><td>Objetivo de médio prazo</td><td>LCI, LCA ou CDB com prazo</td></tr><tr><td>Proteção da inflação</td><td>Tesouro IPCA+ ou CDB IPCA+</td></tr></tbody></table><h2>Conclusão</h2><p>Com a Selic a {{selicRate}}% ao ano, o CDB supera a poupança em todos os prazos — mesmo após o IR. Se você ainda tem dinheiro na poupança, vale migrar para um CDB de liquidez diária ou Tesouro Selic com o mesmo nível de segurança e rendimento muito superior.</p><p><em>Referência: Selic {{selicRate}}% a.a., CDI {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
     }
-  },
+  ],
+  "faq": [
+    { "question": "CDB ou poupança: qual rende mais?", "answer": "Com a Selic acima de 8,5% ao ano, o CDB rende mais que a poupança em todos os cenários — mesmo após o IR. Um CDB a 100% do CDI rende aproximadamente o dobro da poupança." },
+    { "question": "A poupança tem IR?", "answer": "Não. A poupança é isenta de IR para pessoa física. Mas essa vantagem não compensa o rendimento muito menor — o CDB supera a poupança mesmo após pagar IR." },
+    { "question": "CDB e poupança têm a mesma segurança?", "answer": "Sim. Os dois têm cobertura do FGC até R$ 250.000 por CPF por instituição. O nível de segurança é equivalente." },
+    { "question": "Posso resgatar o CDB a qualquer momento como a poupança?", "answer": "Depende do produto. CDB de liquidez diária permite resgate a qualquer momento. CDB com prazo fixo só no vencimento. Verifique as condições antes de aplicar." },
+    { "question": "Vale a pena migrar da poupança para o CDB?", "answer": "Sim, na maioria dos casos. Um CDB de liquidez diária tem o mesmo nível de segurança (FGC), a mesma praticidade e rende muito mais que a poupança com a Selic atual." }
+  ],
+  "internalLinks": [
+    { "anchor": "melhores investimentos para iniciantes", "slug": "melhores-investimentos-para-iniciantes" },
+    { "anchor": "o que é CDB e como funciona", "slug": "o-que-e-cdb" },
+    { "anchor": "compare Tesouro Selic e CDB", "slug": "tesouro-selic-ou-cdb" },
+    { "anchor": "reserva de emergência: quanto guardar", "slug": "reserva-de-emergencia" },
+    { "anchor": "guia completo de renda fixa", "slug": "guia-renda-fixa" }
+  ],
+  "cta": {
+    "primary": { "text": "Veja os melhores investimentos para iniciantes", "url": "/melhores-investimentos-para-iniciantes" },
+    "secondary": { "text": "Entenda o que é CDB", "url": "/o-que-e-cdb" }
+  }
+},
   {
   "slug": "tesouro-selic-ou-cdb",
   "title": "Tesouro Selic ou CDB",
@@ -268,58 +301,58 @@ export const blogArticles: Article[] = [
   },
   {
     "slug": "como-comecar-a-investir",
-  "title": "Como Começar a Investir do Zero: Guia Passo a Passo",
-  "excerpt": "Aprenda a investir do zero com 7 passos práticos: da reserva de emergência à escolha dos primeiros produtos. Guia completo para iniciantes.",
-  "seoTitle": "Como Começar a Investir do Zero: Guia Passo a Passo",
-  "seoDescription": "Aprenda como começar a investir do zero em 7 passos práticos. Reserva de emergência, perfil de risco, renda fixa e como escolher seus primeiros investimentos.",
-  "category": "investimentos",
-  "subcategory": "para-iniciantes",
-  "pillar": "pillar-1-investimentos",
-  "cluster": "comecar-a-investir",
-  "readingTime": "12 min",
-  "lastUpdated": "2026-03-20",
-  "author": "Equipe Bigwall",
-  "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento. Rentabilidades passadas não garantem resultados futuros.",
-  "content": [
-    {
-      "type": "html",
-      "content": "<h1>Como começar a investir do zero (mesmo sem experiência)</h1><div class='resumo-rapido'><ul><li>Você não precisa de muito dinheiro — há opções a partir de R$ 30</li><li>Monte a reserva de emergência antes de qualquer investimento</li><li>Renda fixa é o ponto de partida mais recomendado para iniciantes</li><li>Defina um objetivo antes de escolher qualquer produto</li><li>Consistência importa mais do que o valor inicial</li></ul></div><p>Começar a investir é mais simples do que parece. Você não precisa entender de economia, não precisa ter muito dinheiro e não precisa fazer um curso antes. O que precisa é seguir uma ordem lógica.</p><h2>Por que a maioria das pessoas trava antes de começar</h2><p>A principal razão não é falta de dinheiro — é excesso de dúvida. A pergunta certa não é qual é o melhor investimento, mas o que você precisa fazer antes de investir.</p><h2>Antes de investir: o que organizar</h2><h3>Monte sua reserva de emergência primeiro</h3><p>3 a 6 meses de despesas em produto com liquidez imediata. Com a Selic a {{selicRate}}% ao ano, o Tesouro Selic e o CDB de liquidez diária rendem muito mais que a poupança ({{poupancaRate}}% a.a.) com a mesma segurança.</p><h3>Entenda seu perfil de investidor</h3><table><thead><tr><th>Perfil</th><th>Característica</th><th>Produtos indicados</th></tr></thead><tbody><tr><td>Conservador</td><td>Prioriza segurança</td><td>Tesouro Selic, CDB, LCI, LCA</td></tr><tr><td>Moderado</td><td>Aceita alguma variação</td><td>Mix renda fixa + FIIs ou ETFs</td></tr><tr><td>Arrojado</td><td>Aceita maior oscilação</td><td>Ações, ETFs, FIIs</td></tr></tbody></table><h3>Defina um objetivo claro</h3><p>Reserva de emergência → liquidez imediata. Objetivo de 2 anos → renda fixa de médio prazo. Aposentadoria → pode incluir renda variável.</p><h2>Os 7 passos para começar</h2><h3>Passo 1 — Organize suas finanças</h3><p>Quite dívidas com juros acima de 1% ao mês antes de investir.</p><h3>Passo 2 — Monte a reserva de emergência</h3><p>3 a 6 meses de despesas no Tesouro Selic ou CDB de liquidez diária.</p><h3>Passo 3 — Descubra seu perfil de investidor</h3><p>O teste de perfil é obrigatório por regulamentação da CVM e leva menos de 5 minutos na corretora.</p><h3>Passo 4 — Escolha uma corretora</h3><p>Verifique regulamentação em cvm.gov.br. A maioria das corretoras digitais cobra taxa zero.</p><h3>Passo 5 — Comece pela renda fixa</h3>"
-    },
-    {
-      "type": "simulationTable",
-      "initialInvestment": 10000,
-      "terms": [12],
-      "scenarios": [
-        { "label": "Poupança", "rateLogic": "selic>8.5?0.0617:selic*0.70", "isTaxable": false },
-        { "label": "Tesouro Selic", "rateLogic": "selic/100", "isTaxable": true },
-        { "label": "CDB 100% CDI", "rateLogic": "cdi/100", "isTaxable": true },
-        { "label": "LCI 90% CDI", "rateLogic": "cdi*0.90", "isTaxable": false }
-      ]
-    },
-    {
-      "type": "html",
-      "content": "<h3>Passo 6 — Aumente o aporte com o tempo</h3><p>Aportes mensais regulares produzem resultados significativos graças aos juros compostos.</p><h3>Passo 7 — Aprenda enquanto investe</h3><p>Comece com produtos simples e vá aprendendo no processo.</p><h2>Quanto preciso para começar?</h2><ul><li><strong>Tesouro Direto:</strong> a partir de R$ 30</li><li><strong>CDB:</strong> a partir de R$ 1 em corretoras digitais</li><li><strong>LCI/LCA:</strong> geralmente a partir de R$ 1.000</li><li><strong>ETFs:</strong> a partir de 1 cota (pode ser menos de R$ 100)</li></ul><h2>Erros mais comuns</h2><ol><li>Investir sem ter reserva de emergência</li><li>Deixar tudo na poupança por medo</li><li>Buscar o investimento perfeito em vez de construir a base</li><li>Comparar rendimento bruto sem considerar impostos</li><li>Resgatar antes do prazo por ansiedade</li></ol><h2>Conclusão</h2><p>Organize as finanças, monte a reserva, descubra seu perfil, abra conta em corretora e comece pela renda fixa. O passo mais importante é o primeiro.</p><p>Quer saber onde investir? <a href='/melhores-investimentos-para-iniciantes'>Veja os melhores investimentos para iniciantes.</a></p><p><em>Referência: Selic {{selicRate}}% a.a., CDI {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
+    "title": "Como Começar a Investir do Zero: Guia Passo a Passo",
+    "excerpt": "Aprenda a investir do zero com 7 passos práticos: da reserva de emergência à escolha dos primeiros produtos. Guia completo para iniciantes.",
+    "seoTitle": "Como Começar a Investir do Zero: Guia Passo a Passo",
+    "seoDescription": "Aprenda como começar a investir do zero em 7 passos práticos. Reserva de emergência, perfil de risco, renda fixa e como escolher seus primeiros investimentos.",
+    "category": "investimentos",
+    "subcategory": "para-iniciantes",
+    "pillar": "pillar-1-investimentos",
+    "cluster": "comecar-a-investir",
+    "readingTime": "12 min",
+    "lastUpdated": "2026-03-20",
+    "author": "Equipe Bigwall",
+    "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento. Rentabilidades passadas não garantem resultados futuros.",
+    "content": [
+      {
+        "type": "html",
+        "content": "<h1>Como começar a investir do zero (mesmo sem experiência)</h1><div class='resumo-rapido'><ul><li>Você não precisa de muito dinheiro — há opções a partir de R$ 30</li><li>Monte a reserva de emergência antes de qualquer investimento</li><li>Renda fixa é o ponto de partida mais recomendado para iniciantes</li><li>Defina um objetivo antes de escolher qualquer produto</li><li>Consistência importa mais do que o valor inicial</li></ul></div><p>Começar a investir é mais simples do que parece. Você não precisa entender de economia, não precisa ter muito dinheiro e não precisa fazer um curso antes. O que precisa é seguir uma ordem lógica.</p><h2>Por que a maioria das pessoas trava antes de começar</h2><p>A principal razão não é falta de dinheiro — é excesso de dúvida. A pergunta certa não é qual é o melhor investimento, mas o que você precisa fazer antes de investir.</p><h2>Antes de investir: o que organizar</h2><h3>Monte sua reserva de emergência primeiro</h3><p>3 a 6 meses de despesas em produto com liquidez imediata. Com a Selic a {{selicRate}}% ao ano, o Tesouro Selic e o CDB de liquidez diária rendem muito mais que a poupança ({{poupancaRate}}% a.a.) com a mesma segurança.</p><h3>Entenda seu perfil de investidor</h3><table><thead><tr><th>Perfil</th><th>Característica</th><th>Produtos indicados</th></tr></thead><tbody><tr><td>Conservador</td><td>Prioriza segurança</td><td>Tesouro Selic, CDB, LCI, LCA</td></tr><tr><td>Moderado</td><td>Aceita alguma variação</td><td>Mix renda fixa + FIIs ou ETFs</td></tr><tr><td>Arrojado</td><td>Aceita maior oscilação</td><td>Ações, ETFs, FIIs</td></tr></tbody></table><h3>Defina um objetivo claro</h3><p>Reserva de emergência → liquidez imediata. Objetivo de 2 anos → renda fixa de médio prazo. Aposentadoria → pode incluir renda variável.</p><h2>Os 7 passos para começar</h2><h3>Passo 1 — Organize suas finanças</h3><p>Quite dívidas com juros acima de 1% ao mês antes de investir.</p><h3>Passo 2 — Monte a reserva de emergência</h3><p>3 a 6 meses de despesas no Tesouro Selic ou CDB de liquidez diária.</p><h3>Passo 3 — Descubra seu perfil de investidor</h3><p>O teste de perfil é obrigatório por regulamentação da CVM e leva menos de 5 minutos na corretora.</p><h3>Passo 4 — Escolha uma corretora</h3><p>Verifique regulamentação em cvm.gov.br. A maioria das corretoras digitais cobra taxa zero.</p><h3>Passo 5 — Comece pela renda fixa</h3>"
+      },
+      {
+        "type": "simulationTable",
+        "initialInvestment": 10000,
+        "terms": [12],
+        "scenarios": [
+          { "label": "Poupança", "rateLogic": "selic>8.5?0.0617:selic*0.70", "isTaxable": false },
+          { "label": "Tesouro Selic", "rateLogic": "selic/100", "isTaxable": true },
+          { "label": "CDB 100% CDI", "rateLogic": "cdi/100", "isTaxable": true },
+          { "label": "LCI 90% CDI", "rateLogic": "cdi*0.90", "isTaxable": false }
+        ]
+      },
+      {
+        "type": "html",
+        "content": "<h3>Passo 6 — Aumente o aporte com o tempo</h3><p>Aportes mensais regulares produzem resultados significativos graças aos juros compostos.</p><h3>Passo 7 — Aprenda enquanto investe</h3><p>Comece com produtos simples e vá aprendendo no processo.</p><h2>Quanto preciso para começar?</h2><ul><li><strong>Tesouro Direto:</strong> a partir de R$ 30</li><li><strong>CDB:</strong> a partir de R$ 1 em corretoras digitais</li><li><strong>LCI/LCA:</strong> geralmente a partir de R$ 1.000</li><li><strong>ETFs:</strong> a partir de 1 cota (pode ser menos de R$ 100)</li></ul><h2>Erros mais comuns</h2><ol><li>Investir sem ter reserva de emergência</li><li>Deixar tudo na poupança por medo</li><li>Buscar o investimento perfeito em vez de construir a base</li><li>Comparar rendimento bruto sem considerar impostos</li><li>Resgatar antes do prazo por ansiedade</li></ol><h2>Conclusão</h2><p>Organize as finanças, monte a reserva, descubra seu perfil, abra conta em corretora e comece pela renda fixa. O passo mais importante é o primeiro.</p><p>Quer saber onde investir? <a href='/melhores-investimentos-para-iniciantes'>Veja os melhores investimentos para iniciantes.</a></p><p><em>Referência: Selic {{selicRate}}% a.a., CDI {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
+      }
+    ],
+    "faq": [
+      { "question": "Quanto preciso para começar a investir?", "answer": "Você pode começar com menos de R$ 100. O Tesouro Selic aceita a partir de R$ 30 e alguns CDBs aceitam R$ 1 em corretoras digitais." },
+      { "question": "Qual o investimento mais seguro para iniciantes?", "answer": "O Tesouro Selic — garantido pelo Governo Federal. CDBs com FGC até R$ 250.000 também têm alto nível de segurança." },
+      { "question": "Preciso de corretora ou posso investir pelo banco?", "answer": "Você pode usar o banco, mas corretoras independentes oferecem mais variedade e melhores condições. Abrir conta é gratuito e 100% digital." },
+      { "question": "Renda fixa ou poupança: o que rende mais?", "answer": "Com a Selic acima de 8,5% ao ano, a renda fixa rende muito mais que a poupança — mesmo após o IR." },
+      { "question": "Preciso declarar investimentos no IR?", "answer": "Sim. CDB e Tesouro Direto precisam ser declarados mesmo sem imposto a pagar. LCI e LCA são isentas mas também precisam ser declaradas." }
+    ],
+    "internalLinks": [
+      { "anchor": "reserva de emergência: quanto guardar", "slug": "reserva-de-emergencia" },
+      { "anchor": "melhores investimentos para iniciantes", "slug": "melhores-investimentos-para-iniciantes" },
+      { "anchor": "o que é CDB", "slug": "o-que-e-cdb" },
+      { "anchor": "o que é Tesouro Direto", "slug": "o-que-e-tesouro-direto" },
+      { "anchor": "guia completo de renda fixa", "slug": "guia-renda-fixa" }
+    ],
+    "cta": {
+      "primary": { "text": "Veja os melhores investimentos para iniciantes", "url": "/melhores-investimentos-para-iniciantes" },
+      "secondary": { "text": "Monte sua reserva de emergência", "url": "/reserva-de-emergencia" }
     }
-  ],
-  "faq": [
-    { "question": "Quanto preciso para começar a investir?", "answer": "Você pode começar com menos de R$ 100. O Tesouro Selic aceita a partir de R$ 30 e alguns CDBs aceitam R$ 1 em corretoras digitais." },
-    { "question": "Qual o investimento mais seguro para iniciantes?", "answer": "O Tesouro Selic — garantido pelo Governo Federal. CDBs com FGC até R$ 250.000 também têm alto nível de segurança." },
-    { "question": "Preciso de corretora ou posso investir pelo banco?", "answer": "Você pode usar o banco, mas corretoras independentes oferecem mais variedade e melhores condições. Abrir conta é gratuito e 100% digital." },
-    { "question": "Renda fixa ou poupança: o que rende mais?", "answer": "Com a Selic acima de 8,5% ao ano, a renda fixa rende muito mais que a poupança — mesmo após o IR." },
-    { "question": "Preciso declarar investimentos no IR?", "answer": "Sim. CDB e Tesouro Direto precisam ser declarados mesmo sem imposto a pagar. LCI e LCA são isentas mas também precisam ser declaradas." }
-  ],
-  "internalLinks": [
-    { "anchor": "reserva de emergência: quanto guardar", "slug": "reserva-de-emergencia" },
-    { "anchor": "melhores investimentos para iniciantes", "slug": "melhores-investimentos-para-iniciantes" },
-    { "anchor": "o que é CDB", "slug": "o-que-e-cdb" },
-    { "anchor": "o que é Tesouro Direto", "slug": "o-que-e-tesouro-direto" },
-    { "anchor": "guia completo de renda fixa", "slug": "guia-renda-fixa" }
-  ],
-  "cta": {
-    "primary": { "text": "Veja os melhores investimentos para iniciantes", "url": "/melhores-investimentos-para-iniciantes" },
-    "secondary": { "text": "Monte sua reserva de emergência", "url": "/reserva-de-emergencia" }
-  }
-},
+  },
   {
     "title": "O que é Tesouro Direto e como funciona? (Guia Completo)",
     "slug": "o-que-e-tesouro-direto",
@@ -564,3 +597,5 @@ export const blogArticles: Article[] = [
     }
   }
 ]
+
+  
