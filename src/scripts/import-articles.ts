@@ -1,4 +1,5 @@
 
+
 import { blogArticles } from '../lib/content';
 import * as admin from 'firebase-admin';
 import { getFirestore } from 'firebase-admin/firestore';
@@ -20,6 +21,10 @@ const db = getFirestore();
  * @returns A string representing the logic.
  */
 const convertRateToLogicString = (rateValue: any): string => {
+  if (typeof rateValue !== 'function') {
+    return String(rateValue); // Return as is if not a function
+  }
+
   const funcString = String(rateValue);
   
   // Clean up potential extra spaces and newlines from the string representation
@@ -50,6 +55,10 @@ const importArticles = async () => {
 
   for (const article of blogArticles) {
     const { slug, ...data } = article;
+    if (!slug) {
+        console.warn('Skipping article with no slug:', article.title);
+        continue;
+    }
     const docRef = articlesCollection.doc(slug);
 
     // Deep copy to avoid modifying original objects
@@ -97,3 +106,4 @@ const importArticles = async () => {
 importArticles().catch(error => {
   console.error("An unexpected error occurred during the import process:", error);
 });
+

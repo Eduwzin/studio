@@ -1,4 +1,5 @@
 
+
 import { getFirestore, doc, getDoc, collection, getDocs, Timestamp } from 'firebase/firestore';
 import { notFound } from "next/navigation";
 import { placeholderImages } from "@/lib/content";
@@ -14,6 +15,7 @@ import type { Article, ArticleContent, HtmlContentBlock } from "@/lib/content";
 import SimulationTable from "@/components/blog/SimulationTable";
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { firebaseConfig } from '@/firebase/config';
+import { defaultDisclaimer } from '@/lib/content';
 
 type Props = {
   params: { slug: string };
@@ -132,7 +134,7 @@ function FaqSection({ faq, dynamicReplacers }: { faq: { question: string; answer
 }
 
 // Componente para o Disclaimer
-function DisclaimerSection({ text }: { text?: string }) {
+function DisclaimerSection({ text, dynamicReplacers }: { text?: string; dynamicReplacers: (text: string) => string; }) {
   if (!text) return null;
 
   return (
@@ -140,7 +142,7 @@ function DisclaimerSection({ text }: { text?: string }) {
       <Info className="h-4 w-4" />
       <AlertTitle>Aviso Legal</AlertTitle>
       <AlertDescription>
-        {text}
+        {dynamicReplacers(text)}
       </AlertDescription>
     </Alert>
   );
@@ -290,6 +292,9 @@ export default async function BlogPostPage({ params }: Props) {
         }
       ]
     };
+    
+  const disclaimerText = article.disclaimer === 'defaultDisclaimer' ? defaultDisclaimer : article.disclaimer;
+
 
   return (
     <>
@@ -330,8 +335,9 @@ export default async function BlogPostPage({ params }: Props) {
           />
         )}
 
-        <DisclaimerSection text={article.disclaimer} />
+        <DisclaimerSection text={disclaimerText} dynamicReplacers={replacePlaceholders} />
     </article>
     </>
   );
 }
+
