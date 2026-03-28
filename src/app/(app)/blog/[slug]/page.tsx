@@ -1,7 +1,7 @@
 
-
+import { getFirestore, doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { notFound } from "next/navigation";
-import { blogArticles, placeholderImages } from "@/lib/content";
+import { placeholderImages } from "@/lib/content";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { getSelicRate, getIpcaRate } from "@/services/brapi"; 
@@ -10,25 +10,58 @@ import { Metadata, ResolvingMetadata } from "next";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Info } from "lucide-react";
-import type { ArticleContent, HtmlContentBlock, SimulationTableBlock } from "@/lib/content";
+import type { Article, ArticleContent, HtmlContentBlock, SimulationTableBlock } from "@/lib/content";
 import SimulationTable from "@/components/blog/SimulationTable";
+import { initializeFirebase } from '@/firebase';
 
 type Props = {
   params: { slug: string };
 };
 
-export function generateStaticParams() {
-  return blogArticles.map((article) => ({
-    slug: article.slug,
-  }));
+// Helper para inicializar o DB no servidor
+function getDb() {
+  const { firestore } = initializeFirebase();
+  return firestore;
 }
+
+// Função para buscar o artigo
+async function getArticle(slug: string): Promise<Article | null> {
+  const db = getDb();
+  const docRef = doc(db, 'articles', slug);
+  const docSnap = await getDoc(docRef);
+
+  if (!docSnap.exists()) {
+    return null;
+  }
+
+  const data = docSnap.data();
+  
+  const articleData: Article = {
+    ...data,
+    slug: docSnap.id,
+    date: data.lastUpdated.toDate().toISOString(),
+    lastUpdated: data.lastUpdated.toDate().toISOString(),
+  } as Article;
+
+  return articleData;
+}
+
+
+export async function generateStaticParams() {
+  const db = getDb();
+  const articlesCol = collection(db, 'articles');
+  const articlesSnapshot = await getDocs(articlesCol);
+  const articles = articlesSnapshot.docs.map(doc => ({ slug: doc.id }));
+  return articles;
+}
+
 
 // Gera os metadados dinamicamente
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const article = blogArticles.find((a) => a.slug === params.slug);
+  const article = await getArticle(params.slug);
 
   if (!article) {
     return {
@@ -37,9 +70,9 @@ export async function generateMetadata(
   }
 
   const title = article.seoTitle || article.title;
-  const excerpt = article.description; // Short description for social sharing
-  const seoDescription = article.seoDescription || article.description; // Longer description for meta tag
-  const image = placeholderImages.find(p => p.id === article.imageId);
+  const excerpt = article.description;
+  const seoDescription = article.seoDescription || article.description;
+  const image = placeholderImages.find(p => p.id === `blog-${article.slug}`);
   const canonicalUrl = `https://safestart-invest.com/blog/${article.slug}`;
 
   return {
@@ -112,13 +145,22 @@ const RenderContentBlock = ({ block, cdiRate, selicRate, replacePlaceholders }: 
                 />
             );
         case 'simulationTable':
-            const tableBlock = block as SimulationTableBlock;
-            // Pré-processa os cenários no servidor para evitar passar funções para o componente cliente
-            const processedScenarios = tableBlock.scenarios.map(scenario => ({
-                label: scenario.label,
-                isTaxable: scenario.isTaxable,
-                annualRate: scenario.rate(cdiRate, selicRate), // Executa a função aqui
-            }));
+            const tableBlock = block as any; // Usar 'any' para lidar com 'rateLogic'
+            
+            const processedScenarios = tableBlock.scenarios.map((scenario: any) => {
+                 let annualRate = 0;
+                 try {
+                    // Avalia a string de lógica de forma segura
+                    annualRate = new Function('cdi', 'selic', `return ${scenario.rateLogic}`)(cdiRate, selicRate);
+                 } catch(e) {
+                    console.error("Erro ao avaliar rateLogic:", scenario.rateLogic, e);
+                 }
+                return {
+                    label: scenario.label,
+                    isTaxable: scenario.isTaxable,
+                    annualRate: annualRate
+                };
+            });
             
             return <SimulationTable 
                 selicRate={selicRate}
@@ -136,13 +178,13 @@ const RenderContentBlock = ({ block, cdiRate, selicRate, replacePlaceholders }: 
 
 // Make the component async to fetch data
 export default async function BlogPostPage({ params }: Props) {
-  const article = blogArticles.find((a) => a.slug === params.slug);
+  const article = await getArticle(params.slug);
 
   if (!article) {
     notFound();
   }
   
-  const image = placeholderImages.find(p => p.id === article.imageId);
+  const image = placeholderImages.find(p => p.id === `blog-${article.slug}`);
 
   // --- Fetch real-time data ---
   const [selicRate, ipcaRate] = await Promise.all([
@@ -203,7 +245,7 @@ export default async function BlogPostPage({ params }: Props) {
           "description": article.seoDescription || article.description,
           "image": image?.imageUrl,
           "datePublished": new Date(article.date).toISOString(),
-          "dateModified": new Date(article.date).toISOString(), // Assuming date is last updated
+          "dateModified": new Date(article.lastUpdated).toISOString(),
           "author": {
               "@type": "Organization",
               "name": "SafeStart Invest"
