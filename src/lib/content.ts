@@ -174,111 +174,6 @@ export const blogArticles: Article[] = [
   }
 },
   {
-    "title": "O que é LCI? Vale a pena? (Guia Completo)",
-    "slug": "o-que-e-lci",
-    "excerpt": "LCI é um investimento de renda fixa isento de Imposto de Renda, ideal para objetivos de médio prazo. Entenda como funciona, a segurança e se vale a pena.",
-    "date": "2026-03-20",
-    "readingTime": "7 min",
-    "category": "investimentos",
-    "subcategory": "renda-fixa",
-    "pillar": "pillar-1-investimentos",
-    "cluster": "lci-lca",
-    "author": "Equipe Bigwall",
-    "seoTitle": "O que é LCI? Vale a pena? (Guia Completo para 2026)",
-    "seoDescription": "Guia completo sobre LCI: o que é, como funciona, rendimento, segurança (FGC), liquidez, carência e comparação com CDB e LCA. Saiba se vale a pena.",
-    "disclaimer": "defaultDisclaimer",
-    "content": [],
-    "faq": [],
-    "internalLinks": [],
-    "cta": {
-      "primary": { "text": "Veja o guia completo de Renda Fixa", "url": "/guia-renda-fixa" }
-    }
-  },
-  {
-    "title": "O que é LCA? Vale a pena? (Guia Completo)",
-    "slug": "o-que-e-lca",
-    "excerpt": "LCA é um investimento de renda fixa isento de IR, muito parecido com a LCI, mas ligado ao agronegócio. Entenda a segurança, liquidez e se vale a pena.",
-    "date": "2026-03-20",
-    "readingTime": "7 min",
-    "category": "investimentos",
-    "subcategory": "renda-fixa",
-    "pillar": "pillar-1-investimentos",
-    "cluster": "lci-lca",
-    "author": "Equipe Bigwall",
-    "seoTitle": "O que é LCA? Vale a pena? (Guia Completo para 2026)",
-    "seoDescription": "Guia completo sobre LCA: o que é, como funciona, rendimento, segurança (FGC), liquidez, carência e comparação com CDB e LCI. Saiba se vale a pena.",
-    "disclaimer": "defaultDisclaimer",
-    "content": [],
-    "faq": [],
-    "internalLinks": [],
-    "cta": {
-      "primary": { "text": "Veja o guia completo de Renda Fixa", "url": "/guia-renda-fixa" }
-    }
-  },
-  {
-    "title": "Renda Fixa ou Renda Variável: qual a diferença?",
-    "slug": "renda-fixa-ou-renda-variavel",
-    "excerpt": "Renda fixa tem retorno previsível; renda variável, não. Entenda a diferença de risco, retorno e quando usar cada uma na sua carteira de investimentos.",
-    "date": "2026-03-20",
-    "readingTime": "9 min",
-    "category": "investimentos",
-    "subcategory": "para-iniciantes",
-    "pillar": "pillar-1-investimentos",
-    "cluster": "comecar-a-investir",
-    "author": "Equipe Bigwall",
-    "seoTitle": "Renda Fixa ou Renda Variável: qual a diferença e por onde começar?",
-    "seoDescription": "Renda Fixa vs Renda Variável: entenda a diferença de risco, retorno e liquidez. Saiba qual é a melhor opção para iniciantes e como combinar as duas.",
-    "disclaimer": "defaultDisclaimer",
-    "content": [],
-    "faq": [],
-    "internalLinks": [],
-    "cta": {
-      "primary": { "text": "Veja o guia completo para começar a investir", "url": "/como-comecar-a-investir" }
-    }
-  },
-  {
-    "title": "Guia Completo de Renda Fixa para Iniciantes",
-    "slug": "guia-renda-fixa",
-    "excerpt": "Aprenda tudo sobre Renda Fixa: Tesouro Direto, CDB, LCI, LCA, CRI e CRA. Entenda os riscos, a liquidez e como montar uma carteira segura e rentável.",
-    "date": "2026-03-20",
-    "readingTime": "12 min",
-    "category": "investimentos",
-    "subcategory": "renda-fixa",
-    "pillar": "pillar-1-investimentos",
-    "cluster": "renda-fixa-geral",
-    "author": "Equipe Bigwall",
-    "seoTitle": "Guia Completo de Renda Fixa para Iniciantes em 2026",
-    "seoDescription": "Guia completo de Renda Fixa: Tesouro Direto (Selic, Prefixado, IPCA+), CDB, LCI, LCA, CRI, CRA e Debêntures. Aprenda tudo para investir com segurança.",
-    "disclaimer": "defaultDisclaimer",
-    "content": [],
-    "faq": [],
-    "internalLinks": [],
-    "cta": {
-      "primary": { "text": "Veja os melhores investimentos para iniciantes", "url": "/melhores-investimentos-para-iniciantes" }
-    }
-  },
-  {
-    "title": "CDB ou LCI/LCA: qual rende mais e qual o melhor?",
-    "slug": "cdb-ou-lci",
-    "excerpt": "CDB tem IR, LCI/LCA não. Mas qual rende mais no final? Veja o comparativo completo de rendimento líquido, liquidez, segurança e quando escolher cada um.",
-    "date": "2026-03-20",
-    "readingTime": "10 min",
-    "category": "investimentos",
-    "subcategory": "renda-fixa",
-    "pillar": "pillar-1-investimentos",
-    "cluster": "cdb",
-    "author": "Equipe Bigwall",
-    "seoTitle": "CDB ou LCI/LCA: qual rende mais e qual o melhor para 2026?",
-    "seoDescription": "CDB ou LCI/LCA: qual o melhor? Calcule o rendimento líquido equivalente, compare a liquidez, o prazo, a segurança (FGC) e saiba qual escolher para seus objetivos.",
-    "disclaimer": "defaultDisclaimer",
-    "content": [],
-    "faq": [],
-    "internalLinks": [],
-    "cta": {
-      "primary": { "text": "Veja o guia completo de Renda Fixa", "url": "/guia-renda-fixa" }
-    }
-  },
-  {
   "slug": "o-que-e-cdb",
   "title": "O que é CDB e como funciona",
   "excerpt": "CDB é um título de renda fixa emitido por bancos que paga juros ao investidor. Entenda como funciona, quais os tipos, como é o IR e se vale mais que a poupança.",
@@ -387,25 +282,163 @@ export const blogArticles: Article[] = [
     "secondary": { "text": "Monte sua reserva de emergência", "url": "/reserva-de-emergencia" }
   }
 },
-  {
-    "title": "O que é Tesouro Direto e como funciona? (Guia Completo)",
-    "slug": "o-que-e-tesouro-direto",
-    "excerpt": "Tesouro Direto é o investimento mais seguro do Brasil. Aprenda o que é, os tipos de títulos (Selic, Prefixado, IPCA+), como comprar e qual escolher.",
+{
+  "slug": "o-que-e-tesouro-direto",
+  "title": "O que é Tesouro Direto",
+  "excerpt": "Tesouro Direto é o programa do governo federal para venda de títulos públicos a pessoas físicas. Entenda como funciona, os tipos e como começar a investir.",
+  "seoTitle": "O que é Tesouro Direto? Guia completo 2026",
+  "seoDescription": "Tesouro Direto é o investimento garantido pelo governo federal. Veja como funciona, os tipos de título, custos, IR e se vale mais que CDB e poupança.",
+  "category": "renda-fixa",
+  "subcategory": "tesouro-direto",
+  "pillar": "pillar-2-renda-fixa",
+  "cluster": "tesouro-direto",
+  "readingTime": "11 min",
+  "lastUpdated": "2026-03-20",
+  "author": "Equipe Bigwall",
+  "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento. Rentabilidades são referências e variam conforme o produto e o emissor.",
+  "content": [
+    {
+      "type": "html",
+      "content": "<h1>O que é Tesouro Direto: como funciona, tipos de título e como investir</h1><div class='resumo-rapido'><ul><li>Tesouro Direto é um programa do governo federal para venda de títulos públicos a pessoas físicas</li><li>É o investimento de menor risco do Brasil — garantido pelo Governo Federal</li><li>Três tipos principais: Tesouro Selic, Tesouro Prefixado e Tesouro IPCA+</li><li>Tem IR regressivo (22,5% a 15%) e taxa de custódia da B3 de 0,20% ao ano</li><li>Aplicações a partir de R$ 30 — uma das opções mais acessíveis do mercado</li></ul></div><p>Tesouro Direto é um dos investimentos mais seguros e acessíveis do Brasil. Você empresta dinheiro ao Governo Federal e recebe juros em troca. A Selic atual está em {{selicRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}}).</p><h2>O que é Tesouro Direto</h2><p>Programa criado em 2002 pelo Tesouro Nacional em parceria com a B3. Por ser garantido pelo Governo Federal — que tem o menor risco de crédito do país — é considerado o investimento de menor risco disponível para o investidor brasileiro.</p><h2>Tipos de título</h2><h3>Tesouro Selic</h3><p>Rende de acordo com a taxa Selic ({{selicRate}}% ao ano). Ideal para reserva de emergência — liquidez diária sem risco de perda. É o título mais indicado para quem está começando.</p><h3>Tesouro Prefixado</h3><p>Taxa fixa definida na compra. Você sabe exatamente quanto vai receber no vencimento — independente do que acontecer com a Selic.</p><h3>Tesouro IPCA+</h3><p>Rende IPCA ({{ipcaRate}}% ao ano) mais taxa fixa. Protege o poder de compra no longo prazo. Ideal para objetivos de 5 anos ou mais.</p><table><thead><tr><th>Título</th><th>Como rende</th><th>Liquidez</th><th>Melhor para</th><th>Risco de mercado</th></tr></thead><tbody><tr><td>Tesouro Selic</td><td>Taxa Selic ({{selicRate}}% a.a.)</td><td>Diária sem perda</td><td>Reserva de emergência</td><td>Mínimo</td></tr><tr><td>Tesouro Prefixado</td><td>Taxa fixa na compra</td><td>Diária com marcação</td><td>Médio prazo</td><td>Médio</td></tr><tr><td>Tesouro IPCA+</td><td>IPCA + taxa fixa</td><td>Diária com marcação</td><td>Longo prazo</td><td>Médio</td></tr></tbody></table><h2>Custos do Tesouro Direto</h2><p>Taxa de custódia B3: 0,20% ao ano — isenta para até R$ 10.000 no Tesouro Selic. A maioria das corretoras cobra taxa zero para operar no Tesouro Direto.</p><h2>Tesouro Direto tem FGC?</h2><p>Não — e não precisa. É garantido pelo Governo Federal, com risco de crédito menor que qualquer banco privado.</p><h2>IR no Tesouro Direto</h2><table><thead><tr><th>Prazo</th><th>Alíquota IR</th></tr></thead><tbody><tr><td>Até 180 dias</td><td>22,5%</td></tr><tr><td>181 a 360 dias</td><td>20%</td></tr><tr><td>361 a 720 dias</td><td>17,5%</td></tr><tr><td>Acima de 720 dias</td><td>15%</td></tr></tbody></table><p>Fonte: Receita Federal do Brasil. O IR é retido automaticamente na fonte no resgate.</p><h2>Tesouro Direto vale a pena? Comparação rápida</h2>"
+    },
+    {
+      "type": "simulationTable",
+      "initialInvestment": 10000,
+      "terms": [12],
+      "scenarios": [
+        { "label": "Poupança", "rateLogic": "selic>8.5?0.0617:selic*0.70", "isTaxable": false },
+        { "label": "Tesouro Selic", "rateLogic": "selic/100", "isTaxable": true },
+        { "label": "CDB 100% CDI", "rateLogic": "cdi/100", "isTaxable": true },
+        { "label": "LCI 90% CDI", "rateLogic": "cdi*0.90", "isTaxable": false }
+      ]
+    },
+    {
+      "type": "html",
+      "content": "<p><em>Referência: Selic de {{selicRate}}% a.a. e CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}). Sempre compare rendimento líquido.</em></p><h2>Como começar a investir no Tesouro Direto</h2><ol><li>Abra conta em corretora habilitada pelo Tesouro Nacional</li><li>Acesse a área de Tesouro Direto na plataforma</li><li>Escolha o título adequado ao seu objetivo</li><li>Informe o valor (mínimo ~R$ 30) e confirme a compra</li><li>Acompanhe pelo extrato da corretora ou em tesourodireto.com.br</li></ol><h2>Conclusão</h2><p>Tesouro Direto é o ponto de partida mais seguro para qualquer investidor brasileiro. O Tesouro Selic é ideal para reserva de emergência e curto prazo. Para longo prazo, o Tesouro IPCA+ garante crescimento acima da inflação.</p><p><a href='/tesouro-selic-ou-cdb'>Compare Tesouro Selic e CDB</a> ou <a href='/quanto-rende-10000-no-tesouro-selic'>simule quanto rende R$ 10.000 no Tesouro Selic.</a></p><p><em>Referência: Selic de {{selicRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
+    }
+  ],
+  "faq": [
+    { "question": "O que é Tesouro Direto e como funciona?", "answer": "Tesouro Direto é um programa do Governo Federal que permite pessoas físicas comprarem títulos públicos. Você empresta dinheiro ao governo e recebe juros em troca. É o investimento de menor risco do Brasil." },
+    { "question": "Tesouro Direto tem FGC?", "answer": "Não. É garantido pelo Governo Federal, que tem risco de crédito menor que qualquer banco privado. É mais seguro que investimentos cobertos pelo FGC." },
+    { "question": "Qual a diferença entre Tesouro Selic, Prefixado e IPCA+?", "answer": "Tesouro Selic acompanha a taxa básica de juros — ideal para reserva de emergência. Prefixado tem taxa fixa — médio prazo. IPCA+ rende inflação mais taxa fixa — longo prazo." },
+    { "question": "Qual o valor mínimo para investir no Tesouro Direto?", "answer": "A partir de aproximadamente R$ 30, equivalente a 1% do título mais barato disponível." },
+    { "question": "Posso perder dinheiro no Tesouro Direto?", "answer": "Se carregar até o vencimento, não. Se vender antes, pode receber mais ou menos por causa da marcação a mercado. Para o Tesouro Selic esse risco é mínimo." }
+  ],
+  "internalLinks": [
+    { "anchor": "compare Tesouro Selic e CDB", "slug": "tesouro-selic-ou-cdb" },
+    { "anchor": "simule quanto rende R$ 10.000 no Tesouro Selic", "slug": "quanto-rende-10000-no-tesouro-selic" },
+    { "anchor": "reserva de emergência: quanto guardar", "slug": "reserva-de-emergencia" },
+    { "anchor": "guia completo de renda fixa", "slug": "guia-renda-fixa" },
+    { "anchor": "como começar a investir do zero", "slug": "como-comecar-a-investir" }
+  ],
+  "cta": {
+    "primary": { "text": "Simule quanto rende no Tesouro Selic", "url": "/quanto-rende-10000-no-tesouro-selic" },
+    "secondary": { "text": "Compare Tesouro Direto com CDB", "url": "/tesouro-selic-ou-cdb" }
+  }
+},
+{
+    "title": "O que é LCI? Vale a pena? (Guia Completo)",
+    "slug": "o-que-e-lci",
+    "excerpt": "LCI é um investimento de renda fixa isento de Imposto de Renda, ideal para objetivos de médio prazo. Entenda como funciona, a segurança e se vale a pena.",
     "date": "2026-03-20",
-    "readingTime": "10 min",
+    "readingTime": "7 min",
     "category": "investimentos",
     "subcategory": "renda-fixa",
     "pillar": "pillar-1-investimentos",
-    "cluster": "tesouro-direto",
+    "cluster": "lci-lca",
     "author": "Equipe Bigwall",
-    "seoTitle": "O que é Tesouro Direto e como funciona? (Guia para 2026)",
-    "seoDescription": "Guia completo sobre o Tesouro Direto: o que é, como funciona, os tipos de títulos (Tesouro Selic, Prefixado, IPCA+), taxas, IR e como investir passo a passo.",
+    "seoTitle": "O que é LCI? Vale a pena? (Guia Completo para 2026)",
+    "seoDescription": "Guia completo sobre LCI: o que é, como funciona, rendimento, segurança (FGC), liquidez, carência e comparação com CDB e LCA. Saiba se vale a pena.",
     "disclaimer": "defaultDisclaimer",
     "content": [],
     "faq": [],
     "internalLinks": [],
     "cta": {
-      "primary": { "text": "Compare Tesouro Selic com CDB", "url": "/tesouro-selic-ou-cdb" }
+      "primary": { "text": "Veja o guia completo de Renda Fixa", "url": "/guia-renda-fixa" }
+    }
+  },
+  {
+    "title": "O que é LCA? Vale a pena? (Guia Completo)",
+    "slug": "o-que-e-lca",
+    "excerpt": "LCA é um investimento de renda fixa isento de IR, muito parecido com a LCI, mas ligado ao agronegócio. Entenda a segurança, liquidez e se vale a pena.",
+    "date": "2026-03-20",
+    "readingTime": "7 min",
+    "category": "investimentos",
+    "subcategory": "renda-fixa",
+    "pillar": "pillar-1-investimentos",
+    "cluster": "lci-lca",
+    "author": "Equipe Bigwall",
+    "seoTitle": "O que é LCA? Vale a pena? (Guia Completo para 2026)",
+    "seoDescription": "Guia completo sobre LCA: o que é, como funciona, rendimento, segurança (FGC), liquidez, carência e comparação com CDB e LCI. Saiba se vale a pena.",
+    "disclaimer": "defaultDisclaimer",
+    "content": [],
+    "faq": [],
+    "internalLinks": [],
+    "cta": {
+      "primary": { "text": "Veja o guia completo de Renda Fixa", "url": "/guia-renda-fixa" }
+    }
+  },
+  {
+    "title": "Renda Fixa ou Renda Variável: qual a diferença?",
+    "slug": "renda-fixa-ou-renda-variavel",
+    "excerpt": "Renda fixa tem retorno previsível; renda variável, não. Entenda a diferença de risco, retorno e quando usar cada uma na sua carteira de investimentos.",
+    "date": "2026-03-20",
+    "readingTime": "9 min",
+    "category": "investimentos",
+    "subcategory": "para-iniciantes",
+    "pillar": "pillar-1-investimentos",
+    "cluster": "comecar-a-investir",
+    "author": "Equipe Bigwall",
+    "seoTitle": "Renda Fixa ou Renda Variável: qual a diferença e por onde começar?",
+    "seoDescription": "Renda Fixa vs Renda Variável: entenda a diferença de risco, retorno e liquidez. Saiba qual é a melhor opção para iniciantes e como combinar as duas.",
+    "disclaimer": "defaultDisclaimer",
+    "content": [],
+    "faq": [],
+    "internalLinks": [],
+    "cta": {
+      "primary": { "text": "Veja o guia completo para começar a investir", "url": "/como-comecar-a-investir" }
+    }
+  },
+  {
+    "title": "Guia Completo de Renda Fixa para Iniciantes",
+    "slug": "guia-renda-fixa",
+    "excerpt": "Aprenda tudo sobre Renda Fixa: Tesouro Direto, CDB, LCI, LCA, CRI e CRA. Entenda os riscos, a liquidez e como montar uma carteira segura e rentável.",
+    "date": "2026-03-20",
+    "readingTime": "12 min",
+    "category": "investimentos",
+    "subcategory": "renda-fixa",
+    "pillar": "pillar-1-investimentos",
+    "cluster": "renda-fixa-geral",
+    "author": "Equipe Bigwall",
+    "seoTitle": "Guia Completo de Renda Fixa para Iniciantes em 2026",
+    "seoDescription": "Guia completo de Renda Fixa: Tesouro Direto (Selic, Prefixado, IPCA+), CDB, LCI, LCA, CRI, CRA e Debêntures. Aprenda tudo para investir com segurança.",
+    "disclaimer": "defaultDisclaimer",
+    "content": [],
+    "faq": [],
+    "internalLinks": [],
+    "cta": {
+      "primary": { "text": "Veja os melhores investimentos para iniciantes", "url": "/melhores-investimentos-para-iniciantes" }
+    }
+  },
+  {
+    "title": "CDB ou LCI/LCA: qual rende mais e qual o melhor?",
+    "slug": "cdb-ou-lci",
+    "excerpt": "CDB tem IR, LCI/LCA não. Mas qual rende mais no final? Veja o comparativo completo de rendimento líquido, liquidez, segurança e quando escolher cada um.",
+    "date": "2026-03-20",
+    "readingTime": "10 min",
+    "category": "investimentos",
+    "subcategory": "renda-fixa",
+    "pillar": "pillar-1-investimentos",
+    "cluster": "cdb",
+    "author": "Equipe Bigwall",
+    "seoTitle": "CDB ou LCI/LCA: qual rende mais e qual o melhor para 2026?",
+    "seoDescription": "CDB ou LCI/LCA: qual o melhor? Calcule o rendimento líquido equivalente, compare a liquidez, o prazo, a segurança (FGC) e saiba qual escolher para seus objetivos.",
+    "disclaimer": "defaultDisclaimer",
+    "content": [],
+    "faq": [],
+    "internalLinks": [],
+    "cta": {
+      "primary": { "text": "Veja o guia completo de Renda Fixa", "url": "/guia-renda-fixa" }
     }
   },
   {
@@ -515,18 +548,17 @@ export const blogArticles: Article[] = [
         "initialInvestment": 10000,
         "terms": [12],
         "scenarios": [
-          { "label": "Poupança", "rate": "(cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70", "isTaxable": false },
-          { "label": "Tesouro Selic", "rate": "(cdi, selic) => selic / 100", "isTaxable": true },
-          { "label": "CDB liquidez diária (100% CDI)", "rate": "(cdi, selic) => cdi / 100", "isTaxable": true },
-          { "label": "LCI 90% CDI", "rate": "(cdi, selic) => (cdi / 100) * 0.90", "isTaxable": false },
-          { "label": "LCI 95% CDI", "rate": "(cdi, selic) => (cdi / 100) * 0.95", "isTaxable": false },
-          { "label": "CDB 110% CDI", "rate": "(cdi, selic) => (cdi / 100) * 1.10", "isTaxable": true }
+          { "label": "Poupança", "rateLogic": "selic>8.5?0.0617:selic*0.70", "isTaxable": false },
+          { "label": "Tesouro Selic", "rateLogic": "selic/100", "isTaxable": true },
+          { "label": "CDB 100% CDI", "rateLogic": "cdi/100", "isTaxable": true },
+          { "label": "LCI 90% CDI", "rateLogic": "cdi*0.90", "isTaxable": false },
+          { "label": "LCI 95% CDI", "rateLogic": "cdi*0.95", "isTaxable": false },
+          { "label": "CDB 110% CDI", "rateLogic": "cdi*1.10", "isTaxable": true }
         ]
       },
       {
         "type": "html",
-        "content": "<p><em>Referência: Selic de {{selicRate}}% a.a. e CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}). Sempre compare rendimento líquido.</em></p><h2>Por que a poupança não é recomendada</h2><p>A poupança rende apenas {{poupancaRate}}% ao ano com a Selic atual de {{selicRate}}% — menos da metade do Tesouro Selic ou CDB de liquidez diária. Existem alternativas com a mesma segurança (FGC) e rendimento muito superior.</p><h2>Como escolher o melhor para o seu caso</h2><p><strong>Tem reserva de emergência?</strong> Não → comece pelo Tesouro Selic ou CDB de liquidez diária.<br><strong>Prazo menor que 1 ano?</strong> → Tesouro Selic ou CDB diário.<br><strong>Prazo de 1 a 3 anos?</strong> → LCI/LCA ou CDB com prazo.<br><strong>Longo prazo?</strong> → Tesouro IPCA+ ou mix renda fixa e variável.</p><h2>Conclusão</h2><p>Para a maioria dos iniciantes: Tesouro Selic ou CDB para reserva de emergência, LCI/LCA para médio prazo e Tesouro IPCA+ para longo prazo.</p><p><a href='/como-comecar-a-investir'>Veja o guia completo de como começar a investir.</a></p><p><em>Referência: Selic {{selicRate}}% a.a., CDI {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>",
-        "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento."
+        "content": "<p><em>Referência: Selic de {{selicRate}}% a.a. e CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}). Sempre compare rendimento líquido.</em></p><h2>Por que a poupança não é recomendada</h2><p>A poupança rende apenas {{poupancaRate}}% ao ano com a Selic atual de {{selicRate}}% — menos da metade do Tesouro Selic ou CDB de liquidez diária. Existem alternativas com a mesma segurança (FGC) e rendimento muito superior.</p><h2>Como escolher o melhor para o seu caso</h2><p><strong>Tem reserva de emergência?</strong> Não → comece pelo Tesouro Selic ou CDB de liquidez diária.<br><strong>Prazo menor que 1 ano?</strong> → Tesouro Selic ou CDB diário.<br><strong>Prazo de 1 a 3 anos?</strong> → LCI/LCA ou CDB com prazo.<br><strong>Longo prazo?</strong> → Tesouro IPCA+ ou mix renda fixa e variável.</p><h2>Conclusão</h2><p>Para a maioria dos iniciantes: Tesouro Selic ou CDB para reserva de emergência, LCI/LCA para médio prazo e Tesouro IPCA+ para longo prazo.</p><p><a href='/como-comecar-a-investir'>Veja o guia completo de como começar a investir.</a></p><p><em>Referência: Selic {{selicRate}}% a.a., CDI {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
       }
     ],
     "faq": [
