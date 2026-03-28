@@ -4,13 +4,12 @@ import { placeholderImages } from "@/lib/content";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { getFirestore, collection, getDocs, query, orderBy } from 'firebase/firestore';
 import type { Article } from '@/lib/content';
 import { initializeApp, getApps, getApp } from 'firebase/app';
+import { getFirestore, collection, getDocs, query, orderBy, Timestamp } from 'firebase/firestore';
 import { firebaseConfig } from '@/firebase/config';
 
 // Helper to initialize Firestore on the server if not already done.
-// This is safe to call multiple times.
 function getDb() {
   if (getApps().length) {
     return getFirestore(getApp());
@@ -27,10 +26,18 @@ async function getAllArticles(): Promise<Article[]> {
 
   return querySnapshot.docs.map(doc => {
     const data = doc.data();
+    // Handle both Timestamp and string date for resilience
+    let date: Date;
+    if (data.lastUpdated && typeof data.lastUpdated.toDate === 'function') {
+      date = (data.lastUpdated as Timestamp).toDate();
+    } else {
+      date = new Date(data.lastUpdated || new Date()); // Fallback to now if undefined
+    }
+
     return {
       ...data,
       slug: doc.id,
-      date: data.lastUpdated.toDate().toISOString(),
+      date: date.toISOString(),
     } as Article;
   });
 }
@@ -55,7 +62,7 @@ export default async function BlogPage() {
                     <div className="relative aspect-video">
                         <Image 
                             src={image.imageUrl} 
-                            alt={article.description || article.title} 
+                            alt={article.title || 'Blog post image'} 
                             fill
                             className="object-cover transition-transform group-hover:scale-105"
                             data-ai-hint={image.imageHint}
@@ -64,10 +71,10 @@ export default async function BlogPage() {
                 )}
                 <CardHeader>
                   <CardTitle className="leading-snug group-hover:text-primary transition-colors">{article.title}</CardTitle>
-                  <Badge variant="secondary" className="w-fit">{new Date(article.date).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' })}</Badge>
+                  {article.date && <Badge variant="secondary" className="w-fit">{new Date(article.date).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' })}</Badge>}
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">{article.description}</p>
+                  <p className="text-muted-foreground">{article.excerpt}</p>
                 </CardContent>
               </Card>
             </Link>

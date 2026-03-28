@@ -1,3 +1,4 @@
+
 import { blogArticles } from '../lib/content';
 import * as admin from 'firebase-admin';
 import { getFirestore } from 'firebase-admin/firestore';
@@ -20,9 +21,16 @@ const db = getFirestore();
  */
 const convertRateToLogicString = (rateValue: any): string => {
   const funcString = String(rateValue);
-  const arrowIndex = funcString.indexOf('=>');
+  
+  // Clean up potential extra spaces and newlines from the string representation
+  const cleanedFuncString = funcString.replace(/\s+/g, ' ');
+
+  const arrowIndex = cleanedFuncString.indexOf('=>');
   if (arrowIndex > -1) {
-    return funcString.substring(arrowIndex + 2).trim();
+    let logic = cleanedFuncString.substring(arrowIndex + 2).trim();
+    // Handle complex ternaries by removing spaces that break the logic
+    logic = logic.replace(/\s*\?\s*/, '?').replace(/\s*:\s*/, ':').replace(/\s*>\s*/, '>');
+    return logic;
   }
   // Fallback if it's not an arrow function string
   console.warn(`Could not find arrow '=>' in rate function: ${funcString}. Using as is.`);
@@ -64,14 +72,16 @@ const importArticles = async () => {
         return block;
       });
     }
-
-    // Convert date string to Firestore Timestamp
-    if (firestoreData.date) {
-        firestoreData.lastUpdated = admin.firestore.Timestamp.fromDate(new Date(firestoreData.date));
-        delete firestoreData.date; // Remove original string date field
+    
+    // Unify date field to 'lastUpdated' and convert to Firestore Timestamp
+    const dateValue = firestoreData.lastUpdated || firestoreData.date;
+    if (dateValue) {
+        firestoreData.lastUpdated = admin.firestore.Timestamp.fromDate(new Date(dateValue));
+        delete firestoreData.date; // Remove original string date field if it exists
     }
 
-    batch.set(docRef, firestoreData);
+
+    batch.set(docRef, firestoreData, { merge: true }); // Use merge to be safe
     console.log(`Importado: ${slug}`);
   }
 

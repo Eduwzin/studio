@@ -1,5 +1,5 @@
 
-import { getFirestore, doc, getDoc, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, collection, getDocs, Timestamp } from 'firebase/firestore';
 import { notFound } from "next/navigation";
 import { placeholderImages } from "@/lib/content";
 import Image from "next/image";
@@ -10,7 +10,7 @@ import { Metadata, ResolvingMetadata } from "next";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Info } from "lucide-react";
-import type { Article, ArticleContent, HtmlContentBlock, SimulationTableBlock } from "@/lib/content";
+import type { Article, ArticleContent, HtmlContentBlock } from "@/lib/content";
 import SimulationTable from "@/components/blog/SimulationTable";
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { firebaseConfig } from '@/firebase/config';
@@ -40,11 +40,19 @@ async function getArticle(slug: string): Promise<Article | null> {
 
   const data = docSnap.data();
   
+  // Handle both Timestamp and string date for resilience
+  let date: Date;
+  if (data.lastUpdated && typeof data.lastUpdated.toDate === 'function') {
+      date = (data.lastUpdated as Timestamp).toDate();
+  } else {
+      date = new Date(data.lastUpdated || new Date());
+  }
+
   const articleData: Article = {
     ...data,
     slug: docSnap.id,
-    date: data.lastUpdated.toDate().toISOString(),
-    lastUpdated: data.lastUpdated.toDate().toISOString(),
+    date: date.toISOString(),
+    lastUpdated: date.toISOString(),
   } as Article;
 
   return articleData;
@@ -74,8 +82,8 @@ export async function generateMetadata(
   }
 
   const title = article.seoTitle || article.title;
-  const excerpt = article.description;
-  const seoDescription = article.seoDescription || article.description;
+  const excerpt = article.excerpt;
+  const seoDescription = article.seoDescription || article.excerpt;
   const image = placeholderImages.find(p => p.id === `blog-${article.slug}`);
   const canonicalUrl = `https://safestart-invest.com/blog/${article.slug}`;
 
@@ -89,7 +97,7 @@ export async function generateMetadata(
         title,
         description: excerpt,
         type: 'article',
-        publishedTime: new Date(article.date).toISOString(),
+        publishedTime: article.date ? new Date(article.date).toISOString() : new Date().toISOString(),
         url: canonicalUrl,
         images: image ? [{
             url: image.imageUrl,
@@ -149,7 +157,7 @@ const RenderContentBlock = ({ block, cdiRate, selicRate, replacePlaceholders }: 
                 />
             );
         case 'simulationTable':
-            const tableBlock = block as any; // Usar 'any' para lidar com 'rateLogic'
+            const tableBlock = block as any; 
             
             const processedScenarios = tableBlock.scenarios.map((scenario: any) => {
                  let annualRate = 0;
@@ -198,13 +206,6 @@ export default async function BlogPostPage({ params }: Props) {
 
   // --- Calculate all dynamic variables ---
   const cdiRate = selicRate - 0.10;
-  const cdbExampleRate = cdiRate * 1.10; // Mantido para compatibilidade
-  const cdb90Rate = cdiRate * 0.90;
-  const cdb95Rate = cdiRate * 0.95;
-  const cdb100Rate = cdiRate;
-  const cdb120Rate = cdiRate * 1.20;
-  const lci90Rate = cdiRate * 0.90;
-  const lci95Rate = cdiRate * 0.95;
   const poupancaRate = selicRate > 8.5 ? 6.17 : selicRate * 0.70;
   const dataAtualizacao = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
   
@@ -214,20 +215,9 @@ export default async function BlogPostPage({ params }: Props) {
     return text
       .replace(/{{selicRate}}/g, selicRate.toFixed(2))
       .replace(/{{cdiRate}}/g, cdiRate.toFixed(2))
-      .replace(/{{cdbExampleRate}}/g, cdbExampleRate.toFixed(2))
-      .replace(/{{cdb100Rate}}/g, cdb100Rate.toFixed(2))
-      .replace(/{{cdb90Rate}}/g, cdb90Rate.toFixed(2))
-      .replace(/{{cdb95Rate}}/g, cdb95Rate.toFixed(2))
-      .replace(/{{cdb120Rate}}/g, cdb120Rate.toFixed(2))
-      .replace(/{{lci90Rate}}/g, lci90Rate.toFixed(2))
-      .replace(/{{lci95Rate}}/g, lci95Rate.toFixed(2))
-      .replace(/{{ipcaRate}}/g, ipcaRate.toFixed(2))
       .replace(/{{poupancaRate}}/g, poupancaRate.toFixed(2))
       .replace(/{{dataAtualizacao}}/g, dataAtualizacao);
   };
-  
-  // --- Replace placeholders in conclusion ---
-  const dynamicConclusion = replacePlaceholders(article.conclusion);
   
   const baseUrl = 'https://safestart-invest.com';
   const canonicalUrl = `${baseUrl}/blog/${article.slug}`;
@@ -246,10 +236,10 @@ export default async function BlogPostPage({ params }: Props) {
         {
           "@type": "Article",
           "headline": article.seoTitle || article.title,
-          "description": article.seoDescription || article.description,
+          "description": article.seoDescription || article.excerpt,
           "image": image?.imageUrl,
-          "datePublished": new Date(article.date).toISOString(),
-          "dateModified": new Date(article.lastUpdated).toISOString(),
+          "datePublished": article.date ? new Date(article.date).toISOString() : undefined,
+          "dateModified": article.lastUpdated ? new Date(article.lastUpdated).toISOString() : undefined,
           "author": {
               "@type": "Organization",
               "name": "SafeStart Invest"
@@ -311,14 +301,14 @@ export default async function BlogPostPage({ params }: Props) {
         <Breadcrumb items={breadcrumbItems} className="mb-6" />
         <header className="mb-8">
             <h1 className="text-4xl font-bold font-headline mb-2">{article.title}</h1>
-            <Badge variant="outline">{new Date(article.date).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' })}</Badge>
+            {article.date && <Badge variant="outline">{new Date(article.date).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' })}</Badge>}
         </header>
 
         {image && (
             <div className="relative aspect-video rounded-lg overflow-hidden mb-8 shadow-md">
                 <Image 
                     src={image.imageUrl} 
-                    alt={image.description} 
+                    alt={article.excerpt || article.title} 
                     fill
                     className="object-cover"
                     data-ai-hint={image.imageHint}
@@ -336,7 +326,7 @@ export default async function BlogPostPage({ params }: Props) {
         {article.conclusion && (
           <div 
             className="prose prose-lg max-w-none prose-h3:font-headline prose-h3:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-foreground mt-8"
-            dangerouslySetInnerHTML={{ __html: dynamicConclusion }}
+            dangerouslySetInnerHTML={{ __html: replacePlaceholders(article.conclusion) }}
           />
         )}
 
