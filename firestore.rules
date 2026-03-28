@@ -19,7 +19,7 @@
  * - /users/{userId}/trilha/progress -> Private user progress data for the educational trail.
  * - /users/{userId}/dailyNewsCache/{cacheId} -> Private, user-specific cache for daily news.
  * - /educationalTrails/{trailId} -> Public, read-only educational content.
- * - /blogArticles/{articleId} -> Public, read-only blog content.
+ * - /articles/{articleId} -> Public, read-only blog content.
  *
  * Key Security Decisions:
  * - User Isolation: A user can ONLY read or write data within their own `/users/{userId}` path.
@@ -248,18 +248,15 @@ service cloud.firestore {
     }
 
     /**
-     * @description Allows public, read-only access to all blog articles.
-     * @path /blogArticles/{blogArticleId}
-     * @allow (list) Any user, including unauthenticated ones, can list all blog articles.
-     * @deny (create, update, delete) No client, authenticated or not, can write or delete blog articles.
+     * @description Allows public, read-only access to all blog articles. This rule is now for the new 'articles' collection.
+     * @path /articles/{articleId}
+     * @allow (get, list) Any user, including unauthenticated ones, can read all blog articles.
+     * @deny (write) No client, authenticated or not, can write, update or delete blog articles.
      * @principle Provides public read access to global content while preventing all client-side modifications for security.
      */
-    match /blogArticles/{blogArticleId} {
-      allow get: if true;
-      allow list: if true;
-      allow create: if false;
-      allow update: if false;
-      allow delete: if false;
+    match /articles/{articleId} {
+      allow read: if true;
+      allow write: if false;
     }
     
     // --------------------------------------------------------------------
