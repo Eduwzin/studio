@@ -10,7 +10,8 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test:cvm": "tsx src/scripts/test-cvm-parser.ts"
+    "test:cvm": "tsx src/scripts/test-cvm-parser.ts",
+    "import:articles": "tsx src/scripts/import-articles.ts"
   },
   "dependencies": {
     "@genkit-ai/google-genai": "1.22.0",
