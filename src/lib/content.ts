@@ -233,24 +233,111 @@ export const blogArticles: Article[] = [
     }
   },
   {
-    "title": "Como começar a investir do zero em 2026 (Guia Prático)",
     "slug": "como-comecar-a-investir",
-    "excerpt": "Aprenda a começar a investir em 5 passos simples: defina objetivos, monte sua reserva, abra conta em corretora, escolha os produtos e invista com consistência.",
-    "date": "2026-03-20",
-    "readingTime": "12 min",
-    "category": "educacao-financeira",
+    "title": "Como Começar a Investir do Zero: Guia Passo a Passo",
+    "excerpt": "Aprenda a investir do zero com 7 passos práticos: da reserva de emergência à escolha dos primeiros produtos. Guia completo para iniciantes.",
+    "seoTitle": "Como Começar a Investir do Zero: Guia Passo a Passo",
+    "seoDescription": "Aprenda como começar a investir do zero em 7 passos práticos. Reserva de emergência, perfil de risco, renda fixa e como escolher seus primeiros investimentos.",
+    "category": "investimentos",
     "subcategory": "para-iniciantes",
-    "pillar": "pillar-4-educacao-financeira",
+    "pillar": "pillar-1-investimentos",
     "cluster": "comecar-a-investir",
+    "readingTime": "12 min",
+    "lastUpdated": "2026-03-20",
     "author": "Equipe Bigwall",
-    "seoTitle": "Como começar a investir do zero em 2026 (Guia Prático)",
-    "seoDescription": "Guia prático de como começar a investir do zero em 5 passos: defina objetivos, monte sua reserva de emergência, abra conta em corretora, escolha os ativos e invista.",
-    "disclaimer": "defaultDisclaimer",
-    "content": [],
-    "faq": [],
-    "internalLinks": [],
+    "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento. Rentabilidades passadas não garantem resultados futuros.",
+    "content": [
+      {
+        "type": "html",
+        "content": "<h1>Como começar a investir do zero (mesmo sem experiência)</h1><div class='resumo-rapido'><ul><li>Você não precisa de muito dinheiro — há opções a partir de R$ 30</li><li>Monte a reserva de emergência antes de qualquer investimento</li><li>Renda fixa é o ponto de partida mais recomendado para iniciantes</li><li>Defina um objetivo antes de escolher qualquer produto</li><li>Consistência importa mais do que o valor inicial</li></ul></div><p>Começar a investir é mais simples do que parece. Você não precisa entender de economia, não precisa ter muito dinheiro e não precisa fazer um curso antes. O que precisa é seguir uma ordem lógica.</p><h2>Por que a maioria das pessoas trava antes de começar</h2><p>A principal razão não é falta de dinheiro — é excesso de dúvida. A pergunta certa não é qual é o melhor investimento, mas o que você precisa fazer antes de investir.</p><h2>Antes de investir: o que organizar</h2><h3>Monte sua reserva de emergência primeiro</h3><p>3 a 6 meses de despesas em produto com liquidez imediata. Com a Selic a {{selicRate}}% ao ano, o Tesouro Selic e o CDB de liquidez diária rendem muito mais que a poupança ({{poupancaRate}}% a.a.) com a mesma segurança.</p><h3>Entenda seu perfil de investidor</h3><table><thead><tr><th>Perfil</th><th>Característica</th><th>Produtos indicados</th></tr></thead><tbody><tr><td>Conservador</td><td>Prioriza segurança</td><td>Tesouro Selic, CDB, LCI, LCA</td></tr><tr><td>Moderado</td><td>Aceita alguma variação</td><td>Mix renda fixa + FIIs ou ETFs</td></tr><tr><td>Arrojado</td><td>Aceita maior oscilação</td><td>Ações, ETFs, FIIs</td></tr></tbody></table><h3>Defina um objetivo claro</h3><p>Reserva de emergência → liquidez imediata. Objetivo de 2 anos → renda fixa de médio prazo. Aposentadoria → pode incluir renda variável.</p><h2>Os 7 passos para começar</h2><h3>Passo 1 — Organize suas finanças</h3><p>Quite dívidas com juros acima de 1% ao mês antes de investir.</p><h3>Passo 2 — Monte a reserva de emergência</h3><p>3 a 6 meses de despesas no Tesouro Selic ou CDB de liquidez diária.</p><h3>Passo 3 — Descubra seu perfil de investidor</h3><p>O teste de perfil é obrigatório por regulamentação da CVM e leva menos de 5 minutos na corretora.</p><h3>Passo 4 — Escolha uma corretora</h3><p>Verifique regulamentação em cvm.gov.br. A maioria das corretoras digitais cobra taxa zero.</p><h3>Passo 5 — Comece pela renda fixa</h3>"
+      },
+      {
+        "type": "simulationTable",
+        "initialInvestment": 10000,
+        "terms": [
+          12
+        ],
+        "scenarios": [
+          {
+            "label": "Poupança",
+            "rateLogic": "selic>8.5?0.0617:selic*0.70",
+            "isTaxable": false
+          },
+          {
+            "label": "Tesouro Selic",
+            "rateLogic": "selic/100",
+            "isTaxable": true
+          },
+          {
+            "label": "CDB 100% CDI",
+            "rateLogic": "cdi/100",
+            "isTaxable": true
+          },
+          {
+            "label": "LCI 90% CDI",
+            "rateLogic": "cdi*0.90",
+            "isTaxable": false
+          }
+        ]
+      },
+      {
+        "type": "html",
+        "content": "<h3>Passo 6 — Aumente o aporte com o tempo</h3><p>Aportes mensais regulares produzem resultados significativos graças aos juros compostos.</p><h3>Passo 7 — Aprenda enquanto investe</h3><p>Comece com produtos simples e vá aprendendo no processo.</p><h2>Quanto preciso para começar?</h2><ul><li><strong>Tesouro Direto:</strong> a partir de R$ 30</li><li><strong>CDB:</strong> a partir de R$ 1 em corretoras digitais</li><li><strong>LCI/LCA:</strong> geralmente a partir de R$ 1.000</li><li><strong>ETFs:</strong> a partir de 1 cota (pode ser menos de R$ 100)</li></ul><h2>Erros mais comuns</h2><ol><li>Investir sem ter reserva de emergência</li><li>Deixar tudo na poupança por medo</li><li>Buscar o investimento perfeito em vez de construir a base</li><li>Comparar rendimento bruto sem considerar impostos</li><li>Resgatar antes do prazo por ansiedade</li></ol><h2>Conclusão</h2><p>Organize as finanças, monte a reserva, descubra seu perfil, abra conta em corretora e comece pela renda fixa. O passo mais importante é o primeiro.</p><p>Quer saber onde investir? <a href='/melhores-investimentos-para-iniciantes'>Veja os melhores investimentos para iniciantes.</a></p><p><em>Referência: Selic {{selicRate}}% a.a., CDI {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Quanto preciso para começar a investir?",
+        "answer": "Você pode começar com menos de R$ 100. O Tesouro Selic aceita a partir de R$ 30 e alguns CDBs aceitam R$ 1 em corretoras digitais."
+      },
+      {
+        "question": "Qual o investimento mais seguro para iniciantes?",
+        "answer": "O Tesouro Selic — garantido pelo Governo Federal. CDBs com FGC até R$ 250.000 também têm alto nível de segurança."
+      },
+      {
+        "question": "Preciso de corretora ou posso investir pelo banco?",
+        "answer": "Você pode usar o banco, mas corretoras independentes oferecem mais variedade e melhores condições. Abrir conta é gratuito e 100% digital."
+      },
+      {
+        "question": "Renda fixa ou poupança: o que rende mais?",
+        "answer": "Com a Selic acima de 8,5% ao ano, a renda fixa rende muito mais que a poupança — mesmo após o IR."
+      },
+      {
+        "question": "Preciso declarar investimentos no IR?",
+        "answer": "Sim. CDB e Tesouro Direto precisam ser declarados mesmo sem imposto a pagar. LCI e LCA são isentas mas também precisam ser declaradas."
+      }
+    ],
+    "internalLinks": [
+      {
+        "anchor": "reserva de emergência: quanto guardar",
+        "slug": "reserva-de-emergencia"
+      },
+      {
+        "anchor": "melhores investimentos para iniciantes",
+        "slug": "melhores-investimentos-para-iniciantes"
+      },
+      {
+        "anchor": "o que é CDB",
+        "slug": "o-que-e-cdb"
+      },
+      {
+        "anchor": "o que é Tesouro Direto",
+        "slug": "o-que-e-tesouro-direto"
+      },
+      {
+        "anchor": "guia completo de renda fixa",
+        "slug": "guia-renda-fixa"
+      }
+    ],
     "cta": {
-      "primary": { "text": "Veja os melhores investimentos para iniciantes", "url": "/melhores-investimentos-para-iniciantes" }
+      "primary": {
+        "text": "Veja os melhores investimentos para iniciantes",
+        "url": "/melhores-investimentos-para-iniciantes"
+      },
+      "secondary": {
+        "text": "Monte sua reserva de emergência",
+        "url": "/reserva-de-emergencia"
+      }
     }
   },
   {
@@ -397,7 +484,7 @@ export const blogArticles: Article[] = [
     ],
     "faq": [
       { "question": "Qual o melhor investimento para quem está começando?", "answer": "Tesouro Selic e CDB de liquidez diária são os melhores pontos de partida — seguros, acessíveis e com rendimento muito acima da poupança." },
-      { "question": "Quanto preciso para começar a investir?", "answer": "O Tesouro Selic aceita a partir de R$ 30. Alguns CDBs aceitam R$ 1 em corretoras digitais." },
+      { "question": "Quanto preciso para começar a investir?", "answer": "Você pode começar com menos de R$ 100. O Tesouro Selic aceita a partir de R$ 30 e alguns CDBs aceitam R$ 1 em corretoras digitais." },
       { "question": "Poupança é boa para iniciantes?", "answer": "Não. Com a Selic a {{selicRate}}% ao ano, a poupança rende {{poupancaRate}}% ao ano — menos da metade do Tesouro Selic ou CDB." },
       { "question": "LCI é boa para iniciantes?", "answer": "Sim, para objetivos com prazo acima de 90 dias. Não é indicada para reserva de emergência pela carência mínima." },
       { "question": "Devo começar pela renda fixa ou variável?", "answer": "Renda fixa. Monte a reserva de emergência, entenda os produtos e só então explore renda variável com uma parcela pequena." }
@@ -413,45 +500,6 @@ export const blogArticles: Article[] = [
     "cta": {
       "primary": { "text": "Veja como começar a investir do zero", "url": "/como-comecar-a-investir" },
       "secondary": { "text": "Conheça o guia completo de renda fixa", "url": "/guia-renda-fixa" }
-    }
-  },
-  {
-    "title": "Onde Posso Investir? Guia Completo das Opções em 2026",
-    "slug": "onde-investir",
-    "excerpt": "Descubra onde investir no Brasil: Tesouro Direto, CDB, LCI, ações, FIIs e mais. Veja como acessar cada produto e qual plataforma usar para começar.",
-    "seoTitle": "Onde Posso Investir? Guia Completo das Opções em 2026",
-    "seoDescription": "Onde investir no Brasil em 2026? Veja todas as opções disponíveis, como acessar cada produto, diferença entre banco e corretora e por onde começar.",
-    "category": "investimentos",
-    "subcategory": "para-iniciantes",
-    "pillar": "pillar-1-investimentos",
-    "cluster": "comecar-a-investir",
-    "readingTime": "10 min",
-    "lastUpdated": "2026-03-20",
-    "author": "Equipe Bigwall",
-    "content": [
-      {
-        "type": "html",
-        "content": "<h1>Onde posso investir? Guia completo das opções disponíveis no Brasil</h1><div class='resumo-rapido'><ul><li>Você pode investir pelo seu banco atual ou por uma corretora independente</li><li>Corretoras oferecem mais produtos, melhores taxas e mais ferramentas</li><li>Os principais produtos são: Tesouro Direto, CDB, LCI, LCA, ações, FIIs e ETFs</li><li>Abrir conta em corretora é gratuito e 100% digital</li><li>Sempre verifique se a corretora é regulamentada pela CVM antes de investir</li></ul></div><p>Hoje investir ficou mais acessível do que nunca. Existem diversas plataformas, a maioria gratuita e 100% digital. O desafio é entender as diferenças e escolher a que faz mais sentido para o seu perfil.</p><h2>Banco ou corretora: qual escolher?</h2><table><thead><tr><th>Critério</th><th>Banco</th><th>Corretora independente</th></tr></thead><tbody><tr><td>Variedade de produtos</td><td>Limitada — foco em produtos próprios</td><td>Alta — produtos de vários emissores</td></tr><tr><td>Taxas de CDB/LCI</td><td>Geralmente menores</td><td>Geralmente mais competitivas</td></tr><tr><td>Acesso a ações e FIIs</td><td>Limitado ou inexistente</td><td>Completo</td></tr><tr><td>Praticidade</td><td>Alta — já tem conta</td><td>Exige abertura de conta e PIX/TED</td></tr><tr><td>Custo de abertura</td><td>Gratuito</td><td>Gratuito na maioria</td></tr></tbody></table><h2>Onde investir por produto</h2><table><thead><tr><th>Produto</th><th>Onde acessar</th><th>Observação</th></tr></thead><tbody><tr><td>Tesouro Direto</td><td>Corretoras ou banco habilitado</td><td>Mesmo produto em qualquer plataforma</td></tr><tr><td>CDB</td><td>Banco emissor ou corretoras</td><td>Corretoras têm mais opções e taxas melhores</td></tr><tr><td>LCI e LCA</td><td>Banco emissor ou corretoras</td><td>Mesma lógica do CDB</td></tr><tr><td>Ações</td><td>Corretoras habilitadas na B3</td><td>Não disponível em bancos tradicionais</td></tr><tr><td>FIIs</td><td>Corretoras habilitadas na B3</td><td>Negociados na bolsa como ações</td></tr><tr><td>ETFs</td><td>Corretoras habilitadas na B3</td><td>Negociados na bolsa como ações</td></tr></tbody></table><h2>Como verificar se uma corretora é confiável</h2><ul><li>Está regulamentada pela CVM? Consulte em cvm.gov.br</li><li>Está regulamentada pelo Banco Central? Consulte em bcb.gov.br</li><li>Para Tesouro Direto: está listada em tesourodireto.com.br?</li><li>Tem boa reputação? Pesquise no Reclame Aqui</li></ul><h2>Onde investir por objetivo</h2><table><thead><tr><th>Objetivo</th><th>Produto</th><th>Onde acessar</th></tr></thead><tbody><tr><td>Reserva de emergência</td><td>Tesouro Selic ou CDB diário</td><td>Qualquer corretora ou banco digital</td></tr><tr><td>Objetivo de 1 a 3 anos</td><td>LCI, LCA ou CDB com prazo</td><td>Corretora com boa seleção</td></tr><tr><td>Proteção contra inflação</td><td>Tesouro IPCA+</td><td>Qualquer corretora habilitada</td></tr><tr><td>Renda passiva mensal</td><td>FIIs</td><td>Corretora habilitada na B3</td></tr><tr><td>Exposição à bolsa</td><td>ETFs de índice</td><td>Corretora habilitada na B3</td></tr></tbody></table><h2>Conclusão</h2><p>Para quem está começando: abra conta em uma corretora digital de boa reputação, comece pelo Tesouro Selic ou CDB de liquidez diária e explore os demais produtos conforme seu conhecimento cresce.</p><p><a href='/melhores-investimentos-para-iniciantes'>Veja os melhores investimentos para iniciantes.</a></p>",
-        "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento. Sempre verifique a regulamentação antes de investir."
-      }
-    ],
-    "faq": [
-      { "question": "Onde posso investir dinheiro no Brasil?", "answer": "Pelo seu banco atual ou em uma corretora independente. Corretoras oferecem mais produtos, melhores taxas e acesso a ações, FIIs e ETFs. A abertura é gratuita e 100% digital." },
-      { "question": "É melhor investir pelo banco ou por corretora?", "answer": "Para renda fixa simples, o banco pode ser suficiente. Para mais opções e acesso a ações e FIIs, uma corretora independente é mais indicada." },
-      { "question": "Como abrir conta em corretora?", "answer": "Acesse o site ou app, preencha o cadastro com CPF e documentos, faça o teste de perfil e aguarde aprovação — geralmente em minutos." },
-      { "question": "Como saber se uma corretora é confiável?", "answer": "Verifique se está regulamentada pela CVM (cvm.gov.br) e pelo Banco Central (bcb.gov.br). Pesquise avaliações antes de abrir conta." },
-      { "question": "Posso investir no Tesouro Direto pelo banco?", "answer": "Sim, desde que o banco seja habilitado pelo Tesouro Nacional. O produto é o mesmo em qualquer plataforma." }
-    ],
-    "internalLinks": [
-      { "anchor": "melhores investimentos para iniciantes", "slug": "melhores-investimentos-para-iniciantes" },
-      { "anchor": "como começar a investir do zero", "slug": "como-comecar-a-investir" },
-      { "anchor": "o que é CDB", "slug": "o-que-e-cdb" },
-      { "anchor": "o que é Tesouro Direto", "slug": "o-que-e-tesouro-direto" },
-      { "anchor": "reserva de emergência", "slug": "reserva-de-emergencia" }
-    ],
-    "cta": {
-      "primary": { "text": "Veja os melhores investimentos para iniciantes", "url": "/melhores-investimentos-para-iniciantes" },
-      "secondary": { "text": "Como começar a investir do zero", "url": "/como-comecar-a-investir" }
     }
   },
   {
@@ -494,6 +542,45 @@ export const blogArticles: Article[] = [
     "internalLinks": [],
     "cta": {
       "primary": { "text": "Veja como começar a investir do zero", "url": "/como-comecar-a-investir" }
+    }
+  },
+  {
+    "title": "Onde Posso Investir? Guia Completo das Opções em 2026",
+    "slug": "onde-investir",
+    "excerpt": "Descubra onde investir no Brasil: Tesouro Direto, CDB, LCI, ações, FIIs e mais. Veja como acessar cada produto e qual plataforma usar para começar.",
+    "seoTitle": "Onde Posso Investir? Guia Completo das Opções em 2026",
+    "seoDescription": "Onde investir no Brasil em 2026? Veja todas as opções disponíveis, como acessar cada produto, diferença entre banco e corretora e por onde começar.",
+    "category": "investimentos",
+    "subcategory": "para-iniciantes",
+    "pillar": "pillar-1-investimentos",
+    "cluster": "comecar-a-investir",
+    "readingTime": "10 min",
+    "lastUpdated": "2026-03-20",
+    "author": "Equipe Bigwall",
+    "content": [
+      {
+        "type": "html",
+        "content": "<h1>Onde posso investir? Guia completo das opções disponíveis no Brasil</h1><div class='resumo-rapido'><ul><li>Você pode investir pelo seu banco atual ou por uma corretora independente</li><li>Corretoras oferecem mais produtos, melhores taxas e mais ferramentas</li><li>Os principais produtos são: Tesouro Direto, CDB, LCI, LCA, ações, FIIs e ETFs</li><li>Abrir conta em corretora é gratuito e 100% digital</li><li>Sempre verifique se a corretora é regulamentada pela CVM antes de investir</li></ul></div><p>Hoje investir ficou mais acessível do que nunca. Existem diversas plataformas, a maioria gratuita e 100% digital. O desafio é entender as diferenças e escolher a que faz mais sentido para o seu perfil.</p><h2>Banco ou corretora: qual escolher?</h2><table><thead><tr><th>Critério</th><th>Banco</th><th>Corretora independente</th></tr></thead><tbody><tr><td>Variedade de produtos</td><td>Limitada — foco em produtos próprios</td><td>Alta — produtos de vários emissores</td></tr><tr><td>Taxas de CDB/LCI</td><td>Geralmente menores</td><td>Geralmente mais competitivas</td></tr><tr><td>Acesso a ações e FIIs</td><td>Limitado ou inexistente</td><td>Completo</td></tr><tr><td>Praticidade</td><td>Alta — já tem conta</td><td>Exige abertura de conta e PIX/TED</td></tr><tr><td>Custo de abertura</td><td>Gratuito</td><td>Gratuito na maioria</td></tr></tbody></table><h2>Onde investir por produto</h2><table><thead><tr><th>Produto</th><th>Onde acessar</th><th>Observação</th></tr></thead><tbody><tr><td>Tesouro Direto</td><td>Corretoras ou banco habilitado</td><td>Mesmo produto em qualquer plataforma</td></tr><tr><td>CDB</td><td>Banco emissor ou corretoras</td><td>Corretoras têm mais opções e taxas melhores</td></tr><tr><td>LCI e LCA</td><td>Banco emissor ou corretoras</td><td>Mesma lógica do CDB</td></tr><tr><td>Ações</td><td>Corretoras habilitadas na B3</td><td>Não disponível em bancos tradicionais</td></tr><tr><td>FIIs</td><td>Corretoras habilitadas na B3</td><td>Negociados na bolsa como ações</td></tr><tr><td>ETFs</td><td>Corretoras habilitadas na B3</td><td>Negociados na bolsa como ações</td></tr></tbody></table><h2>Como verificar se uma corretora é confiável</h2><ul><li>Está regulamentada pela CVM? Consulte em cvm.gov.br</li><li>Está regulamentada pelo Banco Central? Consulte em bcb.gov.br</li><li>Para Tesouro Direto: está listada em tesourodireto.com.br?</li><li>Tem boa reputação? Pesquise no Reclame Aqui</li></ul><h2>Onde investir por objetivo</h2><table><thead><tr><th>Objetivo</th><th>Produto</th><th>Onde acessar</th></tr></thead><tbody><tr><td>Reserva de emergência</td><td>Tesouro Selic ou CDB diário</td><td>Qualquer corretora ou banco digital</td></tr><tr><td>Objetivo de 1 a 3 anos</td><td>LCI, LCA ou CDB com prazo</td><td>Corretora com boa seleção</td></tr><tr><td>Proteção contra inflação</td><td>Tesouro IPCA+</td><td>Qualquer corretora habilitada</td></tr><tr><td>Renda passiva mensal</td><td>FIIs</td><td>Corretora habilitada na B3</td></tr><tr><td>Exposição à bolsa</td><td>ETFs de índice</td><td>Corretora habilitada na B3</td></tr></tbody></table><h2>Conclusão</h2><p>Para quem está começando: abra conta em uma corretora digital de boa reputação, comece pelo Tesouro Selic ou CDB de liquidez diária e explore os demais produtos conforme seu conhecimento cresce.</p><p><a href='/melhores-investimentos-para-iniciantes'>Veja os melhores investimentos para iniciantes.</a></p>",
+        "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento. Sempre verifique a regulamentação antes de investir."
+      }
+    ],
+    "faq": [
+      { "question": "Onde posso investir dinheiro no Brasil?", "answer": "Pelo seu banco atual ou em uma corretora independente. Corretoras oferecem mais produtos, melhores taxas e acesso a ações, FIIs e ETFs. A abertura é gratuita e 100% digital." },
+      { "question": "É melhor investir pelo banco ou por corretora?", "answer": "Para renda fixa simples, o banco pode ser suficiente. Para mais opções e acesso a ações e FIIs, uma corretora independente é mais indicada." },
+      { "question": "Como abrir conta em corretora?", "answer": "Acesse o site ou app, preencha o cadastro com CPF e documentos, faça o teste de perfil e aguarde aprovação — geralmente em minutos." },
+      { "question": "Como saber se uma corretora é confiável?", "answer": "Verifique se está regulamentada pela CVM (cvm.gov.br) e pelo Banco Central (bcb.gov.br). Pesquise avaliações antes de abrir conta." },
+      { "question": "Posso investir no Tesouro Direto pelo banco?", "answer": "Sim, desde que o banco seja habilitado pelo Tesouro Nacional. O produto é o mesmo em qualquer plataforma." }
+    ],
+    "internalLinks": [
+      { "anchor": "melhores investimentos para iniciantes", "slug": "melhores-investimentos-para-iniciantes" },
+      { "anchor": "como começar a investir do zero", "slug": "como-comecar-a-investir" },
+      { "anchor": "o que é CDB", "slug": "o-que-e-cdb" },
+      { "anchor": "o que é Tesouro Direto", "slug": "o-que-e-tesouro-direto" },
+      { "anchor": "reserva de emergência", "slug": "reserva-de-emergencia" }
+    ],
+    "cta": {
+      "primary": { "text": "Veja os melhores investimentos para iniciantes", "url": "/melhores-investimentos-para-iniciantes" },
+      "secondary": { "text": "Como começar a investir do zero", "url": "/como-comecar-a-investir" }
     }
   }
 ]
