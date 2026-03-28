@@ -185,6 +185,12 @@
       "description": "simulação de quanto investir para ganhar 1000 reais por mês de renda passiva",
       "imageUrl": "https://picsum.photos/seed/renda1000/1200/630",
       "imageHint": "renda passiva"
+    },
+    {
+      "id": "blog-melhores-investimentos",
+      "description": "homem analisando os melhores investimentos para iniciantes em um tablet",
+      "imageUrl": "https://picsum.photos/seed/melhoresinvestimentos/1200/630",
+      "imageHint": "beginner investment"
     }
   ]
 }
