@@ -197,6 +197,12 @@
       "description": "guia completo de educação financeira para iniciantes",
       "imageUrl": "https://picsum.photos/seed/guiaeducacaofinanceira/1200/630",
       "imageHint": "educação financeira"
+    },
+    {
+      "id": "blog-o-que-e-etf",
+      "description": "Gráfico mostrando diversificação de um ETF composto por várias ações",
+      "imageUrl": "https://picsum.photos/seed/whatisetf/1200/630",
+      "imageHint": "etf diversification"
     }
   ]
 }
