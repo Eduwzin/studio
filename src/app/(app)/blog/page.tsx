@@ -6,11 +6,22 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { getFirestore, collection, getDocs, query, orderBy } from 'firebase/firestore';
 import type { Article } from '@/lib/content';
-import { initializeFirebase } from '@/firebase';
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { firebaseConfig } from '@/firebase/config';
+
+// Helper to initialize Firestore on the server if not already done.
+// This is safe to call multiple times.
+function getDb() {
+  if (getApps().length) {
+    return getFirestore(getApp());
+  }
+  const app = initializeApp(firebaseConfig);
+  return getFirestore(app);
+}
 
 async function getAllArticles(): Promise<Article[]> {
-  const { firestore } = initializeFirebase();
-  const articlesRef = collection(firestore, 'articles');
+  const db = getDb();
+  const articlesRef = collection(db, 'articles');
   const q = query(articlesRef, orderBy('lastUpdated', 'desc'));
   const querySnapshot = await getDocs(q);
 

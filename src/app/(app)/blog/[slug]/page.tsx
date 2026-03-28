@@ -12,7 +12,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Info } from "lucide-react";
 import type { Article, ArticleContent, HtmlContentBlock, SimulationTableBlock } from "@/lib/content";
 import SimulationTable from "@/components/blog/SimulationTable";
-import { initializeFirebase } from '@/firebase';
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { firebaseConfig } from '@/firebase/config';
 
 type Props = {
   params: { slug: string };
@@ -20,8 +21,11 @@ type Props = {
 
 // Helper para inicializar o DB no servidor
 function getDb() {
-  const { firestore } = initializeFirebase();
-  return firestore;
+  if (getApps().length) {
+    return getFirestore(getApp());
+  }
+  const app = initializeApp(firebaseConfig);
+  return getFirestore(app);
 }
 
 // Função para buscar o artigo
