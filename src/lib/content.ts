@@ -353,7 +353,7 @@ export const blogArticles: Article[] = [
   "content": [
     {
       "type": "html",
-      "content": "<h1>O que é LCI e como funciona: vantagens e quando vale a pena</h1><div class='resumo-rapido'><ul><li>LCI é um título de renda fixa emitido por bancos, lastreado em crédito imobiliário</li><li>É isento de Imposto de Renda para pessoa física — essa é a principal vantagem</li><li>Tem cobertura do FGC até R$ 250.000 por CPF por instituição</li><li>Tem carência mínima de 90 dias — não permite resgate imediato</li><li>A comparação correta com CDB é sempre pelo rendimento líquido</li></ul></div><p>LCI é um dos investimentos de renda fixa mais procurados por quem quer pagar menos imposto. A isenção de IR é o principal atrativo — mas nem sempre significa que rende mais que um CDB.</p><h2>O que é LCI</h2><p>LCI significa Letra de Crédito Imobiliário. É um título emitido por bancos para captar recursos destinados ao financiamento do setor imobiliário. O governo isenta o rendimento de IR para pessoa física como incentivo ao setor.</p><p>O CDI atual está em {{cdiRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}}). Uma LCI a 90% do CDI rende {{lci90Rate}}% ao ano — isento de IR.</p><h2>Carência mínima obrigatória</h2><p>Por regulamentação do Banco Central, a LCI tem prazo mínimo de 90 dias. Você não pode resgatar antes desse período. Regra prática: LCI não é indicada para reserva de emergência.</p><h2>Tipos de LCI</h2><table><thead><tr><th>Tipo</th><th>Como rende</th><th>IR</th><th>Melhor para</th></tr></thead><tbody><tr><td>Pós-fixada (% CDI)</td><td>Acompanha o CDI ({{cdiRate}}% a.a.)</td><td>Isento (PF)</td><td>Médio prazo com juros altos</td></tr><tr><td>Pré-fixada</td><td>Taxa fixa definida na compra</td><td>Isento (PF)</td><td>Quem acredita na queda dos juros</td></tr><tr><td>IPCA+</td><td>IPCA ({{ipcaRate}}% a.a.) + taxa fixa</td><td>Isento (PF)</td><td>Longo prazo com proteção inflacionária</td></tr></tbody></table><h2>LCI tem FGC?</h2><p>Sim. O FGC garante até R$ 250.000 por CPF por instituição e limite global de R$ 1.000.000 por CPF, renovável a cada 4 anos. (Fonte: FGC, {{dataAtualizacao}}.)</p><h2>Como calcular se a LCI compensa mais que o CDB</h2><p>Fórmula: <strong>Taxa LCI equivalente = Taxa CDB × (1 — alíquota IR)</strong></p><p>Exemplo com CDI a {{cdiRate}}% ao ano e IR de 15% (acima de 720 dias): CDB 100% CDI líquido = {{cdiRate}}% × 0,85. Se a LCI pagar acima desse valor, ela vence.</p><h2>Simulação prática: LCI vs CDB</h2>"
+      "content": "<h1>O que é LCI e como funciona: vantagens e quando vale a pena</h1><div class='resumo-rapido'><ul><li>LCI é um título de renda fixa emitido por bancos, lastreado em crédito imobiliário</li><li>É isento de Imposto de Renda para pessoa física — essa é a principal vantagem</li><li>Tem cobertura do FGC até R$ 250.000 por CPF por instituição</li><li>Tem carência mínima de 90 dias — não permite resgate imediato</li><li>A comparação correta com CDB é sempre pelo rendimento líquido</li></ul></div><p>LCI é um dos investimentos de renda fixa mais procurados por quem quer pagar menos imposto. A isenção de IR é o principal atrativo — mas nem sempre significa que rende mais que um CDB.</p><h2>O que é LCI</h2><p>LCI significa Letra de Crédito Imobiliário. É um título emitido por bancos para captar recursos destinados ao financiamento do setor imobiliário. O governo isenta o rendimento de IR para pessoa física como incentivo ao setor.</p><p>O CDI atual está em {{cdiRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}}). Uma LCI a 90% do CDI rende {{lci90Rate}}% ao ano — isento de IR.</p><h2>Carência mínima obrigatória</h2><p>Por regulamentação do Banco Central, a LCI tem prazo mínimo de 90 dias. Você não pode resgatar antes desse período. Regra prática: LCI não é indicada para reserva de emergência.</p><h2>Tipos de LCI</h2><table><thead><tr><th>Tipo</th><th>Como rende</th><th>IR</th><th>Melhor para</th></tr></thead><tbody><tr><td>Pós-fixada (% CDI)</td><td>Acompanha o CDI ({{cdiRate}}% a.a.)</td><td>Isento (PF)</td><td>Médio prazo com juros altos</td></tr><tr><td>Pré-fixada</td><td>Taxa fixa definida na compra</td><td>Isento (PF)</td><td>Quem acredita na queda dos juros</td></tr><tr><td>IPCA+</td><td>IPCA ({{ipcaRate}}% a.a.) + taxa fixa</td><td>Isento (PF)</td><td>Longo prazo com proteção inflacionária</td></tr></tbody></table><h2>LCI tem FGC?</h2><p>Sim. O FGC garante até R$ 250.000 por CPF por instituição e limite global de R$ 1.000.000 por CPF, renovável a cada 4 anos. (Fonte: FGC, {{dataAtualizacao}}.)</p><h2>Como calcular se a LCI compensa mais que o CDB</h2><p>Fórmula: <strong>Taxa LCI equivalente = Taxa CDB × (1 — alíquota IR)</strong></p><p>Exemplo com CDI a {{cdiRate}}% ao ano e IR de 15% (acima de 720 dias): CDB 100% CDI líquido = {{cdiRate}}% × 0,85. Se a LCI pagar acima desse valor, ela vence no líquido.</p><h2>Simulação prática: LCI vs CDB</h2>"
     },
     {
       "type": "simulationTable",
@@ -454,24 +454,57 @@ export const blogArticles: Article[] = [
     }
   },
   {
-    "title": "CDB ou LCI/LCA: qual rende mais e qual o melhor?",
     "slug": "cdb-ou-lci",
-    "excerpt": "CDB tem IR, LCI/LCA não. Mas qual rende mais no final? Veja o comparativo completo de rendimento líquido, liquidez, segurança e quando escolher cada um.",
-    "date": "2026-03-20",
-    "readingTime": "10 min",
-    "category": "investimentos",
-    "subcategory": "renda-fixa",
-    "pillar": "pillar-1-investimentos",
-    "cluster": "cdb",
+    "title": "CDB ou LCI: quando a isenção compensa?",
+    "excerpt": "CDB tem IR, LCI é isenta — mas isso não significa que LCI rende mais. Veja como comparar corretamente pelo rendimento líquido e quando cada um compensa.",
+    "seoTitle": "CDB ou LCI: quando a isenção de IR compensa? 2026",
+    "seoDescription": "CDB ou LCI: descubra quando a isenção de IR da LCI realmente compensa. Comparativo com tabela de rendimento líquido, exemplos práticos e checklist.",
+    "category": "renda-fixa",
+    "subcategory": "comparativos",
+    "pillar": "pillar-2-renda-fixa",
+    "cluster": "comparativos-renda-fixa",
+    "readingTime": "9 min",
+    "lastUpdated": "2026-03-20",
     "author": "Equipe Bigwall",
-    "seoTitle": "CDB ou LCI/LCA: qual rende mais e qual o melhor para 2026?",
-    "seoDescription": "CDB ou LCI/LCA: qual o melhor? Calcule o rendimento líquido equivalente, compare a liquidez, o prazo, a segurança (FGC) e saiba qual escolher para seus objetivos.",
-    "disclaimer": "defaultDisclaimer",
-    "content": [],
-    "faq": [],
-    "internalLinks": [],
+    "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento. Rentabilidades são referências e variam conforme o produto e o emissor.",
+    "content": [
+      {
+        "type": "html",
+        "content": "<h1>CDB ou LCI: quando a isenção de IR realmente compensa?</h1><div class='resumo-rapido'><ul><li>LCI é isenta de IR para pessoa física — CDB tem IR de 15% a 22,5%</li><li>Isenção não garante que LCI rende mais — depende da taxa e do prazo</li><li>A comparação correta é sempre pelo rendimento líquido</li><li>LCI tem carência mínima de 90 dias — CDB pode ter liquidez diária</li><li>CDI atual: {{cdiRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}})</li></ul></div><p>A dúvida entre CDB e LCI é uma das mais comuns em renda fixa. A isenção de IR da LCI é uma vantagem real — mas só compensa quando a taxa oferecida é competitiva o suficiente.</p><h2>Diferenças principais entre CDB e LCI</h2><table><thead><tr><th>Característica</th><th>CDB</th><th>LCI</th></tr></thead><tbody><tr><td>IR para PF</td><td>15% a 22,5% sobre rendimento</td><td>Isento</td></tr><tr><td>FGC</td><td>Até R$ 250k por CPF/instituição</td><td>Até R$ 250k por CPF/instituição</td></tr><tr><td>Liquidez</td><td>Pode ter liquidez diária</td><td>Carência mínima 90 dias</td></tr><tr><td>Valor mínimo típico</td><td>A partir de R$ 1</td><td>Geralmente R$ 1.000+</td></tr><tr><td>IR para PJ</td><td>Sim</td><td>Sim (isenção só para PF)</td></tr></tbody></table><h2>Como comparar corretamente</h2><p>Fórmula: <strong>Taxa LCI equivalente = Taxa CDB × (1 — alíquota IR)</strong></p><p>Exemplo com CDI a {{cdiRate}}% ao ano e IR de 15% (acima de 720 dias): um CDB a 100% do CDI equivale a uma LCI de 85% do CDI. Se a LCI pagar acima de 85% do CDI, ela vence no líquido.</p><h2>Simulação prática: R$ 10.000 em CDB vs LCI</h2>"
+      },
+      {
+        "type": "simulationTable",
+        "initialInvestment": 10000,
+        "terms": [12],
+        "scenarios": [
+          { "label": "CDB 100% CDI líquido", "rateLogic": "cdi/100", "isTaxable": true },
+          { "label": "LCI 90% CDI (isento)", "rateLogic": "cdi*0.90", "isTaxable": false },
+          { "label": "CDB 110% CDI líquido", "rateLogic": "cdi*1.10", "isTaxable": true },
+          { "label": "LCI 95% CDI (isento)", "rateLogic": "cdi*0.95", "isTaxable": false }
+        ]
+      },
+      {
+        "type": "html",
+        "content": "<p><em>Referência: CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}). Sempre compare rendimento líquido.</em></p><h2>Quando a LCI compensa mais que o CDB</h2><ul><li>A taxa da LCI está acima do ponto de equivalência</li><li>O prazo é curto (até 360 dias) — IR do CDB é mais alto nesses prazos</li><li>Você não precisa de liquidez imediata</li></ul><h2>Quando o CDB compensa mais</h2><ul><li>A taxa do CDB está significativamente acima do ponto de equivalência</li><li>Você precisa de liquidez imediata — CDB de liquidez diária resolve, LCI não</li><li>O valor mínimo da LCI está acima do que você quer investir</li><li>Você é pessoa jurídica (LCI não é isenta para PJ)</li></ul><h2>Checklist de decisão em 60 segundos</h2><ul><li>Pode deixar o dinheiro por pelo menos 90 dias? Se não → <strong>CDB liquidez diária</strong></li><li>A LCI paga acima do ponto de equivalência? Se sim → <strong>LCI</strong></li><li>Você é PJ? → <strong>CDB</strong></li><li>O CDB disponível paga acima de 110% do CDI? → <strong>compare com a tabela antes de decidir</strong></li></ul><h2>Conclusão</h2><p>A regra de ouro: <strong>sempre compare rendimento líquido, nunca taxa bruta.</strong></p><p>Quer entender melhor cada produto? <a href='/o-que-e-cdb'>O que é CDB</a> e <a href='/o-que-e-lci'>o que é LCI.</a></p><p><em>Referência: CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
+      }
+    ],
+    "faq": [
+      { "question": "CDB ou LCI: qual rende mais?", "answer": "Depende da taxa oferecida. Compare sempre pelo rendimento líquido. LCI é isenta de IR, mas um CDB com taxa suficientemente alta pode superar a LCI." },
+      { "question": "Qual a principal diferença entre CDB e LCI?", "answer": "IR e liquidez. CDB tem IR de 15% a 22,5%, LCI é isenta para PF. CDB pode ter liquidez diária, LCI tem carência mínima de 90 dias." },
+      { "question": "Como calcular o ponto de equivalência entre CDB e LCI?", "answer": "Taxa LCI equivalente = taxa CDB × (1 - alíquota IR). Exemplo: CDB a 100% do CDI com IR de 20% equivale a LCI de 80% do CDI." },
+      { "question": "LCI é isenta de IR para pessoa jurídica?", "answer": "Não. A isenção se aplica apenas para pessoa física. Empresas pagam IR normalmente sobre rendimentos de LCI." },
+      { "question": "LCI tem FGC?", "answer": "Sim. Até R$ 250.000 por CPF por instituição, com limite global de R$ 1.000.000 renovável a cada 4 anos." }
+    ],
+    "internalLinks": [
+      { "anchor": "o que é CDB e como funciona", "slug": "o-que-e-cdb" },
+      { "anchor": "o que é LCI e como funciona", "slug": "o-que-e-lci" },
+      { "anchor": "guia completo de renda fixa", "slug": "guia-renda-fixa" },
+      { "anchor": "compare Tesouro Selic e CDB", "slug": "tesouro-selic-ou-cdb" },
+      { "anchor": "como começar a investir do zero", "slug": "como-comecar-a-investir" }
+    ],
     "cta": {
-      "primary": { "text": "Veja o guia completo de Renda Fixa", "url": "/guia-renda-fixa" }
+      "primary": { "text": "Entenda o que é CDB", "url": "/o-que-e-cdb" },
+      "secondary": { "text": "Entenda o que é LCI", "url": "/o-que-e-lci" }
     }
   },
   {
