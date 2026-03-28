@@ -694,6 +694,84 @@ export const blogArticles: Article[] = [
       "primary": { "text": "Veja os melhores investimentos para iniciantes", "url": "/melhores-investimentos-para-iniciantes" },
       "secondary": { "text": "Como começar a investir do zero", "url": "/como-comecar-a-investir" }
     }
+  },
+  {
+    "slug": "quanto-rende-10000-no-tesouro-selic",
+    "title": "Quanto rende R$ 10.000 no Tesouro Selic",
+    "excerpt": "Veja quanto rende R$ 10.000 no Tesouro Selic em 1, 6, 12 e 24 meses. Simulação com rendimento líquido após IR, comparação com poupança e CDB.",
+    "seoTitle": "Quanto rende R$ 10.000 no Tesouro Selic? Simulação 2026",
+    "seoDescription": "Simule quanto rende R$ 10.000 no Tesouro Selic em 1, 6, 12 e 24 meses. Veja o rendimento líquido após IR, comparação com poupança e CDB atualizado.",
+    "category": "renda-fixa",
+    "subcategory": "tesouro-direto",
+    "pillar": "pillar-2-renda-fixa",
+    "cluster": "tesouro-direto",
+    "readingTime": "8 min",
+    "lastUpdated": "2026-03-20",
+    "author": "Equipe Bigwall",
+    "disclaimer": "Este conteúdo é educativo e não constitui recomendação de investimento. As simulações assumem taxa constante para fins ilustrativos — o rendimento real pode variar.",
+    "content": [
+      {
+        "type": "html",
+        "content": "<h1>Quanto rende R$ 10.000 no Tesouro Selic? Simulação com rendimento líquido</h1><div class='resumo-rapido'><ul><li>Com Selic a {{selicRate}}% ao ano, R$ 10.000 no Tesouro Selic rendem bem acima da poupança em todos os prazos</li><li>Para valores até R$ 10.000, a taxa de custódia da B3 é isenta</li><li>Tem IR regressivo — quanto mais tempo investido, menor a alíquota</li><li>Simulações assumem taxa constante para fins ilustrativos</li></ul></div><p>Esta simulação mostra o rendimento de R$ 10.000 no Tesouro Selic em diferentes prazos. Referência: Selic de {{selicRate}}% ao ano e CDI de {{cdiRate}}% ao ano (Bacen/SGS, {{dataAtualizacao}}).</p><h2>Simulação: quanto rende R$ 10.000 no Tesouro Selic</h2>"
+      },
+      {
+        "type": "simulationTable",
+        "initialInvestment": 10000,
+        "terms": [1, 3, 6, 12, 24, 36],
+        "scenarios": [
+          { "label": "Tesouro Selic ({{selicRate}}% a.a.)", "rateLogic": "selic/100", "isTaxable": true }
+        ]
+      },
+      {
+        "type": "html",
+        "content": "<h2>Tesouro Selic vs Poupança</h2>"
+      },
+      {
+        "type": "simulationTable",
+        "initialInvestment": 10000,
+        "terms": [6, 12, 24, 36],
+        "showDifference": true,
+        "scenarios": [
+          { "label": "Poupança ({{poupancaRate}}% a.a.)", "rateLogic": "selic>8.5?0.0617:selic*0.70", "isTaxable": false },
+          { "label": "Tesouro Selic líquido", "rateLogic": "selic/100", "isTaxable": true }
+        ]
+      },
+      {
+        "type": "html",
+        "content": "<h2>Tesouro Selic vs CDB</h2>"
+      },
+      {
+        "type": "simulationTable",
+        "initialInvestment": 10000,
+        "terms": [6, 12, 24],
+        "scenarios": [
+          { "label": "Tesouro Selic líquido", "rateLogic": "selic/100", "isTaxable": true },
+          { "label": "CDB 100% CDI líquido", "rateLogic": "cdi/100", "isTaxable": true },
+          { "label": "CDB 110% CDI líquido", "rateLogic": "cdi*1.10", "isTaxable": true }
+        ]
+      },
+      {
+        "type": "html",
+        "content": "<h2>Vale a pena investir R$ 10.000 no Tesouro Selic?</h2><p>Para reserva de emergência: sim. O Tesouro Selic é o produto mais indicado — liquidez diária, risco mínimo e rendimento muito acima da poupança ({{poupancaRate}}% a.a.).</p><p>Para médio e longo prazo: o Tesouro Selic é uma boa base, mas CDBs com taxas mais altas, LCI/LCA ou Tesouro IPCA+ podem oferecer rendimento maior.</p><h2>Conclusão</h2><p>R$ 10.000 no Tesouro Selic com a Selic a {{selicRate}}% ao ano rendem aproximadamente o dobro da poupança em qualquer prazo — mesmo após o IR.</p><p><a href='/o-que-e-tesouro-direto'>Leia o guia completo sobre o Tesouro Direto.</a> Ou <a href='/tesouro-selic-ou-cdb'>compare Tesouro Selic com CDB.</a></p><p><em>Referência: Selic de {{selicRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>"
+      }
+    ],
+    "faq": [
+      { "question": "Quanto rende R$ 10.000 no Tesouro Selic em 12 meses?", "answer": "Com a Selic a {{selicRate}}% ao ano, R$ 10.000 no Tesouro Selic rendem significativamente mais que a poupança em 12 meses, após IR de 20%." },
+      { "question": "Tesouro Selic rende mais que a poupança?", "answer": "Sim, em todos os cenários com Selic acima de 8,5% ao ano. Com a Selic atual de {{selicRate}}%, o Tesouro Selic rende aproximadamente o dobro da poupança no líquido." },
+      { "question": "Tesouro Selic tem taxa de custódia?", "answer": "Sim, 0,20% ao ano. Porém investimentos de até R$ 10.000 no Tesouro Selic são isentos dessa taxa." },
+      { "question": "Posso perder dinheiro no Tesouro Selic?", "answer": "Praticamente não. O Tesouro Selic sobe todos os dias acompanhando a Selic. Mesmo em resgates antecipados, a chance de perda é extremamente baixa." },
+      { "question": "Tesouro Selic ou CDB: qual é melhor?", "answer": "Os dois têm rendimento muito próximo. A diferença principal é a garantia: Tesouro é garantido pelo Governo Federal sem limite. CDB tem FGC até R$ 250.000 por instituição." }
+    ],
+    "internalLinks": [
+      { "anchor": "veja o guia completo do Tesouro Direto", "slug": "o-que-e-tesouro-direto" },
+      { "anchor": "compare Tesouro Selic e CDB", "slug": "tesouro-selic-ou-cdb" },
+      { "anchor": "reserva de emergência: quanto guardar", "slug": "reserva-de-emergencia" },
+      { "anchor": "guia completo de renda fixa", "slug": "guia-renda-fixa" }
+    ],
+    "cta": {
+      "primary": { "text": "Veja o guia completo do Tesouro Direto", "url": "/o-que-e-tesouro-direto" },
+      "secondary": { "text": "Compare Tesouro Selic com CDB", "url": "/tesouro-selic-ou-cdb" }
+    }
   }
 ]
 
