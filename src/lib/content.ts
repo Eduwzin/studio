@@ -586,8 +586,8 @@ export const blogArticles: Article[] = [
             terms: [6, 12, 24],
             scenarios: [
                 { "label": "Tesouro Selic líquido", rate: (cdi, selic) => selic / 100, "isTaxable": true },
-                { "label": "CDB 100% CDI líquido", rate: (cdi, selic) => cdi / 100, "isTaxable": true },
-                { "label": "CDB 110% CDI líquido", rate: (cdi, selic) => (cdi / 100) * 1.10, "isTaxable": true }
+                { "label": "CDB 100% CDI líquido", rate: (cdi, selic) => cdi / 100, isTaxable: true },
+                { "label": "CDB 110% CDI líquido", rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true }
             ]
         },
         {
@@ -737,7 +737,7 @@ export const blogArticles: Article[] = [
         content: "<p><em>Referência: Selic de {{selicRate}}% a.a. e CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p><h2>Como montar do zero</h2><ol><li>Calcule o seu número: despesas mensais × meses recomendados</li><li>Abra conta em corretora com Tesouro Selic ou CDB de liquidez diária</li><li>Defina um aporte mensal fixo</li><li>Automatize a transferência no dia do salário</li><li>Não mexa até uma emergência real</li></ol>"
       }
     ],
-    conclusion: "<h2>Conclusão</h2><p>Monte a reserva antes de qualquer outro investimento. Use Tesouro Selic ou CDB de liquidez diária. Com a Selic a {{selicRate}}% ao ano, os dois rendem muito mais que a poupança com a mesma segurança.</p><p><a href='/como-comecar-a-investir'>Veja como começar a investir do zero.</a></p><p><em>Referência: Selic de {{selicRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>",
+    conclusion: `<h2>Conclusão</h2><p>Monte a reserva antes de qualquer outro investimento. Use Tesouro Selic ou CDB de liquidez diária. Com a Selic a {{selicRate}}% ao ano, os dois rendem muito mais que a poupança com a mesma segurança.</p><p><a href='/como-comecar-a-investir'>Veja como começar a investir do zero.</a></p><p><em>Referência: Selic de {{selicRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>`,
     seoTitle: 'Reserva de Emergência: quanto guardar e onde investir',
     seoDescription: 'Saiba quanto guardar na reserva de emergência, onde deixar o dinheiro com liquidez e segurança, e por que ela deve vir antes de qualquer investimento.',
     faq: [
@@ -752,7 +752,7 @@ export const blogArticles: Article[] = [
     pillar: 'pillar-4-educacao-financeira',
     cluster: 'reserva-de-emergencia',
     tags: ['reserva de emergencia', 'onde investir reserva de emergencia', 'como montar reserva de emergencia'],
-    disclaimer: "Este conteúdo é educativo e não constitui recomendação de investimento."
+    disclaimer: defaultDisclaimer,
   },
   {
     slug: 'o-que-e-etf',
@@ -761,41 +761,13 @@ export const blogArticles: Article[] = [
     date: '2026-03-27',
     imageId: 'blog-o-que-e-etf',
     content: [
-        {
-            type: 'html',
-            content: `<h2>O que é ETF?</h2><p>ETF (Exchange Traded Fund) é um fundo de investimento negociado em bolsa que replica o desempenho de um índice de referência — como o Ibovespa, o S&P 500 ou o IFIX. Ao comprar uma cota de ETF, você investe automaticamente em todas as ações que compõem aquele índice, na mesma proporção.</p><p>Em termos simples: em vez de escolher ação por ação, você compra um único ativo e já fica exposto a dezenas ou centenas de empresas ao mesmo tempo.</p>`
-        },
-        {
-            type: 'html',
-            content: `<h2>Como o ETF funciona na prática?</h2><p>Imagine que o Ibovespa é composto por 80 ações diferentes. O BOVA11, que é o ETF que replica o Ibovespa, compra essas mesmas 80 ações na mesma proporção do índice. Quando você compra uma cota do BOVA11, está indiretamente investindo nessas 80 empresas.</p><p>O ETF é gerido por uma gestora que mantém a carteira alinhada ao índice. Essa gestão é chamada de <strong>gestão passiva</strong> — o objetivo não é superar o mercado, mas acompanhá-lo fielmente.</p><p>Os ETFs são negociados em bolsa como se fossem ações. Você compra e vende cotas pelo home broker, durante o horário de mercado, com liquidez diária.</p>`
-        },
-        {
-            type: 'html',
-            content: `<h2>Quais são os principais ETFs disponíveis no Brasil?</h2><p><strong>ETFs de renda variável brasileira:</strong></p><ul><li><strong>BOVA11</strong> — replica o Ibovespa (índice com as maiores empresas da B3)</li><li><strong>BRAX11</strong> — replica o IBrX-100 (100 ativos mais negociados)</li><li><strong>SMAL11</strong> — foca em small caps (empresas menores e com maior potencial de crescimento)</li><li><strong>DIVO11</strong> — replica o índice de dividendos (IDIV)</li></ul><p><strong>ETFs internacionais (acesso ao exterior pela B3):</strong></p><ul><li><strong>IVVB11</strong> — replica o S&P 500 (500 maiores empresas dos EUA)</li><li><strong>NASDAQ100</strong> / <strong>NASD11</strong> — replica o índice Nasdaq 100 (tecnologia americana)</li><li><strong>HASH11</strong> — replica índice de criptoativos</li></ul><p><strong>ETFs de renda fixa:</strong></p><ul><li><strong>IMAB11</strong> — Tesouro IPCA+ (NTN-B)</li><li><strong>IRFM11</strong> — Tesouro prefixado</li><li><strong>B5P211</strong> — títulos públicos de curto prazo</li></ul>`
-        },
-        {
-            type: 'html',
-            content: `<h2>ETF vs. Fundo de ações: qual a diferença?</h2><table><thead><tr><th>Característica</th><th>ETF</th><th>Fundo de ações</th></tr></thead><tbody><tr><td>Gestão</td><td>Passiva (replica índice)</td><td>Ativa (gestor decide)</td></tr><tr><td>Taxa de administração</td><td>Baixa (0,1% a 0,5% a.a.)</td><td>Alta (1% a 3% a.a.)</td></tr><tr><td>Liquidez</td><td>Diária (bolsa)</td><td>D+30 ou mais</td></tr><tr><td>Transparência</td><td>Alta (carteira pública)</td><td>Variável</td></tr><tr><td>Imposto de renda</td><td>15% sobre ganho</td><td>15% sobre ganho</td></tr><tr><td>Acessibilidade</td><td>A partir de ~R$ 10</td><td>Aplicação mínima variável</td></tr></tbody></table><p>A principal vantagem do ETF sobre fundos ativos é o custo. A maioria dos fundos ativos cobra taxas que corroem o retorno ao longo do tempo — e estudos históricos mostram que a maioria deles não supera seus índices de referência consistentemente.</p>`
-        },
-        {
-            type: 'html',
-            content: `<h2>Quanto custa investir em ETF?</h2><p>Os custos de um ETF são:</p><ol><li><strong>Taxa de administração</strong>: de 0,10% a 0,50% ao ano, já descontada do valor da cota automaticamente</li><li><strong>Corretagem</strong>: depende da corretora. Muitas cobram zero para ETFs</li><li><strong>Imposto de renda</strong>: 15% sobre o lucro na venda (não há isenção para vendas abaixo de R$ 20 mil, ao contrário das ações)</li></ol><p>O custo total de ter um ETF como BOVA11 ou IVVB11 é muito menor do que contratar um fundo de investimento equivalente.</p>`
-        },
-        {
-            type: 'html',
-            content: `<h2>ETF tem risco?</h2><p>Sim. ETF de renda variável oscila junto com o mercado. Se o Ibovespa cair 10%, o BOVA11 também cai aproximadamente 10%. Isso é diferente da renda fixa, onde o retorno é previsível.</p><p>Os principais riscos de um ETF são:</p><ul><li><strong>Risco de mercado</strong>: variação do índice subjacente</li><li><strong>Risco de câmbio</strong>: para ETFs internacionais em dólar</li><li><strong>Risco de liquidez</strong>: ETFs menores podem ter menor volume de negociação</li><li><strong>Tracking error</strong>: pequena diferença entre o ETF e o índice que ele replica</li></ul><p>ETFs são considerados investimentos de médio a longo prazo. Quem tem horizonte de 5 a 10 anos tende a diluir a volatilidade e capturar o crescimento do mercado.</p>`
-        },
-        {
-            type: 'html',
-            content: `<h2>ETF é bom para iniciantes?</h2><p>Sim — e por três razões principais:</p><ol><li><strong>Diversificação imediata com pouco dinheiro.</strong> Com uma cota de BOVA11 (em torno de R$ 80 a R$ 120), você já está exposto às 80 maiores empresas do Brasil. Montar essa diversificação individualmente exigiria capital muito maior.</li><li><strong>Sem necessidade de escolher ações.</strong> Você não precisa analisar empresa por empresa. O índice já faz esse trabalho de seleção.</li><li><strong>Custo baixo.</strong> A taxa de administração do ETF é muito menor do que a maioria dos fundos e o custo de rebalancear uma carteira de ações individualmente.</li></ol><p>O único ponto de atenção: ETF não é indicado para quem precisa do dinheiro no curto prazo, pois a volatilidade pode gerar perdas temporárias.</p>`
-        },
-        {
-            type: 'html',
-            content: `<h2>Como começar a investir em ETF?</h2><ol><li><strong>Abra conta em uma corretora</strong> (XP, Clear, Rico, NuInvest, etc.)</li><li><strong>Transfira o valor que deseja investir</strong></li><li><strong>Acesse o home broker</strong> e pesquise pelo ticker (ex: BOVA11, IVVB11)</li><li><strong>Compre as cotas</strong> como faria com qualquer ação</li><li><strong>Reinvista periodicamente</strong> para aproveitar o efeito dos aportes regulares</li></ol><p>Não existe aplicação mínima além do valor de uma cota — que na maioria dos ETFs fica entre R$ 50 e R$ 200.</p>`
-        }
+      {
+        type: 'html',
+        content: `<h2>O que é ETF?</h2><p>ETF (Exchange Traded Fund) é um fundo de investimento negociado em bolsa que replica o desempenho de um índice de referência — como o Ibovespa, o S&P 500 ou o IFIX. Ao comprar uma cota de ETF, você investe automaticamente em todas as ações que compõem aquele índice, na mesma proporção.</p><p>Em termos simples: em vez de escolher ação por ação, você compra um único ativo e já fica exposto a dezenas ou centenas de empresas ao mesmo tempo.</p><h2>Como o ETF funciona na prática?</h2><p>Imagine que o Ibovespa é composto por 80 ações diferentes. O BOVA11, que é o ETF que replica o Ibovespa, compra essas mesmas 80 ações na mesma proporção do índice. Quando você compra uma cota do BOVA11, está indiretamente investindo nessas 80 empresas.</p><p>O ETF é gerido por uma gestora que mantém a carteira alinhada ao índice. Essa gestão é chamada de <strong>gestão passiva</strong> — o objetivo não é superar o mercado, mas acompanhá-lo fielmente.</p><p>Os ETFs são negociados em bolsa como se fossem ações. Você compra e vende cotas pelo home broker, durante o horário de mercado, com liquidez diária.</p><h2>Quais são os principais ETFs disponíveis no Brasil?</h2><p><strong>ETFs de renda variável brasileira:</strong></p><ul><li><strong>BOVA11</strong> — replica o Ibovespa (índice com as maiores empresas da B3)</li><li><strong>BRAX11</strong> — replica o IBrX-100 (100 ativos mais negociados)</li><li><strong>SMAL11</strong> — foca em small caps (empresas menores e com maior potencial de crescimento)</li><li><strong>DIVO11</strong> — replica o índice de dividendos (IDIV)</li></ul><p><strong>ETFs internacionais (acesso ao exterior pela B3):</strong></p><ul><li><strong>IVVB11</strong> — replica o S&P 500 (500 maiores empresas dos EUA)</li><li><strong>NASDAQ100</strong> / <strong>NASD11</strong> — replica o índice Nasdaq 100 (tecnologia americana)</li><li><strong>HASH11</strong> — replica índice de criptoativos</li></ul><p><strong>ETFs de renda fixa:</strong></p><ul><li><strong>IMAB11</strong> — Tesouro IPCA+ (NTN-B)</li><li><strong>IRFM11</strong> — Tesouro prefixado</li><li><strong>B5P211</strong> — títulos públicos de curto prazo</li></ul><h2>ETF vs. Fundo de ações: qual a diferença?</h2><table><thead><tr><th>Característica</th><th>ETF</th><th>Fundo de ações</th></tr></thead><tbody><tr><td>Gestão</td><td>Passiva (replica índice)</td><td>Ativa (gestor decide)</td></tr><tr><td>Taxa de administração</td><td>Baixa (0,1% a 0,5% a.a.)</td><td>Alta (1% a 3% a.a.)</td></tr><tr><td>Liquidez</td><td>Diária (bolsa)</td><td>D+30 ou mais</td></tr><tr><td>Transparência</td><td>Alta (carteira pública)</td><td>Variável</td></tr><tr><td>Imposto de renda</td><td>15% sobre ganho</td><td>15% sobre ganho</td></tr><tr><td>Acessibilidade</td><td>A partir de ~R$ 10</td><td>Aplicação mínima variável</td></tr></tbody></table><p>A principal vantagem do ETF sobre fundos ativos é o custo. A maioria dos fundos ativos cobra taxas que corroem o retorno ao longo do tempo — e estudos históricos mostram que a maioria deles não supera seus índices de referência consistentemente.</p><h2>Quanto custa investir em ETF?</h2><ol><li><strong>Taxa de administração</strong>: de 0,10% a 0,50% ao ano, já descontada do valor da cota automaticamente</li><li><strong>Corretagem</strong>: depende da corretora. Muitas cobram zero para ETFs</li><li><strong>Imposto de renda</strong>: 15% sobre o lucro na venda (não há isenção para vendas abaixo de R$ 20 mil, ao contrário das ações)</li></ol><p>O custo total de ter um ETF como BOVA11 ou IVVB11 é muito menor do que contratar um fundo de investimento equivalente.</p><h2>ETF tem risco?</h2><p>Sim. ETF de renda variável oscila junto com o mercado. Se o Ibovespa cair 10%, o BOVA11 também cai aproximadamente 10%. Isso é diferente da renda fixa, onde o retorno é previsível.</p><p>Os principais riscos de um ETF são:</p><ul><li><strong>Risco de mercado</strong>: variação do índice subjacente</li><li><strong>Risco de câmbio</strong>: para ETFs internacionais em dólar</li><li><strong>Risco de liquidez</strong>: ETFs menores podem ter menor volume de negociação</li><li><strong>Tracking error</strong>: pequena diferença entre o ETF e o índice que ele replica</li></ul><p>ETFs são considerados investimentos de médio a longo prazo. Quem tem horizonte de 5 a 10 anos tende a diluir a volatilidade e capturar o crescimento do mercado.</p><h2>ETF é bom para iniciantes?</h2><p>Sim — e por três razões principais:</p><ol><li><strong>Diversificação imediata com pouco dinheiro.</strong> Com uma cota de BOVA11 (em torno de R$ 80 a R$ 120), você já está exposto às 80 maiores empresas do Brasil. Montar essa diversificação individualmente exigiria capital muito maior.</li><li><strong>Sem necessidade de escolher ações.</strong> Você não precisa analisar empresa por empresa. O índice já faz esse trabalho de seleção.</li><li><strong>Custo baixo.</strong> A taxa de administração do ETF é muito menor do que a maioria dos fundos e o custo de rebalancear uma carteira de ações individualmente.</li></ol><p>O único ponto de atenção: ETF não é indicado para quem precisa do dinheiro no curto prazo, pois a volatilidade pode gerar perdas temporárias.</p><h2>Como começar a investir em ETF?</h2><ol><li><strong>Abra conta em uma corretora</strong> (XP, Clear, Rico, NuInvest, etc.)</li><li><strong>Transfira o valor que deseja investir</strong></li><li><strong>Acesse o home broker</strong> e pesquise pelo ticker (ex: BOVA11, IVVB11)</li><li><strong>Compre as cotas</strong> como faria com qualquer ação</li><li><strong>Reinvista periodicamente</strong> para aproveitar o efeito dos aportes regulares</li></ol><p>Não existe aplicação mínima além do valor de uma cota — que na maioria dos ETFs fica entre R$ 50 e R$ 200.</p>`,
+      },
     ],
     conclusion: `<h2>Conclusão</h2><p>ETF é uma das formas mais eficientes de investir em renda variável com diversificação automática, baixo custo e simplicidade operacional. Para quem está começando, é uma porta de entrada inteligente para o mercado de ações — sem precisar escolher empresa por empresa.</p><p>Se você ainda não investe em renda variável por achar complicado ou caro, o ETF pode ser exatamente o instrumento que faltava para dar o primeiro passo.</p><blockquote><p><strong>Aviso importante:</strong> ETFs de renda variável envolvem risco de perda de capital. Este conteúdo é educativo e não constitui recomendação de investimento. Consulte um profissional certificado antes de tomar decisões financeiras.</p></blockquote>`,
-    seoTitle: 'O que é ETF? Como funciona e como investir | Bigwall',
+    seoTitle: 'O que é ETF? Como funciona e como investir | SafeStart Invest',
     seoDescription: 'Entenda o que é ETF, como funciona na prática, quais são os principais ETFs do Brasil e como começar a investir com pouco dinheiro. Guia completo e didático.',
     faq: [
       {
@@ -826,5 +798,6 @@ export const blogArticles: Article[] = [
     disclaimer: defaultDisclaimer,
   }
 ];
-
   
+
+    

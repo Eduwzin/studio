@@ -185,24 +185,6 @@
       "description": "simulação de quanto investir para ganhar 1000 reais por mês de renda passiva",
       "imageUrl": "https://picsum.photos/seed/renda1000/1200/630",
       "imageHint": "renda passiva"
-    },
-    {
-      "id": "blog-organizar-financas-pessoais",
-      "description": "pessoa organizando finanças pessoais com planilha e calculadora",
-      "imageUrl": "https://picsum.photos/seed/financas/1200/630",
-      "imageHint": "finanças pessoais"
-    },
-    {
-      "id": "blog-guia-educacao-financeira",
-      "description": "guia completo de educação financeira para iniciantes",
-      "imageUrl": "https://picsum.photos/seed/guiaeducacaofinanceira/1200/630",
-      "imageHint": "educação financeira"
-    },
-    {
-      "id": "blog-o-que-e-etf",
-      "description": "Gráfico mostrando diversificação de um ETF composto por várias ações",
-      "imageUrl": "https://picsum.photos/seed/whatisetf/1200/630",
-      "imageHint": "etf diversification"
     }
   ]
 }
