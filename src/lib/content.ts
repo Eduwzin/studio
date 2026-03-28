@@ -572,8 +572,8 @@ export const blogArticles: Article[] = [
             terms: [6, 12, 24, 36],
             showDifference: true,
             scenarios: [
-                { "label": "Poupança ({{poupancaRate}}% a.a.)", rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, "isTaxable": false },
-                { "label": "Tesouro Selic líquido", rate: (cdi, selic) => selic / 100, "isTaxable": true }
+                { "label": "Poupança ({{poupancaRate}}% a.a.)", "rate": "(cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70", "isTaxable": false },
+                { "label": "Tesouro Selic líquido", "rate": "(cdi, selic) => selic / 100", "isTaxable": true }
             ]
         },
         {
@@ -585,9 +585,9 @@ export const blogArticles: Article[] = [
             initialInvestment: 10000,
             terms: [6, 12, 24],
             scenarios: [
-                { "label": "Tesouro Selic líquido", rate: (cdi, selic) => selic / 100, "isTaxable": true },
-                { "label": "CDB 100% CDI líquido", rate: (cdi, selic) => cdi / 100, isTaxable: true },
-                { "label": "CDB 110% CDI líquido", rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true }
+                { "label": "Tesouro Selic líquido", "rate": "(cdi, selic) => selic / 100", "isTaxable": true },
+                { "label": "CDB 100% CDI líquido", "rate": "(cdi, selic) => cdi / 100", isTaxable: true },
+                { "label": "CDB 110% CDI líquido", "rate": "(cdi, selic) => (cdi / 100) * 1.10", isTaxable: true }
             ]
         },
         {
@@ -951,55 +951,11 @@ export const blogArticles: Article[] = [
     cluster: 'guia-renda-fixa',
     tags: ['guia renda fixa', 'renda fixa', 'cdb', 'lci', 'tesouro direto'],
     disclaimer: defaultDisclaimer,
-  },
-  {
-    slug: 'melhores-investimentos-para-iniciantes',
-    title: 'Melhores Investimentos para Iniciantes em 2026',
-    description: 'Quais são os melhores investimentos para quem está começando? Veja as opções mais indicadas com segurança, liquidez e rendimento acima da poupança.',
-    date: '2026-03-20',
-    imageId: 'blog-melhores-investimentos',
-    content: [
-      {
-        type: 'html',
-        content: "<h1>Melhores investimentos para iniciantes: opções seguras, rentáveis e acessíveis</h1><div class='resumo-rapido'><ul><li>Para iniciantes, segurança e liquidez vêm antes de rentabilidade máxima</li><li>Os melhores pontos de partida são Tesouro Selic e CDB de liquidez diária</li><li>Poupança ({{poupancaRate}}% a.a.) não é recomendada — existem opções mais seguras com rendimento maior</li><li>Monte a reserva de emergência antes de qualquer investimento</li><li>Compare sempre pelo rendimento líquido — não taxa bruta</li></ul></div><p>Não existe o melhor investimento universal — existe o produto certo para o seu objetivo. Para iniciantes, o caminho é começar com produtos simples, seguros e com boa liquidez.</p><h2>O que um bom investimento para iniciantes precisa ter</h2><table><thead><tr><th>Critério</th><th>Por que importa</th></tr></thead><tbody><tr><td>Segurança</td><td>Risco de perda deve ser baixo</td></tr><tr><td>Liquidez</td><td>Poder resgatar sem penalidade</td></tr><tr><td>Simplicidade</td><td>Fácil de entender e acompanhar</td></tr><tr><td>Rendimento acima da poupança</td><td>Não faz sentido ter risco para render igual à poupança</td></tr><tr><td>Acessibilidade</td><td>Valor mínimo baixo para começar com o que tem</td></tr></tbody></table><h2>Comparativo dos melhores produtos para iniciantes</h2>"
-      },
-      {
-        type: 'simulationTable',
-        initialInvestment: 10000,
-        terms: [12],
-        scenarios: [
-          { label: 'Poupança', rate: (cdi, selic) => selic > 8.5 ? 0.0617 : selic * 0.70, isTaxable: false },
-          { label: 'Tesouro Selic', rate: (cdi, selic) => selic / 100, isTaxable: true },
-          { label: 'CDB liquidez diária (100% CDI)', rate: (cdi, selic) => cdi / 100, isTaxable: true },
-          { label: 'LCI 90% CDI', rate: (cdi, selic) => (cdi / 100) * 0.90, isTaxable: false },
-          { label: 'LCI 95% CDI', rate: (cdi, selic) => (cdi / 100) * 0.95, isTaxable: false },
-          { label: 'CDB 110% CDI', rate: (cdi, selic) => (cdi / 100) * 1.10, isTaxable: true }
-        ]
-      },
-      {
-        type: 'html',
-        content: "<p><em>Referência: Selic de {{selicRate}}% a.a. e CDI de {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}). Sempre compare rendimento líquido.</em></p><h2>Por que a poupança não é recomendada</h2><p>A poupança rende apenas {{poupancaRate}}% ao ano com a Selic atual de {{selicRate}}% — menos da metade do Tesouro Selic ou CDB de liquidez diária. Existem alternativas com a mesma segurança (FGC) e rendimento muito superior.</p><h2>Como escolher o melhor para o seu caso</h2><p><strong>Tem reserva de emergência?</strong> Não → comece pelo Tesouro Selic ou CDB de liquidez diária.<br><strong>Prazo menor que 1 ano?</strong> → Tesouro Selic ou CDB diário.<br><strong>Prazo de 1 a 3 anos?</strong> → LCI/LCA ou CDB com prazo.<br><strong>Longo prazo?</strong> → Tesouro IPCA+ ou mix renda fixa e variável.</p>"
-      }
-    ],
-    conclusion: `<h2>Conclusão</h2><p>Para a maioria dos iniciantes: Tesouro Selic ou CDB para reserva de emergência, LCI/LCA para médio prazo e Tesouro IPCA+ para longo prazo.</p><p><a href='/como-comecar-a-investir'>Veja o guia completo de como começar a investir.</a></p><p><em>Referência: Selic {{selicRate}}% a.a., CDI {{cdiRate}}% a.a. (Bacen/SGS, {{dataAtualizacao}}).</em></p>`,
-    seoTitle: "Melhores Investimentos para Iniciantes em 2026",
-    seoDescription: "Conheça os melhores investimentos para iniciantes: Tesouro Selic, CDB, LCI e mais. Comparativo completo com segurança, liquidez, IR e rendimento.",
-    faq: [
-      { "question": "Qual o melhor investimento para quem está começando?", "answer": "Tesouro Selic e CDB de liquidez diária são os melhores pontos de partida — seguros, acessíveis e com rendimento muito acima da poupança." },
-      { "question": "Quanto preciso para começar a investir?", "answer": "O Tesouro Selic aceita a partir de R$ 30. Alguns CDBs aceitam R$ 1 em corretoras digitais." },
-      { "question": "Poupança é boa para iniciantes?", "answer": "Não. Com a Selic a {{selicRate}}% ao ano, a poupança rende {{poupancaRate}}% ao ano — menos da metade do Tesouro Selic ou CDB." },
-      { "question": "LCI é boa para iniciantes?", "answer": "Sim, para objetivos com prazo acima de 90 dias. Não é indicada para reserva de emergência pela carência mínima." },
-      { "question": "Devo começar pela renda fixa ou variável?", "answer": "Renda fixa. Monte a reserva de emergência, entenda os produtos e só então explore renda variável com uma parcela pequena." }
-    ],
-    category: "investimentos",
-    subcategory: "para-iniciantes",
-    pillar: "pillar-1-investimentos",
-    cluster: "comecar-a-investir",
-    tags: ["melhores investimentos para iniciantes", "investir com pouco", "investimentos seguros", "cdb ou tesouro", "como começar a investir"],
-    disclaimer: defaultDisclaimer,
   }
 ]
   
+
+    
 
     
 
