@@ -438,7 +438,7 @@ export async function getAvailableTickers(): Promise<AvailableTickersResponse> {
   
         // Ajuste na URL: Se for bdr, usamos type=stock na API
         const url = `${BRAPI_API_BASE_URL}/quote/list?token=${BRAPI_API_TOKEN}&type=${type}`;
-        const response = await fetch(url, { next: { revalidate: 1 } }); // Cache 24h
+        const response = await fetch(url, { next: { revalidate: 86400 } }); // Cache 24h
         if (!response.ok) {
           console.error(`Erro na API da Brapi para o tipo ${type}: ${response.statusText}`);
           return [];
