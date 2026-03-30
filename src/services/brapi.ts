@@ -552,10 +552,120 @@ export async function getCryptoInfo(coin: string, currency: string = 'BRL'): Pro
 }
 
 /**
- * Busca a lista de ativos de tesouro direto (Tesouro Público).
+ * Função auxiliar para processar snapshot de dados de tesouro direto.
+ * Agrupa por Título + Vencimento e seleciona a melhor entrada de cada grupo.
+ * @param entries Array de TreasuryAssetEntry a processar
+ * @returns Array de TreasuryAsset agregados
+ */
+function processTreasuryEntries(entries: TreasuryAssetEntry[]): TreasuryAsset[] {
+  // Agrupar por Título + Vencimento
+  const grouped = new Map<string, TreasuryAssetEntry[]>();
+  
+  for (const entry of entries) {
+    const key = `${entry.Título}|${entry.Vencimento}`;
+    if (!grouped.has(key)) {
+      grouped.set(key, []);
+    }
+    grouped.get(key)!.push(entry);
+  }
+  
+  // Agregar cada grupo em um TreasuryAsset
+  const assets: TreasuryAsset[] = [];
+  
+  for (const [, entryGroup] of grouped) {
+    // Usar a primeira entrada para obter dados comuns (todas devem ter mesmo D-1)
+    const firstEntry = entryGroup[0];
+    
+    // Encontrar a entrada mais recente com Última taxa válida
+    let selectedEntry = entryGroup.find(e => e["Última taxa (% a.a.)"] !== '-');
+    let source: 'última taxa' | 'oferta venda' | 'oferta compra' = 'última taxa';
+    
+    if (!selectedEntry) {
+      // Fallback para Oferta venda da entrada mais recente
+      selectedEntry = entryGroup[entryGroup.length - 1];
+      if (selectedEntry["Oferta venda"] !== '-') {
+        source = 'oferta venda';
+      } else {
+        source = 'oferta compra';
+      }
+    }
+    
+    assets.push({
+      titulo: firstEntry.Título,
+      vencimento: firstEntry.Vencimento,
+      isin: firstEntry["Código ISIN"],
+      fechD1Taxa: firstEntry["Fech D-1 (taxa % a.a.)"],
+      ultimaTaxa: selectedEntry["Última taxa (% a.a.)"] !== '-' ? selectedEntry["Última taxa (% a.a.)"] : null,
+      ofertaVenda: selectedEntry["Oferta venda"] !== '-' ? selectedEntry["Oferta venda"] : null,
+      ofertaCompra: selectedEntry["Oferta compra"] !== '-' ? selectedEntry["Oferta compra"] : null,
+      horario: selectedEntry.Horário !== '-' ? selectedEntry.Horário : null,
+      source
+    });
+  }
+  
+  // Ordenar por Título
+  assets.sort((a, b) => a.titulo.localeCompare(b.titulo));
+  
+  return assets;
+}
+
+/**
+ * Busca a lista de ativos de tesouro direto (Tesouro Público) a partir do Firestore.
+ * Se o Firestore não tiver dados, tenta fallback para arquivo local (durante transição).
  * @returns Uma promessa que resolve para um array de TreasuryAsset agregados.
  */
 export async function getTreasuryAssets(): Promise<TreasuryAsset[]> {
+  try {
+    // Tentar buscar do Firestore primeiro
+    const { initializeApp, getApps, getApp } = await import('firebase/app');
+    const { getFirestore, collection, query, orderBy, limit, getDocs } = await import('firebase/firestore');
+    const { firebaseConfig } = await import('@/firebase/config');
+    
+    // Inicializar Firestore (padrão server-side)
+    let db;
+    if (getApps().length) {
+      db = getFirestore(getApp());
+    } else {
+      const app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+    }
+    
+    // Query: buscar a data mais recente (ordenar IDs descrescentes, pegar 1)
+    const treasuryCollectionRef = collection(db, 'precos-tesouro');
+    const q = query(treasuryCollectionRef, orderBy('__name__', 'desc'), limit(1));
+    const querySnapshot = await getDocs(q);
+    
+    if (querySnapshot.empty) {
+      console.warn('Nenhum documento encontrado em precos-tesouro no Firestore. Tentando fallback para arquivo local...');
+      return getTreasuryAssetsFromLocalFile();
+    }
+    
+    // Extrair o primeiro documento e buscar o campo 'snapshot'
+    const doc = querySnapshot.docs[0];
+    const data = doc.data();
+    const entries = data.snapshot as TreasuryAssetEntry[];
+    
+    if (!Array.isArray(entries) || entries.length === 0) {
+      console.warn('Campo snapshot vazio ou inválido no Firestore. Tentando fallback para arquivo local...');
+      return getTreasuryAssetsFromLocalFile();
+    }
+    
+    console.log(`✓ Dados de tesouro direto carregados do Firestore (data: ${doc.id}, ${entries.length} entradas). Formato YYYY-MM-DD.`);
+    return processTreasuryEntries(entries);
+    
+  } catch (error) {
+    console.error('Erro ao buscar tesouro direto do Firestore:', error);
+    console.warn('Tentando fallback para arquivo local...');
+    return getTreasuryAssetsFromLocalFile();
+  }
+}
+
+/**
+ * Fallback: busca dados de tesouro direto de arquivo local.
+ * Usado durante a transição e em caso de falha do Firestore.
+ * @returns Array de TreasuryAsset, ou [] se nenhum arquivo existir
+ */
+async function getTreasuryAssetsFromLocalFile(): Promise<TreasuryAsset[]> {
   try {
     const fs = await import('fs');
     const path = await import('path');
@@ -581,57 +691,11 @@ export async function getTreasuryAssets(): Promise<TreasuryAsset[]> {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const entries: TreasuryAssetEntry[] = JSON.parse(fileContent);
     
-    // Agrupar por Título + Vencimento
-    const grouped = new Map<string, TreasuryAssetEntry[]>();
+    console.log(`✓ Dados de tesouro direto carregados do arquivo local (${latestFile}, ${entries.length} entradas)`);
+    return processTreasuryEntries(entries);
     
-    for (const entry of entries) {
-      const key = `${entry.Título}|${entry.Vencimento}`;
-      if (!grouped.has(key)) {
-        grouped.set(key, []);
-      }
-      grouped.get(key)!.push(entry);
-    }
-    
-    // Agregar cada grupo em um TreasuryAsset
-    const assets: TreasuryAsset[] = [];
-    
-    for (const [, entryGroup] of grouped) {
-      // Usar a primeira entrada para obter dados comuns (todas devem ter mesmo D-1)
-      const firstEntry = entryGroup[0];
-      
-      // Encontrar a entrada mais recente com Última taxa válida
-      let selectedEntry = entryGroup.find(e => e["Última taxa (% a.a.)"] !== '-');
-      let source: 'última taxa' | 'oferta venda' | 'oferta compra' = 'última taxa';
-      
-      if (!selectedEntry) {
-        // Fallback para Oferta venda da entrada mais recente
-        selectedEntry = entryGroup[entryGroup.length - 1];
-        if (selectedEntry["Oferta venda"] !== '-') {
-          source = 'oferta venda';
-        } else {
-          source = 'oferta compra';
-        }
-      }
-      
-      assets.push({
-        titulo: firstEntry.Título,
-        vencimento: firstEntry.Vencimento,
-        isin: firstEntry["Código ISIN"],
-        fechD1Taxa: firstEntry["Fech D-1 (taxa % a.a.)"],
-        ultimaTaxa: selectedEntry["Última taxa (% a.a.)"] !== '-' ? selectedEntry["Última taxa (% a.a.)"] : null,
-        ofertaVenda: selectedEntry["Oferta venda"] !== '-' ? selectedEntry["Oferta venda"] : null,
-        ofertaCompra: selectedEntry["Oferta compra"] !== '-' ? selectedEntry["Oferta compra"] : null,
-        horario: selectedEntry.Horário !== '-' ? selectedEntry.Horário : null,
-        source
-      });
-    }
-    
-    // Ordenar por Título
-    assets.sort((a, b) => a.titulo.localeCompare(b.titulo));
-    
-    return assets;
   } catch (error) {
-    console.error('Erro ao buscar ativos de tesouro direto:', error);
+    console.error('Erro ao buscar ativos de tesouro direto do arquivo local:', error);
     return [];
   }
 }

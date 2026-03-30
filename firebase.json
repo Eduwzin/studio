@@ -1,0 +1,23 @@
+{
+  "functions": [
+    {
+      "source": "src",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        "npm-debug.log",
+        ".output",
+        "dist"
+      ]
+    }
+  ],
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "apphosting": {
+    "buildConfig": {
+      "entrypoint": "apphosting.yaml"
+    }
+  }
+}
